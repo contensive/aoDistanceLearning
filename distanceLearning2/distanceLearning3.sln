@@ -1,24 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "distanceLearning3", "distanceLearning3.csproj", "{224C723B-78B5-48AC-99DE-CF11073A64F0}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7605AF34-16BD-4CDF-AFD5-21D348733938}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "distanceLearning3", "distanceLearning3.csproj", "{224C723B-78B5-48AC-99DE-CF11073A64F0}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "onlineQuiz", "onlineQuiz\onlineQuiz.vbproj", "{400A4923-C97E-456D-BB50-C47F479E29A5}"
 EndProject
 Global
-	GlobalSection(SourceCodeControl) = preSolution
-		SccNumberOfProjects = 3
-		SccProjectUniqueName0 = onlineQuiz\\onlineQuiz.vbproj
-		SccLocalPath0 = .
-		SccProjectFilePathRelativizedFromConnection0 = onlineQuiz\\
-		SccProjectName1 = \u0022$/aoDistanceLearning2/distanceLearning2\u0022,\u0020FRNCAAAA
-		SccLocalPath1 = .
-		SccProvider1 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
-		SccProjectUniqueName2 = distanceLearning3.csproj
-		SccLocalPath2 = .
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -35,5 +24,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		BuildVersion_BuildVersioningStyle = None.None.Increment.TimeStamp
+		BuildVersion_AssemblyInfoFilename = onlineQuiz\My Project\AssemblyInfo.vb
+		BuildVersion_UseGlobalSettings = True
 	EndGlobalSection
 EndGlobal

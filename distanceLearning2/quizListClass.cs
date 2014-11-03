@@ -55,7 +55,7 @@ namespace aoDistanceLearning3
             {
                 CPBlockBaseClass layout = cp.BlockNew();
                 CPCSBaseClass cs = cp.CSNew();
-                adminFramework.reportListClass reportList = new adminFramework.reportListClass();
+                adminFramework.reportListClass reportList = new adminFramework.reportListClass(cp);
                 string sql = "";
                 string qs;
                 string qsBase;
