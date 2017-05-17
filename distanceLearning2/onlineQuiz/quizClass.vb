@@ -4,7 +4,7 @@ Imports System.Collections.Generic
 Imports System.Text
 Imports Contensive.BaseClasses
 
-Namespace aoDistanceLearning3
+Namespace Contensive.Addons.OnlineQuiz
     '
     ' Sample Vb2005 addon
     '
@@ -480,7 +480,7 @@ Namespace aoDistanceLearning3
                 'Dim Percentage As Double
                 Dim Passed As Boolean
                 Dim SubjectID As Integer
-                Dim subjects() As subjectsStruc
+                Dim subjects() As subjectsStruc = Nothing
                 Dim questionId As Integer
                 Dim subjectCnt As Integer
                 Dim subjectPtr As Integer

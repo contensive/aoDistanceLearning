@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Contensive.BaseClasses;
 
-namespace aoDistanceLearning3
+namespace Contensive.Addons.DistanceLearning3
 {
     class quizDetailsClass
     {

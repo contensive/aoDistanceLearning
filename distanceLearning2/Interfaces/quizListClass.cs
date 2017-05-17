@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using Contensive.BaseClasses;
 
-namespace aoDistanceLearning3
+namespace Contensive.Addons.DistanceLearning3
 {
-    class quizListClass
+    public class quizListClass
     {
         //
         // ===============================================================================
@@ -72,6 +72,10 @@ namespace aoDistanceLearning3
                     filterDateFrom = filterDateTo;
                     filterDateTo = tmpDate;
                 }
+                //
+               // reportList.addRow();
+               // reportList.setCell("<p>test</p>");
+
                 //
                 reportList.title = "Submitted Quizzes";
                 reportList.description = "A list of all submitted responses to all online quizzes. Use filters to search for individual quizzes and time periods.";
@@ -168,6 +172,7 @@ namespace aoDistanceLearning3
                     + "";
                 filterForm = cp.Html.Form(filterForm, "", "", "", "", "");
                 reportList.htmlAfterTable = filterForm;
+                //reportList.htmlBeforeTable = "hello world";
                 //
                 // return converted layout
                 //

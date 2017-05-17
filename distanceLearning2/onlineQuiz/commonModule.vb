@@ -2,7 +2,7 @@ Imports System.Xml
 Imports Contensive.BaseClasses
 
 
-Namespace aoDistanceLearning3
+Namespace Contensive.Addons.OnlineQuiz
     '
     ' - rename namespace to the collection (to match the current project)
     ' - rename localLogName to create a custom trace log folder, like 'accounting'

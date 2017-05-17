@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Contensive.BaseClasses;
 
-namespace aoDistanceLearning3
+namespace Contensive.Addons.DistanceLearning3
 {
     static class statics
     {
@@ -32,6 +32,7 @@ namespace aoDistanceLearning3
         public const int formIdQuizDetails = 4;
         //
         public const string rnbuttonApplyFilter = "Apply Filter";
+        public const string rnbuttonInputNewQuiz = "+ add new Quiz";
         //
         public const string cnApps = "Sample Application Content - Change to your application if needed";
         //
