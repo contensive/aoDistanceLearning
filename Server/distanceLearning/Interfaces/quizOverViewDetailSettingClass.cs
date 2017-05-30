@@ -37,14 +37,14 @@ namespace Contensive.Addons.DistanceLearning
                 }
                 else
                 {
-                    qs = cp.Doc.RefreshQueryString;
+                   
                     qs = cp.Doc.RefreshQueryString;
                     qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalStartPageAddon, true);
                     qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(),true);
                     //
                     adminFramework.formNameValueRowsClass form = new adminFramework.formNameValueRowsClass();
                     form.isOuterContainer = false;
-                    form.addFormHidden("quizId", quiz.id.ToString());
+                    form.addFormHidden("QuizId", quiz.id.ToString());
                     form.body = innerBody;
                     form.addFormButton("Save", "button");
                     form.addFormButton("Cancel", "button");

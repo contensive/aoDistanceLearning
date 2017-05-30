@@ -81,10 +81,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\genericController.cs" />
-    <Compile Include="Interfaces\quizDetailsClass.cs" />
+    <Compile Include="Legacy Interfaces\quizDetailsClass.cs" />
     <Compile Include="Interfaces\quizDashboardClass.cs" />
-    <Compile Include="Interfaces\quizListClass.cs" />
-    <Compile Include="Interfaces\quizManageScoringClass.cs" />
+    <Compile Include="Legacy Interfaces\quizListClass.cs" />
+    <Compile Include="Interfaces\quizOverViewManageScoringClass.cs" />
     <Compile Include="Interfaces\quizReportClass.cs" />
     <Compile Include="Interfaces\blankFormClass.cs" />
     <Compile Include="Models\QuizModel.cs" />
@@ -103,6 +103,7 @@
     <Compile Include="Interfaces\quizOverviewReportingClass.cs" />
     <Compile Include="Interfaces\quizoverviewStartPageClass.cs" />
     <Compile Include="Interfaces\quizOverviewQuestionPageClass.cs" />
+    <Compile Include="Interfaces\quizOverViewQuestionsDetailsClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

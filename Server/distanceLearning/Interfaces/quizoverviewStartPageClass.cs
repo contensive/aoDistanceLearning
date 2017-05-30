@@ -26,6 +26,7 @@ namespace Contensive.Addons.DistanceLearning
                 string customTopCopy = cp.Doc.GetText("customTopCopy");
                 string Video = cp.Doc.GetText("Video");
                 string customButtonCopy = cp.Doc.GetText("customButtonCopy");
+                string courseMaterial = cp.Doc.GetText("CorseMaterial");
                 string innerBody = "";
 
                 if (quiz == null)
@@ -34,9 +35,10 @@ namespace Contensive.Addons.DistanceLearning
                     }
                     else
                             {
-                    //cp.Doc.AddRefreshQueryString("quizId", quiz.id.ToString());
-                    //cp.Doc.AddRefreshQueryString("addonId", "109");
-                    //cp.Doc.AddRefreshQueryString("addonGuid", constants.quizOverViewSelectAddon);
+                    
+                    qs = cp.Doc.RefreshQueryString;
+                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalQuestionPageaddon, true);
+                    qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
                     //
                     adminFramework.formNameValueRowsClass form = new adminFramework.formNameValueRowsClass();
                     form.isOuterContainer = false;
@@ -46,18 +48,19 @@ namespace Contensive.Addons.DistanceLearning
                     form.addFormButton("Cancel", "button");
                     string button = cp.Doc.GetText("button");
                             switch (button)
-                                    {
+                            {
 
-                                        case "Save":
-                                        quiz.customTopCopy = cp.Doc.GetText("customTopCopy");
-                                        quiz.Video = cp.Doc.GetText("Video");
-                                        quiz.courseMaterial = cp.Doc.GetText("courseMaterial");
-                                        quiz.customButtonCopy = cp.Doc.GetText("customButtonCopy");
-                                        quiz.saveObject(cp);
-                                            break;
-                                        case "Cancel":
-                                        return "?" + cp.Utils.ModifyQueryString(cp.Doc.RefreshQueryString, "addonID", constants.dashBoardAddon); 
-                                }
+                            case "Save":
+                            quiz.customTopCopy = cp.Doc.GetText("customTopCopy");
+                            quiz.Video = cp.Doc.GetText("Video");
+                            quiz.courseMaterial = cp.Doc.GetText("CorseMaterial");
+                            quiz.customButtonCopy = cp.Doc.GetText("customButtonCopy");
+                            quiz.saveObject(cp);
+                            cp.Response.Redirect("?" + qs);
+                            break;
+                            case "Cancel":
+                             return "?" + cp.Utils.ModifyQueryString(cp.Doc.RefreshQueryString, "addonID", constants.dashBoardAddon); 
+                            }
                        
                             //qsBase = cp.Utils.ModifyQueryString(rqs, constants.rnAddonguid, constants.quizOverViewSettingsAddon, true);
                             qsBase = cp.Doc.RefreshQueryString ;
@@ -69,7 +72,8 @@ namespace Contensive.Addons.DistanceLearning
                             form.isOuterContainer = false;
                             form.addRow();
                             form.title = "<b>Start Page </b></br>";
-                            form.addRow();
+                    
+                    form.addRow();
                              form.rowName = "Start Page Text </b>";
                             form.rowValue= cp.Html.InputTextExpandable("customTopCopy", quiz.customTopCopy)
                              + "This is the list of instructions that go on the Start Page. You can describe the quiz, it's purpose, how to take it, etc.";
@@ -79,7 +83,7 @@ namespace Contensive.Addons.DistanceLearning
                              + "</br> When included, a video can be presented on the start page.";
                             form.addRow();
                             form.rowName = "Course Materials </b>";
-                            form.rowValue = cp.Html.InputFile( "choose file", "addCourseMaterialClass", "js-addCourseMaterialButtonId")  
+                            form.rowValue = cp.Html.InputFile( "CorseMaterial", "addCourseMaterialClass", "js-addCourseMaterialButtonId")  
                             + "</br> When included, a file can be uploaded on the start page.";
                             form.addRow();
                             form.rowName = "Start Quiz Button </b>";
