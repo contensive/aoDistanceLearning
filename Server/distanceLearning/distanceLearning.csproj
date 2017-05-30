@@ -59,20 +59,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="accountBillingApi, Version=4.1.13.516, Culture=neutral, PublicKeyToken=d5c7c4dda88f732e, processorArchitecture=MSIL">
-      <HintPath>packages\Contensive.ecommerceApi.1.0.2\lib\net35\accountBillingApi.dll</HintPath>
+      <HintPath>..\packages\Contensive.ecommerceApi.1.0.1\lib\net35\accountBillingApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="adminFramework, Version=1.2.27.1805, Culture=neutral, PublicKeyToken=5c28a630afe60b2f, processorArchitecture=MSIL">
-      <HintPath>packages\Contensive.portalApi.1.0.3\lib\net35\adminFramework.dll</HintPath>
+      <HintPath>..\packages\Contensive.portalApi.1.0.2\lib\net35\adminFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CPBase, Version=4.1.2.0, Culture=neutral, PublicKeyToken=10b3c53389b845fb, processorArchitecture=MSIL">
-      <HintPath>packages\contensive.clib.4.1.2\lib\net35\CPBase.dll</HintPath>
+      <HintPath>..\packages\contensive.clib.4.1.2\lib\net35\CPBase.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.10.0.2\lib\net35\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net35\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -84,6 +84,7 @@
     <Compile Include="Interfaces\quizDetailsClass.cs" />
     <Compile Include="Interfaces\quizDashboardClass.cs" />
     <Compile Include="Interfaces\quizListClass.cs" />
+    <Compile Include="Interfaces\quizManageScoringClass.cs" />
     <Compile Include="Interfaces\quizReportClass.cs" />
     <Compile Include="Interfaces\blankFormClass.cs" />
     <Compile Include="Models\QuizModel.cs" />
@@ -97,6 +98,11 @@
     <Compile Include="Models\_blankModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="constants.cs" />
+    <Compile Include="Interfaces\quizOverviewSelectClass.cs" />
+    <Compile Include="Interfaces\quizOverViewDetailSettingClass.cs" />
+    <Compile Include="Interfaces\quizOverviewReportingClass.cs" />
+    <Compile Include="Interfaces\quizoverviewStartPageClass.cs" />
+    <Compile Include="Interfaces\quizOverviewQuestionPageClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

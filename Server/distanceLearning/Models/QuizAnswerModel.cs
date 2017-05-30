@@ -44,11 +44,11 @@ namespace Contensive.Addons.DistanceLearning.Models
         public int id;
         public string name;
         public string guid;
-        //
-        //public bool Correct;
-        //public string AText;
+        public bool Correct;
+        public int QuestionID;
+        public string AText;
+        //      
         //public int QOrder;
-        //public int QuestionID;
         //public int points;
         //
         //public bool Active;
@@ -142,8 +142,11 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.id = cs.GetInteger("id");
                     result.name = cs.GetText("name");
                     result.guid = cs.GetText("ccGuid");
+                    result.Correct = cs.GetBoolean("Correct");
                     result.createKey = cs.GetInteger("createKey");
-                }
+                    result.QuestionID = cs.GetInteger("QuestionID");
+                    result.AText = cs.GetText("AText");
+    }
                 cs.Close();
             }
             catch (Exception ex)
@@ -189,6 +192,9 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("name", name);
                     cs.SetField("ccGuid", guid);
                     cs.SetField("createKey", createKey.ToString());
+                    cs.SetField("AText", AText);
+                    cs.SetField("Correct", Correct.ToString());
+                    cs.SetField("QuestionID", QuestionID.ToString());
                 }
                 cs.Close();
             }
@@ -251,14 +257,14 @@ namespace Contensive.Addons.DistanceLearning.Models
         /// <param name="cp"></param>
         /// <param name="someCriteria"></param>
         /// <returns></returns>
-        public static List<QuizAnswerModel> getObjectList(CPBaseClass cp, int someCriteria)
+        public static List<QuizAnswerModel> getQuestionObjectList(CPBaseClass cp, int QuestionID)
         {
             List<QuizAnswerModel> result = new List<QuizAnswerModel>();
             try
             {
                 CPCSBaseClass cs = cp.CSNew();
                 List<string> ignoreCacheNames = new List<string>();
-                if ((cs.Open(primaryContentName, "(someCriteria=" + someCriteria + ")", "name", true, "id")))
+                if ((cs.Open(primaryContentName, "(QuestionID=" + QuestionID + ")", "name", true, "id")))
                 {
                     QuizAnswerModel instance = null;
                     do

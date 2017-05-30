@@ -44,8 +44,11 @@ namespace Contensive.Addons.DistanceLearning.Models
         public int id;
         public string name;
         public string guid;
-        //public int quizId;
-        //public int SubjectID;
+        public int SubjectID;
+        public string questPresentaion;
+        public int quizId;
+        public string QText;
+        
         //public int pageOrder;
         //public int qOrder;
         //
@@ -141,6 +144,11 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.name = cs.GetText("name");
                     result.guid = cs.GetText("ccGuid");
                     result.createKey = cs.GetInteger("createKey");
+                    result.quizId = cs.GetInteger("QuizID");
+                    result.SubjectID = cs.GetInteger("SubjectID");
+                    result.questPresentaion = cs.GetText("questPresentaion");
+                    result.QText = cs.GetText("QText");
+                    
                 }
                 cs.Close();
             }
@@ -186,7 +194,12 @@ namespace Contensive.Addons.DistanceLearning.Models
                     id = cs.GetInteger("id");
                     cs.SetField("name", name);
                     cs.SetField("ccGuid", guid);
+                    cs.SetField("QuizID", quizId.ToString());
                     cs.SetField("createKey", createKey.ToString());
+                    cs.SetField("questPresentaion", questPresentaion);
+                    cs.SetField("QText", QText);
+                    cs.SetField("SubjectID", SubjectID.ToString());
+
                 }
                 cs.Close();
             }
@@ -244,19 +257,19 @@ namespace Contensive.Addons.DistanceLearning.Models
         //
         //====================================================================================================
         /// <summary>
-        /// get a list of objects from this model
+        /// get a list of questions, sorted by sortOrder
         /// </summary>
         /// <param name="cp"></param>
-        /// <param name="someCriteria"></param>
+        /// <param name="quizId"></param>
         /// <returns></returns>
-        public static List<QuizQuestionModel> getObjectList(CPBaseClass cp, int someCriteria)
+        public static List<QuizQuestionModel> getQuestionsForQuizList(CPBaseClass cp, int quizId)
         {
             List<QuizQuestionModel> result = new List<QuizQuestionModel>();
             try
             {
                 CPCSBaseClass cs = cp.CSNew();
                 List<string> ignoreCacheNames = new List<string>();
-                if ((cs.Open(primaryContentName, "(someCriteria=" + someCriteria + ")", "name", true, "id")))
+                if ((cs.Open(primaryContentName, "(quizid=" + quizId + ")", "sortOrder", true, "id")))
                 {
                     QuizQuestionModel instance = null;
                     do

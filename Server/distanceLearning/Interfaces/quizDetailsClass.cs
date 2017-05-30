@@ -9,7 +9,7 @@ using Contensive.Addons.DistanceLearning.Controllers;
 
 namespace Contensive.Addons.DistanceLearning.Interfaces
 {
-    class quizDetailsClass
+   public class quizDetailsClass
     {
         //
         // ===============================================================================

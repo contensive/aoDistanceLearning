@@ -44,15 +44,20 @@ namespace Contensive.Addons.DistanceLearning.Models
         public int id;
         public string name;
         public string guid;
+        public DateTime DateAdded;
+        public int maxNumberQuest;
+        public string questionPresentation;
+        public string includeSubject;
+        public bool allowRetake;
         //
-        //public int MemberID;
-        //public int QuizID;
+        public int MemberID;
+        public int QuizID;
         //public int attemptNumber;
         //public DateTime dateSubmitted;
-        //public int totalQuestions;
-        //public int totalCorrect;
-        //public int totalPoints;
-        //public double Score;
+        public int totalQuestions;
+        public int totalCorrect;
+        public int totalPoints;
+        public double Score;
         //public bool lastDisplayedStudyPage;
         //public int lastDisplayedPageOrder;
         //public DateTime dateStarted;
@@ -149,6 +154,12 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.name = cs.GetText("name");
                     result.guid = cs.GetText("ccGuid");
                     result.createKey = cs.GetInteger("createKey");
+                    result.DateAdded = cs.GetDate("dateadded");
+                    result.maxNumberQuest = cs.GetInteger("maxNumberQuest");
+                    result.questionPresentation = cs.GetText("questionPresentation");
+                    result.includeSubject = cs.GetText("includeSubject");
+                    result.allowRetake = cs.GetBoolean("allowRetake");
+                    result.QuizID = cs.GetInteger("QuizID");
                 }
                 cs.Close();
             }
@@ -195,6 +206,12 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("name", name);
                     cs.SetField("ccGuid", guid);
                     cs.SetField("createKey", createKey.ToString());
+                    cs.SetField("dateadded", DateAdded.ToString());
+                    cs.SetField("maxNumberQuest", maxNumberQuest.ToString());
+                    cs.SetField("questionPresentation", questionPresentation);
+                    cs.SetField("includeSubject", includeSubject);
+                    cs.SetField("allowRetake", allowRetake.ToString());
+                    cs.SetField("QuizID", QuizID.ToString());
                 }
                 cs.Close();
             }
@@ -250,41 +267,41 @@ namespace Contensive.Addons.DistanceLearning.Models
             }
         }
         //
-        //====================================================================================================
+      
+    //====================================================================================================
         /// <summary>
         /// get a list of objects from this model
         /// </summary>
         /// <param name="cp"></param>
-        /// <param name="someCriteria"></param>
+        /// <param name="QuizId"></param>
         /// <returns></returns>
-        public static List<QuizResponseModel> getObjectList(CPBaseClass cp, int someCriteria)
-        {
-            List<QuizResponseModel> result = new List<QuizResponseModel>();
-            try
+        public static List<QuizResponseModel> getObjectList(CPBaseClass cp, int QuizId)
             {
-                CPCSBaseClass cs = cp.CSNew();
-                List<string> ignoreCacheNames = new List<string>();
-                if ((cs.Open(primaryContentName, "(someCriteria=" + someCriteria + ")", "name", true, "id")))
+                List<QuizResponseModel> modelList = new List<QuizResponseModel>();
+                try
                 {
-                    QuizResponseModel instance = null;
-                    do
+                    CPCSBaseClass cs = cp.CSNew();
+                    if ((cs.Open(primaryContentName, "(QuizId=" + QuizId + ")", "name", true, "id")))
                     {
-                        instance = QuizResponseModel.create(cp, cs.GetInteger("id"));
-                        if ((instance != null))
+                        QuizResponseModel instance = null;
+                        do
                         {
-                            result.Add(instance);
-                        }
-                        cs.GoNext();
-                    } while (cs.OK());
+                            instance = QuizResponseModel.create(cp, cs.GetInteger("id"));
+                            if ((instance != null))
+                            {
+                                modelList.Add(instance);
+                            }
+                            cs.GoNext();
+                        } while (cs.OK());
+                    }
+                    cs.Close();
                 }
-                cs.Close();
+                catch (Exception ex)
+                {
+                    cp.Site.ErrorReport(ex);
+                }
+                return modelList;
             }
-            catch (Exception ex)
-            {
-                cp.Site.ErrorReport(ex);
-            }
-            return result;
         }
     }
-}
 

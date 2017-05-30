@@ -12,6 +12,60 @@ namespace Contensive.Addons.DistanceLearning.Controllers
     static class genericController
     {
         //
+        // create main form tab container
+        public static string getTabWrapper( CPBaseClass cp, string innerBody, string activeTabCaption )
+        {
+            adminFramework.formSimpleClass formOuter = new adminFramework.formSimpleClass();
+            formOuter.isOuterContainer = false;
+            // formOuter.title = "Settings";
+            //formOuter.title = "this is the title";
+            formOuter.body = innerBody;
+            // formOuter.addFormButton("Save", "button");
+            // formOuter.addFormButton("Cancel", "button");
+            string qs;
+            qs = cp.Doc.RefreshQueryString;
+            formOuter.formActionQueryString = qs;
+            qs = cp.Utils.ModifyQueryString(qs, "quizId", cp.Doc.GetInteger("quizId").ToString());
+            //
+            adminFramework.contentWithTabsClass tabForm = new adminFramework.contentWithTabsClass();
+            tabForm.isOuterContainer = true;
+            tabForm.body = formOuter.getHtml(cp);
+            //
+            tabForm.addTab();
+            tabForm.tabCaption = "Details";
+            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalDetailsPageAddon);            
+            tabForm.tabStyleClass = "";
+            
+            //
+            tabForm.addTab();
+            tabForm.tabCaption = "Settings";
+            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalSettingPageAddon);
+            tabForm.tabStyleClass = "";
+            //
+            tabForm.addTab();
+            tabForm.tabCaption = "Start Page";
+            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalStartPageAddon);
+            tabForm.tabStyleClass = "";
+            //
+            tabForm.addTab();
+            tabForm.tabCaption = "Questions";
+            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalQuestionPageaddon);
+            tabForm.tabStyleClass = "";
+            //
+            tabForm.addTab();
+            tabForm.tabCaption = "Manage Scoring";
+            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalManageScoringPageaddon);
+            tabForm.tabStyleClass = "";
+            //
+            tabForm.addTab();
+            tabForm.tabCaption = "Reporting";
+            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.quizOverQuestionPageAddon);
+            tabForm.tabStyleClass = "";
+
+            tabForm.setActiveTab(activeTabCaption);
+            return  tabForm.getHtml(cp);
+        }
+        //
         //=========================================================================
         //  create user error if requestName field is not in doc properties
         //=========================================================================

@@ -61,16 +61,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="accountBillingApi, Version=4.1.13.516, Culture=neutral, PublicKeyToken=d5c7c4dda88f732e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Contensive.ecommerceApi.1.0.2\lib\net35\accountBillingApi.dll</HintPath>
+      <HintPath>..\..\packages\Contensive.ecommerceApi.1.0.1\lib\net35\accountBillingApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="adminFramework, Version=1.2.27.1805, Culture=neutral, PublicKeyToken=5c28a630afe60b2f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Contensive.portalApi.1.0.3\lib\net35\adminFramework.dll</HintPath>
+      <HintPath>..\..\packages\Contensive.portalApi.1.0.2\lib\net35\adminFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CPBase, Version=4.1.2.0, Culture=neutral, PublicKeyToken=10b3c53389b845fb, processorArchitecture=MSIL">
-      <HintPath>..\packages\contensive.clib.4.1.2\lib\net35\CPBase.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\packages\contensive.clib.4.1.2\lib\net35\CPBase.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualBasic.Compatibility" />
     <Reference Include="System" />
@@ -161,7 +161,7 @@
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_AssemblyInfoFilename="My Project\AssemblyInfo.vb" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" />
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_AssemblyInfoFilename="My Project\AssemblyInfo.vb" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

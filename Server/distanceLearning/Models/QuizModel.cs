@@ -44,21 +44,26 @@ namespace Contensive.Addons.DistanceLearning.Models
         public int id;
         public string name;
         public string guid;
-        //
+        public DateTime DateAdded;
+        public int maxNumberQuest;
+        public string questionPresentation;
+        public string includeSubject;
+        public bool allowRetake;
+        public string courseMaterial;
+        //public int typeId;
         //public int typeId;
         //public bool allowRetake;
         //public bool requireAuthentication;
         //public bool allowCustomTopCopy;
-        //public string customTopCopy;
+        public string customTopCopy;
         //public bool allowCustomButtonCopy;
-        //public string customButtonCopy;
+        public string customButtonCopy;
         //public bool includeStudyPage;
         //public string studyCopy;
-        //public string Video;
+        public string Video;
         //
         //public bool Active;
         //public string SortOrder;
-        //public DateTime DateAdded;
         //public int CreatedBy;
         //public DateTime ModifiedDate;
         //public int ModifiedBy;
@@ -148,6 +153,16 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.name = cs.GetText("name");
                     result.guid = cs.GetText("ccGuid");
                     result.createKey = cs.GetInteger("createKey");
+                    result.DateAdded = cs.GetDate("dateadded");
+                    result.maxNumberQuest = cs.GetInteger("maxNumberQuest");
+                    result.questionPresentation = cs.GetText("questionPresentation");
+                    result.includeSubject = cs.GetText("includeSubject");
+                    result.allowRetake = cs.GetBoolean("allowRetake");
+                    result.customTopCopy = cs.GetText("customTopCopy");
+                    result.Video = cs.GetText("Video");
+                    result.courseMaterial = cs.GetText("courseMaterial");
+                    result.customButtonCopy = cs.GetText("customButtonCopy");                  
+
                 }
                 cs.Close();
             }
@@ -194,6 +209,16 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("name", name);
                     cs.SetField("ccGuid", guid);
                     cs.SetField("createKey", createKey.ToString());
+                    cs.SetField("dateadded", DateAdded.ToString());
+                    cs.SetField("maxNumberQuest", maxNumberQuest.ToString());
+                    cs.SetField("questionPresentation", questionPresentation);
+                    cs.SetField("includeSubject", includeSubject);
+                    cs.SetField("allowRetake", allowRetake.ToString());
+                    cs.SetField("customTopCopy", customTopCopy);
+                    cs.SetField("Video", Video);
+                    cs.SetField("courseMaterial", courseMaterial);
+                    cs.SetField("customButtonCopy", customButtonCopy);
+                
                 }
                 cs.Close();
             }
@@ -256,22 +281,22 @@ namespace Contensive.Addons.DistanceLearning.Models
         /// <param name="cp"></param>
         /// <param name="someCriteria"></param>
         /// <returns></returns>
-        public static List<QuizModel> getObjectList(CPBaseClass cp, int someCriteria)
+        public static List<QuizModel> getQuizList(CPBaseClass cp)
         {
-            List<QuizModel> result = new List<QuizModel>();
+            List<QuizModel> modelList = new List<QuizModel>();
             try
             {
                 CPCSBaseClass cs = cp.CSNew();
                 List<string> ignoreCacheNames = new List<string>();
-                if ((cs.Open(primaryContentName, "(someCriteria=" + someCriteria + ")", "name", true, "id")))
+                if ((cs.Open(primaryContentName, "", "name", true, "id")))
                 {
-                    QuizModel instance = null;
+                    QuizModel quiz = null;
                     do
                     {
-                        instance = QuizModel.create(cp, cs.GetInteger("id"));
-                        if ((instance != null))
+                        quiz = QuizModel.create(cp, cs.GetInteger("id"));
+                        if ((quiz != null))
                         {
-                            result.Add(instance);
+                            modelList.Add(quiz);
                         }
                         cs.GoNext();
                     } while (cs.OK());
@@ -282,8 +307,56 @@ namespace Contensive.Addons.DistanceLearning.Models
             {
                 cp.Site.ErrorReport(ex);
             }
-            return result;
+            return modelList;
         }
+        //
+        //====================================================================================================
+        /// <summary>
+        /// get a list of objects from this model
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <param name="someCriteria"></param>
+        /// <returns></returns>
+        public static List<QuizModel> getObjectList(CPBaseClass cp, int someCriteria)
+        {
+            List<QuizModel> modelList = new List<QuizModel>();
+            try
+            {
+                CPCSBaseClass cs = cp.CSNew();
+                List<string> ignoreCacheNames = new List<string>();
+                if ((cs.Open(primaryContentName, "(someCriteria=" + someCriteria + ")", "name", true, "id")))
+                {
+                    QuizModel quiz = null;
+                    do
+                    {
+                        quiz = QuizModel.create(cp, cs.GetInteger("id"));
+                        if ((quiz != null))
+                        {
+                            modelList.Add(quiz);
+                        }
+                        cs.GoNext();
+                    } while (cs.OK());
+                }
+                cs.Close();
+            }
+            catch (Exception ex)
+            {
+                cp.Site.ErrorReport(ex);
+            }
+            return modelList;
+        }
+        /// <summary>
+        /// Add record method
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <returns></returns>
+        //
+
+        public static QuizModel add(CPBaseClass cp)
+        {
+            return create(cp, cp.Content.AddRecord(primaryContentName));
+        }
+
     }
 }
 
