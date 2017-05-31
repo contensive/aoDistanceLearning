@@ -23,6 +23,7 @@ namespace Contensive.Addons.DistanceLearning
         public const string dstFeatureGuid = "dstFeatureGuid";
         //
         public const string rnSampleField = "sampleField";
+        public const string rnQuestionId = "questionId";
         //
         public const string buttonSaveAndClose = "Save and Close";
         public const string buttonSaveAndContinue = "Save and Continue";
@@ -47,7 +48,7 @@ namespace Contensive.Addons.DistanceLearning
         public const string portalDashboardPageaddon = "{6b921555-04b2-4ec0-83e1-24ac6c3bcd62}";
         public const string portalQuestionPageaddon = "{12c1944f-5994-4c0b-9e13-3320f29b16c3}";
         public const string portalManageScoringPageaddon = "{bc2f69da-ab79-4051-aed5-63ba98b88b8f}";
-        public const string portalQuestionDetailsPageaddon = " {2d1ad031-7f03-4b26-bdcc-0e48697236e4}";
+        public const string portalQuestionDetailsPageaddon = "{2d1ad031-7f03-4b26-bdcc-0e48697236e4}";
 
     //
 

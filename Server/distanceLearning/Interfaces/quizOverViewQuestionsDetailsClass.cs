@@ -20,16 +20,12 @@ namespace Contensive.Addons.DistanceLearning
                     string qs;
                     string qsBase;
                     string rqs = "";
-                    CPCSBaseClass cs = cp.CSNew();
-                    QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger("QuizId"));
-                    string quizName = cp.Doc.GetText("quizName");
-                    string customTopCopy = cp.Doc.GetText("customTopCopy");
-                    string Video = cp.Doc.GetText("Video");
-                    string customButtonCopy = cp.Doc.GetText("customButtonCopy");
-                    string courseMaterial = cp.Doc.GetText("CorseMaterial");
-                    string innerBody = "";
+                CPCSBaseClass cs = cp.CSNew();
+                QuizQuestionModel question = QuizQuestionModel.create(cp, cp.Doc.GetInteger("QuizId"));
 
-                    if (quiz == null)
+                string innerBody = "";
+
+                    if (question == null)
                     {
                         return "";
                     }
@@ -38,64 +34,86 @@ namespace Contensive.Addons.DistanceLearning
 
                         qs = cp.Doc.RefreshQueryString;
                         qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalQuestionDetailsPageaddon, true);
-                        qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
-                        //
-                        adminFramework.formNameValueRowsClass form = new adminFramework.formNameValueRowsClass();
-                        form.isOuterContainer = false;
-                        form.addFormHidden("quizId", quiz.id.ToString());
-                        form.body = innerBody;
-                        form.addFormButton("Save", "button");
-                        form.addFormButton("Cancel", "button");
+                        qs = cp.Utils.ModifyQueryString(qs, "QuizId", question.id.ToString(), true);
+                    //
+                    adminFramework.formNameValueRowsClass questionForm = new adminFramework.formNameValueRowsClass();
+                    questionForm.isOuterContainer = false;
+                    questionForm.addFormHidden("questionId", question.id.ToString());
+                    questionForm.body = innerBody;
+                    questionForm.addFormButton("Save", "button");
+                    questionForm.addFormButton("Cancel", "button");
                         string button = cp.Doc.GetText("button");
                         switch (button)
                         {
 
                             case "Save":
-                                quiz.customTopCopy = cp.Doc.GetText("customTopCopy");
-                                quiz.Video = cp.Doc.GetText("Video");
-                                quiz.courseMaterial = cp.Doc.GetText("CorseMaterial");
-                                quiz.customButtonCopy = cp.Doc.GetText("customButtonCopy");
-                                quiz.saveObject(cp);
-                                cp.Response.Redirect("?" + qs);
+                            
                                 break;
                             case "Cancel":
-                                return "?" + cp.Utils.ModifyQueryString(cp.Doc.RefreshQueryString, "addonID", constants.dashBoardAddon);
+
+                            return result; 
                         }
 
                         //qsBase = cp.Utils.ModifyQueryString(rqs, constants.rnAddonguid, constants.quizOverViewSettingsAddon, true);
                         qsBase = cp.Doc.RefreshQueryString;
                         qsBase = cp.Utils.ModifyQueryString(qsBase, "setPortalId", "1", true);
                         qsBase = cp.Utils.ModifyQueryString(qsBase, "dstFeatureGuid", constants.portalStartPageAddon, true);
-                        // adminFramework.formNameValueRowsClass form = new adminFramework.formNameValueRowsClass();
-                        qs = cp.Utils.ModifyQueryString(qsBase, "QuizId", cs.GetInteger("responseId").ToString(), true);
+                         //adminFramework.formNameValueRowsClass questionForm = new adminFramework.formNameValueRowsClass();
+                        qs = cp.Utils.ModifyQueryString(qsBase, "QuestionId", cs.GetInteger("responseId").ToString(), true);
 
-                        form.isOuterContainer = false;
-                        form.addRow();
-                        form.title = "<b>Question # 1 </b></br>";
+                    questionForm.isOuterContainer = false;
+                    questionForm.addRow();
+                    questionForm.title = "<b>Question 1 </b></br>";
+                    questionForm.addRow();
+                    questionForm.rowName = "Start Page Text </b>";
+                    questionForm.rowValue = cp.Html.InputText("Qtext", question.name,"5","",false,"qtext","js-qText");
+                    questionForm.addRow();
+                    questionForm.rowName = "Points* </b>";
+                    questionForm.rowValue = cp.Html.InputText("points", question.points.ToString());                   
+                    questionForm.addRow();
+                    questionForm.rowName = "Answer 1 </b>";
+                    questionForm.rowValue = cp.Html.InputText("answerOne", "", "1", "300", false, "answerOneClass", "js-answerOne")
+                        + cp.Html.RadioBox("rbAnswerOne", "Correct Answer", "0", "answerOneRadioClass", "js-RbAnswerOne") + "Correct Answer";
+                    questionForm.addRow();
+                    questionForm.rowName = "Answer 2 </b>";
+                    questionForm.rowValue = cp.Html.InputText("answerTwo", "", "1", "300", false, "answerTwoClass", "js-answerTwo")
+                    + cp.Html.RadioBox("rbAnswerTwo", "Correct Answer", "0", "answerTwoRadioClass", "js-RbAnswerOne") + "Correct Answer";
+                    questionForm.addRow();
+                    questionForm.rowName = "Answer 3 </b>";
+                    questionForm.rowValue = cp.Html.InputText("answerThree", "", "1", "300", false, "answerThreeClass", "js-answerThree") +
+                    cp.Html.RadioBox("rbanswerThree", "Correct Answer", "0", "answerTHreeRadioClass", "js-RbAnswerTHree") + "Correct Answer";
+                    questionForm.addRow();
+                    questionForm.rowName = "Answer 4 </b>";
+                    questionForm.rowValue = cp.Html.InputText("answerFour", "", "1", "300", false, "answerFourClass", "js-answerFour")
+                        + cp.Html.RadioBox("rbAnswerFour", "Correct Answer", "0", "answerFourRadioClass", "js-RbAnswerFour") + "Correct Answer";
+                    questionForm.addRow();
+                    questionForm.rowName = "Section</b>";
+                    questionForm.rowValue = cp.Html.SelectList("Subject", "Subject", "subjects","","questionDetailsClass", "js-questionDetails");
+                    questionForm.addRow();                    
+                    questionForm.rowName = "Question*</b>";
+                    questionForm.rowValue = cp.Html.InputWysiwyg("questionInstructions","What is the capitol of montinegro?",CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page,"10","700");
 
-                        form.addRow();
-                        form.rowName = "Start Page Text </b>";
-                        form.rowValue = cp.Html.InputTextExpandable("customTopCopy", quiz.customTopCopy)
-                         + "This is the list of instructions that go on the Start Page. You can describe the quiz, it's purpose, how to take it, etc.";
-                        form.addRow();
-                        form.rowName = "Start Page Video link </b>";
-                        form.rowValue = cp.Html.InputText("Video", quiz.Video)
-                         + "</br> When included, a video can be presented on the start page.";
-                        form.addRow();
-                        form.rowName = "Course Materials </b>";
-                        form.rowValue = cp.Html.InputFile("CorseMaterial", "addCourseMaterialClass", "js-addCourseMaterialButtonId")
-                        + "</br> When included, a file can be uploaded on the start page.";
-                        form.addRow();
-                        form.rowName = "Start Quiz Button </b>";
-                        form.rowValue = cp.Html.InputText("customButtonCopy", "Start")
-                        + "</br> This is the text that will be shown on the start button for the quiz.";
+                    //form.rowValue = ("<div><a href=\"?" + qs + quiz.id + "\">One question perpage: subjects; Users can retake quiz; max 5 questions</a></div>");
+                    //
+                    result = genericController.getTabWrapper(cp, questionForm.getHtml(cp), "Questions");
 
-                        //form.rowValue = ("<div><a href=\"?" + qs + quiz.id + "\">One question perpage: subjects; Users can retake quiz; max 5 questions</a></div>");
+                        cp.Doc.AddHeadStyle(questionForm.styleSheet);
+                    List<QuizQuestionModel> questionList = QuizQuestionModel.getQuestionsForQuizList(cp, question.id);
+                    //
+                    // the following is modifying a refresshquery string to add to the query model
+                    qsBase = cp.Utils.ModifyQueryString(rqs, constants.rnAddonguid, constants.quizOverViewSelectAddon, true);
+                    //
+                    // 
+                    foreach (QuizQuestionModel questions in questionList)
+                    {
                         //
-                        result = genericController.getTabWrapper(cp, form.getHtml(cp), "Start Page");
+                        //this next statement is like a cs.open but opens the object to get there field
+                     
 
-                        cp.Doc.AddHeadStyle(form.styleSheet);
+
+
                     }
+                }
                 }
                 catch (Exception ex)
                 {

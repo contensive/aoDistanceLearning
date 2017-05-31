@@ -49,17 +49,20 @@ namespace Contensive.Addons.DistanceLearning
                     string button = cp.Doc.GetText("button");
                             switch (button)
                             {
-
-                            case "Save":
-                            quiz.customTopCopy = cp.Doc.GetText("customTopCopy");
-                            quiz.Video = cp.Doc.GetText("Video");
-                            quiz.courseMaterial = cp.Doc.GetText("CorseMaterial");
-                            quiz.customButtonCopy = cp.Doc.GetText("customButtonCopy");
-                            quiz.saveObject(cp);
-                            cp.Response.Redirect("?" + qs);
-                            break;
-                            case "Cancel":
-                             return "?" + cp.Utils.ModifyQueryString(cp.Doc.RefreshQueryString, "addonID", constants.dashBoardAddon); 
+                                case "Save":
+                                    quiz.customTopCopy = cp.Doc.GetText("customTopCopy");
+                                    quiz.Video = cp.Doc.GetText("Video");
+                                    quiz.courseMaterial = cp.Doc.GetText("CorseMaterial");
+                                    quiz.customButtonCopy = cp.Doc.GetText("customButtonCopy");
+                                    quiz.saveObject(cp);
+                                    cp.Response.Redirect("?" + qs);
+                                    break;
+                                case "Cancel":
+                                    qs = cp.Doc.RefreshQueryString;
+                                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalDashboardPageaddon, true);
+                                    qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
+                                     cp.Response.Redirect("?" + qs);
+                                  return result;
                             }
                        
                             //qsBase = cp.Utils.ModifyQueryString(rqs, constants.rnAddonguid, constants.quizOverViewSettingsAddon, true);
