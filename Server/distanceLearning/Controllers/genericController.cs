@@ -53,7 +53,7 @@ namespace Contensive.Addons.DistanceLearning.Controllers
             tabForm.tabStyleClass = "";
             //
             tabForm.addTab();
-            tabForm.tabCaption = "Manage Scoring";
+            tabForm.tabCaption = "Scoring";
             tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalManageScoringPageaddon);
             tabForm.tabStyleClass = "";
             //

@@ -20,24 +20,15 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
             try
             {
                 string inputForm;
-                string sql = "";
                 string qs;
-                string qsBase;
                 string quizname = cp.Doc.GetText("QuizName");
-                string rqs = "";
-                string sendto = "";
                 if (string.IsNullOrEmpty(quizname))
                 {
-
                     CPBlockBaseClass layout = cp.BlockNew();
                     CPCSBaseClass cs = cp.CSNew();
-                    //adminFramework.reportListClass reportList = new adminFramework.reportListClass(cp);
-
                     DateTime filterDateFrom = genericController.encodeMinDate(cp.Utils.EncodeDate(cp.Doc.get_Var(constants.rnFilterDateFrom)));
                     DateTime filterDateTo = genericController.encodeMinDate(cp.Utils.EncodeDate(cp.Doc.get_Var(constants.rnFilterDateTo)));
                     DateTime tmpDate;
-                    string sqlWhere = "";
-
                     //
                     if ((filterDateTo != DateTime.MinValue) & (filterDateTo < filterDateFrom))
                     {
@@ -45,14 +36,11 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                         filterDateFrom = filterDateTo;
                         filterDateTo = tmpDate;
                     }
-
                     reportList.title = "Distance Learning";
-                    // reportList.description = "A list of all online quizzes. ";
-
-
+                    //
                     reportList.addColumn();
                     reportList.columnCaption = "Sample Quiz";
-                    reportList.columnCaptionClass = "afwTextAlignLeft afwWidth200px";
+                    reportList.columnCaptionClass = "afwTextAlignLeft";
                     //
                     reportList.addColumn();
                     reportList.columnCaption = "Attempts";
@@ -67,7 +55,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                     //qsBase = cp.Utils.ModifyQueryString(cp.Doc.RefreshQueryString, constants.rnAddonId, constants.portalAddonId, true);
                     //qsBase = cp.Utils.ModifyQueryString(qsBase, "setPortalId", "1", true);
                    
-                        foreach (QuizModel quiz in quizList)
+                    foreach (QuizModel quiz in quizList)
                     {
                         List<QuizResponseModel> responseList = QuizResponseModel.getObjectList(cp, quiz.id);
                         reportList.addRow();
@@ -94,10 +82,12 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 }
                 else
                 {
-                    qs = cp.Utils.ModifyQueryString(cp.Doc.RefreshQueryString, "addonGUID", constants.quizOverViewSettingsAddon);
+                    qs = cp.Doc.RefreshQueryString;
+                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalDetailsPageAddon, true);
+                    qs = cp.Utils.ModifyQueryString(qs, "QuizId", "");
                     qs = cp.Utils.ModifyQueryString(qs, "quizName", quizname);
-                    qs = cp.Utils.ModifyQueryString(qs, "addonid", quizname);
                     cp.Response.Redirect("?" + qs);
+                    return "";
                 }
             }
 

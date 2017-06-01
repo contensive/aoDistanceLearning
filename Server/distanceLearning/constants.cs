@@ -21,6 +21,7 @@ namespace Contensive.Addons.DistanceLearning
         public const string rnAddonguid  = "addonguid";
         public const string rnAddonId = "addonId";
         public const string dstFeatureGuid = "dstFeatureGuid";
+        public const string rnQuizId = "quizId";
         //
         public const string rnSampleField = "sampleField";
         public const string rnQuestionId = "questionId";
@@ -29,6 +30,8 @@ namespace Contensive.Addons.DistanceLearning
         public const string buttonSaveAndContinue = "Save and Continue";
         public const string buttonLogin = "Login";
         public const string buttonContinue = "Continue";
+        public const string buttonSave = "Save";
+        public const string buttonCancel = "Cancel";
         //
         // addon guids
         public const string dashBoardAddon = "{061eafdb-147c-4f09-afb8-7e51aa5181f3}";

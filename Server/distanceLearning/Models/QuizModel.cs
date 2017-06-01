@@ -50,18 +50,28 @@ namespace Contensive.Addons.DistanceLearning.Models
         public string includeSubject;
         public bool allowRetake;
         public string courseMaterial;
+        public string customTopCopy;
+        public string customButtonCopy;
+        public string Video;
+        public string ACaption;
+        public string BCaption;
+        public string CCaption;
+        public string DCaption;
+        public string FCaption;
+        public double APercentile;
+        public double BPercentile;
+        public double CPercentile;
+        public double DPercentile;
+        public double FPercentile;
+        //
+        //public bool includeStudyPage;
+        //public string studyCopy;
+        //public bool allowCustomButtonCopy;
         //public int typeId;
         //public int typeId;
         //public bool allowRetake;
         //public bool requireAuthentication;
         //public bool allowCustomTopCopy;
-        public string customTopCopy;
-        //public bool allowCustomButtonCopy;
-        public string customButtonCopy;
-        //public bool includeStudyPage;
-        //public string studyCopy;
-        public string Video;
-        //
         //public bool Active;
         //public string SortOrder;
         //public int CreatedBy;
@@ -161,7 +171,16 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.customTopCopy = cs.GetText("customTopCopy");
                     result.Video = cs.GetText("Video");
                     result.courseMaterial = cs.GetText("courseMaterial");
-                    result.customButtonCopy = cs.GetText("customButtonCopy");                  
+                    result.customButtonCopy = cs.GetText("customButtonCopy");
+                    result.ACaption = cs.GetText("ACaption");
+                    result.APercentile = cs.GetNumber("APercentile");
+                    result.BCaption = cs.GetText("BCaption");
+                    result.BPercentile = cs.GetNumber("BPercentile");
+                    result.CCaption = cs.GetText("CCaption");
+                    result.CPercentile = cs.GetNumber("CPercentile");
+                    result.DCaption = cs.GetText("DCaption");
+                    result.DPercentile = cs.GetNumber("DPercentile");
+                    result.FCaption = cs.GetText("FCaption");
 
                 }
                 cs.Close();
@@ -218,7 +237,16 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("Video", Video);
                     cs.SetField("courseMaterial", courseMaterial);
                     cs.SetField("customButtonCopy", customButtonCopy);
-                
+                    cs.SetField("ACaption", ACaption);
+                    cs.SetField("APercentile", APercentile.ToString());
+                    cs.SetField("BCaption", BCaption);
+                    cs.SetField("BPercentile", BPercentile.ToString());
+                    cs.SetField("CCaption", CCaption);
+                    cs.SetField("CPercentile", CPercentile.ToString());
+                    cs.SetField("DCaption", DCaption);
+                    cs.SetField("DPercentile", DPercentile.ToString());
+                    cs.SetField("FCaption", FCaption);
+
                 }
                 cs.Close();
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Contensive.BaseClasses;
@@ -10,79 +11,164 @@ using Contensive.Addons.DistanceLearning.Controllers;
 namespace Contensive.Addons.DistanceLearning
 {
    public class quizOverViewManageScoringClass : Contensive.BaseClasses.AddonBaseClass
-
-
-
+    {
+        public override object Execute(CPBaseClass cp)
         {
-            public override object Execute(CPBaseClass cp)
+            string result = "";
+            try
             {
-                string result = "Hello World manage scoring";
-                try
-            {
-
-                string qs;
-                string qsBase;
-                string rqs = "";
-                CPCSBaseClass cs = cp.CSNew();
                 QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger("QuizId"));
                 if (quiz == null)
                 {
+                    //
+                    // -- no quiz provided, go back to quiz list
+                    string qs = cp.Doc.RefreshQueryString;
+                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalDashboardPageaddon, true);
+                    cp.Response.Redirect("?" + qs);
                     return "";
                 }
                 else
                 {
-                    //cp.Doc.AddRefreshQueryString("quizId", quiz.id.ToString());
-                    //cp.Doc.AddRefreshQueryString("addonId", "");
-                    //cp.Doc.AddRefreshQueryString("addonGuid", constants.quizOverViewSelectAddon);
-                    //qsBase = cp.Utils.ModifyQueryString(rqs, constants.rnAddonguid, constants.quizOverViewSettingsAddon, true);
-                    adminFramework.reportListClass reportList = new adminFramework.reportListClass(cp);
+                    string button = cp.Doc.GetText("button");
+                    string qs;
+                    switch (button)
+                    {
+                        case constants.buttonCancel:
+                            qs = cp.Doc.RefreshQueryString;
+                            qs = cp.Utils.ModifyQueryString(qs, constants.rnQuizId, quiz.id.ToString() );
+                            qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalDetailsPageAddon);
+                            cp.Response.Redirect("?" + qs);
+                            break;
+                        case constants.buttonSave:
+                            quiz.ACaption = cp.Doc.GetText("aCaption");
+                            quiz.APercentile = cp.Doc.GetNumber("APercentile");
+                            //quiz.aPassingGrade = cp.Doc.GetBoolean("aPassingGrade");
+                            quiz.BCaption = cp.Doc.GetText("BCaption");
+                            quiz.BPercentile = cp.Doc.GetNumber("BPercentile");
+                            //quiz.bPassingGrade = cp.Doc.GetBoolean("bPassingGrade");
+                            quiz.CCaption = cp.Doc.GetText("CCaption");
+                            quiz.CPercentile = cp.Doc.GetNumber("CPercentile");
+                            //quiz.cPassingGrade = cp.Doc.GetBoolean("cPassingGrade");
+                            quiz.DCaption = cp.Doc.GetText("DCaption");
+                            quiz.DPercentile = cp.Doc.GetNumber("DPercentile");
+                            //quiz.dPassingGrade = cp.Doc.GetBoolean("dPassingGrade");
+                            quiz.FCaption = cp.Doc.GetText("FCaption");
+                            quiz.FPercentile = cp.Doc.GetNumber("FPercentile");
+                            //quiz.fPassingGrade = cp.Doc.GetBoolean("fPassingGrade");
+                            quiz.saveObject(cp);
+                            //
+                            qs = cp.Doc.RefreshQueryString;
+                            qs = cp.Utils.ModifyQueryString(qs, constants.rnQuizId, quiz.id.ToString());
+                            qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalDetailsPageAddon);
+                            cp.Response.Redirect("?" + qs);
+                            break;
+                    }
 
-                    //qs = cp.Utils.ModifyQueryString(qsBase, "QuizId", cs.GetInteger("responseId").ToString(), true);
-                    //reportList.isOuterContainer = false;
-                    ////reportList.title = "Distance Learning";
-                    //reportList.addColumn();
-                    //reportList.columnCaption = "Subject";
-                    //reportList.columnCaptionClass = "afwTextAlignLeft afwWidth200px";
-                    ////
-                    //reportList.addColumn();
-                    //reportList.columnCaption = "Questions    " + cp.Html.Button("button", "+ Add Question", "addQuestionClass", "js-addQuestionButtonId");
-                    //reportList.columnCaptionClass = "afwTextAlignright afwWidth50px";
-                    ////
-                    //// the following is creating a list of questions from the question model
-                    List<QuizQuestionModel> questionList = QuizQuestionModel.getQuestionsForQuizList(cp, quiz.id);
-                    ////
-                    //// the following is modifying a refresshquery string to add to the query model
-                    //qsBase = cp.Utils.ModifyQueryString(rqs, constants.rnAddonguid, constants.quizOverViewSelectAddon, true);
-                    ////
+                    //
+                    // -- create the upper part of the page, the list of scoring
+                    adminFramework.reportListClass gradingForm = new adminFramework.reportListClass(cp);
+                    gradingForm.isOuterContainer = false;
+                    gradingForm.addColumn();
+                    gradingForm.columnCaption = "Captions";
+                    gradingForm.columnCaptionClass = "";
+                    gradingForm.columnDownloadable = false;
+                    gradingForm.columnVisible = true;
+                    gradingForm.columnSortable = false;
+                    gradingForm.columnCellClass = "";
+                    gradingForm.columnName = "quizGradingCaptions";
+                    //
+                    gradingForm.addColumn();
+                    gradingForm.columnCaption = "Percentile";
+                    gradingForm.columnCaptionClass = "";
+                    gradingForm.columnDownloadable = false;
+                    gradingForm.columnVisible = true;
+                    gradingForm.columnSortable = false;
+                    gradingForm.columnCellClass = "";
+                    gradingForm.columnName = "quizGradingPercentile";
+                    //
+                    gradingForm.addColumn();
+                    gradingForm.columnCaption = "Passing Grade";
+                    gradingForm.columnCaptionClass = "";
+                    gradingForm.columnDownloadable = false;
+                    gradingForm.columnVisible = true;
+                    gradingForm.columnSortable = false;
+                    gradingForm.columnCellClass = "";
+                    gradingForm.columnName = "quizGradingSuccess";
+                    //
+                    gradingForm.addRow();
+                    gradingForm.setCell(cp.Html.InputText("aCaption", quiz.ACaption));
+                    gradingForm.setCell(cp.Html.InputText("aPercentile", quiz.APercentile.ToString()));
+                    gradingForm.setCell(cp.Html.CheckBox("aPassingGrade", true));
+                    //
+                    gradingForm.addRow();
+                    gradingForm.setCell(cp.Html.InputText("bCaption", quiz.BCaption));
+                    gradingForm.setCell(cp.Html.InputText("bPercentile", quiz.BPercentile.ToString()));
+                    gradingForm.setCell(cp.Html.CheckBox("bPassingGrade", true));
+                    //
+                    gradingForm.addRow();
+                    gradingForm.setCell(cp.Html.InputText("cCaption", quiz.CCaption));
+                    gradingForm.setCell(cp.Html.InputText("cPercentile", quiz.CPercentile.ToString()));
+                    gradingForm.setCell(cp.Html.CheckBox("cPassingGrade", true));
+                    //
+                    gradingForm.addRow();
+                    gradingForm.setCell(cp.Html.InputText("dCaption", quiz.DCaption));
+                    gradingForm.setCell(cp.Html.InputText("dPercentile", quiz.DPercentile.ToString()));
+                    gradingForm.setCell(cp.Html.CheckBox("dPassingGrade", true));
+                    //
+                    gradingForm.addRow();
+                    gradingForm.setCell(cp.Html.InputText("fCaption", quiz.DCaption));
+                    gradingForm.setCell("&nbsp;");
+                    gradingForm.setCell(cp.Html.CheckBox("dPassingGrade", false));
+                    //
+                    adminFramework.formNameValueRowsClass scoringForm = new adminFramework.formNameValueRowsClass();
                     // 
-                    foreach (QuizQuestionModel question in questionList)
-
-                        //
-                        //result = genericController.getTabWrapper(cp, reportList.getHtml(cp), "Manage Scoring");
-
-                    cp.Doc.AddHeadStyle(reportList.styleSheet);
-
+                    scoringForm.addRow();
+                    scoringForm.rowName = "Add CECs";
+                    scoringForm.rowValue = cp.Html.CheckBox("", true)
+                        + "If Success completion add CECs to user's account"
+                        + cp.Html.div("---select certification CECs---","","afwRowValueHelpBox");
+                    // 
+                    scoringForm.addRow();
+                    scoringForm.rowName = "Add Certificate";
+                    scoringForm.rowValue = cp.Html.CheckBox("", true)
+                        + "If Success completion add Certificate record to user's account"
+                        + cp.Html.div("---select certification type---","", "afwRowValueHelpBox");
+                    // 
+                    scoringForm.addRow();
+                    scoringForm.rowName = "Success Message";
+                    scoringForm.rowValue = cp.Html.CheckBox("", true)
+                        + "If Success completion add text to results page"
+                        + cp.Html.div( cp.Html.InputWysiwyg("asdf", "sample text" ) ,"", "afwRowValueHelpBox");
+                    //
+                    adminFramework.formSimpleClass outerForm = new adminFramework.formSimpleClass();
+                    outerForm.addFormButton(constants.buttonSave);
+                    outerForm.addFormButton(constants.buttonCancel);
+                    outerForm.addFormHidden(constants.rnQuizId, quiz.id.ToString());
+                    outerForm.body = gradingForm.getHtml(cp) + scoringForm.getHtml(cp);
+                    //
+                    // -- wrap in tabs and output finished form
+                    result = outerForm.getHtml(cp);
+                    result = genericController.getTabWrapper(cp, result, "Scoring");
+                cp.Doc.AddHeadStyle(gradingForm.styleSheet);
                 }
             }
             catch (Exception ex)
-                {
-                    errorReport(cp, ex, "execute");
-                }
-                return result;
-
-
-            }
-            //
-            // ===============================================================================
-            // handle errors for this class
-            // ===============================================================================
-            //
-            private void errorReport(CPBaseClass cp, Exception ex, string method)
             {
-                cp.Site.ErrorReport(ex, "error in addonTemplateCs2005.blankClass.getForm");
+                errorReport(cp, ex, "execute");
             }
+            return result;
+        }
+        //
+        // ===============================================================================
+        // handle errors for this class
+        // ===============================================================================
+        //
+        private void errorReport(CPBaseClass cp, Exception ex, string method)
+        {
+            cp.Site.ErrorReport(ex, "error in addonTemplateCs2005.blankClass.getForm");
         }
     }
+}
 
 
 
