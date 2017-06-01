@@ -113,6 +113,7 @@ return true;
 		<Styles><![CDATA[
 
 
+
 .onlineQuiz{
 	padding:10px;
 	background-color:white;
@@ -206,6 +207,7 @@ return true;
 		<RemoteAssetLink></RemoteAssetLink>
 		<Styles><![CDATA[
 
+
 .dlFilterRow {
     width: 300px;
     text-align: right;
@@ -255,7 +257,7 @@ return true;
 		<Styles></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
-	<Addon name="Distance Learning Dashboard" guid="{061eafdb-147c-4f09-afb8-7e51aa5181f3}" type="Add-on">
+	<Addon name="Quiz Dashboard" guid="{061eafdb-147c-4f09-afb8-7e51aa5181f3}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
 		<ActiveXProgramID></ActiveXProgramID>
@@ -318,43 +320,17 @@ margin-left:300px;
 }
 .questionDeleteClass{
 margin-left:400px;
+}
+.dlFilterRow {
+    width: 300px;
+    text-align: right;
+}
+.questionEditClass{
+margin-left:300px;
+}
+.questionDeleteClass{
+margin-left:400px;
 }]]></Styles>
-		<Scripting Language="" EntryPoint="" Timeout="5000"/>
-	</Addon>
-	<Addon name="Quiz OverView Select" guid="{dfafb5b3-7c68-40d7-b6ce-ef982aad3441}" type="Add-on">
-		<Copy></Copy>
-		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
-		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.quizOverviewSelectClass]]></DotNetClass>
-		<ArgumentList></ArgumentList>
-		<AsAjax>No</AsAjax>
-		<Filter>No</Filter>
-		<Help></Help>
-		<HelpLink></HelpLink>
-		<Icon Link="" width="0" height="0" sprites="0" />
-		<InIframe>No</InIframe>
-		<BlockEditTools>No</BlockEditTools>
-		<FormXML></FormXML>
-		<IsInline>No</IsInline>
-		<JavascriptOnLoad></JavascriptOnLoad>
-		<JavascriptInHead></JavascriptInHead>
-		<JavascriptBodyEnd></JavascriptBodyEnd>
-		<MetaDescription></MetaDescription>
-		<OtherHeadTags></OtherHeadTags>
-		<Content>Yes</Content>
-		<Template>Yes</Template>
-		<Email>No</Email>
-		<Admin>No</Admin>
-		<OnPageEndEvent>No</OnPageEndEvent>
-		<OnPageStartEvent>No</OnPageStartEvent>
-		<OnBodyStart>No</OnBodyStart>
-		<OnBodyEnd>No</OnBodyEnd>
-		<RemoteMethod>No</RemoteMethod>
-		<ProcessRunOnce>No</ProcessRunOnce>
-		<ProcessInterval>0</ProcessInterval>
-		<PageTitle></PageTitle>
-		<RemoteAssetLink></RemoteAssetLink>
-		<Styles></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
 	<Addon name="Quiz Overview Details" guid="{fd30f314-f37d-40e9-ac56-841e74de84fd}" type="Add-on">
@@ -393,11 +369,11 @@ margin-left:400px;
 		<Styles></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
-	<Addon name="Quiz Overview Settings Page" guid="{caedb3af-884c-46c5-af52-1903dddb3a2d}" type="Add-on">
+	<Addon name="Quiz Overview Setting" guid="{caedb3af-884c-46c5-af52-1903dddb3a2d}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
 		<ActiveXProgramID></ActiveXProgramID>
-		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.quizOverViewDetailSettingClass]]></DotNetClass>
+		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.quizOverViewSettingClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
 		<Filter>No</Filter>
@@ -429,7 +405,7 @@ margin-left:400px;
 		<Styles></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
-	<Addon name="Quiz Overview Reporting Page" guid="{6969a1ad-49af-4b10-a76e-ee736f73772f}" type="Add-on">
+	<Addon name="Quiz Overview Reporting" guid="{6969a1ad-49af-4b10-a76e-ee736f73772f}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
 		<ActiveXProgramID></ActiveXProgramID>
@@ -465,7 +441,7 @@ margin-left:400px;
 		<Styles></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
-	<Addon name="Quiz OverView Start Page Addon" guid="{87f875ac-659e-40eb-9aca-1045120e6771}" type="Add-on">
+	<Addon name="Quiz OverView Start Page" guid="{87f875ac-659e-40eb-9aca-1045120e6771}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
 		<ActiveXProgramID></ActiveXProgramID>
@@ -501,11 +477,11 @@ margin-left:400px;
 		<Styles></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
-	<Addon name="Quiz OverView Question Page Addon" guid="{a364f297-9e69-4b21-a92d-a6e6b4e16cb6}" type="Add-on">
+	<Addon name="Quiz OverView Questions" guid="{a364f297-9e69-4b21-a92d-a6e6b4e16cb6}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
 		<ActiveXProgramID></ActiveXProgramID>
-		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.quizOverviewQuestionPageClass]]></DotNetClass>
+		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.quizOverviewQuestionsClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
 		<Filter>No</Filter>
@@ -534,33 +510,26 @@ margin-left:400px;
 		<ProcessInterval>0</ProcessInterval>
 		<PageTitle></PageTitle>
 		<RemoteAssetLink></RemoteAssetLink>
-		<Styles><![CDATA[
-
-#js-addQuestionButtonId{
+		<Styles><![CDATA[#js-addQuestionButtonId{
 margin-left:900px;
 }
 .questionEdit{
-margin-left:650px;
+ position:absolute;
+    left: 85%;
+    margin-right:10px;
 }
 .questionDelete{
-margin-left:10px;
-}
-#js-addQuestionButtonId{
-margin-left:900px;
-}
-.questionEdit{
-margin-left:650px;
-}
-.questionDelete{
-margin-left:10px;
+ position:absolute;
+    left: 90%;
+    margin-right:10px;
 }]]></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
-	<Addon name="Quiz Overview Manage Scoring" guid="{99758dd6-6df4-4260-98ef-f511a76458fa}" type="Add-on">
+	<Addon name="Quiz Overview Scoring" guid="{99758dd6-6df4-4260-98ef-f511a76458fa}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
 		<ActiveXProgramID></ActiveXProgramID>
-		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.quizOverViewManageScoringClass]]></DotNetClass>
+		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.quizOverViewScoringClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
 		<Filter>No</Filter>
@@ -593,7 +562,7 @@ margin-left:10px;
 		<Styles></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
-	<Addon name="Quiz Overview Question Details Page" guid="{71e8f8bd-a2f1-4f78-a036-506103877f75}" type="Add-on">
+	<Addon name="Quiz Overview Question Details" guid="{71e8f8bd-a2f1-4f78-a036-506103877f75}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
 		<ActiveXProgramID></ActiveXProgramID>
@@ -720,7 +689,7 @@ end function]]></Code>
 			<field name="Active">True</field>
 			<field name="SortOrder"></field>
 			<field name="portalId">{771bfee5-1fa7-4edf-8b6c-1406ab7bacf9}</field>
-			<field name="addonId">{dfafb5b3-7c68-40d7-b6ce-ef982aad3441}</field>
+			<field name="addonId">{fd30f314-f37d-40e9-ac56-841e74de84fd}</field>
 			<field name="Heading"><![CDATA[Quiz Details]]></field>
 			<field name="parentFeatureId">{6b921555-04b2-4ec0-83e1-24ac6c3bcd62}</field>
 			<field name="dataContentId"></field>
@@ -773,6 +742,33 @@ end function]]></Code>
 		</Field>
 		<Field Name="Active" active="True" AdminOnly="False" Authorable="True" Caption="Active" DeveloperOnly="False" EditSortPriority="200" FieldType="Boolean" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="0" RedirectID="0" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="1" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
 		<Field Name="SortOrder" active="True" AdminOnly="False" Authorable="False" Caption="Alpha Sort Order" DeveloperOnly="False" EditSortPriority="2000" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="0" RedirectID="0" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
+		<Field Name="FCaption" active="True" AdminOnly="False" Authorable="True" Caption="F" DeveloperOnly="False" EditSortPriority="1040" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="F" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Captions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+			<HelpDefault><![CDATA[Captions for grades displayed on the scoring page.]]></HelpDefault>
+		</Field>
+		<Field Name="DPercentile" active="True" AdminOnly="False" Authorable="True" Caption="D" DeveloperOnly="False" EditSortPriority="1030" FieldType="Float" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="60" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Percentiles" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+			<HelpDefault><![CDATA[This grade will be assigned if the overall score exceeds this percentage correct.]]></HelpDefault>
+		</Field>
+		<Field Name="CPercentile" active="True" AdminOnly="False" Authorable="True" Caption="C" DeveloperOnly="False" EditSortPriority="1020" FieldType="Float" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="70" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Percentiles" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+			<HelpDefault><![CDATA[This grade will be assigned if the overall score exceeds this percentage correct.]]></HelpDefault>
+		</Field>
+		<Field Name="BPercentile" active="True" AdminOnly="False" Authorable="True" Caption="B" DeveloperOnly="False" EditSortPriority="1010" FieldType="Float" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="80" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Percentiles" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+			<HelpDefault><![CDATA[This grade will be assigned if the overall score exceeds this percentage correct.]]></HelpDefault>
+		</Field>
+		<Field Name="APercentile" active="True" AdminOnly="False" Authorable="True" Caption="A" DeveloperOnly="False" EditSortPriority="1000" FieldType="Float" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="90" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Percentiles" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+			<HelpDefault><![CDATA[This grade will be assigned if the overall score exceeds this percentage correct.]]></HelpDefault>
+		</Field>
+		<Field Name="DCaption" active="True" AdminOnly="False" Authorable="True" Caption="D" DeveloperOnly="False" EditSortPriority="1030" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="D" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Captions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+			<HelpDefault><![CDATA[Captions for grades displayed on the scoring page.]]></HelpDefault>
+		</Field>
+		<Field Name="BCaption" active="True" AdminOnly="False" Authorable="True" Caption="B" DeveloperOnly="False" EditSortPriority="1010" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="B" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Captions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+			<HelpDefault><![CDATA[Captions for grades displayed on the scoring page.]]></HelpDefault>
+		</Field>
+		<Field Name="ACaption" active="True" AdminOnly="False" Authorable="True" Caption="A" DeveloperOnly="False" EditSortPriority="1000" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="A" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Captions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+			<HelpDefault><![CDATA[Captions for grades displayed on the scoring page.]]></HelpDefault>
+		</Field>
+		<Field Name="CCaption" active="True" AdminOnly="False" Authorable="True" Caption="C" DeveloperOnly="False" EditSortPriority="1020" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="C" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Captions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+			<HelpDefault><![CDATA[Captions for grades displayed on the scoring page.]]></HelpDefault>
+		</Field>
 	</CDef>
 	<CDef Name="Quiz Response Scores" Active="1" AdminOnly="0" AllowAdd="1" AllowCalendarEvents="0" AllowContentChildTool="0" AllowContentTracking="0" AllowDelete="1" AllowMetaContent="0" AllowTopicRules="0" AllowWorkflowAuthoring="0" AuthoringDataSourceName="Default" AuthoringTableName="QuizResponseScores" ContentDataSourceName="Default" ContentTableName="QuizResponseScores" DefaultSortMethod="By Name" DeveloperOnly="0" DropDownFieldList="Name" EditorGroupName="" Parent="" IconLink="" IconHeight="0" IconWidth="0" IconSprites="0" isbasecontent="0" guid="{690F00B1-52DB-4229-9F65-7822AEE760E9}" >
 		<Field Name="Name" active="True" AdminOnly="False" Authorable="True" Caption="Name" DeveloperOnly="False" EditSortPriority="110" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="0" RedirectID="0" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
@@ -798,6 +794,7 @@ end function]]></Code>
 		<Field Name="Score" active="True" AdminOnly="False" Authorable="True" Caption="Score" DeveloperOnly="False" EditSortPriority="230" FieldType="Float" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="0" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="True" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[For quizzes set to Grade-Score, this is the total score.]]></HelpDefault>
 		</Field>
+		<Field Name="submitted" active="False" AdminOnly="False" Authorable="False" Caption="Submitted" DeveloperOnly="False" EditSortPriority="225" FieldType="Boolean" HTMLContent="False" IndexColumn="20" IndexSortDirection="" IndexSortOrder="99" IndexWidth="11" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="0" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
 		<Field Name="attemptNumber" active="True" AdminOnly="False" Authorable="True" Caption="Attempt Number" DeveloperOnly="False" EditSortPriority="222" FieldType="Integer" HTMLContent="False" IndexColumn="20" IndexSortDirection="" IndexSortOrder="99" IndexWidth="11" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="1" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[If the quiz allows re-take, this is the number of the quiz taken by this user.]]></HelpDefault>
 		</Field>
@@ -810,7 +807,6 @@ end function]]></Code>
 		<Field Name="totalCorrect" active="True" AdminOnly="False" Authorable="True" Caption="Total Correct" DeveloperOnly="False" EditSortPriority="227" FieldType="Integer" HTMLContent="False" IndexColumn="50" IndexSortDirection="" IndexSortOrder="99" IndexWidth="14" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="0" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[After submission, the total questions and total correct answers are calculated.]]></HelpDefault>
 		</Field>
-		<Field Name="submitted" active="False" AdminOnly="False" Authorable="False" Caption="Submitted" DeveloperOnly="False" EditSortPriority="225" FieldType="Boolean" HTMLContent="False" IndexColumn="20" IndexSortDirection="" IndexSortOrder="99" IndexWidth="11" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="0" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
 		<Field Name="lastDisplayedPageOrder" active="True" AdminOnly="False" Authorable="True" Caption="Page Order Last Displayed" DeveloperOnly="False" EditSortPriority="2230" FieldType="Integer" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Presubmit" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[When Study Page Last Displayed is not checked, this is the last page displayed during this response. Page orders are set within each question.]]></HelpDefault>
 		</Field>
@@ -844,7 +840,7 @@ end function]]></Code>
 			<HelpDefault><![CDATA[For Points-Based quizes, this is how many points will be earned by selecting this answer to the question.]]></HelpDefault>
 		</Field>
 	</CDef>
-	<CDef Name="Quiz Questions" Active="1" AdminOnly="0" AllowAdd="1" AllowCalendarEvents="0" AllowContentChildTool="0" AllowContentTracking="0" AllowDelete="1" AllowMetaContent="0" AllowTopicRules="0" AllowWorkflowAuthoring="0" AuthoringDataSourceName="Default" AuthoringTableName="QuizQuestions" ContentDataSourceName="Default" ContentTableName="QuizQuestions" DefaultSortMethod="By Name" DeveloperOnly="0" DropDownFieldList="name" EditorGroupName="Content Editors" Parent="" IconLink="" IconHeight="0" IconWidth="0" IconSprites="0" isbasecontent="0" guid="{F363175A-DACD-43C1-BC4B-1FFAE7724A34}" >
+	<CDef Name="Quiz Questions" Active="1" AdminOnly="0" AllowAdd="1" AllowCalendarEvents="0" AllowContentChildTool="0" AllowContentTracking="0" AllowDelete="1" AllowMetaContent="0" AllowTopicRules="0" AllowWorkflowAuthoring="0" AuthoringDataSourceName="Default" AuthoringTableName="QuizQuestions" ContentDataSourceName="Default" ContentTableName="QuizQuestions" DefaultSortMethod="By Name" DeveloperOnly="0" DropDownFieldList="NAME" EditorGroupName="Content Editors" Parent="" IconLink="" IconHeight="0" IconWidth="0" IconSprites="0" isbasecontent="0" guid="{F363175A-DACD-43C1-BC4B-1FFAE7724A34}" >
 		<Field Name="Name" active="True" AdminOnly="False" Authorable="True" Caption="Name" DeveloperOnly="False" EditSortPriority="110" FieldType="Text" HTMLContent="False" IndexColumn="10" IndexSortDirection="" IndexSortOrder="99" IndexWidth="69" RedirectID="0" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="Shared Styles Add-on Rules" >
 			<HelpDefault><![CDATA[(for internal use) This is the name for this question and does not appear in the public quiz. Use a short name you will recognize.]]></HelpDefault>
 		</Field>
@@ -868,10 +864,11 @@ end function]]></Code>
 			<HelpDefault><![CDATA[(optional) Use subjects to divide your quiz questions into groups and to provide a letter grading system for automatic grading.]]></HelpDefault>
 		</Field>
 		<Field Name="Subject" active="False" AdminOnly="False" Authorable="False" Caption="Subject" DeveloperOnly="False" EditSortPriority="206" FieldType="Lookup" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="Quiz Subjects" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
+		<Field Name="points" active="True" AdminOnly="False" Authorable="True" Caption="Points" DeveloperOnly="False" EditSortPriority="211" FieldType="Integer" HTMLContent="False" IndexColumn="" IndexSortDirection="" IndexSortOrder="" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
 		<Field Name="pageOrder" active="True" AdminOnly="False" Authorable="True" Caption="Page" DeveloperOnly="False" EditSortPriority="2065" FieldType="Integer" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[(optional) If you wish to have multiple pages, include an integer number here. No page number will be displayed, but questions with the same number will be displayed together and the lowest page number will be displayed first. Questions without a page number will be displayed before questions with page numbers.]]></HelpDefault>
 		</Field>
-		<Field Name="points" active="True" AdminOnly="False" Authorable="True" Caption="Points" DeveloperOnly="False" EditSortPriority="211" FieldType="Integer" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
+		<Field Name="instructions" active="True" AdminOnly="False" Authorable="True" Caption="instructions" DeveloperOnly="False" EditSortPriority="216" FieldType="LongText" HTMLContent="False" IndexColumn="" IndexSortDirection="" IndexSortOrder="" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
 	</CDef>
 	<CDef Name="Quizzes" Active="1" AdminOnly="0" AllowAdd="1" AllowCalendarEvents="0" AllowContentChildTool="0" AllowContentTracking="0" AllowDelete="1" AllowMetaContent="0" AllowTopicRules="0" AllowWorkflowAuthoring="0" AuthoringDataSourceName="Default" AuthoringTableName="Quizzes" ContentDataSourceName="Default" ContentTableName="Quizzes" DefaultSortMethod="By Name" DeveloperOnly="0" DropDownFieldList="NAME" EditorGroupName="Content Editors" Parent="" IconLink="" IconHeight="0" IconWidth="0" IconSprites="0" isbasecontent="0" guid="{F9B19351-99F9-4E23-8729-83B99ADF2601}" >
 		<Field Name="Name" active="True" AdminOnly="False" Authorable="True" Caption="Name" DeveloperOnly="False" EditSortPriority="110" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="0" RedirectID="0" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="Shared Styles Add-on Rules" >
@@ -900,9 +897,17 @@ end function]]></Code>
 		<Field Name="allowCustomTopCopy" active="True" AdminOnly="False" Authorable="True" Caption="Use Custom Instructions" DeveloperOnly="False" EditSortPriority="1010" FieldType="Boolean" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="0" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Instructions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[If checked, the default instructions at the top of this quiz will be replaced with the Custom Instructions below.]]></HelpDefault>
 		</Field>
-		<Field Name="allowRetake" active="True" AdminOnly="False" Authorable="True" Caption="Allow users to retake quiz" DeveloperOnly="False" EditSortPriority="213" FieldType="Boolean" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="0" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+		<Field Name="maxNumberQuest" active="True" AdminOnly="False" Authorable="True" Caption="Max Number of questions Displayed" DeveloperOnly="False" EditSortPriority="215" FieldType="Integer" HTMLContent="False" IndexColumn="" IndexSortDirection="" IndexSortOrder="" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+			<HelpDefault><![CDATA[Max number of questions to be displayed]]></HelpDefault>
+		</Field>
+		<Field Name="includeSubject" active="True" AdminOnly="False" Authorable="True" Caption="Include Subjects" DeveloperOnly="False" EditSortPriority="212" FieldType="Lookup" HTMLContent="False" IndexColumn="" IndexSortDirection="" IndexSortOrder="" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="Quiz Subjects" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+			<HelpDefault><![CDATA[Include question Subjects]]></HelpDefault>
+		</Field>
+		<Field Name="allowRetake" active="True" AdminOnly="False" Authorable="True" Caption="Allow users to retake quiz" DeveloperOnly="False" EditSortPriority="213" FieldType="Boolean" HTMLContent="False" IndexColumn="" IndexSortDirection="" IndexSortOrder="" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="0" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[allows users to retake the quiz]]></HelpDefault>
 		</Field>
+		<Field Name="questionPresentation" active="True" AdminOnly="False" Authorable="True" Caption="Question Presentation" DeveloperOnly="False" EditSortPriority="211" FieldType="Lookup" HTMLContent="False" IndexColumn="" IndexSortDirection="" IndexSortOrder="" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="" Scramble="False" LookupList="One Question per page, All questions on one page, All subject questions per page" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
+		<Field Name="courseMaterial" active="True" AdminOnly="False" Authorable="True" Caption="Course Material" DeveloperOnly="False" EditSortPriority="1025" FieldType="File" HTMLContent="False" IndexColumn="" IndexSortDirection="" IndexSortOrder="" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="Instructions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
 		<Field Name="studyCopy" active="True" AdminOnly="False" Authorable="True" Caption="Study Material" DeveloperOnly="False" EditSortPriority="1100" FieldType="HTMLFile" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Study Page" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[The optional study material for the quiz]]></HelpDefault>
 		</Field>
@@ -916,41 +921,33 @@ end function]]></Code>
 			<HelpDefault><![CDATA[When checked, the user must be logged in to take the quiz. If they are not, instead of the quiz they will see the site's login form.]]></HelpDefault>
 		</Field>
 		<Field Name="pageList" active="True" AdminOnly="False" Authorable="False" Caption="Page List" DeveloperOnly="False" EditSortPriority="9999" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
-		<Field Name="FCaption" active="True" AdminOnly="False" Authorable="True" Caption="F" DeveloperOnly="False" EditSortPriority="1040" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="F" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="Grade Captions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+		<Field Name="FCaption" active="True" AdminOnly="False" Authorable="True" Caption="F" DeveloperOnly="False" EditSortPriority="1040" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="F" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Captions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[Captions for grades displayed on the scoring page.]]></HelpDefault>
 		</Field>
-		<Field Name="DPercentile" active="True" AdminOnly="False" Authorable="True" Caption="D" DeveloperOnly="False" EditSortPriority="1030" FieldType="Float" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="60" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="Grade Percentiles" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+		<Field Name="DPercentile" active="True" AdminOnly="False" Authorable="True" Caption="D" DeveloperOnly="False" EditSortPriority="1030" FieldType="Float" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="60" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Percentiles" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[This grade will be assigned if the overall score exceeds this percentage correct.]]></HelpDefault>
 		</Field>
-		<Field Name="CPercentile" active="True" AdminOnly="False" Authorable="True" Caption="C" DeveloperOnly="False" EditSortPriority="1020" FieldType="Float" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="70" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="Grade Percentiles" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+		<Field Name="CPercentile" active="True" AdminOnly="False" Authorable="True" Caption="C" DeveloperOnly="False" EditSortPriority="1020" FieldType="Float" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="70" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Percentiles" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[This grade will be assigned if the overall score exceeds this percentage correct.]]></HelpDefault>
 		</Field>
-		<Field Name="BPercentile" active="True" AdminOnly="False" Authorable="True" Caption="B" DeveloperOnly="False" EditSortPriority="1010" FieldType="Float" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="80" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="Grade Percentiles" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+		<Field Name="BPercentile" active="True" AdminOnly="False" Authorable="True" Caption="B" DeveloperOnly="False" EditSortPriority="1010" FieldType="Float" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="80" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Percentiles" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[This grade will be assigned if the overall score exceeds this percentage correct.]]></HelpDefault>
 		</Field>
-		<Field Name="APercentile" active="True" AdminOnly="False" Authorable="True" Caption="A" DeveloperOnly="False" EditSortPriority="1000" FieldType="Float" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="90" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="Grade Percentiles" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+		<Field Name="APercentile" active="True" AdminOnly="False" Authorable="True" Caption="A" DeveloperOnly="False" EditSortPriority="1000" FieldType="Float" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="90" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Percentiles" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[This grade will be assigned if the overall score exceeds this percentage correct.]]></HelpDefault>
 		</Field>
-		<Field Name="DCaption" active="True" AdminOnly="False" Authorable="True" Caption="D" DeveloperOnly="False" EditSortPriority="1030" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="D" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="Grade Captions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+		<Field Name="DCaption" active="True" AdminOnly="False" Authorable="True" Caption="D" DeveloperOnly="False" EditSortPriority="1030" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="D" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Captions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[Captions for grades displayed on the scoring page.]]></HelpDefault>
 		</Field>
-		<Field Name="BCaption" active="True" AdminOnly="False" Authorable="True" Caption="B" DeveloperOnly="False" EditSortPriority="1010" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="B" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="Grade Captions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+		<Field Name="BCaption" active="True" AdminOnly="False" Authorable="True" Caption="B" DeveloperOnly="False" EditSortPriority="1010" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="B" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Captions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[Captions for grades displayed on the scoring page.]]></HelpDefault>
 		</Field>
-		<Field Name="ACaption" active="True" AdminOnly="False" Authorable="True" Caption="A" DeveloperOnly="False" EditSortPriority="1000" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="A" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="Grade Captions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+		<Field Name="ACaption" active="True" AdminOnly="False" Authorable="True" Caption="A" DeveloperOnly="False" EditSortPriority="1000" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="A" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Captions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[Captions for grades displayed on the scoring page.]]></HelpDefault>
 		</Field>
-		<Field Name="CCaption" active="True" AdminOnly="False" Authorable="True" Caption="C" DeveloperOnly="False" EditSortPriority="1020" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="C" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="Grade Captions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+		<Field Name="CCaption" active="True" AdminOnly="False" Authorable="True" Caption="C" DeveloperOnly="False" EditSortPriority="1020" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="C" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Grade Captions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[Captions for grades displayed on the scoring page.]]></HelpDefault>
 		</Field>
-		<Field Name="maxNumberQuest" active="True" AdminOnly="False" Authorable="True" Caption="Max Number of questions Displayed" DeveloperOnly="False" EditSortPriority="215" FieldType="Integer" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
-			<HelpDefault><![CDATA[Max number of questions to be displayed]]></HelpDefault>
-		</Field>
-		<Field Name="includeSubject" active="True" AdminOnly="False" Authorable="True" Caption="Include Subjects" DeveloperOnly="False" EditSortPriority="212" FieldType="Lookup" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="Quiz Subjects" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
-			<HelpDefault><![CDATA[Include question Subjects]]></HelpDefault>
-		</Field>
-		<Field Name="questionPresentation" active="True" AdminOnly="False" Authorable="True" Caption="Question Presentation" DeveloperOnly="False" EditSortPriority="211" FieldType="Lookup" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="One Question per page, All questions on one page, All subject questions per page" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
-		<Field Name="courseMaterial" active="True" AdminOnly="False" Authorable="True" Caption="Course Material" DeveloperOnly="False" EditSortPriority="1025" FieldType="File" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Instructions" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
 	</CDef>
 	<CDef Name="Quiz Response Details" Active="1" AdminOnly="0" AllowAdd="1" AllowCalendarEvents="0" AllowContentChildTool="0" AllowContentTracking="0" AllowDelete="1" AllowMetaContent="0" AllowTopicRules="0" AllowWorkflowAuthoring="0" AuthoringDataSourceName="Default" AuthoringTableName="QuizResponseDetails" ContentDataSourceName="Default" ContentTableName="QuizResponseDetails" DefaultSortMethod="By Name" DeveloperOnly="0" DropDownFieldList="Name" EditorGroupName="" Parent="" IconLink="" IconHeight="0" IconWidth="0" IconSprites="0" isbasecontent="0" guid="{37FCFECD-D162-4C8E-956E-48306BB34BDD}" >
 		<Field Name="Name" active="True" AdminOnly="False" Authorable="True" Caption="Name" DeveloperOnly="False" EditSortPriority="110" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="0" RedirectID="0" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
