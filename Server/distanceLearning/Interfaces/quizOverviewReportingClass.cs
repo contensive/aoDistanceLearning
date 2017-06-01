@@ -15,9 +15,9 @@ namespace Contensive.Addons.DistanceLearning
             string result = "Hello World";
             try
             {
-                string qs;
-                string qsBase;
-                string rqs = "";
+                ////string qs;
+               // string qsBase;
+                //string rqs = "";
                 CPCSBaseClass cs = cp.CSNew();
                 QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger("QuizId"));
                 if (quiz == null)
@@ -28,7 +28,7 @@ namespace Contensive.Addons.DistanceLearning
                 {
                     cp.Doc.AddRefreshQueryString("quizId", quiz.id.ToString());
                     cp.Doc.AddRefreshQueryString("addonId", "");
-                    cp.Doc.AddRefreshQueryString("addonGuid", constants.quizOverViewSelectAddon);
+                    //cp.Doc.AddRefreshQueryString("addonGuid", constants.quizOverViewSelectAddon);
                     //
 
                     string button = cp.Doc.GetText("button");
@@ -42,11 +42,11 @@ namespace Contensive.Addons.DistanceLearning
                             return "";
                     }
                     //
-                    qsBase = cp.Utils.ModifyQueryString(rqs, constants.rnAddonguid, constants.quizOverViewReportingAddon, true);
+                    //qsBase = cp.Utils.ModifyQueryString(rqs, constants.rnAddonguid, constants.quizOverViewReportingAddon, true);
                     adminFramework.formNameValueRowsClass form = new adminFramework.formNameValueRowsClass();
-                    qs = cp.Utils.ModifyQueryString(qsBase, "QuizId", cs.GetInteger("responseId").ToString(), true);
+                    //qs = cp.Utils.ModifyQueryString(qsBase, "QuizId", cs.GetInteger("responseId").ToString(), true);
                     form.isOuterContainer = false;
-                    result = genericController.getTabWrapper(cp, form.getHtml(cp), "Reporting");
+                    result = genericController.getTabWrapper(cp, form.getHtml(cp), "Reporting",quiz.id);
 
                     cp.Doc.AddHeadStyle(form.styleSheet);
 

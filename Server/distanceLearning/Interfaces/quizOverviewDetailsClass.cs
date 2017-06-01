@@ -8,7 +8,7 @@ using Contensive.Addons.DistanceLearning.Controllers;
 
 namespace Contensive.Addons.DistanceLearning
 {
-   public class quizOverviewSelectClass : Contensive.BaseClasses.AddonBaseClass   
+   public class quizOverviewDetailsClass : Contensive.BaseClasses.AddonBaseClass   
         {
             public override object Execute(CPBaseClass cp)
             {
@@ -66,12 +66,12 @@ namespace Contensive.Addons.DistanceLearning
                 form.addRow();
                 form.rowName = "Questions";
                 qs = cp.Doc.RefreshQueryString;
-                qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalSettingPageAddon, true);
+                qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewSetting, true);
                 qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
                 form.rowValue = ("<div><a href=\"?" + qs + "\">One question per page: subjects; Users can retake quiz; max 5 questions</a></div>");
                 //
                 // -- wrap in tabs and output finished form
-                result = genericController.getTabWrapper(cp, form.getHtml(cp), "Details");
+                result = genericController.getTabWrapper(cp, form.getHtml(cp), "Details",quiz.id);
                 cp.Doc.AddHeadStyle(form.styleSheet);
             }
             catch (Exception ex)

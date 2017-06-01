@@ -257,7 +257,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         /// <param name="cp"></param>
         /// <param name="someCriteria"></param>
         /// <returns></returns>
-        public static List<QuizAnswerModel> getQuestionObjectList(CPBaseClass cp, int QuestionID)
+        public static List<QuizAnswerModel> getAnswersForQuestionList(CPBaseClass cp, int QuestionID)
         {
             List<QuizAnswerModel> result = new List<QuizAnswerModel>();
             try

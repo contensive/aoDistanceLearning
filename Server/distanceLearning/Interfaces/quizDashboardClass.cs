@@ -60,7 +60,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                         List<QuizResponseModel> responseList = QuizResponseModel.getObjectList(cp, quiz.id);
                         reportList.addRow();
                         qs = cp.Doc.RefreshQueryString;
-                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalDetailsPageAddon, true);
+                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeaturesQuizOverviewDetails, true);
                         qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
                         reportList.setCell("<a href=\"?" + qs + "\">" + quiz.name + "</a>");
                         reportList.columnCellClass = "afwTextAlignCenter";
@@ -83,7 +83,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 else
                 {
                     qs = cp.Doc.RefreshQueryString;
-                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalDetailsPageAddon, true);
+                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeaturesQuizOverviewDetails, true);
                     qs = cp.Utils.ModifyQueryString(qs, "QuizId", "");
                     qs = cp.Utils.ModifyQueryString(qs, "quizName", quizname);
                     cp.Response.Redirect("?" + qs);

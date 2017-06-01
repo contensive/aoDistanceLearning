@@ -18,8 +18,8 @@ namespace Contensive.Addons.DistanceLearning
                 {
 
                 string qs;
-                string qsBase;
-                string rqs = "";
+                //string qsBase;
+                //string rqs = "";
                 CPCSBaseClass cs = cp.CSNew();
                 QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger("QuizId"));
                 string quizName = cp.Doc.GetText("quizName");
@@ -30,95 +30,81 @@ namespace Contensive.Addons.DistanceLearning
                 string innerBody = "";
 
                 if (quiz == null)
-                    {
-                        return "";
-                    }
-                    else
-                            {
-                    
-                    qs = cp.Doc.RefreshQueryString;
-                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalQuestionPageaddon, true);
-                    qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
-                    //
-                    adminFramework.formNameValueRowsClass form = new adminFramework.formNameValueRowsClass();
-                    form.isOuterContainer = false;
-                    form.addFormHidden("quizId", quiz.id.ToString());
-                    form.body = innerBody;
-                    form.addFormButton("Save", "button");
-                    form.addFormButton("Cancel", "button");
-                    string button = cp.Doc.GetText("button");
-                            switch (button)
-                            {
-                                case "Save":
-                                    quiz.customTopCopy = cp.Doc.GetText("customTopCopy");
-                                    quiz.Video = cp.Doc.GetText("Video");
-                                    quiz.courseMaterial = cp.Doc.GetText("CorseMaterial");
-                                    quiz.customButtonCopy = cp.Doc.GetText("customButtonCopy");
-                                    quiz.saveObject(cp);
-                                    cp.Response.Redirect("?" + qs);
-                                    break;
-                                case "Cancel":
-                                    qs = cp.Doc.RefreshQueryString;
-                                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalDashboardPageaddon, true);
-                                    qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
-                                     cp.Response.Redirect("?" + qs);
-                                  return result;
-                            }
-                       
-                            //qsBase = cp.Utils.ModifyQueryString(rqs, constants.rnAddonguid, constants.quizOverViewSettingsAddon, true);
-                            qsBase = cp.Doc.RefreshQueryString ;
-                            qsBase = cp.Utils.ModifyQueryString(qsBase, "setPortalId", "1", true);
-                            qsBase = cp.Utils.ModifyQueryString(qsBase, "dstFeatureGuid", constants.portalStartPageAddon, true);
-                           // adminFramework.formNameValueRowsClass form = new adminFramework.formNameValueRowsClass();
-                            qs = cp.Utils.ModifyQueryString(qsBase, "QuizId", cs.GetInteger("responseId").ToString(), true);
-
-                            form.isOuterContainer = false;
-                            form.addRow();
-                            form.title = "<b>Start Page </b></br>";
-                    
-                    form.addRow();
-                             form.rowName = "Start Page Text </b>";
-                            form.rowValue= cp.Html.InputTextExpandable("customTopCopy", quiz.customTopCopy)
-                             + "This is the list of instructions that go on the Start Page. You can describe the quiz, it's purpose, how to take it, etc.";
-                            form.addRow();
-                            form.rowName = "Start Page Video link </b>";
-                            form.rowValue = cp.Html.InputText("Video",quiz.Video)
-                             + "</br> When included, a video can be presented on the start page.";
-                            form.addRow();
-                            form.rowName = "Course Materials </b>";
-                            form.rowValue = cp.Html.InputFile( "CorseMaterial", "addCourseMaterialClass", "js-addCourseMaterialButtonId")  
-                            + "</br> When included, a file can be uploaded on the start page.";
-                            form.addRow();
-                            form.rowName = "Start Quiz Button </b>";
-                            form.rowValue = cp.Html.InputText("customButtonCopy", "Start")
-                            + "</br> This is the text that will be shown on the start button for the quiz.";
-
-                        //form.rowValue = ("<div><a href=\"?" + qs + quiz.id + "\">One question perpage: subjects; Users can retake quiz; max 5 questions</a></div>");
-                        //
-                        result = genericController.getTabWrapper(cp, form.getHtml(cp), "Start Page");
-
-                            cp.Doc.AddHeadStyle(form.styleSheet);
-                        }
-                }
-                catch (Exception ex)
                 {
-                    errorReport(cp, ex, "execute");
+                    qs = cp.Doc.RefreshQueryString;
+                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureDashboard, true);
+                    cp.Response.Redirect("?" + qs);
+                    return "";
                 }
-                return result;
-
-
+                string button = cp.Doc.GetText("button");
+                switch (button)
+                {
+                    case "Save":
+                        quiz.customTopCopy = cp.Doc.GetText("customTopCopy");
+                        quiz.Video = cp.Doc.GetText("Video");
+                        quiz.courseMaterial = cp.Doc.GetText("CorseMaterial");
+                        quiz.customButtonCopy = cp.Doc.GetText("customButtonCopy");
+                        quiz.saveObject(cp);
+                        break;
+                    case "Cancel":
+                        qs = cp.Doc.RefreshQueryString;
+                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeaturesQuizOverviewDetails, true);
+                        qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
+                        cp.Response.Redirect("?" + qs);
+                        break;
+                }
+                //
+                adminFramework.formNameValueRowsClass form = new adminFramework.formNameValueRowsClass();
+                form.isOuterContainer = false;
+                form.addFormHidden("quizId", quiz.id.ToString());
+                form.body = innerBody;
+                form.addFormButton("Save", "button");
+                form.addFormButton("Cancel", "button");
+                form.isOuterContainer = false;
+                form.addRow();
+                form.title = "<b>Start Page </b></br>";
+                //
+                form.addRow();
+                form.rowName = "Start Page Text </b>";
+                form.rowValue = cp.Html.InputWysiwyg("customTopCopy", quiz.customTopCopy,CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page, "10", "700")
+                     + "This is the list of instructions that go on the Start Page. You can describe the quiz, it's purpose, how to take it, etc.";
+                //form.rowValue = cp.Html.InputTextExpandable("customTopCopy", quiz.customTopCopy)
+                // + "This is the list of instructions that go on the Start Page. You can describe the quiz, it's purpose, how to take it, etc.";
+                form.addRow();
+                form.rowName = "Start Page Video link </b>";
+                form.rowValue = cp.Html.InputText("Video", quiz.Video)
+                 + "</br> When included, a video can be presented on the start page.";
+                form.addRow();
+                form.rowName = "Course Materials </b>";
+                form.rowValue = cp.Html.InputFile("CorseMaterial", "addCourseMaterialClass", "js-addCourseMaterialButtonId")
+                + "</br> When included, a file can be uploaded on the start page.";
+                form.addRow();               
+                form.rowName = "Start Quiz Button </b>";
+                form.rowValue = cp.Html.InputText("customButtonCopy", "Start")
+                + "</br> This is the text that will be shown on the start button for the quiz.";
+                //
+                result = genericController.getTabWrapper(cp, form.getHtml(cp), "Start Page", quiz.id);
+                cp.Doc.AddHeadStyle(form.styleSheet);
             }
-            //
-            // ===============================================================================
-            // handle errors for this class
-            // ===============================================================================
-            //
-            private void errorReport(CPBaseClass cp, Exception ex, string method)
+            catch (Exception ex)
             {
-                cp.Site.ErrorReport(ex, "error in addonTemplateCs2005.blankClass.getForm");
+                errorReport(cp, ex, "execute");
             }
+            return result;
+
+
+        }
+        //
+        // ===============================================================================
+        // handle errors for this class
+        // ===============================================================================
+        //
+        private void errorReport(CPBaseClass cp, Exception ex, string method)
+        {
+            cp.Site.ErrorReport(ex, "error in addonTemplateCs2005.blankClass.getForm");
         }
     }
+}
 
 
 

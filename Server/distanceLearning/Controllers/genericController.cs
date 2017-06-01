@@ -13,7 +13,7 @@ namespace Contensive.Addons.DistanceLearning.Controllers
     {
         //
         // create main form tab container
-        public static string getTabWrapper( CPBaseClass cp, string innerBody, string activeTabCaption )
+        public static string getTabWrapper( CPBaseClass cp, string innerBody, string activeTabCaption, int quizId )
         {
             adminFramework.formSimpleClass formOuter = new adminFramework.formSimpleClass();
             formOuter.isOuterContainer = false;
@@ -25,7 +25,7 @@ namespace Contensive.Addons.DistanceLearning.Controllers
             string qs;
             qs = cp.Doc.RefreshQueryString;
             formOuter.formActionQueryString = qs;
-            qs = cp.Utils.ModifyQueryString(qs, "quizId", cp.Doc.GetInteger("quizId").ToString());
+            qs = cp.Utils.ModifyQueryString(qs, "quizId", quizId.ToString());
             //
             adminFramework.contentWithTabsClass tabForm = new adminFramework.contentWithTabsClass();
             tabForm.isOuterContainer = true;
@@ -33,33 +33,33 @@ namespace Contensive.Addons.DistanceLearning.Controllers
             //
             tabForm.addTab();
             tabForm.tabCaption = "Details";
-            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalDetailsPageAddon);            
+            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeaturesQuizOverviewDetails);            
             tabForm.tabStyleClass = "";
             
             //
             tabForm.addTab();
             tabForm.tabCaption = "Settings";
-            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalSettingPageAddon);
+            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewSetting);
             tabForm.tabStyleClass = "";
             //
             tabForm.addTab();
             tabForm.tabCaption = "Start Page";
-            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalStartPageAddon);
+            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewStartPage);
             tabForm.tabStyleClass = "";
             //
             tabForm.addTab();
             tabForm.tabCaption = "Questions";
-            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalQuestionPageaddon);
+            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewQuestions);
             tabForm.tabStyleClass = "";
             //
             tabForm.addTab();
             tabForm.tabCaption = "Scoring";
-            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalManageScoringPageaddon);
+            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewScoring);
             tabForm.tabStyleClass = "";
             //
             tabForm.addTab();
             tabForm.tabCaption = "Reporting";
-            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.quizOverQuestionPageAddon);
+            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewReporting);
             tabForm.tabStyleClass = "";
 
             tabForm.setActiveTab(activeTabCaption);

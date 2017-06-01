@@ -50,14 +50,14 @@ namespace Contensive.Addons.DistanceLearning.Models
         public string includeSubject;
         public bool allowRetake;
         //
-        public int MemberID;
+        //public int MemberID;
         public int QuizID;
         //public int attemptNumber;
         //public DateTime dateSubmitted;
-        public int totalQuestions;
-        public int totalCorrect;
-        public int totalPoints;
-        public double Score;
+        //public int totalQuestions;
+        //public int totalCorrect;
+       // public int totalPoints;
+       // public double Score;
         //public bool lastDisplayedStudyPage;
         //public int lastDisplayedPageOrder;
         //public DateTime dateStarted;
