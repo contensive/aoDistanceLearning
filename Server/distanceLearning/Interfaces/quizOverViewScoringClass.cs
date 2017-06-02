@@ -60,9 +60,12 @@ namespace Contensive.Addons.DistanceLearning
                 //
                 // -- create the upper part of the page, the list of scoring
                 adminFramework.reportListClass gradingForm = new adminFramework.reportListClass(cp);
+                gradingForm.title = "Grading";
                 gradingForm.isOuterContainer = false;
+                gradingForm.includeBodyColor = false;
+                gradingForm.includeBodyPadding = false;
                 gradingForm.addColumn();
-                gradingForm.columnCaption = "Captions";
+                gradingForm.columnCaption = "Caption";
                 gradingForm.columnCaptionClass = "";
                 gradingForm.columnDownloadable = false;
                 gradingForm.columnVisible = true;
@@ -113,23 +116,26 @@ namespace Contensive.Addons.DistanceLearning
                 gradingForm.setCell("&nbsp;");
                 gradingForm.setCell(cp.Html.CheckBox("dPassingGrade", false));
                 //
-                adminFramework.formNameValueRowsClass scoringForm = new adminFramework.formNameValueRowsClass();
+                adminFramework.formNameValueRowsClass certificationForm = new adminFramework.formNameValueRowsClass();
+                certificationForm.title = "Certifications";
+                certificationForm.isOuterContainer = false;
+                certificationForm.includeBodyColor = false;
+                certificationForm.includeBodyPadding = false;
                 // 
-                scoringForm.addRow();
-                scoringForm.rowName = "Add CECs";
-                scoringForm.rowValue = cp.Html.CheckBox("", true)
-                    + "If Success completion add CECs to user's account"
-                    + cp.Html.div("---select certification CECs---", "", "afwRowValueHelpBox");
+                certificationForm.addRow();
+                certificationForm.rowName = "Add CECs";
+                certificationForm.rowValue = cp.Html.CheckBox("", true) + "&nbsp;If Success completion add CECs to user's account";
+                certificationForm.rowHelp = "--- select certification CECs---";
                 // 
-                scoringForm.addRow();
-                scoringForm.rowName = "Add Certificate";
-                scoringForm.rowValue = cp.Html.CheckBox("", true)
+                certificationForm.addRow();
+                certificationForm.rowName = "Add Certificate";
+                certificationForm.rowValue = cp.Html.CheckBox("", true)
                     + "If Success completion add Certificate record to user's account"
                     + cp.Html.div("---select certification type---", "", "afwRowValueHelpBox");
                 // 
-                scoringForm.addRow();
-                scoringForm.rowName = "Success Message";
-                scoringForm.rowValue = cp.Html.CheckBox("", true)
+                certificationForm.addRow();
+                certificationForm.rowName = "Success Message";
+                certificationForm.rowValue = cp.Html.CheckBox("", true)
                     + "If Success completion add text to results page"
                     + cp.Html.div(cp.Html.InputWysiwyg("asdf", "sample text"), "", "afwRowValueHelpBox");
                 //
@@ -137,7 +143,7 @@ namespace Contensive.Addons.DistanceLearning
                 outerForm.addFormButton(constants.buttonSave);
                 outerForm.addFormButton(constants.buttonCancel);
                 outerForm.addFormHidden(constants.rnQuizId, quiz.id.ToString());
-                outerForm.body = gradingForm.getHtml(cp) + scoringForm.getHtml(cp);
+                outerForm.body = gradingForm.getHtml(cp) + certificationForm.getHtml(cp);
                 //
                 // -- wrap in tabs and output finished form
                 result = outerForm.getHtml(cp);

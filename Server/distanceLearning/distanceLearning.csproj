@@ -58,10 +58,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="accountBillingApi, Version=4.1.13.516, Culture=neutral, PublicKeyToken=d5c7c4dda88f732e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Contensive.ecommerceApi.1.0.1\lib\net35\accountBillingApi.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="adminFramework, Version=1.2.27.1805, Culture=neutral, PublicKeyToken=5c28a630afe60b2f, processorArchitecture=MSIL">
       <HintPath>..\packages\Contensive.portalApi.1.0.5\lib\net35\adminFramework.dll</HintPath>
       <Private>True</Private>
@@ -145,7 +141,7 @@
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
