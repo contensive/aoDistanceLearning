@@ -15,21 +15,21 @@ namespace Contensive.Addons.DistanceLearning.Controllers
         // create main form tab container
         public static string getTabWrapper( CPBaseClass cp, string innerBody, string activeTabCaption, int quizId )
         {
-            adminFramework.formSimpleClass formOuter = new adminFramework.formSimpleClass();
-            formOuter.isOuterContainer = false;
+            //adminFramework.formSimpleClass formOuter = new adminFramework.formSimpleClass();
+            //formOuter.isOuterContainer = false;
             // formOuter.title = "Settings";
             //formOuter.title = "this is the title";
-            formOuter.body = innerBody;
+            //formOuter.body = innerBody;
             // formOuter.addFormButton("Save", "button");
             // formOuter.addFormButton("Cancel", "button");
             string qs;
             qs = cp.Doc.RefreshQueryString;
-            formOuter.formActionQueryString = qs;
+            //formOuter.formActionQueryString = qs;
             qs = cp.Utils.ModifyQueryString(qs, "quizId", quizId.ToString());
             //
             adminFramework.contentWithTabsClass tabForm = new adminFramework.contentWithTabsClass();
             tabForm.isOuterContainer = true;
-            tabForm.body = formOuter.getHtml(cp);
+            tabForm.body = innerBody; // formOuter.getHtml(cp);
             //
             tabForm.addTab();
             tabForm.tabCaption = "Details";
