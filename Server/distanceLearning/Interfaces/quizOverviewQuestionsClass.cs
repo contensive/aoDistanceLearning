@@ -34,7 +34,8 @@ namespace Contensive.Addons.DistanceLearning
                 case "AddQuestion":
                     qs = cp.Doc.RefreshQueryString;
                     qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewQuestionDetails);
-                    qs = cp.Utils.ModifyQueryString(qs, constants.rnQuestionId, cp.Doc.GetInteger(constants.rnQuestionId).ToString());
+                    qs = cp.Utils.ModifyQueryString(qs, constants.rnQuizId, cp.Doc.GetInteger(constants.rnQuizId).ToString());
+                    qs = cp.Utils.ModifyQueryString(qs, constants.rnQuestionId, "");
                     cp.Response.Redirect("?" + qs);
                     break;
             }
@@ -47,9 +48,7 @@ namespace Contensive.Addons.DistanceLearning
                 {
                     return "";
                 }
-                else
-                {
-                adminFramework.reportListClass reportList = new adminFramework.reportListClass(cp);                                           
+                adminFramework.reportListClass reportList = new adminFramework.reportListClass(cp);
                 reportList.isOuterContainer = false;
                 //reportList.title = "Distance Learning";
                 reportList.addColumn();
@@ -57,44 +56,56 @@ namespace Contensive.Addons.DistanceLearning
                 reportList.columnCaptionClass = "afwTextAlignLeft afwWidth200px";
                 //
                 reportList.addColumn();
-                reportList.columnCaption = "Questions    " + cp.Html.Button("Button", "AddQuestion", "addQuestionClass", "js-addQuestionButtonId");
-                reportList.columnCaptionClass = "afwTextAlignright afwWidth50px";               
+                reportList.columnCaption = "Questions    ";
+                reportList.columnCaptionClass = "afwTextAlignright";
+                //
+                reportList.addColumn();
+                reportList.columnCaption = " ";
+                reportList.columnCaptionClass = "afwTextAlignright afwWidth100px";
+                string addButtonForm;
+                addButtonForm = cp.Html.Button("Button", "AddQuestion", "addQuestionClass", "js-addQuestionButtonId");
+                reportList.htmlAfterTable = addButtonForm;
                 //
                 // the following is creating a list of questions from the question model
-                List<QuizQuestionModel> questionList = QuizQuestionModel.getQuestionsForQuizList(cp,quiz.id);
+                List<QuizQuestionModel> questionList = QuizQuestionModel.getQuestionsForQuizList(cp, quiz.id);
                 //
                 // the following is modifying a refreshquery string to add to the query model
-                //qsBase = cp.Utils.ModifyQueryString(rqs, constants.rnAddonguid, constants.quizOverViewSelectAddon, true);
-                //
                 // 
                 foreach (QuizQuestionModel question in questionList)
-                {                       
+                {
                     //
                     //this next statement is like a cs.open but opens the object to get there field
-                    List<QuizResponseModel> responseList = QuizResponseModel.getObjectList(cp, question.id);                        
-                    reportList.addRow();                      
+                    List<QuizResponseModel> responseList = QuizResponseModel.getObjectList(cp, question.id);
+                    reportList.addRow();
                     // the following is how to look up a field in another model
                     Models.QuizSubjectModel subject = QuizSubjectModel.create(cp, question.SubjectID);
-                    reportList.setCell(subject.name);
-                    reportList.columnCellClass = "afwTextAlignCenter";
-                    string miniForm;
-                    miniForm = question.QText;
+                    reportList.columnCellClass = "afwTextAlignLeft";
+                    if (subject == null)
+                    {
+                        reportList.setCell("");
+                    }
+                    else
+                    {
+                        reportList.setCell(subject.name);
+                    }                        
+                    reportList.columnCellClass = "afwTextAlignLeft";
+                    reportList.setCell(question.QText);
+                    //
+                    string miniForm = "";
                     miniForm += cp.Html.Button("button", "Edit", "questionEdit", "js-questionEdit");
                     miniForm += cp.Html.Button("button", "Delete", "questionDelete", "js-questionDelete");
                     miniForm += cp.Html.Hidden(constants.rnQuestionId, question.id.ToString());
+                    miniForm += cp.Html.Hidden(constants.rnQuizId, question.quizId.ToString());
                     miniForm = cp.Html.Form(miniForm);
-                    reportList.setCell(miniForm);
                     reportList.columnCellClass = "afwTextAlignLeft";
-                    cp.Doc.AddRefreshQueryString("quizId", quiz.id.ToString());
-
+                    reportList.setCell(miniForm);
+                    //
                 }
- 
+                cp.Doc.AddRefreshQueryString("quizId", quiz.id.ToString());
                 //
                 result = genericController.getTabWrapper(cp, reportList.getHtml(cp), "Questions", quiz.id);
 
-                    cp.Doc.AddHeadStyle(reportList.styleSheet);
-                  
-            }
+                cp.Doc.AddHeadStyle(reportList.styleSheet);
             }
             catch (Exception ex)
             {

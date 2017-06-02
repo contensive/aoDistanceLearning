@@ -47,12 +47,12 @@ namespace Contensive.Addons.DistanceLearning.Models
         public bool Correct;
         public int QuestionID;
         public string AText;
+        public string SortOrder;
         //      
         //public int QOrder;
         //public int points;
         //
         //public bool Active;
-        //public string SortOrder;
         //public DateTime DateAdded;
         //public int CreatedBy;
         //public DateTime ModifiedDate;
@@ -146,7 +146,8 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.createKey = cs.GetInteger("createKey");
                     result.QuestionID = cs.GetInteger("QuestionID");
                     result.AText = cs.GetText("AText");
-    }
+                    result.SortOrder = cs.GetText("SortOrder");
+                }
                 cs.Close();
             }
             catch (Exception ex)
@@ -195,6 +196,8 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("AText", AText);
                     cs.SetField("Correct", Correct.ToString());
                     cs.SetField("QuestionID", QuestionID.ToString());
+                    if (string.IsNullOrEmpty( SortOrder )) SortOrder = id.ToString().PadLeft(7, '0');
+                    cs.SetField("SortOrder", SortOrder.ToString());
                 }
                 cs.Close();
             }
@@ -264,7 +267,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             {
                 CPCSBaseClass cs = cp.CSNew();
                 List<string> ignoreCacheNames = new List<string>();
-                if ((cs.Open(primaryContentName, "(QuestionID=" + QuestionID + ")", "name", true, "id")))
+                if ((cs.Open(primaryContentName, "(QuestionID=" + QuestionID + ")", "sortorder", true, "id")))
                 {
                     QuizAnswerModel instance = null;
                     do
@@ -284,6 +287,19 @@ namespace Contensive.Addons.DistanceLearning.Models
                 cp.Site.ErrorReport(ex);
             }
             return result;
+        }
+        /// <summary>
+        /// Add record method
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <returns></returns>
+        //
+
+        public static QuizAnswerModel add(CPBaseClass cp)
+        {
+            QuizAnswerModel answer = create(cp, cp.Content.AddRecord(primaryContentName));
+            answer.SortOrder = answer.id.ToString().PadLeft(7, '0');
+            return answer;
         }
     }
 }

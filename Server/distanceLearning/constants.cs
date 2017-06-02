@@ -36,7 +36,11 @@ namespace Contensive.Addons.DistanceLearning
         public const string buttonCancel = "Cancel";
         //
         //
+        public const string rnCorrectBlank = "CorrectBlank";
+        public const string rnAtextBlank = "ATextBlank";
         public const string cnQuizSubjects = "Quiz Subjects";
+        public const int maxQuestionAnswer = 4;
+
         //
         // addon guids
         //public const string dashBoardAddon = "{061eafdb-147c-4f09-afb8-7e51aa5181f3}";

@@ -510,19 +510,7 @@ margin-left:400px;
 		<ProcessInterval>0</ProcessInterval>
 		<PageTitle></PageTitle>
 		<RemoteAssetLink></RemoteAssetLink>
-		<Styles><![CDATA[#js-addQuestionButtonId{
-margin-left:900px;
-}
-.questionEdit{
- position:absolute;
-    left: 85%;
-    margin-right:10px;
-}
-.questionDelete{
- position:absolute;
-    left: 90%;
-    margin-right:10px;
-}]]></Styles>
+		<Styles></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
 	<Addon name="Quiz Overview Scoring" guid="{99758dd6-6df4-4260-98ef-f511a76458fa}" type="Add-on">
@@ -823,7 +811,7 @@ end function]]></Code>
 			<HelpDefault><![CDATA[(internal use) This is the name you give to this answer. It does not appear in the public site.]]></HelpDefault>
 		</Field>
 		<Field Name="Active" active="True" AdminOnly="False" Authorable="True" Caption="Active" DeveloperOnly="False" EditSortPriority="200" FieldType="Boolean" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="0" RedirectID="0" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="1" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="Shared Styles Add-on Rules" ></Field>
-		<Field Name="SortOrder" active="True" AdminOnly="False" Authorable="False" Caption="Alpha Sort Order" DeveloperOnly="False" EditSortPriority="2000" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="0" RedirectID="0" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="Shared Styles Add-on Rules" ></Field>
+		<Field Name="SortOrder" active="True" AdminOnly="False" Authorable="True" Caption="Alpha Sort Order" DeveloperOnly="False" EditSortPriority="2000" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="0" RedirectID="0" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="Shared Styles Add-on Rules" ></Field>
 		<Field Name="Correct" active="True" AdminOnly="False" Authorable="True" Caption="Correct Answer?" DeveloperOnly="False" EditSortPriority="203" FieldType="Boolean" HTMLContent="False" IndexColumn="10" IndexSortDirection="" IndexSortOrder="99" IndexWidth="11" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="0" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[Check this box to score this answer correct.]]></HelpDefault>
 		</Field>

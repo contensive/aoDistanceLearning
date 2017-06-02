@@ -46,7 +46,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         public string guid;
         public int SubjectID;
         public int quizId;
-        public string QText;
+        public string QText ="";
         public int points;
         public string instructions;
         
@@ -68,7 +68,14 @@ namespace Contensive.Addons.DistanceLearning.Models
         /// <summary>
         /// Create an empty object. needed for deserialization
         /// </summary>
-        public QuizQuestionModel() {}
+        public QuizQuestionModel()
+        {
+            QText = "";
+            name = "";
+            guid = "";
+            instructions = "";
+
+        }
         //
         //====================================================================================================
         /// <summary>
@@ -201,7 +208,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("createKey", createKey.ToString());
                     cs.SetField("QText", QText);
                     cs.SetField("SubjectID", SubjectID.ToString());
-                    cs.SetField("points", SubjectID.ToString());
+                    cs.SetField("points", points.ToString());
                     cs.SetField("instructions", instructions);
                   
                 }
