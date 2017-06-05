@@ -57,7 +57,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                    
                     foreach (QuizModel quiz in quizList)
                     {
-                        List<QuizResponseModel> responseList = QuizResponseModel.getObjectList(cp, quiz.id);
+                        List<QuizResponseModel> responseList = QuizResponseModel.GetResponseList(cp, quiz.id);
                         reportList.addRow();
                         qs = cp.Doc.RefreshQueryString;
                         qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeaturesQuizOverviewDetails, true);

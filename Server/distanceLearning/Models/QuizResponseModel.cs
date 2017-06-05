@@ -50,7 +50,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         public string includeSubject;
         public bool allowRetake;
         //
-        //public int MemberID;
+        public int MemberID;
         public int QuizID;
         //public int attemptNumber;
         //public DateTime dateSubmitted;
@@ -160,6 +160,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.includeSubject = cs.GetText("includeSubject");
                     result.allowRetake = cs.GetBoolean("allowRetake");
                     result.QuizID = cs.GetInteger("QuizID");
+                    result.MemberID = cs.GetInteger("MemberID");
                 }
                 cs.Close();
             }
@@ -212,6 +213,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("includeSubject", includeSubject);
                     cs.SetField("allowRetake", allowRetake.ToString());
                     cs.SetField("QuizID", QuizID.ToString());
+                    cs.SetField("MemberID", MemberID.ToString());
                 }
                 cs.Close();
             }
@@ -275,7 +277,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         /// <param name="cp"></param>
         /// <param name="QuizId"></param>
         /// <returns></returns>
-        public static List<QuizResponseModel> getObjectList(CPBaseClass cp, int QuizId)
+        public static List<QuizResponseModel> GetResponseList(CPBaseClass cp, int QuizId)
             {
                 List<QuizResponseModel> modelList = new List<QuizResponseModel>();
                 try

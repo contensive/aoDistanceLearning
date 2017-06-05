@@ -75,7 +75,7 @@ namespace Contensive.Addons.DistanceLearning
                 {
                     //
                     //this next statement is like a cs.open but opens the object to get there field
-                    List<QuizResponseModel> responseList = QuizResponseModel.getObjectList(cp, question.id);
+                    List<QuizResponseModel> responseList = QuizResponseModel.GetResponseList(cp, question.id);
                     reportList.addRow();
                     // the following is how to look up a field in another model
                     Models.QuizSubjectModel subject = QuizSubjectModel.create(cp, question.SubjectID);
