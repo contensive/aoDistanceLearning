@@ -92,6 +92,7 @@
     <Compile Include="Models\QuizQuestionModel.cs" />
     <Compile Include="Models\QuizAnswerModel.cs" />
     <Compile Include="Models\_blankModel.cs" />
+    <Compile Include="Models\MemberModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="constants.cs" />
     <Compile Include="Interfaces\quizOverviewDetailsClass.cs" />
@@ -141,7 +142,7 @@
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" />
+      <UserProperties BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

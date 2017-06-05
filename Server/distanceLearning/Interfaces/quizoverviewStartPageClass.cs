@@ -20,7 +20,7 @@ namespace Contensive.Addons.DistanceLearning
                 string qs;
                 //string qsBase;
                 //string rqs = "";
-                CPCSBaseClass cs = cp.CSNew();
+               // CPCSBaseClass cs = cp.CSNew();
                 QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger("QuizId"));
                 string quizName = cp.Doc.GetText("quizName");
                 string customTopCopy = cp.Doc.GetText("customTopCopy");
@@ -43,6 +43,10 @@ namespace Contensive.Addons.DistanceLearning
                         quiz.customTopCopy = cp.Doc.GetText("customTopCopy");
                         quiz.Video = cp.Doc.GetText("Video");
                         quiz.courseMaterial = cp.Doc.GetText("CorseMaterial");
+                        if ( !string.IsNullOrEmpty( quiz.courseMaterial ))
+                        {
+                            cp.Html.ProcessInputFile(quiz.courseMaterial, "");
+                        }
                         quiz.customButtonCopy = cp.Doc.GetText("customButtonCopy");
                         quiz.saveObject(cp);
                         break;
@@ -54,8 +58,12 @@ namespace Contensive.Addons.DistanceLearning
                         break;
                 }
                 //
-                adminFramework.formNameValueRowsClass form = new adminFramework.formNameValueRowsClass();
-                form.isOuterContainer = false;
+                adminFramework.reportListClass reportList = new adminFramework.reportListClass(cp);
+                reportList.addRow();
+                reportList.title = (quiz.name);
+               // reportList.isOuterContainer = true;
+                adminFramework.formNameValueRowsClass form = new adminFramework.formNameValueRowsClass();                         
+                form.isOuterContainer = false;             
                 form.addFormHidden("quizId", quiz.id.ToString());
                 form.body = innerBody;
                 form.addFormButton("Save", "button");
@@ -82,8 +90,9 @@ namespace Contensive.Addons.DistanceLearning
                 form.rowName = "Start Quiz Button </b>";
                 form.rowValue = cp.Html.InputText("customButtonCopy", "Start")
                 + "</br> This is the text that will be shown on the start button for the quiz.";
-                //
-                result = genericController.getTabWrapper(cp, form.getHtml(cp), "Start Page", quiz.id);
+                // 
+                result = reportList.getHtml(cp) + genericController.getTabWrapper(cp, form.getHtml(cp), "Start Page", quiz.id);
+
                 cp.Doc.AddHeadStyle(form.styleSheet);
             }
             catch (Exception ex)

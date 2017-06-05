@@ -62,9 +62,14 @@ namespace Contensive.Addons.DistanceLearning
                 reportList.addColumn();
                 reportList.columnCaption = " ";
                 reportList.columnCaptionClass = "afwTextAlignright afwWidth100px";
-                string addButtonForm;
+                //
+             QuizQuestionModel quizQuestions = QuizQuestionModel.create(cp, cp.Doc.GetInteger("ID"));
+                string addButtonForm="";
                 addButtonForm = cp.Html.Button("Button", "AddQuestion", "addQuestionClass", "js-addQuestionButtonId");
+                addButtonForm += cp.Html.Hidden(constants.rnQuizId, quiz.id.ToString());
+                addButtonForm = cp.Html.Form(addButtonForm);
                 reportList.htmlAfterTable = addButtonForm;
+                //addButtonForm
                 //
                 // the following is creating a list of questions from the question model
                 List<QuizQuestionModel> questionList = QuizQuestionModel.getQuestionsForQuizList(cp, quiz.id);

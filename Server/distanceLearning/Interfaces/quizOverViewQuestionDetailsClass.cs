@@ -129,7 +129,7 @@ namespace Contensive.Addons.DistanceLearning
                 questionForm.rowName = "Subject</b>";
                 questionForm.rowValue = cp.Html.SelectContent(constants.rnSubjectId , question.SubjectID.ToString(), constants.cnQuizSubjects,"","Select Subject");
                 questionForm.addRow();
-                questionForm.rowName = "Question*</b>";
+                questionForm.rowName = "Question Instructions</b>";
                 questionForm.rowValue = cp.Html.InputWysiwyg("instructions", question.instructions, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page, "10", "700") +
                     "<p>This is a list of instructions that go on the Start page. You can describe the quiz, its purpose, how you take it, etc. </p>";
                 //

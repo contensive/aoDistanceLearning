@@ -52,8 +52,8 @@ namespace Contensive.Addons.DistanceLearning.Models
         //
         public int MemberID;
         public int QuizID;
-        //public int attemptNumber;
-        //public DateTime dateSubmitted;
+        public int attemptNumber;
+       public DateTime dateSubmitted;
         //public int totalQuestions;
         //public int totalCorrect;
        // public int totalPoints;
@@ -161,6 +161,9 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.allowRetake = cs.GetBoolean("allowRetake");
                     result.QuizID = cs.GetInteger("QuizID");
                     result.MemberID = cs.GetInteger("MemberID");
+                    result.attemptNumber = cs.GetInteger("attemptNumber");
+                    result.dateSubmitted = cs.GetDate("dateSubmitted");
+                    
                 }
                 cs.Close();
             }
@@ -214,6 +217,9 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("allowRetake", allowRetake.ToString());
                     cs.SetField("QuizID", QuizID.ToString());
                     cs.SetField("MemberID", MemberID.ToString());
+                    cs.SetField("attemptNumber", attemptNumber.ToString());
+                    cs.SetField("dateSubmitted", dateSubmitted.ToString());
+                    
                 }
                 cs.Close();
             }

@@ -22,6 +22,7 @@ namespace Contensive.Addons.DistanceLearning
         public const string rnAddonId = "addonId";
         public const string dstFeatureGuid = "dstFeatureGuid";
         public const string rnQuizId = "quizId";
+        public const string rnMemberId = "Id";
         //
         public const string rnSampleField = "sampleField";
         public const string rnQuestionId = "questionId";

@@ -10,27 +10,31 @@ namespace Contensive.Addons.DistanceLearning
 {
    public class quizOverviewReportingClass : Contensive.BaseClasses.AddonBaseClass
         {
+         int QuizId;
+
         public override object Execute(CPBaseClass cp)
         {
-            string result = "Hello there";
+            string result = "";
+            string qs = "";
             try
             {
                 QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger(constants.rnQuizId));
-               
+              
+              
                 if (quiz == null)
                 {
                     //
                     // -- no quiz provided, go back to quiz list
-                    //qs = cp.Doc.RefreshQueryString;
-                    //qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureDashboard, true);
-                    //cp.Response.Redirect("?" + qs);
-                    return "";
+                    qs = cp.Doc.RefreshQueryString;
+                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureDashboard, true);
+                    cp.Response.Redirect("?" + qs);
+                   // return "";
                 }
-               
-
+                QuizId = cp.Doc.GetInteger("quizId");
+ 
                 //
                 // -- create the upper part of the page, the list of scoring
-                adminFramework.reportListClass ReportingFilterForm = new adminFramework.reportListClass(cp);
+                 adminFramework.reportListClass ReportingFilterForm = new adminFramework.reportListClass(cp);
                 ReportingFilterForm.addColumn();
                 ReportingFilterForm.columnCaption = "Reporting";
                 ReportingFilterForm.columnCaptionClass = "afwTextAlignLeft afwWidth100px";
@@ -59,24 +63,22 @@ namespace Contensive.Addons.DistanceLearning
                 quizUserDetailsForm.addColumn();
                 quizUserDetailsForm.columnCaption = "Attempt";
                 quizUserDetailsForm.columnCaptionClass = "afwTextAlignCenter afwWidth200px";
-                List<QuizModel> quizList = QuizModel.getQuizList(cp);
-                foreach (QuizModel quizattempt in quizList)
+              
+                //List<QuizModel> quizList = QuizModel.getQuizList(cp);
+                List<QuizResponseModel> quizResponseList = QuizResponseModel.GetResponseList(cp, quiz.id);
+                foreach (QuizResponseModel quizResponse in quizResponseList)
                 {
-                    List<QuizResponseModel> responseList = QuizResponseModel.GetResponseList(cp, quiz.id);
+                    MemberModel member = MemberModel.create(cp, cp.Doc.GetInteger(constants.rnMemberId));
                     quizUserDetailsForm.addRow();
-                    //quizUserDetailsForm.setCell(responseList.q );
+                    quizUserDetailsForm.setCell(quizResponse.QuizID.ToString());                  
+                    quizUserDetailsForm.setCell(quizResponse.MemberID.ToString());
+                    quizUserDetailsForm.setCell(quizResponse.DateAdded.ToString());
+                    quizUserDetailsForm.setCell(quizResponse.attemptNumber.ToString());
                 };
 
-
-                    //ReportingFilterForm.addRow();
-                    //ReportingFilterForm.setCell("<label for=tofilter>to : </label><input id=js-fromdate type=date value=2017 - 06 - 02 />");
-                    //
-                    adminFramework.formSimpleClass outerForm = new adminFramework.formSimpleClass();
-               // outerForm.addFormButton(constants.buttonSave);
-              //  outerForm.addFormButton(constants.buttonCancel);
+                adminFramework.formSimpleClass outerForm = new adminFramework.formSimpleClass();
                 outerForm.addFormHidden(constants.rnQuizId, quiz.id.ToString());
-                // outerForm.body = gradingForm.getHtml(cp) + scoringForm.getHtml(cp);
-                //
+
                 // -- wrap in tabs and output finished form
                 result = ReportingFilterForm.getHtml(cp) + quizUserDetailsForm.getHtml(cp);
                 result = genericController.getTabWrapper(cp, result, "Reporting", quiz.id);
