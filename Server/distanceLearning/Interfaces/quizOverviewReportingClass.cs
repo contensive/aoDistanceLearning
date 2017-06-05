@@ -64,7 +64,7 @@ namespace Contensive.Addons.DistanceLearning
                 {
                     List<QuizResponseModel> responseList = QuizResponseModel.GetResponseList(cp, quiz.id);
                     quizUserDetailsForm.addRow();
-                    quizUserDetailsForm.setCell(responseList.q );
+                    //quizUserDetailsForm.setCell(responseList.q );
                 };
 
 
