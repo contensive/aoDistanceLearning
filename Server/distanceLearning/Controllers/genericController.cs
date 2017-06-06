@@ -28,7 +28,7 @@ namespace Contensive.Addons.DistanceLearning.Controllers
             qs = cp.Utils.ModifyQueryString(qs, "quizId", quiz.id.ToString());
             //
             adminFramework.contentWithTabsClass tabForm = new adminFramework.contentWithTabsClass();
-            if (string.IsNullOrEmpty(quiz.name))
+            if (!string.IsNullOrEmpty(quiz.name))
             {
                 tabForm.title = quiz.name;
             } else {
@@ -64,8 +64,8 @@ namespace Contensive.Addons.DistanceLearning.Controllers
             tabForm.tabStyleClass = "";
             //
             tabForm.addTab();
-            tabForm.tabCaption = "Reporting";
-            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewReporting);
+            tabForm.tabCaption = "Results";
+            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewResults);
             tabForm.tabStyleClass = "";
 
             tabForm.setActiveTab(activeTabCaption);

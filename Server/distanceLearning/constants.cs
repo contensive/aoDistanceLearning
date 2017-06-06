@@ -42,6 +42,7 @@ namespace Contensive.Addons.DistanceLearning
         public const string buttonContinue = "Continue";
         public const string buttonSave = "Save";
         public const string buttonCancel = "Cancel";
+        public const string buttonRefresh = "Refresh";
         //
         //
         public const string rnCorrectBlank = "CorrectBlank";
@@ -71,7 +72,7 @@ namespace Contensive.Addons.DistanceLearning
         public const string portalFeatureQuizOverviewQuestions = "{12c1944f-5994-4c0b-9e13-3320f29b16c3}";
         public const string portalFeatureQuizOverviewQuestionDetails = "{2d1ad031-7f03-4b26-bdcc-0e48697236e4}";
         public const string portalFeatureQuizOverviewScoring = "{bc2f69da-ab79-4051-aed5-63ba98b88b8f}";
-        public const string portalFeatureQuizOverviewReporting = "{e75b026b-1f9c-4839-83bb-801518cec97d}";
+        public const string portalFeatureQuizOverviewResults = "{e75b026b-1f9c-4839-83bb-801518cec97d}";
 
         //
 

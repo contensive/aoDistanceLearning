@@ -53,21 +53,23 @@ namespace Contensive.Addons.DistanceLearning.Models
         public int MemberID;
         public int QuizID;
         public int attemptNumber;
-       public DateTime dateSubmitted;
-        //public int totalQuestions;
-        //public int totalCorrect;
-       // public int totalPoints;
-       // public double Score;
-        //public bool lastDisplayedStudyPage;
-        //public int lastDisplayedPageOrder;
-        //public DateTime dateStarted;
+        public DateTime dateSubmitted;
+        public int totalQuestions;
+        public int totalCorrect;
+        public int totalPoints;
+        public double Score;
+        public bool lastDisplayedStudyPage;
+        public int lastDisplayedPageOrder;
+        public DateTime dateStarted;
+        public string SortOrder;
         //
         //public bool Active;
-        //public string SortOrder;
         //public DateTime DateAdded;
         //public int CreatedBy;
         //public DateTime ModifiedDate;
         //public int ModifiedBy;
+
+
         //
         // -- publics not exposed to the UI (test/internal data)
         [JsonIgnore()]
@@ -163,7 +165,14 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.MemberID = cs.GetInteger("MemberID");
                     result.attemptNumber = cs.GetInteger("attemptNumber");
                     result.dateSubmitted = cs.GetDate("dateSubmitted");
-                    
+                    result.totalQuestions = cs.GetInteger("totalQuestions");
+                    result.totalCorrect = cs.GetInteger("totalCorrect");
+                    result.totalPoints = cs.GetInteger("totalPoints");
+                    result.Score = cs.GetNumber("Score");
+                    result.lastDisplayedStudyPage = cs.GetBoolean("lastDisplayedStudyPage");
+                    result.lastDisplayedPageOrder = cs.GetInteger("lastDisplayedPageOrder");
+                    result.dateStarted = cs.GetDate("dateStarted");
+                    result.SortOrder = cs.GetText("SortOrder");
                 }
                 cs.Close();
             }
@@ -219,7 +228,14 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("MemberID", MemberID.ToString());
                     cs.SetField("attemptNumber", attemptNumber.ToString());
                     cs.SetField("dateSubmitted", dateSubmitted.ToString());
-                    
+                    cs.SetField("totalQuestions", totalQuestions.ToString());
+                    cs.SetField("totalCorrect", totalCorrect.ToString());
+                    cs.SetField("totalPoints", totalPoints.ToString());
+                    cs.SetField("Score", Score.ToString());
+                    cs.SetField("lastDisplayedStudyPage", lastDisplayedStudyPage.ToString());
+                    cs.SetField("lastDisplayedPageOrder", lastDisplayedPageOrder.ToString());
+                    cs.SetField("dateStarted", dateStarted.ToString());
+                    cs.SetField("SortOrder", SortOrder.ToString());
                 }
                 cs.Close();
             }
@@ -275,8 +291,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             }
         }
         //
-      
-    //====================================================================================================
+        //====================================================================================================
         /// <summary>
         /// get a list of objects from this model
         /// </summary>
@@ -284,32 +299,100 @@ namespace Contensive.Addons.DistanceLearning.Models
         /// <param name="QuizId"></param>
         /// <returns></returns>
         public static List<QuizResponseModel> GetResponseList(CPBaseClass cp, int QuizId)
+        {
+            List<QuizResponseModel> modelList = new List<QuizResponseModel>();
+            try
             {
-                List<QuizResponseModel> modelList = new List<QuizResponseModel>();
-                try
+                CPCSBaseClass cs = cp.CSNew();
+                if ((cs.Open(primaryContentName, "(QuizId=" + QuizId + ")", "name", true, "id")))
                 {
-                    CPCSBaseClass cs = cp.CSNew();
-                    if ((cs.Open(primaryContentName, "(QuizId=" + QuizId + ")", "name", true, "id")))
+                    QuizResponseModel instance = null;
+                    do
                     {
-                        QuizResponseModel instance = null;
-                        do
+                        instance = QuizResponseModel.create(cp, cs.GetInteger("id"));
+                        if ((instance != null))
                         {
-                            instance = QuizResponseModel.create(cp, cs.GetInteger("id"));
-                            if ((instance != null))
-                            {
-                                modelList.Add(instance);
-                            }
-                            cs.GoNext();
-                        } while (cs.OK());
-                    }
-                    cs.Close();
+                            modelList.Add(instance);
+                        }
+                        cs.GoNext();
+                    } while (cs.OK());
                 }
-                catch (Exception ex)
-                {
-                    cp.Site.ErrorReport(ex);
-                }
-                return modelList;
+                cs.Close();
             }
+            catch (Exception ex)
+            {
+                cp.Site.ErrorReport(ex);
+            }
+            return modelList;
+        }
+        public class quizResponseReportModel
+        {
+            public string quizName;
+            public string userName;
+            public DateTime dateSubmitted;
+            public int attemptNumber;
+            public double score;
+            public int totalQuestions;
+            public int totalCorrect;
+            public int totalPoints;
+        }
+        //
+        //====================================================================================================
+        /// <summary>
+        /// get the list of responses for the quiz overview reporting tab
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <param name="QuizId"></param>
+        /// <returns></returns>
+        public static List<quizResponseReportModel> GetQuizOverviewResponseList(CPBaseClass cp, int QuizId, DateTime fromDate, DateTime toDate)
+        {
+            List<quizResponseReportModel> modelList = new List<quizResponseReportModel>();
+            try
+            {
+                string sql = "select q.name, u.name, r.dateSubmitted, r.attemptNumber, r.score, r.totalQuestions, r.totalCorrect, r.totalPoints"
+                    + " from quizResponses r"
+                    + " left join quizzes q on q.id=r.quizId"
+                    + " left join ccMembers u on i.id=r.memberId"
+                    + " where (QuizId=" + QuizId + ")";
+                if (fromDate > DateTime.MinValue)
+                {
+                    string sqlFromDate = cp.Db.EncodeSQLDate(fromDate.Date);
+                    string sqlFromNextDate = cp.Db.EncodeSQLDate(fromDate.AddDays(1).Date);
+                    sql += "and(r.dateSubmitted>=" + sqlFromDate + ")and(r.dateSubmitted<" + sqlFromNextDate + ")";
+                }
+                if (toDate > DateTime.MinValue)
+                {
+                    string sqlToDate = cp.Db.EncodeSQLDate(toDate.Date);
+                    string sqlToNextDate = cp.Db.EncodeSQLDate(toDate.AddDays(1).Date);
+                    sql += "and(r.dateSubmitted>=" + sqlToDate + ")and(r.dateSubmitted<" + sqlToNextDate + ")";
+                }
+                CPCSBaseClass cs = cp.CSNew();
+                if (cs.OpenSQL(sql))
+                {
+                    quizResponseReportModel instance = null;
+                    do
+                    {
+                        instance = new quizResponseReportModel();
+                        instance.attemptNumber = cs.GetInteger("attemptNumber");
+                        instance.dateSubmitted = cs.GetDate("dateSubmitted");
+                        instance.quizName = cs.GetText("quizName");
+                        instance.userName = cs.GetText("userName");
+                        instance.score = cs.GetNumber("score");
+                        instance.totalQuestions = cs.GetInteger("totalQuestions");
+                        instance.totalCorrect = cs.GetInteger("totalCorrect");
+                        instance.totalPoints = cs.GetInteger("totalPoints");
+                        modelList.Add(instance);
+                        cs.GoNext();
+                    } while (cs.OK());
+                }
+                cs.Close();
+            }
+            catch (Exception ex)
+            {
+                cp.Site.ErrorReport(ex);
+            }
+            return modelList;
         }
     }
+}
 

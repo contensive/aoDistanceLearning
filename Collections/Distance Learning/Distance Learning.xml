@@ -464,11 +464,11 @@ margin-left:400px;
 		<Styles></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
-	<Addon name="Quiz Overview Reporting" guid="{6969a1ad-49af-4b10-a76e-ee736f73772f}" type="Add-on">
+	<Addon name="Quiz Overview Results" guid="{6969a1ad-49af-4b10-a76e-ee736f73772f}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
 		<ActiveXProgramID></ActiveXProgramID>
-		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.quizOverviewReportingClass]]></DotNetClass>
+		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.quizOverviewResultsClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
 		<Filter>No</Filter>
@@ -862,6 +862,86 @@ end function]]></Code>
 			<field name="dataContentId">{E8C5C760-86B7-4FA7-8E75-0EBB5C21C9FA}</field>
 			<field name="addPadding">False</field>
 		</record>
+		<record content="Portal Features" guid="{796EB0AE-5D52-4980-9D71-5266C08C0129}" name="Distance Learning - Data - Quizzes">
+			<field name="Active">True</field>
+			<field name="SortOrder"><![CDATA[Quizzes]]></field>
+			<field name="portalId">{771bfee5-1fa7-4edf-8b6c-1406ab7bacf9}</field>
+			<field name="addonId"></field>
+			<field name="Heading"><![CDATA[Quizzes]]></field>
+			<field name="parentFeatureId">{5AD0463B-34C6-474B-98F6-CE6227A4801E}</field>
+			<field name="dataContentId">{F9B19351-99F9-4E23-8729-83B99ADF2601}</field>
+			<field name="addPadding">False</field>
+		</record>
+		<record content="Portal Features" guid="{8977CB47-D2F0-4280-9E6C-E1DE11C71ED9}" name="Distance Learning - Data - Quiz Subjects">
+			<field name="Active">True</field>
+			<field name="SortOrder"><![CDATA[Quiz Subjects]]></field>
+			<field name="portalId">{771bfee5-1fa7-4edf-8b6c-1406ab7bacf9}</field>
+			<field name="addonId"></field>
+			<field name="Heading"><![CDATA[Quiz Subjects]]></field>
+			<field name="parentFeatureId">{5AD0463B-34C6-474B-98F6-CE6227A4801E}</field>
+			<field name="dataContentId">{1A3CDC42-1DE7-481B-AC8E-73B315D6F4AA}</field>
+			<field name="addPadding">False</field>
+		</record>
+		<record content="Portal Features" guid="{5BC1BEB4-7939-43B9-BA53-DF3FFA2D839E}" name="Distance Learning - Data - Quiz Result Messages">
+			<field name="Active">True</field>
+			<field name="SortOrder"><![CDATA[Quiz Result Messages]]></field>
+			<field name="portalId">{771bfee5-1fa7-4edf-8b6c-1406ab7bacf9}</field>
+			<field name="addonId"></field>
+			<field name="Heading"><![CDATA[Quiz Result Messages]]></field>
+			<field name="parentFeatureId">{5AD0463B-34C6-474B-98F6-CE6227A4801E}</field>
+			<field name="dataContentId">{D803CC73-2BD9-4B7F-B3A5-B6C24427246E}</field>
+			<field name="addPadding">False</field>
+		</record>
+		<record content="Portal Features" guid="{FA4AAFE4-0620-4627-847C-F86C329D9789}" name="Distance Learning - Data - Quiz Responses">
+			<field name="Active">True</field>
+			<field name="SortOrder"><![CDATA[Quiz Responses]]></field>
+			<field name="portalId">{771bfee5-1fa7-4edf-8b6c-1406ab7bacf9}</field>
+			<field name="addonId"></field>
+			<field name="Heading"><![CDATA[Quiz Responses]]></field>
+			<field name="parentFeatureId">{5AD0463B-34C6-474B-98F6-CE6227A4801E}</field>
+			<field name="dataContentId">{4B63375E-54A2-438F-9F95-8016AA9D7C4F}</field>
+			<field name="addPadding">False</field>
+		</record>
+		<record content="Portal Features" guid="{63486769-DE53-4E85-A8C3-D8CA873160A2}" name="Distance Learning - Data - Quiz Response Scores">
+			<field name="Active">True</field>
+			<field name="SortOrder"><![CDATA[Quiz Response Scores]]></field>
+			<field name="portalId">{771bfee5-1fa7-4edf-8b6c-1406ab7bacf9}</field>
+			<field name="addonId"></field>
+			<field name="Heading"><![CDATA[Quiz Response Scores]]></field>
+			<field name="parentFeatureId">{5AD0463B-34C6-474B-98F6-CE6227A4801E}</field>
+			<field name="dataContentId">{690F00B1-52DB-4229-9F65-7822AEE760E9}</field>
+			<field name="addPadding">False</field>
+		</record>
+		<record content="Portal Features" guid="{46EA5F64-0BAE-4ED8-AF3F-91A101ACEF5D}" name="Distance Learning - Data - Quiz Response Details">
+			<field name="Active">True</field>
+			<field name="SortOrder"><![CDATA[Quiz Response Details]]></field>
+			<field name="portalId">{771bfee5-1fa7-4edf-8b6c-1406ab7bacf9}</field>
+			<field name="addonId"></field>
+			<field name="Heading"><![CDATA[Quiz Response Details]]></field>
+			<field name="parentFeatureId">{5AD0463B-34C6-474B-98F6-CE6227A4801E}</field>
+			<field name="dataContentId">{37FCFECD-D162-4C8E-956E-48306BB34BDD}</field>
+			<field name="addPadding">False</field>
+		</record>
+		<record content="Portal Features" guid="{5267BD68-6F5A-457E-9338-5D85049896C3}" name="Distance Learning - Data - Quiz Questions">
+			<field name="Active">True</field>
+			<field name="SortOrder"><![CDATA[Quiz Questions]]></field>
+			<field name="portalId">{771bfee5-1fa7-4edf-8b6c-1406ab7bacf9}</field>
+			<field name="addonId"></field>
+			<field name="Heading"><![CDATA[Quiz Questions]]></field>
+			<field name="parentFeatureId">{5AD0463B-34C6-474B-98F6-CE6227A4801E}</field>
+			<field name="dataContentId">{F363175A-DACD-43C1-BC4B-1FFAE7724A34}</field>
+			<field name="addPadding">False</field>
+		</record>
+		<record content="Portal Features" guid="{1246083A-ED80-4710-AC15-BB1986EBBDCB}" name="Distance Learning - Data - Quiz Answers">
+			<field name="Active">True</field>
+			<field name="SortOrder"><![CDATA[Quiz Answers]]></field>
+			<field name="portalId">{771bfee5-1fa7-4edf-8b6c-1406ab7bacf9}</field>
+			<field name="addonId"></field>
+			<field name="Heading"><![CDATA[Quiz Answers]]></field>
+			<field name="parentFeatureId">{5AD0463B-34C6-474B-98F6-CE6227A4801E}</field>
+			<field name="dataContentId">{B79E79A0-5B83-484B-9AB0-CEFDF722B986}</field>
+			<field name="addPadding">False</field>
+		</record>
 	</data>
 	<CDef Name="Quiz Subjects" Active="1" AdminOnly="0" AllowAdd="1" AllowCalendarEvents="0" AllowContentChildTool="0" AllowContentTracking="0" AllowDelete="1" AllowMetaContent="0" AllowTopicRules="0" AllowWorkflowAuthoring="0" AuthoringDataSourceName="Default" AuthoringTableName="QuizSubjects" ContentDataSourceName="Default" ContentTableName="QuizSubjects" DefaultSortMethod="By Name" DeveloperOnly="0" DropDownFieldList="Name" EditorGroupName="" Parent="" IconLink="" IconHeight="0" IconWidth="0" IconSprites="0" isbasecontent="0" guid="{1A3CDC42-1DE7-481B-AC8E-73B315D6F4AA}" >
 		<Field Name="Name" active="True" AdminOnly="False" Authorable="True" Caption="Name" DeveloperOnly="False" EditSortPriority="110" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="0" RedirectID="0" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
@@ -912,13 +992,13 @@ end function]]></Code>
 		</Field>
 		<Field Name="Active" active="True" AdminOnly="False" Authorable="True" Caption="Active" DeveloperOnly="False" EditSortPriority="200" FieldType="Boolean" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="0" RedirectID="0" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="1" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="Shared Styles Add-on Rules" ></Field>
 		<Field Name="SortOrder" active="True" AdminOnly="False" Authorable="False" Caption="Alpha Sort Order" DeveloperOnly="False" EditSortPriority="2000" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="0" RedirectID="0" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="Shared Styles Add-on Rules" ></Field>
-		<Field Name="MemberID" active="True" AdminOnly="False" Authorable="True" Caption="Member" DeveloperOnly="False" EditSortPriority="210" FieldType="Lookup" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="99" IndexWidth="22" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="True" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="People" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+		<Field Name="MemberID" active="True" AdminOnly="False" Authorable="True" Caption="Member" DeveloperOnly="False" EditSortPriority="210" FieldType="Lookup" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="99" IndexWidth="22" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="People" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[The user that created this response.]]></HelpDefault>
 		</Field>
-		<Field Name="QuizID" active="True" AdminOnly="False" Authorable="True" Caption="Quiz" DeveloperOnly="False" EditSortPriority="220" FieldType="Lookup" HTMLContent="False" IndexColumn="10" IndexSortDirection="" IndexSortOrder="99" IndexWidth="36" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="True" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="Quizzes" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+		<Field Name="QuizID" active="True" AdminOnly="False" Authorable="True" Caption="Quiz" DeveloperOnly="False" EditSortPriority="220" FieldType="Lookup" HTMLContent="False" IndexColumn="10" IndexSortDirection="" IndexSortOrder="99" IndexWidth="36" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="Quizzes" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[The quiz for this response.]]></HelpDefault>
 		</Field>
-		<Field Name="Score" active="True" AdminOnly="False" Authorable="True" Caption="Score" DeveloperOnly="False" EditSortPriority="230" FieldType="Float" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="0" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="True" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+		<Field Name="Score" active="True" AdminOnly="False" Authorable="True" Caption="Score" DeveloperOnly="False" EditSortPriority="230" FieldType="Float" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="0" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[For quizzes set to Grade-Score, this is the total score.]]></HelpDefault>
 		</Field>
 		<Field Name="attemptNumber" active="True" AdminOnly="False" Authorable="True" Caption="Attempt Number" DeveloperOnly="False" EditSortPriority="222" FieldType="Integer" HTMLContent="False" IndexColumn="20" IndexSortDirection="" IndexSortOrder="99" IndexWidth="11" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="1" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
