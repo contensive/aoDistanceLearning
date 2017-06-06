@@ -34,8 +34,16 @@ namespace Contensive.Addons.DistanceLearning
                         qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeaturesQuizOverviewDetails, true);
                         qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
                         cp.Response.Redirect("?" + qs);
-                        return "";
+                        break;
+                    case "Refresh":
+                        qs = cp.Doc.RefreshQueryString;
+                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewResults, true);
+                        qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
+                        cp.Response.Redirect("?" + qs);
+                        break;
+                        
                 }
+               
                 //
                 // -- load filters
                 DateTime filterFromDate = genericController.encodeMinDate( cp.Doc.GetDate(constants.rnFilterDateFrom));

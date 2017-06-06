@@ -349,10 +349,10 @@ namespace Contensive.Addons.DistanceLearning.Models
             List<quizResponseReportModel> modelList = new List<quizResponseReportModel>();
             try
             {
-                string sql = "select q.name, u.name, r.dateSubmitted, r.attemptNumber, r.score, r.totalQuestions, r.totalCorrect, r.totalPoints"
-                    + " from quizResponses r"
-                    + " left join quizzes q on q.id=r.quizId"
-                    + " left join ccMembers u on i.id=r.memberId"
+                string sql = "select q.name, u.name as userName, r.dateSubmitted, r.attemptNumber, r.score, r.totalQuestions, r.totalCorrect, r.totalPoints"
+                    + " from ((quizResponses r"
+                    + " left join quizzes q on q.id=r.quizId)"
+                    + " left join ccMembers u on u.id=r.memberId)"
                     + " where (QuizId=" + QuizId + ")";
                 if (fromDate > DateTime.MinValue)
                 {
