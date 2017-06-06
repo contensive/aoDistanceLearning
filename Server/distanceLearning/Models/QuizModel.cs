@@ -63,6 +63,16 @@ namespace Contensive.Addons.DistanceLearning.Models
         public double CPercentile;
         public double DPercentile;
         public double FPercentile;
+        public bool APassingGrade;
+        public bool BPassingGrade;
+        public bool CPassingGrade;
+        public bool DPassingGrade;
+        public bool FPassingGrade;
+        public int certificateTypeId;
+        public int certificationTypeId;
+        public double certificationCECs;
+        public bool addSuccessCopy;
+        public string successCopy;
         //
         //public bool includeStudyPage;
         //public string studyCopy;
@@ -174,16 +184,25 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.customButtonCopy = cs.GetText("customButtonCopy");
                     result.ACaption = cs.GetText("ACaption");
                     result.APercentile = cs.GetNumber("APercentile");
+                    result.APassingGrade = cs.GetBoolean("APassingGrade");
                     result.BCaption = cs.GetText("BCaption");
                     result.BPercentile = cs.GetNumber("BPercentile");
+                    result.BPassingGrade = cs.GetBoolean("BPassingGrade");
                     result.CCaption = cs.GetText("CCaption");
                     result.CPercentile = cs.GetNumber("CPercentile");
+                    result.CPassingGrade = cs.GetBoolean("CPassingGrade");
                     result.DCaption = cs.GetText("DCaption");
                     result.DPercentile = cs.GetNumber("DPercentile");
+                    result.DPassingGrade = cs.GetBoolean("DPassingGrade");
                     result.FCaption = cs.GetText("FCaption");
-
-                }
-                cs.Close();
+                    result.FPassingGrade = cs.GetBoolean("FPassingGrade");
+                    result.certificateTypeId = cs.GetInteger("certificateTypeId");
+                    result.certificationTypeId = cs.GetInteger("certificationTypeId");
+                    result.certificationCECs = cs.GetNumber("certificationCECs");
+                    result.addSuccessCopy = cs.GetBoolean("addSuccessCopy");
+                    result.successCopy = cs.GetText("successCopy");
+    }
+    cs.Close();
             }
             catch (Exception ex)
             {
@@ -239,14 +258,23 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("customButtonCopy", customButtonCopy);
                     cs.SetField("ACaption", ACaption);
                     cs.SetField("APercentile", APercentile.ToString());
+                    cs.SetField("APassingGrade", APassingGrade.ToString());
                     cs.SetField("BCaption", BCaption);
                     cs.SetField("BPercentile", BPercentile.ToString());
+                    cs.SetField("BPassingGrade", BPassingGrade.ToString());
                     cs.SetField("CCaption", CCaption);
                     cs.SetField("CPercentile", CPercentile.ToString());
+                    cs.SetField("CPassingGrade", CPassingGrade.ToString());
                     cs.SetField("DCaption", DCaption);
                     cs.SetField("DPercentile", DPercentile.ToString());
+                    cs.SetField("DPassingGrade", DPassingGrade.ToString());
                     cs.SetField("FCaption", FCaption);
-
+                    cs.SetField("FPassingGrade", FPassingGrade.ToString());
+                    cs.SetField("certificateTypeId", certificateTypeId.ToString());
+                    cs.SetField("certificationTypeId", certificationTypeId.ToString());
+                    cs.SetField("certificationCECs", certificationCECs.ToString());
+                    cs.SetField("addSuccessCopy", addSuccessCopy.ToString());
+                    cs.SetField("successCopy", successCopy.ToString());
                 }
                 cs.Close();
             }

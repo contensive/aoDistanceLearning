@@ -28,6 +28,13 @@ namespace Contensive.Addons.DistanceLearning
         public const string rnQuestionId = "questionId";
         public const string rnAnswerId = "AnswerId";
         public const string rnSubjectId = "SubjectId";
+        public const string rnCertificateTypeId = "certificateTypeId";
+        public const string rnCertificationTypeId = "rnCertificationTypeId";
+        public const string rnCertificationId = "certificationId";
+        public const string rnCertificationCECs = "certificationCECs";
+        public const string rnCertifications = "certifications";
+        public const string rnAddSuccessCopy = "addSuccessCopy";
+        public const string rnSuccessCopy = "successCopy";
         //
         public const string buttonSaveAndClose = "Save and Close";
         public const string buttonSaveAndContinue = "Save and Continue";
@@ -40,6 +47,9 @@ namespace Contensive.Addons.DistanceLearning
         public const string rnCorrectBlank = "CorrectBlank";
         public const string rnAtextBlank = "ATextBlank";
         public const string cnQuizSubjects = "Quiz Subjects";
+        public const string cnCertificateTypes = "Certificate Types";
+        public const string cnCertificationTypes = "Certification Types";
+        public const string cnCertifications = "Certificates";
         public const int maxQuestionAnswer = 4;
 
         //

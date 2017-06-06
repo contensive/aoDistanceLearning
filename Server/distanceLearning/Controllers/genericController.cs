@@ -13,7 +13,7 @@ namespace Contensive.Addons.DistanceLearning.Controllers
     {
         //
         // create main form tab container
-        public static string getTabWrapper( CPBaseClass cp, string innerBody, string activeTabCaption, int quizId )
+        public static string getTabWrapper( CPBaseClass cp, string innerBody, string activeTabCaption, QuizModel quiz )
         {
             //adminFramework.formSimpleClass formOuter = new adminFramework.formSimpleClass();
             //formOuter.isOuterContainer = false;
@@ -25,9 +25,15 @@ namespace Contensive.Addons.DistanceLearning.Controllers
             string qs;
             qs = cp.Doc.RefreshQueryString;
             //formOuter.formActionQueryString = qs;
-            qs = cp.Utils.ModifyQueryString(qs, "quizId", quizId.ToString());
+            qs = cp.Utils.ModifyQueryString(qs, "quizId", quiz.id.ToString());
             //
             adminFramework.contentWithTabsClass tabForm = new adminFramework.contentWithTabsClass();
+            if (string.IsNullOrEmpty(quiz.name))
+            {
+                tabForm.title = quiz.name;
+            } else {
+                tabForm.title = "Quiz " + quiz.id;
+            }
             tabForm.isOuterContainer = true;
             tabForm.body = innerBody; // formOuter.getHtml(cp);
             //

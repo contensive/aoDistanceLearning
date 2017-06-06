@@ -91,7 +91,7 @@ namespace Contensive.Addons.DistanceLearning
                 form.rowValue = cp.Html.InputText("customButtonCopy", "Start")
                 + "</br> This is the text that will be shown on the start button for the quiz.";
                 // 
-                result = reportList.getHtml(cp) + genericController.getTabWrapper(cp, form.getHtml(cp), "Start Page", quiz.id);
+                result = reportList.getHtml(cp) + genericController.getTabWrapper(cp, form.getHtml(cp), "Start Page", quiz);
 
                 cp.Doc.AddHeadStyle(form.styleSheet);
             }

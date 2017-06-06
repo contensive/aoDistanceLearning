@@ -108,7 +108,7 @@ namespace Contensive.Addons.DistanceLearning
                 }
                 cp.Doc.AddRefreshQueryString("quizId", quiz.id.ToString());
                 //
-                result = genericController.getTabWrapper(cp, reportList.getHtml(cp), "Questions", quiz.id);
+                result = genericController.getTabWrapper(cp, reportList.getHtml(cp), "Questions", quiz);
 
                 cp.Doc.AddHeadStyle(reportList.styleSheet);
             }

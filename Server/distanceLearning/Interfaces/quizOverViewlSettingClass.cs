@@ -86,7 +86,7 @@ namespace Contensive.Addons.DistanceLearning
                     + "<p>If you wish to organize your questions by subject, enter the subject section in the text box one subject per line."
                     + " if this quiz has no sections leave blank</p>";
                 //
-                result = genericController.getTabWrapper(cp, form.getHtml(cp), "Settings", quiz.id);
+                result = genericController.getTabWrapper(cp, form.getHtml(cp), "Settings", quiz);
                 cp.Doc.AddHeadStyle(form.styleSheet);
             }
             catch (Exception ex)

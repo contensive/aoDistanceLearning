@@ -71,7 +71,7 @@ namespace Contensive.Addons.DistanceLearning
                 form.rowValue = ("<div><a href=\"?" + qs + "\">One question per page: subjects; Users can retake quiz; max 5 questions</a></div>");
                 //
                 // -- wrap in tabs and output finished form
-                result = genericController.getTabWrapper(cp, form.getHtml(cp), "Details",quiz.id);
+                result = genericController.getTabWrapper(cp, form.getHtml(cp), "Details",quiz);
                 cp.Doc.AddHeadStyle(form.styleSheet);
             }
             catch (Exception ex)

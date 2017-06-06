@@ -20,10 +20,11 @@ namespace Contensive.Addons.DistanceLearning
                 string qs;               
                 CPCSBaseClass cs = cp.CSNew();
                 QuizQuestionModel question = QuizQuestionModel.create(cp, cp.Doc.GetInteger( constants.rnQuestionId));
+                QuizModel quiz = null;
                 if (question == null)
                 {
                     int quizId = cp.Doc.GetInteger(constants.rnQuizId);
-                    QuizModel quiz = QuizModel.create(cp, quizId );
+                    quiz = QuizModel.create(cp, quizId );
                     if (quiz == null)
                     {
                         qs = cp.Doc.RefreshQueryString;
@@ -36,9 +37,8 @@ namespace Contensive.Addons.DistanceLearning
                         question.quizId = quiz.id;
                     }
                 }
+                if (quiz == null) quiz = QuizModel.create(cp, question.quizId);
                 string innerBody = "";
-
-               
                 string button = cp.Doc.GetText("button");
                 switch (button)
                 {
@@ -133,7 +133,7 @@ namespace Contensive.Addons.DistanceLearning
                 questionForm.rowValue = cp.Html.InputWysiwyg("instructions", question.instructions, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page, "10", "700") +
                     "<p>This is a list of instructions that go on the Start page. You can describe the quiz, its purpose, how you take it, etc. </p>";
                 //
-                result = genericController.getTabWrapper(cp, questionForm.getHtml(cp), "Questions", question.quizId);
+                result = genericController.getTabWrapper(cp, questionForm.getHtml(cp), "Questions",  quiz );
 
                 cp.Doc.AddHeadStyle(questionForm.styleSheet);
                 List<QuizQuestionModel> questionList = QuizQuestionModel.getQuestionsForQuizList(cp, question.id);
