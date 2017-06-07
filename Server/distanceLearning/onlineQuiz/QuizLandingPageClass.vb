@@ -24,10 +24,13 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim sqlCriteria As String
                 Dim quizId As Integer
                 Dim quizVideo As String = ""
-                Dim quizTypeId As Integer
+                ' Dim quizTypeId As Integer
                 Dim quizSelected As Boolean
                 Dim userId As Integer
-                Dim quizName As String = CP.Doc.GetText("Quiz Name")
+                Dim quizName As String = ""
+                Dim customTopCopy As String = ""
+                Dim customButtonCopy As String = ""
+                Dim qs As String = ""
                 ''
 
                 Call CP.User.Track()
@@ -37,36 +40,29 @@ Namespace Contensive.Addons.OnlineQuiz
                 sqlCriteria = ""
                 returnHtml = ""
                 '
-                'If quizName <> "" Then
-                '    '
-                '    ' a quiz was selected
-                '    '
-                '    sqlCriteria = "name=" & CP.Db.EncodeSQLText(quizName)
-                '    Call cs.Open("quizzes", sqlCriteria, "id")
-                '    If quizName = "" Then
-                '        quizName = "Quiz " & quizId.ToString()
-                '    End If
-                '    quizSelected = True
-                '    quizName = cs.GetText("name")
-                '    quizId = cs.GetInteger("id")
-                '    quizTypeId = cs.GetInteger("typeId")
-                'End If
-                'Call cs.Close()
-                ' Dim certificationId As Integer = CP.Doc.GetInteger("certificationId")
+                quizId = CP.Doc.GetInteger("Quiz")
+                If cs.Open("quizzes", "id=" & quizId) Then
+                    quizVideo = cs.GetText("Video")
+                    customTopCopy = cs.GetText("customTopCopy")
+                    customButtonCopy = cs.GetText("customButtonCopy")
+                    quizName = cs.GetText("name")
+                End If
+                cs.Close()
+                Dim Button As String = CP.Doc.GetText("Start")
+                If Button = customButtonCopy Then
+                    qs = CP.Doc.RefreshQueryString
+                    qs = CP.Utils.ModifyQueryString(qs, "AddonGuid", addonGuid)
+                    qs = CP.Utils.ModifyQueryString(qs, "quizId", quizId)
+                    CP.Response.Redirect("?" + qs)
+                End If
+
                 layout.OpenLayout("Quiz Landing Page")
-                blockLayout.Load(layout.GetOuter("#js-qland"))
-                blockLayout.SetInner("#js-startestButton", CP.Html.Form("", "startbuttonform") & CP.Html.Button("Start", "Start The Test") + CP.Html.Hidden("quizId", quizId))
+                blockLayout.Load(layout.GetOuter("#js-quizland"))
+                blockLayout.SetInner("#js-quizTittle", "<h2>" & quizName & "<h2>")
+                blockLayout.SetOuter("#js-quizCustomText", "<p>" & customTopCopy & "</p>")
+                blockLayout.SetOuter("#js-quizVideo", "<div id=""js-quizVideo""><video width=""320"" height=""240"" controls><source src=""movie.mp4"" type=""video/mp4""></video></div>")
+                blockLayout.SetOuter("#js-quizStartButton", CP.Html.Form(CP.Html.Button("Start", customButtonCopy) + CP.Html.Hidden("quizId", quizId), "startbuttonform"))
 
-                'tmpHtml = tmpHtml.Replace("#js-startestButton", CP.Html.Form("startbuttonform") & CP.Html.Button("Start", "Start The Test"))
-
-                ''
-                'tmpHtml &= blockLayout.GetHtml
-
-
-
-
-
-                Call cs.Close()
                 'do
                 ' read a table
                 ' end do

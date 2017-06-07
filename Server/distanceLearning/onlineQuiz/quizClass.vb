@@ -14,28 +14,27 @@ Namespace Contensive.Addons.OnlineQuiz
         Public Overrides Function Execute(ByVal CP As CPBaseClass) As Object
             Dim returnHtml As String = ""
             Try
-                Dim responseDateSubmitted As Date
+                'Dim responseDateSubmitted As Date
                 Dim userMessage As String = ""
-                Dim adminHint As String = ""
-                Dim quizId As Integer
+
                 Dim sqlCriteria As String
                 Dim cs As CPCSBaseClass = CP.CSNew()
                 Dim adminUrl As String
                 Dim quizSelected As Boolean
                 Dim isEditing As Boolean
-                Dim userId As Integer
+                'Dim userId As Integer
                 Dim rightNow As Date = Now()
-                Dim quizSubmitted As Boolean
+                'Dim quizSubmitted As Boolean
                 Dim isAuthenticated As Boolean
-                Dim quizAllowRetake As Boolean = False
+                'Dim quizAllowRetake As Boolean = False
                 Dim isStudyPage As Boolean
                 Dim lastPageCompleted As Boolean = False
-                Dim quizIncludeStudyPage As Boolean = False
-                Dim quizStudycopy As String = ""
+                'Dim quizIncludeStudyPage As Boolean = False
+                'Dim quizStudycopy As String = ""
                 Dim srcPageOrder As Integer = 0
                 Dim srcPageOrderNext As Integer = 0
-                Dim quizRequireAuthentication As Boolean = False
-                Dim quiztypeId As Integer = 0
+                'Dim quizRequireAuthentication As Boolean = False
+                'Dim quiztypeId As Integer = 0
                 Dim sql As String
                 Dim answersCid As Integer = CP.Content.GetID("quiz answers")
                 Dim questionsCid As Integer = CP.Content.GetID("quiz questions")
@@ -57,380 +56,225 @@ Namespace Contensive.Addons.OnlineQuiz
                 '
                 Dim srcPageOrderText As String = CP.Doc.GetText(rnSrcPageOrder)
                 Dim Action As String = CP.Doc.GetText("Action")
-                Dim responseId As Integer = CP.Doc.GetInteger("responseId")
-                Dim quizName As String = CP.Doc.GetText("Quiz Name")
+                'Dim responseId As Integer = CP.Doc.GetInteger("responseId")
                 Dim isScoreCardPage As Boolean = CP.Doc.GetBoolean("scoreCard")
                 Dim dstPageOrder As Integer = CP.Doc.GetInteger(rnDstPageOrder)
                 '
-                srcPageOrder = CP.Utils.EncodeInteger(srcPageOrderText)
-                isStudyPage = (srcPageOrderText = "") And Not isScoreCardPage
-                quizSubmitted = False
-                isAuthenticated = CP.User.IsAuthenticated()
-                isEditing = CP.User.IsEditingAnything()
-                adminUrl = CP.Site.GetText("adminUrl")
-                Call CP.User.Track()
-                userId = CP.User.Id
-                quizId = 0
-                quizSelected = False
-                sqlCriteria = ""
-                returnHtml = ""
-                '
-                '
-                '
-                If quizName <> "" Then
-                    '
-                    ' a quiz was selected
-                    '
-                    sqlCriteria = "name=" & CP.Db.EncodeSQLText(quizName)
-                    Call cs.Open("quizzes", sqlCriteria, "id")
-                    If Not cs.OK() Then
-                        adminHint &= "<p>The quiz you selected [" & CP.Utils.EncodeHTML(quizName) & "] can not be found. Use advanced edit to change the addon options and select a different quiz.</p>"
-                    End If
-                Else
-                    '
-                    ' no quiz selected
-                    '
-                    sqlCriteria = ""
-                    Call cs.Open("quizzes", sqlCriteria, "id")
-                    If Not cs.OK() Then
-                        adminHint &= "<p>There are currently no quizzes ready to take."
-                    Else
-                        If cs.GetRowCount() > 1 Then
-                            adminHint &= "<p>No quiz was selected on this page so the first quiz is being used. To select a different quiz, use advanced edit to change the addon options and select a quiz.</p>"
+                Dim quiz As DistanceLearning.Models.QuizModel = Nothing
+                If True Then
+                    Dim quizName As String
+                    Dim quizId As Integer = CP.Doc.GetInteger("quizId")
+                    If (quizId = 0) Then
+                        quizName = CP.Doc.GetText("Quiz Name")
+                        If (Not String.IsNullOrEmpty(quizName)) Then
+                            quizId = CP.Content.GetRecordID("quizzes", quizName)
                         End If
                     End If
-                End If
-                If cs.OK() Then
-                    quizSelected = True
-                    quizName = cs.GetText("name")
-                    quizId = cs.GetInteger("id")
-                    quizAllowRetake = cs.GetBoolean("allowRetake")
-                    quizIncludeStudyPage = cs.GetBoolean("includeStudyPage")
-                    quizStudycopy = cs.GetText("studyCopy")
-                    quizRequireAuthentication = cs.GetBoolean("requireAuthentication")
-                    quiztypeId = cs.GetInteger("typeId")
-                    isStudyPage = True
-                    If Not quizIncludeStudyPage Then
-                        isStudyPage = False
-                        dstPageOrder = getFirstPageOrder(CP, quizId)
-                    End If
-                    If quizName = "" Then
-                        quizName = "Quiz " & quizId.ToString()
+                    quiz = DistanceLearning.Models.QuizModel.create(CP, quizId)
+                    If (quiz Is Nothing) Then
+                        adminHint &= "<p>The quiz you selected cannot be found. Use advanced edit to change the addon options and select a different quiz.</p>"
                     End If
                 End If
-                Call cs.Close()
-                '
-                ' verify authentiation
-                '
-                If quizRequireAuthentication And (Not CP.User.IsAuthenticated) Then
+                If (quiz Is Nothing) Then
                     '
-                    ' require authentication
                     '
-                    returnHtml = "" _
+                    returnHtml = "<p>This quiz is not currently available.</p>"
+                Else
+                    Dim adminHint As String = getAdminHints(CP, quiz, response)
+                    srcPageOrder = CP.Utils.EncodeInteger(srcPageOrderText)
+                    isStudyPage = (srcPageOrderText = "") And Not isScoreCardPage
+                    isAuthenticated = CP.User.IsAuthenticated()
+                    isEditing = CP.User.IsEditingAnything()
+                    adminUrl = CP.Site.GetText("adminUrl")
+                    Call CP.User.Track()
+                    quizSelected = False
+                    sqlCriteria = ""
+                    returnHtml = ""
+                    '
+                    '
+                    '
+                    'If quizName <> "" Then
+                    '    ''
+                    '    '' a quiz was selected
+                    '    ''
+                    '    'sqlCriteria = "name=" & CP.Db.EncodeSQLText(quizName)
+                    '    'Call cs.Open("quizzes", sqlCriteria, "id")
+                    '    'If Not cs.OK() Then
+                    '    '    adminHint &= "<p>The quiz you selected [" & CP.Utils.EncodeHTML(quizName) & "] can not be found. Use advanced edit to change the addon options and select a different quiz.</p>"
+                    '    'End If
+                    'Else
+                    '    '
+                    '    ' no quiz selected
+                    '    '
+                    '    sqlCriteria = ""
+                    '    Call cs.Open("quizzes", sqlCriteria, "id")
+                    '    If Not cs.OK() Then
+                    '        adminHint &= "<p>There are currently no quizzes ready to take."
+                    '    Else
+                    '        If cs.GetRowCount() > 1 Then
+                    '            adminHint &= "<p>No quiz was selected on this page so the first quiz is being used. To select a different quiz, use advanced edit to change the addon options and select a quiz.</p>"
+                    '        End If
+                    '    End If
+                    'End If
+                    'If cs.OK() Then
+                    '    quizSelected = True
+                    '    quizName = cs.GetText("name")
+                    '    quizId = cs.GetInteger("id")
+                    '    quizAllowRetake = cs.GetBoolean("allowRetake")
+                    '    quizIncludeStudyPage = cs.GetBoolean("includeStudyPage")
+                    '    quizStudycopy = cs.GetText("studyCopy")
+                    '    quizRequireAuthentication = cs.GetBoolean("requireAuthentication")
+                    '    quiztypeId = cs.GetInteger("typeId")
+                    '    isStudyPage = True
+                    '    If Not quiz.IncludeStudyPage Then
+                    '        isStudyPage = False
+                    '        dstPageOrder = getFirstPageOrder(CP, quizId)
+                    '    End If
+                    '    If quizName = "" Then
+                    '        quizName = "Quiz " & quizId.ToString()
+                    '    End If
+                    'End If
+                    'Call cs.Close()
+                    dstPageOrder = getFirstPageOrder(CP, quiz.id)
+                    '
+                    ' verify authentiation
+                    '
+                    If quiz.requireAuthentication And (Not CP.User.IsAuthenticated) Then
+                        '
+                        ' require authentication
+                        '
+                        returnHtml = "" _
                         & cr & "<p>Before beginning, you must log in.</p>" _
                         & CP.Html.Indent(CP.Utils.ExecuteAddon(guidLogin)) _
                         & ""
-                Else
-                    '
-                    ' get the response (like an application)
-                    '
-                    If responseId <> 0 Then
+                    Else
+                        Const landingPageFormId As Integer = 1
+                        Const onineQuizFormId As Integer = 2
+                        Const scoreCardFormId As Integer = 3
                         '
-                        ' verify the response presented
+                        Dim srcFormId As Integer = CP.Doc.GetInteger("srcFormId")
+                        Dim dstFormId As Integer = CP.Doc.GetInteger("dstFormId")
                         '
-                        If Not cs.Open("quiz responses", "(memberId=" & userId & ")and(quizId=" & quizId & ")and(id=" & responseId & ")") Then
-                            responseId = 0
-                            responseDateSubmitted = DateTime.MinValue
-                        Else
-                            responseDateSubmitted = encodeMinDate(cs.GetDate("dateSubmitted"))
-                            '
-                            ' set the destination to the last displayed page, in case the person is coming back
-                            '
-                            isStudyPage = cs.GetBoolean("lastDisplayedStudyPage")
-                            dstPageOrder = cs.GetInteger("lastDisplayedPageOrder")
-                        End If
-                        Call cs.Close()
-                    End If
-                    If responseId = 0 Then
+                        ' get the response (like an application)
                         '
-                        ' responseId not presented, find possible saved response (if this is a continuation of a previous quiz)
-                        '
-                        sqlCriteria = "(memberId=" & userId & ")and(dateSubmitted is null)and(quizId=" & quizId & ")"
-                        Call cs.Open("quiz responses", sqlCriteria, "id")
-                        If cs.OK() Then
-                            responseId = cs.GetInteger("id")
-                            responseDateSubmitted = DateTime.MinValue
-                            isStudyPage = cs.GetBoolean("lastDisplayedStudyPage")
-                            dstPageOrder = cs.GetInteger("lastDisplayedPageOrder")
-                            Call cs.GoNext()
-                            '
-                            ' make sure there can only ever be one non-submitted quiz
-                            '
-                            Do While cs.OK()
-                                Call cs.Delete()
-                                Call cs.GoNext()
-                            Loop
-                        Else
-                            '
-                            ' search for submitted responses
-                            '
-                            Call cs.Close()
-                            sqlCriteria = "(memberId=" & userId & ")and(dateSubmitted is not null)and(quizId=" & quizId & ")"
-                            Call cs.Open("quiz responses", sqlCriteria, "id desc")
-                            If cs.OK() Then
-                                responseId = cs.GetInteger("id")
-                                responseDateSubmitted = cs.GetDate("dateSubmitted")
-                                'quizSubmitted = True
-                                'Action = ""
-                            End If
-                        End If
-                        Call cs.Close()
-                    End If
-                    quizSubmitted = (responseDateSubmitted <> DateTime.MinValue)
-                    srcPageOrderNext = getNextPageOrder(CP, quizId, srcPageOrder, isStudyPage)
-                    '
-                    ' process the form results
-                    '
-                    If Action <> "" Then
-                        '
-                        ' form submitted
-                        '
-                        If (quizSubmitted) Then
-                            If LCase(Action) = "retake quiz" Then
-                                '
-                                ' start a retake - create a response and set dstPageOrder, isStudyPage
-                                '
-                                isStudyPage = False
-                                responseId = 0
-                                Call verifyQuizResponse(CP, responseId, userId, quizId)
-                                dstPageOrder = getFirstPageOrder(CP, quizId)
-                                If quizIncludeStudyPage Then
-                                    isStudyPage = True
+                        Dim response As DistanceLearning.Models.QuizResponseModel = Nothing
+                        If True Then
+                            Dim responseId As Integer = CP.Doc.GetInteger("responseId")
+                            response = DistanceLearning.Models.QuizResponseModel.create(CP, responseId, quiz.id, CP.User.Id)
+                            If (response Is Nothing) Then
+                                If (rnSrcFormId > landingPageFormId) Or (rnDstFormId > landingPageFormId) Then
+                                    response = DistanceLearning.Models.QuizResponseModel.create(CP, quiz.id, CP.User.Id)
+                                    If (response Is Nothing) Then
+                                        response = DistanceLearning.Models.QuizResponseModel.add(CP, )
+                                    End If
                                 End If
-                                quizSubmitted = False
-                            Else
-                                userMessage = userMessage & "<p>You can not modify a completed quiz.</p>"
-                                quizSubmitted = True
                             End If
-                        Else
-                            Select Case LCase(Action)
-                                Case "begin quiz"
-                                    isStudyPage = False
-                                    Call verifyQuizResponse(CP, responseId, userId, quizId)
-                                    If cs.Open("Quiz responses", "id=" & responseId) Then
-                                        Call cs.SetField("dateStarted", rightNow)
-                                    End If
-                                    Call cs.Close()
-                                Case "resume quiz"
-                                    isStudyPage = False
-                                    Call verifyQuizResponse(CP, responseId, userId, quizId)
-                                Case "previous"
+                        End If
+                        If response Is Nothing Then
+                            response = New DistanceLearning.Models.QuizResponseModel
+                        End If
+                        'If responseId <> 0 Then
+                        '    '
+                        '    ' verify the response presented
+                        '    '
+                        '    If Not cs.Open("quiz responses", "(memberId=" & userId & ")and(quiz.id=" & quiz.id & ")and(id=" & responseId & ")") Then
+                        '        responseId = 0
+                        '        responseDateSubmitted = DateTime.MinValue
+                        '    Else
+                        '        responseDateSubmitted = encodeMinDate(cs.GetDate("dateSubmitted"))
+                        '        '
+                        '        ' set the destination to the last displayed page, in case the person is coming back
+                        '        '
+                        '        isStudyPage = cs.GetBoolean("lastDisplayedStudyPage")
+                        '        dstPageOrder = cs.GetInteger("lastDisplayedPageOrder")
+                        '    End If
+                        '    Call cs.Close()
+                        'End If
+                        'If responseId = 0 Then
+                        '    '
+                        '    ' responseId not presented, find possible saved response (if this is a continuation of a previous quiz)
+                        '    '
+                        '    sqlCriteria = "(memberId=" & userId & ")and(dateSubmitted is null)and(quiz.id=" & quiz.id & ")"
+                        '    Call cs.Open("quiz responses", sqlCriteria, "id")
+                        '    If cs.OK() Then
+                        '        responseId = cs.GetInteger("id")
+                        '        responseDateSubmitted = DateTime.MinValue
+                        '        isStudyPage = cs.GetBoolean("lastDisplayedStudyPage")
+                        '        dstPageOrder = cs.GetInteger("lastDisplayedPageOrder")
+                        '        Call cs.GoNext()
+                        '        '
+                        '        ' make sure there can only ever be one non-submitted quiz
+                        '        '
+                        '        Do While cs.OK()
+                        '            Call cs.Delete()
+                        '            Call cs.GoNext()
+                        '        Loop
+                        '    Else
+                        '        '
+                        '        ' search for submitted responses
+                        '        '
+                        '        Call cs.Close()
+                        '        sqlCriteria = "(memberId=" & userId & ")and(dateSubmitted is not null)and(quiz.id=" & quiz.id & ")"
+                        '        Call cs.Open("quiz responses", sqlCriteria, "id desc")
+                        '        If cs.OK() Then
+                        '            responseId = cs.GetInteger("id")
+                        '            responseDateSubmitted = cs.GetDate("dateSubmitted")
+                        '            'quizSubmitted = True
+                        '            'Action = ""
+                        '        End If
+                        '    End If
+                        '    Call cs.Close()
+                        'End If
+                        'quizSubmitted = (responseDateSubmitted <> DateTime.MinValue)
+                        srcPageOrderNext = getNextPageOrder(CP, quiz.id, srcPageOrder, isStudyPage)
+                        '
+                        If (srcFormId > 0) Then
+                            '
+                            ' -- process the form results
+                            Select Case srcFormId
+                                Case landingPageFormId
                                     '
-                                    ' previous - if past start, try studypage
+                                    ' -- process the landing page form
+                                    dstFormId = onineQuizFormId
+                                Case onineQuizFormId
                                     '
-                                    Call saveResponseDetails(CP, quizId, responseId, userId, srcPageOrder)
-                                    dstPageOrder = getPreviousPageOrder(CP, quizId, srcPageOrder, isStudyPage)
-                                    If (dstPageOrder = srcPageOrder) And quizIncludeStudyPage Then
-                                        isStudyPage = True
-                                    End If
-                                Case "submit"
+                                    ' -- process the online quiz
+                                    dstFormId = processOnlineQuizForm(CP, quiz, response)
+                                Case scoreCardFormId
                                     '
-                                    ' submit
-                                    '
-                                    Call saveResponseDetails(CP, quizId, responseId, userId, srcPageOrder)
-                                    If cs.Open("Quiz responses", "id=" & responseId) Then
-                                        Call cs.SetField("dateSubmitted", rightNow)
-                                    End If
-                                    Call cs.Close()
-                                    Call scoreResponse(CP, responseId)
-                                    quizSubmitted = True
-                                    dstPageOrder = srcPageOrderNext
-                                Case "continue"
-                                    '
-                                    ' continue
-                                    '
-                                    Call saveResponseDetails(CP, quizId, responseId, userId, srcPageOrder)
-                                    dstPageOrder = srcPageOrderNext
-                                Case "save"
-                                    '
-                                    ' save the response
-                                    '
-                                    Call saveResponseDetails(CP, quizId, responseId, userId, srcPageOrder)
-                                    userMessage = userMessage & "<p>Your quiz has been saved.</p>"
-                                    dstPageOrder = srcPageOrder
+                                    ' -- process the score card
+                                    dstFormId = processScoreCardForm(CP, quiz, response)
                             End Select
                         End If
+                        '
+                        If (response.dateSubmitted <= Date.MinValue) And (dstFormId = scoreCardFormId) Then
+                            dstFormId = landingPageFormId
+                        End If
+                        If (response.id = 0) Then
+                            dstFormId = landingPageFormId
+                        End If
+                        '
+                        'Select Case dstFormId
+                        '    Case onineQuizFormId
+                        '        '
+                        '        ' -- display online quiz
+                        '        returnHtml = getOnlineQuizform(CP, quiz, response)
+                        '    Case scoreCardFormId
+                        '        '
+                        '        ' -- display score card
+                        '        returnHtml = getScoreCardform(CP, quiz, response)
+                        '    Case Else
+                        '        '
+                        '        ' -- display landing page
+                        '        returnHtml = getLandingform(CP, quiz, response)
+                        'End Select
+                        returnHtml = getQuiz(CP, quiz.name, quiz.id, adminHint, isEditing, CP.User.Id, response.id, userMessage, isAuthenticated, quiz.allowRetake, dstPageOrder, isStudyPage, (response.dateSubmitted > Date.MinValue))
                     End If
                     '
-                    ' get the quiz form
+                    ' Add wrapper
                     '
-                    returnHtml = getQuiz(CP, quizName, quizId, adminHint, isEditing, userId, responseId, userMessage, isAuthenticated, quizAllowRetake, dstPageOrder, isStudyPage, quizSubmitted)
-                    '
-                    ' admin hint information
-                    '
-                    Dim lastQuestionId As Integer = 0
-                    Dim questionId As Integer
-                    Dim foundCorrect As Boolean
-                    Dim questionName As String
-                    Dim lastQuestionName As String = ""
-                    Dim answerList As String
-                    If CP.User.IsAdmin Then
-                        If (quiztypeId = quizTypeIdGraded) Then
-                            '
-                            ' graded quiz, check that all questions have at least one marked correct
-                            '
-                            sql = "select q.name as questionName,q.id as questionId,a.name as answerName,a.id as answerId,a.correct" _
-                                & " from ((quizzes z" _
-                                & " left join quizQuestions q on q.quizId=z.id)" _
-                                & " left join quizAnswers a on a.questionid=q.id)" _
-                                & " where(z.id=" & quizId & ")" _
-                                & " order by q.id,a.id"
-                            'sql = "select q.qText as questionName,q.id as questionId,a.atext as answerName,a.id as answerId,a.correct" _
-                            '    & " from ((quizzes z" _
-                            '    & " left join quizQuestions q on q.quizId=z.id)" _
-                            '    & " left join quizAnswers a on a.questionid=q.id)" _
-                            '    & " where(z.id=" & quizId & ")" _
-                            '    & " order by q.id,a.id"
-                            Call cs.OpenSQL(sql)
-                            itemList = ""
-                            If cs.OK() Then
-                                lastQuestionId = 0
-                                foundCorrect = True
-                                answerList = ""
-                                Do While cs.OK()
-                                    questionName = cs.GetText("questionName")
-                                    questionId = cs.GetInteger("questionId")
-                                    answerName = cs.GetText("answerName")
-                                    answerId = cs.GetInteger("answerId")
-                                    If (lastQuestionId <> questionId) Then
-                                        '
-                                        ' new question
-                                        '
-                                        If Not foundCorrect Then
-                                            itemList &= "" _
-                                                & cr & CP.Html.li(lastQuestionName) _
-                                                & cr & CP.Html.ul(answerList) _
-                                                & ""
-                                            '    itemList &= "" _
-                                            '        & cr & CP.Html.li("<a href=""" & adminUrl & "?af=4&cid=" & questionsCid & "&id=" & lastQuestionId & """>" & lastQuestionName & "</a>") _
-                                            '        & cr & CP.Html.ul(answerList) _
-                                            '        & ""
-                                        End If
-                                        foundCorrect = False
-                                        answerList = ""
-                                    End If
-                                    If Not foundCorrect Then
-                                        If cs.GetBoolean("correct") Then
-                                            foundCorrect = True
-                                        End If
-                                    End If
-                                    answerList &= cr & CP.Html.li("<a href=""" & adminUrl & "?af=4&cid=" & answersCid & "&id=" & answerId & """>" & answerName & "</a>")
-                                    lastQuestionName = questionName
-                                    lastQuestionId = questionId
-                                    Call cs.GoNext()
-                                Loop
-                                If Not foundCorrect Then
-                                    itemList &= "" _
-                                        & cr & CP.Html.li(lastQuestionName) _
-                                        & cr & CP.Html.ul(answerList) _
-                                        & ""
-                                End If
-                            End If
-                            Call cs.Close()
-                            If itemList <> "" Then
-                                adminHint &= "" _
-                                    & cr & CP.Html.p("WARNING: This quiz is configured as a graded quiz and the following questions have no correct answer.") _
-                                    & cr & CP.Html.ul(itemList)
-                            End If
-                        Else
-                            '
-                            ' points-based quiz, check that all answers have a point value
-                            '
-                            sql = "select a.name,a.id" _
-                                & " from ((quizzes z" _
-                                & " left join quizQuestions q on q.quizId=z.id)" _
-                                & " left join quizAnswers a on a.questionid=q.id)" _
-                                & " where(z.id=" & quizId & ")" _
-                                & " and (points is null)"
-                            Call cs.OpenSQL(sql)
-                            Do While cs.OK()
-                                answerId = cs.GetInteger("id")
-                                If (answerId <> 0) Then
-                                    answerName = cs.GetText("name")
-                                    If answerName = "" Then
-                                        answerName = "Answer #" & answerId
-                                    End If
-                                    itemList &= cr & CP.Html.li("<a href=""" & adminUrl & "?af=4&cid=" & answersCid & "&id=" & answerId & """>" & answerName & "</a>")
-                                End If
-                                Call cs.GoNext()
-                            Loop
-                            Call cs.Close()
-                            If itemList <> "" Then
-                                adminHint &= "" _
-                                    & cr & CP.Html.p("WARNING: This quiz is configured as a points-based quiz and the following answers have no points assigned. They will count as 0 points.") _
-                                    & cr & CP.Html.ul(itemList)
-                            End If
-                            '
-                            ' check result messages
-                            '
-                            itemList = ""
-                            If (Not cs.Open("quiz result messages", "(quizid=" & quizId & ")", "pointThreshold")) Then
-                                adminHint &= cr & CP.Html.p("WARNING: This quiz has no Quiz Result Messages. The quiz will end with a simple thank you page.")
-                            Else
-                                Do While cs.OK
-                                    itemId = cs.GetInteger("id")
-                                    itemName = cs.GetText("name")
-                                    If itemName = "" Then
-                                        itemName = "Message #" & itemId
-                                    End If
-                                    itemEdit = "<a href=""" & adminUrl & "?af=4&cid=" & quizResultMessagesCid & "&id=" & itemId & """>" & itemName & "</a>"
-                                    integerTest = cs.GetText("pointThreshold")
-                                    If (integerTest = "") Then
-                                        itemListIssues &= cr & CP.Html.p("WARNING: Quiz Result Message '" & itemName & "' has no Point Threshold. It will never be shown." & itemEdit)
-                                    Else
-                                        pointThreshold = CP.Utils.EncodeInteger(integerTest)
-                                        If (ptr = 0) Then
-                                            If pointThreshold > 0 Then
-                                                itemListIssues &= cr & CP.Html.p("WARNING: There is no Quiz Result Message for point scores less than " & pointThreshold & ". The quiz will end with a simple thank you page.")
-                                            End If
-                                            'itemList &= "<li>Total Points under " & pointThreshold & " see Result Message " & itemEdit & "</li>"
-                                        Else
-                                            If (pointThreshold = lastPointThreshold) And (pointThreshold <> warningMsgPoints) Then
-                                                warningMsgPoints = pointThreshold
-                                                itemListIssues &= cr & CP.Html.p("WARNING: There are multiple Quiz Result Messages with a Point Threshold [" & pointThreshold & "]. Only the messag with the lowest ID # will be displayed.")
-                                            End If
-                                            itemList &= "<li>Total Points from " & lastPointThreshold & " to " & (pointThreshold - 1) & " see Result Message " & lastItemEdit & "</li>"
-                                        End If
-                                        lastPointThreshold = pointThreshold
-                                        lastItemEdit = itemEdit
-                                    End If
-                                    ptr += 1
-                                    Call cs.GoNext()
-                                Loop
-                                itemList &= "<li>Total Points over " & lastPointThreshold & " see Result Message " & lastItemEdit & "</li>"
-                            End If
-                            link = adminUrl & "?cid=" & quizResultMessagesCid & "&af=4&aa=2&wc=quizid%3D" & quizId
-                            itemList &= cr & CP.Html.li("<a href=""" & link & """>Add a Quiz Result Message</a>")
-                            adminHint &= "" _
-                                & cr & CP.Html.p("Result Messages.") _
-                                & cr & CP.Html.ul(itemList) _
-                                & itemListIssues
-                        End If
-                        If adminHint = "" Then
-                            adminHint &= "<p>Your online quiz appears to be configured correctly.</p>"
-                        End If
-                        If (quizSelected) Then
-                            adminHint &= "<p>Edit this quiz <a href=""" & adminUrl & "?af=4&cid=" & CP.Content.GetID("quizzes") & "&id=" & quizId & """>" & CP.Utils.EncodeHTML(quizName) & "</a>.</p>"
-                            adminHint &= "<p>To edit questions and answers on this page, turn on edit mode from the tool panel.</p>"
-                        End If
-                        adminHint &= "<p>Create a <a href=""" & adminUrl & "?af=4&cid=" & CP.Content.GetID("quizzes") & """>new quiz</a>.</p>"
-                        adminHint &= "<p>Create a <a href=""" & adminUrl & "?af=4&cid=" & CP.Content.GetID("quiz subjects") & """>new quiz subject</a>.</p>"
-                    End If
+                    returnHtml = "" & vbCrLf & vbTab & "<div class=""onlineQuiz"">" & CP.Html.Indent(returnHtml) & CP.Html.Indent(adminHintWrapper(CP, adminHint)) & vbCrLf & vbTab & "</div>"
                 End If
-                '
-                ' Add wrapper
-                '
-                returnHtml = "" & vbCrLf & vbTab & "<div class=""onlineQuiz"">" & CP.Html.Indent(returnHtml) & CP.Html.Indent(adminHintWrapper(CP, adminHint)) & vbCrLf & vbTab & "</div>"
             Catch ex As Exception
                 errorReport(CP, ex, "execute")
             End Try
@@ -1321,6 +1165,295 @@ Namespace Contensive.Addons.OnlineQuiz
             Return returnInt
         End Function
         '
+        Private Function processOnlineQuizForm(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, response As Contensive.Addons.DistanceLearning.Models.QuizResponseModel) As Integer
+            Dim result As Integer = 0
+            Try
+                Dim Action As String = cp.Doc.GetText("Action")
+                Select Case LCase(Action)
+                    Case "begin quiz"
+                        isStudyPage = False
+                        Call verifyQuizResponse(cp, responseId, userId, quiz.id)
+                        If cs.Open("Quiz responses", "id=" & responseId) Then
+                            Call cs.SetField("dateStarted", rightNow)
+                        End If
+                        Call cs.Close()
+                    Case "resume quiz"
+                        isStudyPage = False
+                        Call verifyQuizResponse(cp, responseId, userId, quiz.id)
+                    Case "previous"
+                        '
+                        ' previous - if past start, try studypage
+                        '
+                        Call saveResponseDetails(cp, quiz.id, responseId, userId, srcPageOrder)
+                        dstPageOrder = getPreviousPageOrder(cp, quiz.id, srcPageOrder, isStudyPage)
+                        If (dstPageOrder = srcPageOrder) And quizIncludeStudyPage Then
+                            isStudyPage = True
+                        End If
+                    Case "submit"
+                        '
+                        ' submit
+                        '
+                        Call saveResponseDetails(cp, quiz.id, responseId, userId, srcPageOrder)
+                        If cs.Open("Quiz responses", "id=" & responseId) Then
+                            Call cs.SetField("dateSubmitted", rightNow)
+                        End If
+                        Call cs.Close()
+                        Call scoreResponse(cp, responseId)
+                        quizSubmitted = True
+                        dstPageOrder = srcPageOrderNext
+                    Case "continue"
+                        '
+                        ' continue
+                        '
+                        Call saveResponseDetails(cp, quiz.id, responseId, userId, srcPageOrder)
+                        dstPageOrder = srcPageOrderNext
+                    Case "save"
+                        '
+                        ' save the response
+                        '
+                        Call saveResponseDetails(cp, quiz.id, responseId, userId, srcPageOrder)
+                        userMessage = userMessage & "<p>Your quiz has been saved.</p>"
+                        dstPageOrder = srcPageOrder
+                End Select
+            Catch ex As Exception
+                cp.Site.ErrorReport(ex)
+            End Try
+            Return result
+        End Function
+        '
+        Private Function processScoreCardForm(cp As CPBaseClass, ByVal quiz As DistanceLearning.Models.QuizModel, ByRef response As DistanceLearning.Models.QuizResponseModel) As Integer
+            Dim result As Integer = 0
+            Try
+                Dim Action As String = cp.Doc.GetText("Action")
+                '
+                If (response.dateSubmitted > Date.MinValue) Then
+                    If LCase(Action) = "retake quiz" Then
+                        '
+                        ' start a retake - create a response and set dstPageOrder, isStudyPage
+                        '
+                        response = DistanceLearning.Models.QuizResponseModel.add(cp)
+                        response.QuizID = quiz.id
+                        response.MemberID = cp.User.Id
+
+                        isStudyPage = False
+                        responseId = 0
+                        Call verifyQuizResponse(cp, responseId, userId, quizId)
+                        dstPageOrder = getFirstPageOrder(cp, quizId)
+                        If quizIncludeStudyPage Then
+                            isStudyPage = True
+                        End If
+                        quizSubmitted = False
+                    Else
+                        userMessage = userMessage & "<p>You can not modify a completed quiz.</p>"
+                        quizSubmitted = True
+                    End If
+                End If
+            Catch ex As Exception
+                cp.Site.ErrorReport(ex)
+            End Try
+            Return result
+        End Function
+        '
+        Private Function getOnlineQuizForm(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, response As DistanceLearning.Models.QuizResponseModel) As String
+            Dim result As String = "getOnlineQuizForm"
+            Try
+
+            Catch ex As Exception
+                cp.Site.ErrorReport(ex)
+            End Try
+            Return result
+        End Function
+        '
+        Private Function getScoreCardform(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, response As DistanceLearning.Models.QuizResponseModel) As String
+            Dim result As String = "getScoreCardform"
+            Try
+
+            Catch ex As Exception
+                cp.Site.ErrorReport(ex)
+            End Try
+            Return result
+        End Function
+        '
+        Private Function getLandingform(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, response As DistanceLearning.Models.QuizResponseModel) As String
+            Dim result As String = "getLandingform"
+            Try
+
+            Catch ex As Exception
+                cp.Site.ErrorReport(ex)
+            End Try
+            Return result
+        End Function
+        '
+        Private Function getAdminHints(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, response As DistanceLearning.Models.QuizResponseModel) As String
+            Dim result As String = "getAdminHints"
+            Try
+                '
+                ' admin hint information
+                '
+                Dim lastQuestionId As Integer = 0
+                Dim questionId As Integer
+                Dim foundCorrect As Boolean
+                Dim questionName As String
+                Dim lastQuestionName As String = ""
+                Dim answerList As String
+                If cp.User.IsAdmin Then
+                    If (quiztypeId = quizTypeIdGraded) Then
+                        '
+                        ' graded quiz, check that all questions have at least one marked correct
+                        '
+                        Sql = "select q.name as questionName,q.id as questionId,a.name as answerName,a.id as answerId,a.correct" _
+                                & " from ((quizzes z" _
+                                & " left join quizQuestions q on q.quizId=z.id)" _
+                                & " left join quizAnswers a on a.questionid=q.id)" _
+                                & " where(z.id=" & quiz.id & ")" _
+                                & " order by q.id,a.id"
+                        'sql = "select q.qText as questionName,q.id as questionId,a.atext as answerName,a.id as answerId,a.correct" _
+                        '    & " from ((quizzes z" _
+                        '    & " left join quizQuestions q on q.quizId=z.id)" _
+                        '    & " left join quizAnswers a on a.questionid=q.id)" _
+                        '    & " where(z.id=" & quizId & ")" _
+                        '    & " order by q.id,a.id"
+                        Call cs.OpenSQL(Sql)
+                        itemList = ""
+                        If cs.OK() Then
+                            lastQuestionId = 0
+                            foundCorrect = True
+                            answerList = ""
+                            Do While cs.OK()
+                                questionName = cs.GetText("questionName")
+                                questionId = cs.GetInteger("questionId")
+                                answerName = cs.GetText("answerName")
+                                answerId = cs.GetInteger("answerId")
+                                If (lastQuestionId <> questionId) Then
+                                    '
+                                    ' new question
+                                    '
+                                    If Not foundCorrect Then
+                                        itemList &= "" _
+                                                & cr & cp.Html.li(lastQuestionName) _
+                                                & cr & cp.Html.ul(answerList) _
+                                                & ""
+                                        '    itemList &= "" _
+                                        '        & cr & CP.Html.li("<a href=""" & adminUrl & "?af=4&cid=" & questionsCid & "&id=" & lastQuestionId & """>" & lastQuestionName & "</a>") _
+                                        '        & cr & CP.Html.ul(answerList) _
+                                        '        & ""
+                                    End If
+                                    foundCorrect = False
+                                    answerList = ""
+                                End If
+                                If Not foundCorrect Then
+                                    If cs.GetBoolean("correct") Then
+                                        foundCorrect = True
+                                    End If
+                                End If
+                                answerList &= cr & cp.Html.li("<a href=""" & adminUrl & "?af=4&cid=" & answersCid & "&id=" & answerId & """>" & answerName & "</a>")
+                                lastQuestionName = questionName
+                                lastQuestionId = questionId
+                                Call cs.GoNext()
+                            Loop
+                            If Not foundCorrect Then
+                                itemList &= "" _
+                                        & cr & cp.Html.li(lastQuestionName) _
+                                        & cr & cp.Html.ul(answerList) _
+                                        & ""
+                            End If
+                        End If
+                        Call cs.Close()
+                        If itemList <> "" Then
+                            result &= "" _
+                                    & cr & cp.Html.p("WARNING: This quiz is configured as a graded quiz and the following questions have no correct answer.") _
+                                    & cr & cp.Html.ul(itemList)
+                        End If
+                    Else
+                        '
+                        ' points-based quiz, check that all answers have a point value
+                        '
+                        Sql = "select a.name,a.id" _
+                                & " from ((quizzes z" _
+                                & " left join quizQuestions q on q.quizId=z.id)" _
+                                & " left join quizAnswers a on a.questionid=q.id)" _
+                                & " where(z.id=" & quiz.id & ")" _
+                                & " and (points is null)"
+                        Call cs.OpenSQL(Sql)
+                        Do While cs.OK()
+                            answerId = cs.GetInteger("id")
+                            If (answerId <> 0) Then
+                                answerName = cs.GetText("name")
+                                If answerName = "" Then
+                                    answerName = "Answer #" & answerId
+                                End If
+                                itemList &= cr & cp.Html.li("<a href=""" & adminUrl & "?af=4&cid=" & answersCid & "&id=" & answerId & """>" & answerName & "</a>")
+                            End If
+                            Call cs.GoNext()
+                        Loop
+                        Call cs.Close()
+                        If itemList <> "" Then
+                            result &= "" _
+                                    & cr & cp.Html.p("WARNING: This quiz is configured as a points-based quiz and the following answers have no points assigned. They will count as 0 points.") _
+                                    & cr & cp.Html.ul(itemList)
+                        End If
+                        '
+                        ' check result messages
+                        '
+                        itemList = ""
+                        If (Not cs.Open("quiz result messages", "(quizid=" & quiz.id & ")", "pointThreshold")) Then
+                            result &= cr & cp.Html.p("WARNING: This quiz has no Quiz Result Messages. The quiz will end with a simple thank you page.")
+                        Else
+                            Do While cs.OK
+                                itemId = cs.GetInteger("id")
+                                itemName = cs.GetText("name")
+                                If itemName = "" Then
+                                    itemName = "Message #" & itemId
+                                End If
+                                itemEdit = "<a href=""" & adminUrl & "?af=4&cid=" & quizResultMessagesCid & "&id=" & itemId & """>" & itemName & "</a>"
+                                integerTest = cs.GetText("pointThreshold")
+                                If (integerTest = "") Then
+                                    itemListIssues &= cr & cp.Html.p("WARNING: Quiz Result Message '" & itemName & "' has no Point Threshold. It will never be shown." & itemEdit)
+                                Else
+                                    pointThreshold = cp.Utils.EncodeInteger(integerTest)
+                                    If (ptr = 0) Then
+                                        If pointThreshold > 0 Then
+                                            itemListIssues &= cr & cp.Html.p("WARNING: There is no Quiz Result Message for point scores less than " & pointThreshold & ". The quiz will end with a simple thank you page.")
+                                        End If
+                                        'itemList &= "<li>Total Points under " & pointThreshold & " see Result Message " & itemEdit & "</li>"
+                                    Else
+                                        If (pointThreshold = lastPointThreshold) And (pointThreshold <> warningMsgPoints) Then
+                                            warningMsgPoints = pointThreshold
+                                            itemListIssues &= cr & cp.Html.p("WARNING: There are multiple Quiz Result Messages with a Point Threshold [" & pointThreshold & "]. Only the messag with the lowest ID # will be displayed.")
+                                        End If
+                                        itemList &= "<li>Total Points from " & lastPointThreshold & " to " & (pointThreshold - 1) & " see Result Message " & lastItemEdit & "</li>"
+                                    End If
+                                    lastPointThreshold = pointThreshold
+                                    lastItemEdit = itemEdit
+                                End If
+                                ptr += 1
+                                Call cs.GoNext()
+                            Loop
+                            itemList &= "<li>Total Points over " & lastPointThreshold & " see Result Message " & lastItemEdit & "</li>"
+                        End If
+                        link = adminUrl & "?cid=" & quizResultMessagesCid & "&af=4&aa=2&wc=quizid%3D" & quiz.id
+                        itemList &= cr & cp.Html.li("<a href=""" & link & """>Add a Quiz Result Message</a>")
+                        result &= "" _
+                                & cr & cp.Html.p("Result Messages.") _
+                                & cr & cp.Html.ul(itemList) _
+                                & itemListIssues
+                    End If
+                    If result = "" Then
+                        result &= "<p>Your online quiz appears to be configured correctly.</p>"
+                    End If
+                    If (quizSelected) Then
+                        result &= "<p>Edit this quiz <a href=""" & adminUrl & "?af=4&cid=" & cp.Content.GetID("quizzes") & "&id=" & quiz.id & """>" & cp.Utils.EncodeHTML(quizName) & "</a>.</p>"
+                        result &= "<p>To edit questions and answers on this page, turn on edit mode from the tool panel.</p>"
+                    End If
+                    result &= "<p>Create a <a href=""" & adminUrl & "?af=4&cid=" & cp.Content.GetID("quizzes") & """>new quiz</a>.</p>"
+                    result &= "<p>Create a <a href=""" & adminUrl & "?af=4&cid=" & cp.Content.GetID("quiz subjects") & """>new quiz subject</a>.</p>"
+                End If
+            Catch ex As Exception
+                cp.Site.ErrorReport(ex)
+            End Try
+            Return result
+        End Function
+        '
         '=====================================================================================
         ' common report for this class
         '=====================================================================================
@@ -1334,5 +1467,6 @@ Namespace Contensive.Addons.OnlineQuiz
                 '
             End Try
         End Sub
+
     End Class
 End Namespace

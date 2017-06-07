@@ -41,7 +41,7 @@ namespace Contensive.Addons.DistanceLearning
                 {
                     case "Save":
                         quiz.allowRetake = cp.Doc.GetBoolean("allowRetake");
-                        quiz.questionPresentation = cp.Doc.GetText("questionPresentation");
+                        quiz.questionPresentation = cp.Doc.GetInteger("questionPresentation");
                         quiz.maxNumberQuest = cp.Doc.GetInteger("maxNumberQuest");
                         quiz.includeSubject = cp.Doc.GetText("includeSubject");
                         quiz.saveObject(cp);
@@ -67,7 +67,7 @@ namespace Contensive.Addons.DistanceLearning
                 form.isOuterContainer = false;
                 form.addRow();
                 form.rowName = "Question Presentation";
-                form.rowValue = cp.Html.SelectList("questionPresentation", quiz.questionPresentation, quiz.questionPresentation, "All subject questions per page")
+                form.rowValue = cp.Html.SelectList("questionPresentation", quiz.questionPresentation.ToString(), "All subject questions per page, All questions per subject, One question per page.", "Select Type of Presentation")
                     + "<p>You can choose to display one question per page, all questions on one page , or all subject"
                     + " questions per page</p>";
                 form.addRow();

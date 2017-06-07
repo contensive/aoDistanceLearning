@@ -30,6 +30,7 @@ Namespace Contensive.Addons.OnlineQuiz
         '
         Public Const guidSample = "{B3FDBB50-1A40-42CA-81EC-EA825C55469A}"
         Public Const guidLogin = "{37E8E661-A1D9-4A61-9A07-F48A1053B1BB}"
+        Public Const addonGuid = "{4A5EBAD7-27ED-4AB4-BEF0-D42E01598FC5}"
         '
         ' buttons
         '

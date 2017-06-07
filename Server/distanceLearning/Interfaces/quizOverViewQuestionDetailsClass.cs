@@ -50,6 +50,7 @@ namespace Contensive.Addons.DistanceLearning
                         question.quizId = cp.Doc.GetInteger("quizId");
                         question.SubjectID = cp.Doc.GetInteger("SubjectId");
                         question.name= cp.Doc.GetText("Qtext");
+                        question.qOrder = cp.Doc.GetInteger("qOrder");
                         question.saveObject(cp);
                         List<QuizAnswerModel> quizAnswersList = QuizAnswerModel.getAnswersForQuestionList(cp, question.id);
                         foreach (QuizAnswerModel quizAnswer in quizAnswersList)

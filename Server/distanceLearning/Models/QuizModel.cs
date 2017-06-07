@@ -33,7 +33,7 @@ namespace Contensive.Addons.DistanceLearning.Models
     //       - add it to the injected cachename list in loadObject()
     //       - add an invalidate
     //
-    class QuizModel
+    public class QuizModel
     {
         //
         //-- const
@@ -46,7 +46,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         public string guid;
         public DateTime DateAdded;
         public int maxNumberQuest;
-        public string questionPresentation;
+        public int questionPresentation;
         public string includeSubject;
         public bool allowRetake;
         public string courseMaterial;
@@ -73,15 +73,12 @@ namespace Contensive.Addons.DistanceLearning.Models
         public double certificationCECs;
         public bool addSuccessCopy;
         public string successCopy;
-        //
-        //public bool includeStudyPage;
-        //public string studyCopy;
-        //public bool allowCustomButtonCopy;
-        //public int typeId;
-        //public int typeId;
-        //public bool allowRetake;
-        //public bool requireAuthentication;
-        //public bool allowCustomTopCopy;
+        public bool includeStudyPage;
+        public string studyCopy;
+        public bool allowCustomButtonCopy;
+        public int typeId;
+        public bool requireAuthentication;
+        public bool allowCustomTopCopy;
         //public bool Active;
         //public string SortOrder;
         //public int CreatedBy;
@@ -175,7 +172,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.createKey = cs.GetInteger("createKey");
                     result.DateAdded = cs.GetDate("dateadded");
                     result.maxNumberQuest = cs.GetInteger("maxNumberQuest");
-                    result.questionPresentation = cs.GetText("questionPresentation");
+                    result.questionPresentation = cs.GetInteger("questionPresentation");
                     result.includeSubject = cs.GetText("includeSubject");
                     result.allowRetake = cs.GetBoolean("allowRetake");
                     result.customTopCopy = cs.GetText("customTopCopy");
@@ -201,8 +198,14 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.certificationCECs = cs.GetNumber("certificationCECs");
                     result.addSuccessCopy = cs.GetBoolean("addSuccessCopy");
                     result.successCopy = cs.GetText("successCopy");
-    }
-    cs.Close();
+                    result.includeStudyPage = cs.GetBoolean("includeStudyPage");
+                    result.studyCopy = cs.GetText("studyCopy");
+                    result.allowCustomButtonCopy = cs.GetBoolean("allowCustomButtonCopy");
+                    result.typeId = cs.GetInteger("typeId");
+                    result.requireAuthentication = cs.GetBoolean("requireAuthentication");
+                    result.allowCustomTopCopy = cs.GetBoolean("allowCustomTopCopy");
+                }
+                cs.Close();
             }
             catch (Exception ex)
             {
@@ -244,12 +247,13 @@ namespace Contensive.Addons.DistanceLearning.Models
                 if (cs.OK())
                 {
                     id = cs.GetInteger("id");
+                    if ( string.IsNullOrEmpty(  name )) name = "Quiz " + id.ToString();
                     cs.SetField("name", name);
                     cs.SetField("ccGuid", guid);
                     cs.SetField("createKey", createKey.ToString());
                     cs.SetField("dateadded", DateAdded.ToString());
                     cs.SetField("maxNumberQuest", maxNumberQuest.ToString());
-                    cs.SetField("questionPresentation", questionPresentation);
+                    cs.SetField("questionPresentation", questionPresentation.ToString());
                     cs.SetField("includeSubject", includeSubject);
                     cs.SetField("allowRetake", allowRetake.ToString());
                     cs.SetField("customTopCopy", customTopCopy);
@@ -275,6 +279,12 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("certificationCECs", certificationCECs.ToString());
                     cs.SetField("addSuccessCopy", addSuccessCopy.ToString());
                     cs.SetField("successCopy", successCopy.ToString());
+                    cs.SetField("includeStudyPage", includeStudyPage.ToString());
+                    cs.SetField("studyCopy", studyCopy.ToString());
+                    cs.SetField("allowCustomButtonCopy", allowCustomButtonCopy.ToString());
+                    cs.SetField("typeId", typeId.ToString());
+                    cs.SetField("requireAuthentication", requireAuthentication.ToString());
+                    cs.SetField("allowCustomTopCopy", allowCustomTopCopy.ToString());
                 }
                 cs.Close();
             }

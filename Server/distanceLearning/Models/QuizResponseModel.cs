@@ -33,7 +33,7 @@ namespace Contensive.Addons.DistanceLearning.Models
     //       - add it to the injected cachename list in loadObject()
     //       - add an invalidate
     //
-    class QuizResponseModel
+    public class QuizResponseModel
     {
         //
         //-- const
@@ -98,6 +98,57 @@ namespace Contensive.Addons.DistanceLearning.Models
                     {
                         result = loadObject(cp, "id=" + recordId.ToString());
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                cp.Site.ErrorReport(ex);
+                throw;
+            }
+            return result;
+        }
+        /// <summary>
+        /// open a response model for this user, quiz and responseId
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <param name="recordId"></param>
+        /// <param name="quizId"></param>
+        /// <returns></returns>
+        public static QuizResponseModel create(CPBaseClass cp, int recordId, int quizId, int userId)
+        {
+            QuizResponseModel result = null;
+            try
+            {
+                if (recordId > 0)
+                {
+                    if ((result == null))
+                    {
+                        result = loadObject(cp, "(id=" + recordId.ToString() + ")and(quizId=" + quizId.ToString() + ")and(memberId=" + userId.ToString() + ")");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                cp.Site.ErrorReport(ex);
+                throw;
+            }
+            return result;
+        }
+        /// <summary>
+        /// create a response model for a quiz and a user that might be be completed yet.
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <param name="quizId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public static QuizResponseModel create(CPBaseClass cp, int quizId, int userId )
+        {
+            QuizResponseModel result = null;
+            try
+            {
+                if ((result == null))
+                {
+                    result = loadObject(cp, "(memberId=" + userId.ToString() + ")and(dateSubmitted is null)and(quizId=" + quizId.ToString() + ")");
                 }
             }
             catch (Exception ex)
@@ -392,6 +443,20 @@ namespace Contensive.Addons.DistanceLearning.Models
                 cp.Site.ErrorReport(ex);
             }
             return modelList;
+        }
+        /// <summary>
+        /// Add record method
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <returns></returns>
+        //
+
+        public static QuizResponseModel add(CPBaseClass cp, int quizId )
+        {
+            QuizResponseModel response = create(cp, cp.Content.AddRecord(primaryContentName));
+            response.QuizID = quizId;
+            response.MemberID = cp.User.Id;
+            return response;
         }
     }
 }

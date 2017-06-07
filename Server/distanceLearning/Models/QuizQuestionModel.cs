@@ -49,9 +49,8 @@ namespace Contensive.Addons.DistanceLearning.Models
         public string QText ="";
         public int points;
         public string instructions;
-        
+        public int qOrder;
         //public int pageOrder;
-        //public int qOrder;
         //
         //public bool Active;
         //public string SortOrder;
@@ -157,8 +156,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.QText = cs.GetText("QText");
                     result.points = cs.GetInteger("points");
                     result.instructions = cs.GetText("instructions");
-                    
-
+                    result.qOrder = cs.GetInteger("qOrder");
                 }
                 cs.Close();
             }
@@ -210,7 +208,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("SubjectID", SubjectID.ToString());
                     cs.SetField("points", points.ToString());
                     cs.SetField("instructions", instructions);
-                  
+                    cs.SetField("qOrder", qOrder.ToString());
                 }
                 cs.Close();
             }
