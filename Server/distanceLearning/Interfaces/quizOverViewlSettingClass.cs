@@ -67,7 +67,7 @@ namespace Contensive.Addons.DistanceLearning
                 form.isOuterContainer = false;
                 form.addRow();
                 form.rowName = "Question Presentation";
-                form.rowValue = cp.Html.SelectList("questionPresentation", quiz.questionPresentation, "One Question per page, All questions on one page, All subject questions per page")
+                form.rowValue = cp.Html.SelectList("questionPresentation", quiz.questionPresentation, quiz.questionPresentation, "All subject questions per page")
                     + "<p>You can choose to display one question per page, all questions on one page , or all subject"
                     + " questions per page</p>";
                 form.addRow();

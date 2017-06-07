@@ -21,20 +21,46 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim layout As CPBlockBaseClass = CP.BlockNew
                 Dim blockLayout As CPBlockBaseClass = CP.BlockNew
                 Dim tmpHtml As String = ""
+                Dim sqlCriteria As String
+                Dim quizId As Integer
+                Dim quizVideo As String = ""
+                Dim quizTypeId As Integer
+                Dim quizSelected As Boolean
+                Dim userId As Integer
+                Dim quizName As String = CP.Doc.GetText("Quiz Name")
                 ''
-                Dim sql As String = ""
 
+                Call CP.User.Track()
+                userId = CP.User.Id
+                quizId = 0
+                quizSelected = False
+                sqlCriteria = ""
+                returnHtml = ""
+                '
+                'If quizName <> "" Then
+                '    '
+                '    ' a quiz was selected
+                '    '
+                '    sqlCriteria = "name=" & CP.Db.EncodeSQLText(quizName)
+                '    Call cs.Open("quizzes", sqlCriteria, "id")
+                '    If quizName = "" Then
+                '        quizName = "Quiz " & quizId.ToString()
+                '    End If
+                '    quizSelected = True
+                '    quizName = cs.GetText("name")
+                '    quizId = cs.GetInteger("id")
+                '    quizTypeId = cs.GetInteger("typeId")
+                'End If
+                'Call cs.Close()
                 ' Dim certificationId As Integer = CP.Doc.GetInteger("certificationId")
-                blockLayout.OpenLayout("Quiz Landing Page")
-                '
-
+                layout.OpenLayout("Quiz Landing Page")
                 blockLayout.Load(layout.GetOuter("#js-qland"))
-                blockLayout.SetInner("#js-startestButton", CP.Html.Form("startbuttonform") & CP.Html.Button("Start", "Start The Test"))
+                blockLayout.SetInner("#js-startestButton", CP.Html.Form("", "startbuttonform") & CP.Html.Button("Start", "Start The Test") + CP.Html.Hidden("quizId", quizId))
 
-                tmpHtml = tmpHtml.Replace("#js-startestButton", CP.Html.Form("startbuttonform") & CP.Html.Button("Start", "Start The Test"))
+                'tmpHtml = tmpHtml.Replace("#js-startestButton", CP.Html.Form("startbuttonform") & CP.Html.Button("Start", "Start The Test"))
 
-                '
-                tmpHtml &= blockLayout.GetHtml
+                ''
+                'tmpHtml &= blockLayout.GetHtml
 
 
 
@@ -47,7 +73,7 @@ Namespace Contensive.Addons.OnlineQuiz
 
                 layout.SetInner(".quizlanding", tmpHtml)
 
-                returnHtml = layout.GetHtml
+                returnHtml = blockLayout.GetHtml
 
 
             Catch ex As Exception
