@@ -14,26 +14,7 @@ using Contensive.Addons.DistanceLearning.Controllers;
 
 namespace Contensive.Addons.DistanceLearning.Models
 {
-    //
-    //====================================================================================================
-    // entity model pattern
-    //   factory pattern load because if a record is not found, must return nothing
-    //   new() - empty constructor to allow deserialization
-    //   saveObject() - saves instance properties (nonstatic method)
-    //   create() - loads instance properties and returns a model 
-    //   delete() - deletes the record that matches the argument
-    //   getObjectList() - a pattern for creating model lists.
-    //   invalidateFIELDNAMEcache() - method to invalide the model cache. One per cache
-    //
-    //	1) set the primary content name in const cnPrimaryContent. avoid constants Like cnAddons used outside model
-    //	2) find-And-replace "QuizAnswersModel" with the name for this model
-    //	3) when adding model fields, add in three places: the Public Property, the saveObject(), the loadObject()
-    //	4) when adding create() methods to support other fields/combinations of fields, 
-    //       - add a secondary cache For that new create method argument in loadObjec()
-    //       - add it to the injected cachename list in loadObject()
-    //       - add an invalidate
-    //
-    class QuizSubjectModel
+    public class QuizSubjectModel
     {
         //
         //-- const
@@ -104,17 +85,17 @@ namespace Contensive.Addons.DistanceLearning.Models
         /// open an existing object
         /// </summary>
         /// <param name="cp"></param>
-        /// <param name="recordGuid"></param>
-        public static QuizSubjectModel create(CPBaseClass cp, string recordGuid)
+        /// <param name="recordName"></param>
+        public static QuizSubjectModel createByName(CPBaseClass cp, string recordName)
         {
             QuizSubjectModel result = null;
             try
             {
-                if (!string.IsNullOrEmpty(recordGuid))
+                if (!string.IsNullOrEmpty(recordName))
                 {
                     if ((result == null))
                     {
-                        result = loadObject(cp, "ccGuid=" + cp.Db.EncodeSQLText(recordGuid));
+                        result = loadObject(cp, "name=" + cp.Db.EncodeSQLText(recordName));
                     }
                 }
             }
@@ -300,6 +281,10 @@ namespace Contensive.Addons.DistanceLearning.Models
                 cp.Site.ErrorReport(ex);
             }
             return result;
+        }
+        public static QuizSubjectModel add(CPBaseClass cp)
+        {
+            return create(cp, cp.Content.AddRecord(primaryContentName));
         }
     }
 }

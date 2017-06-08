@@ -88,10 +88,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="commonModule.vb" />
+    <Compile Include="Controllers\genericController.vb" />
     <Compile Include="onlineQuizModule.vb" />
     <Compile Include="QuizLandingPageClass.vb" />
     <Compile Include="scoreCardClass.vb" />
-    <Compile Include="quizClass.vb" />
+    <Compile Include="Interfaces\quizClass.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -150,6 +151,9 @@
       <Project>{224c723b-78b5-48ac-99de-cf11073a64f0}</Project>
       <Name>distanceLearning</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -43,7 +43,25 @@ namespace Contensive.Addons.DistanceLearning
                         quiz.allowRetake = cp.Doc.GetBoolean("allowRetake");
                         quiz.questionPresentation = cp.Doc.GetInteger("questionPresentation");
                         quiz.maxNumberQuest = cp.Doc.GetInteger("maxNumberQuest");
-                        quiz.includeSubject = cp.Doc.GetText("includeSubject");
+                        string subjectNameEditList = cp.Doc.GetText(constants.rnSubjectNameEditList);
+                        List<string> subjectNameList = new List<string>();
+                        if (!string.IsNullOrEmpty(subjectNameEditList))
+                        {
+                            subjectNameList.AddRange(subjectNameEditList.Split(new string[] { Environment.NewLine },StringSplitOptions.RemoveEmptyEntries));
+                        }
+                        foreach (string subjectName in subjectNameList)
+                        {
+                            Models.QuizSubjectModel subject = Models.QuizSubjectModel.createByName(cp, subjectName.Trim());
+                            if (subject == null)
+                            {
+                                subject = Models.QuizSubjectModel.add(cp);
+                                subject.name = subjectName;
+                                subject.saveObject(cp);
+                            }
+                        }
+                        
+
+                        //quiz.includeSubject = cp.Doc.GetText("includeSubject");
                         quiz.saveObject(cp);
                         break;
                     case "Cancel":
@@ -67,7 +85,7 @@ namespace Contensive.Addons.DistanceLearning
                 form.isOuterContainer = false;
                 form.addRow();
                 form.rowName = "Question Presentation";
-                form.rowValue = cp.Html.SelectList("questionPresentation", quiz.questionPresentation.ToString(), "All subject questions per page, All questions per subject, One question per page.", "Select Type of Presentation")
+                form.rowValue = cp.Html.SelectList("questionPresentation", quiz.questionPresentation.ToString(), "All questions on one page, One subject per page, One question per page.", "Select Type of Presentation")
                     + "<p>You can choose to display one question per page, all questions on one page , or all subject"
                     + " questions per page</p>";
                 form.addRow();
@@ -82,7 +100,10 @@ namespace Contensive.Addons.DistanceLearning
                     + " so the user doesnt get the same quiz twice</p>";
                 form.addRow();
                 form.rowName = "Include Subjects";
-                form.rowValue = cp.Html.InputTextExpandable("includeSubject", quiz.includeSubject)
+                List<Models.QuizSubjectModel> subjectList = Models.QuizSubjectModel.getObjectList(cp);
+                string subjectTextList = "";
+                foreach (Models.QuizSubjectModel subject in subjectList) { subjectTextList += subject.name + Environment.NewLine; }
+                form.rowValue = cp.Html.InputTextExpandable(constants.rnSubjectNameEditList, subjectTextList)
                     + "<p>If you wish to organize your questions by subject, enter the subject section in the text box one subject per line."
                     + " if this quiz has no sections leave blank</p>";
                 //

@@ -14,26 +14,7 @@ using Contensive.Addons.DistanceLearning.Controllers;
 
 namespace Contensive.Addons.DistanceLearning.Models
 {
-    //
-    //====================================================================================================
-    // entity model pattern
-    //   factory pattern load because if a record is not found, must return nothing
-    //   new() - empty constructor to allow deserialization
-    //   saveObject() - saves instance properties (nonstatic method)
-    //   create() - loads instance properties and returns a model 
-    //   delete() - deletes the record that matches the argument
-    //   getObjectList() - a pattern for creating model lists.
-    //   invalidateFIELDNAMEcache() - method to invalide the model cache. One per cache
-    //
-    //	1) set the primary content name in const cnPrimaryContent. avoid constants Like cnAddons used outside model
-    //	2) find-And-replace "QuizAnswersModel" with the name for this model
-    //	3) when adding model fields, add in three places: the Public Property, the saveObject(), the loadObject()
-    //	4) when adding create() methods to support other fields/combinations of fields, 
-    //       - add a secondary cache For that new create method argument in loadObjec()
-    //       - add it to the injected cachename list in loadObject()
-    //       - add an invalidate
-    //
-    class QuizResponseDetailModel
+    public class QuizResponseDetailModel
     {
         //
         //-- const
@@ -44,9 +25,9 @@ namespace Contensive.Addons.DistanceLearning.Models
         public int id;
         public string name;
         public string guid;
-        //public int responseId;
-        //public int questionId;
-        //public int answerId;
+        public int responseId;
+        public int questionId;
+        public int answerId;
         //
         //public bool Active;
         //public string SortOrder;
@@ -83,6 +64,27 @@ namespace Contensive.Addons.DistanceLearning.Models
                         result = loadObject(cp, "id=" + recordId.ToString());
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                cp.Site.ErrorReport(ex);
+                throw;
+            }
+            return result;
+        }
+        //
+        //====================================================================================================
+        /// <summary>
+        /// return a new model with the data selected. All cacheNames related to the object will be added to the cacheNameList.
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <param name="recordId">The id of the record to be read into the new object</param>
+        public static QuizResponseDetailModel create(CPBaseClass cp, int responseId, int questionId )
+        {
+            QuizResponseDetailModel result = null;
+            try
+            {
+                result = loadObject(cp, "(responseId=" + responseId.ToString() + ")and(questionId=" + questionId.ToString() + ")");
             }
             catch (Exception ex)
             {
@@ -140,6 +142,9 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.name = cs.GetText("name");
                     result.guid = cs.GetText("ccGuid");
                     result.createKey = cs.GetInteger("createKey");
+                    result.responseId = cs.GetInteger("responseId");
+                    result.questionId = cs.GetInteger("questionId");
+                    result.answerId = cs.GetInteger("answerId");
                 }
                 cs.Close();
             }
@@ -186,6 +191,9 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("name", name);
                     cs.SetField("ccGuid", guid);
                     cs.SetField("createKey", createKey.ToString());
+                    cs.SetField("responseId", responseId.ToString());
+                    cs.SetField("questionId", questionId.ToString());
+                    cs.SetField("answerId", answerId.ToString());
                 }
                 cs.Close();
             }
@@ -275,6 +283,15 @@ namespace Contensive.Addons.DistanceLearning.Models
                 cp.Site.ErrorReport(ex);
             }
             return result;
+        }
+        /// <summary>
+        /// create a new record and create an object from that record
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <returns></returns>
+        public static QuizResponseDetailModel add(CPBaseClass cp)
+        {
+            return create(cp, cp.Content.AddRecord(primaryContentName));
         }
     }
 }

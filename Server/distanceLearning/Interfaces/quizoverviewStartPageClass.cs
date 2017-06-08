@@ -8,27 +8,22 @@ using Contensive.Addons.DistanceLearning.Controllers;
 
 namespace Contensive.Addons.DistanceLearning
 {
-   public class quizoverviewStartPageClass : Contensive.BaseClasses.AddonBaseClass
-
+    public class quizoverviewStartPageClass : Contensive.BaseClasses.AddonBaseClass
+    {
+        public override object Execute(CPBaseClass cp)
         {
-            public override object Execute(CPBaseClass cp)
+            string result = "";
+            try
             {
-                string result = "";
-                try
-                {
-
                 string qs;
-                //string qsBase;
-                //string rqs = "";
-               // CPCSBaseClass cs = cp.CSNew();
-                QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger("QuizId"));
                 string quizName = cp.Doc.GetText("quizName");
                 string customTopCopy = cp.Doc.GetText("customTopCopy");
                 string Video = cp.Doc.GetText("Video");
                 string customButtonCopy = cp.Doc.GetText("customButtonCopy");
                 string courseMaterial = cp.Doc.GetText("CorseMaterial");
                 string innerBody = "";
-
+                //
+                QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger("QuizId"));
                 if (quiz == null)
                 {
                     qs = cp.Doc.RefreshQueryString;
@@ -41,7 +36,7 @@ namespace Contensive.Addons.DistanceLearning
                 {
                     case "Save":
                         quiz.customTopCopy = cp.Doc.GetText("customTopCopy");
-                        quiz.Video = cp.Doc.GetText("Video");
+                        quiz.Video.upload("Video");
                         quiz.courseMaterial = cp.Doc.GetText("CorseMaterial");
                         if ( !string.IsNullOrEmpty( quiz.courseMaterial ))
                         {
@@ -58,10 +53,6 @@ namespace Contensive.Addons.DistanceLearning
                         break;
                 }
                 //
-                adminFramework.reportListClass reportList = new adminFramework.reportListClass(cp);
-                reportList.addRow();
-                reportList.title = (quiz.name);
-               // reportList.isOuterContainer = true;
                 adminFramework.formNameValueRowsClass form = new adminFramework.formNameValueRowsClass();                         
                 form.isOuterContainer = false;             
                 form.addFormHidden("quizId", quiz.id.ToString());
@@ -75,13 +66,13 @@ namespace Contensive.Addons.DistanceLearning
                 form.addRow();
                 form.rowName = "Start Page Text </b>";
                 form.rowValue = cp.Html.InputWysiwyg("customTopCopy", quiz.customTopCopy,CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page, "10", "700")
-                     + "This is the list of instructions that go on the Start Page. You can describe the quiz, it's purpose, how to take it, etc.";
+                        + "This is the list of instructions that go on the Start Page. You can describe the quiz, it's purpose, how to take it, etc.";
                 //form.rowValue = cp.Html.InputTextExpandable("customTopCopy", quiz.customTopCopy)
                 // + "This is the list of instructions that go on the Start Page. You can describe the quiz, it's purpose, how to take it, etc.";
                 form.addRow();
                 form.rowName = "Start Page Video link </b>";
-                form.rowValue = cp.Html.InputText("Video", quiz.Video)
-                 + "</br> When included, a video can be presented on the start page.";
+                form.rowValue = cp.Html.InputFile("Video")
+                    + "</br> When included, a video can be presented on the start page.";
                 form.addRow();
                 form.rowName = "Course Materials </b>";
                 form.rowValue = cp.Html.InputFile("CorseMaterial", "addCourseMaterialClass", "js-addCourseMaterialButtonId")
@@ -91,7 +82,7 @@ namespace Contensive.Addons.DistanceLearning
                 form.rowValue = cp.Html.InputText("customButtonCopy", "Start")
                 + "</br> This is the text that will be shown on the start button for the quiz.";
                 // 
-                result = reportList.getHtml(cp) + genericController.getTabWrapper(cp, form.getHtml(cp), "Start Page", quiz);
+                result =  genericController.getTabWrapper(cp, form.getHtml(cp), "Start Page", quiz);
 
                 cp.Doc.AddHeadStyle(form.styleSheet);
             }
@@ -100,8 +91,6 @@ namespace Contensive.Addons.DistanceLearning
                 errorReport(cp, ex, "execute");
             }
             return result;
-
-
         }
         //
         // ===============================================================================

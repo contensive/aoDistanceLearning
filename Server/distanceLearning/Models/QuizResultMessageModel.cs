@@ -14,26 +14,7 @@ using Contensive.Addons.DistanceLearning.Controllers;
 
 namespace Contensive.Addons.DistanceLearning.Models
 {
-    //
-    //====================================================================================================
-    // entity model pattern
-    //   factory pattern load because if a record is not found, must return nothing
-    //   new() - empty constructor to allow deserialization
-    //   saveObject() - saves instance properties (nonstatic method)
-    //   create() - loads instance properties and returns a model 
-    //   delete() - deletes the record that matches the argument
-    //   getObjectList() - a pattern for creating model lists.
-    //   invalidateFIELDNAMEcache() - method to invalide the model cache. One per cache
-    //
-    //	1) set the primary content name in const cnPrimaryContent. avoid constants Like cnAddons used outside model
-    //	2) find-And-replace "QuizAnswersModel" with the name for this model
-    //	3) when adding model fields, add in three places: the Public Property, the saveObject(), the loadObject()
-    //	4) when adding create() methods to support other fields/combinations of fields, 
-    //       - add a secondary cache For that new create method argument in loadObjec()
-    //       - add it to the injected cachename list in loadObject()
-    //       - add an invalidate
-    //
-    class QuizResultMessageModel
+    public class QuizResultMessageModel
     {
         //
         //-- const
@@ -44,10 +25,9 @@ namespace Contensive.Addons.DistanceLearning.Models
         public int id;
         public string name;
         public string guid;
-        //
-        //public int QuizID;
-        //public int pointThreshold;
-        //public string copy;
+        public int QuizID;
+        public int pointThreshold;
+        public string copy;
         //
         //public bool Active;
         //public string SortOrder;
@@ -84,6 +64,27 @@ namespace Contensive.Addons.DistanceLearning.Models
                         result = loadObject(cp, "id=" + recordId.ToString());
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                cp.Site.ErrorReport(ex);
+                throw;
+            }
+            return result;
+        }
+        //
+        //====================================================================================================
+        /// <summary>
+        /// return a quiz result message for the point threshold.
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <param name="recordId">The id of the record to be read into the new object</param>
+        public static QuizResultMessageModel createByPointThreshold(CPBaseClass cp, int pointThreshold)
+        {
+            QuizResultMessageModel result = null;
+            try
+            {
+                result = loadObject(cp, "(pointThreshold <= " + pointThreshold +")" );
             }
             catch (Exception ex)
             {
@@ -132,7 +133,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             try
             {
                 CPCSBaseClass cs = cpCore.CSNew();
-                if (cs.Open(primaryContentName, sqlCriteria))
+                if (cs.Open(primaryContentName, sqlCriteria, "pointThreshold desc,id"))
                 {
                     result = new QuizResultMessageModel();
                     //
@@ -141,6 +142,9 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.name = cs.GetText("name");
                     result.guid = cs.GetText("ccGuid");
                     result.createKey = cs.GetInteger("createKey");
+                    result.QuizID = cs.GetInteger("QuizID");
+                    result.pointThreshold = cs.GetInteger("pointThreshold");
+                    result.copy = cs.GetText("copy");
                 }
                 cs.Close();
             }
@@ -187,6 +191,9 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("name", name);
                     cs.SetField("ccGuid", guid);
                     cs.SetField("createKey", createKey.ToString());
+                    cs.SetField("pointThreshold", QuizID.ToString());
+                    cs.SetField("createKey", pointThreshold.ToString());
+                    cs.SetField("copy", copy.ToString());
                 }
                 cs.Close();
             }

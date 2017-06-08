@@ -35,6 +35,7 @@ namespace Contensive.Addons.DistanceLearning
         public const string rnCertifications = "certifications";
         public const string rnAddSuccessCopy = "addSuccessCopy";
         public const string rnSuccessCopy = "successCopy";
+        public const string rnSubjectNameEditList = "subjectEditList";
         //
         public const string buttonSaveAndClose = "Save and Close";
         public const string buttonSaveAndContinue = "Save and Continue";

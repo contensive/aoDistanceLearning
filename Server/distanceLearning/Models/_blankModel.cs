@@ -33,7 +33,7 @@ namespace Contensive.Addons.DistanceLearning.Models
     //       - add it to the injected cachename list in loadObject()
     //       - add an invalidate
     //
-    class _blankModel
+    public class _blankModel
     {
         //
         //-- const

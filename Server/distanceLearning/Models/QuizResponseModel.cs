@@ -14,25 +14,7 @@ using Contensive.Addons.DistanceLearning.Controllers;
 
 namespace Contensive.Addons.DistanceLearning.Models
 {
-    //
-    //====================================================================================================
-    // entity model pattern
-    //   factory pattern load because if a record is not found, must return nothing
-    //   new() - empty constructor to allow deserialization
-    //   saveObject() - saves instance properties (nonstatic method)
-    //   create() - loads instance properties and returns a model 
-    //   delete() - deletes the record that matches the argument
-    //   getObjectList() - a pattern for creating model lists.
-    //   invalidateFIELDNAMEcache() - method to invalide the model cache. One per cache
-    //
-    //	1) set the primary content name in const cnPrimaryContent. avoid constants Like cnAddons used outside model
-    //	2) find-And-replace "QuizAnswersModel" with the name for this model
-    //	3) when adding model fields, add in three places: the Public Property, the saveObject(), the loadObject()
-    //	4) when adding create() methods to support other fields/combinations of fields, 
-    //       - add a secondary cache For that new create method argument in loadObjec()
-    //       - add it to the injected cachename list in loadObject()
-    //       - add an invalidate
-    //
+
     public class QuizResponseModel
     {
         //
@@ -188,7 +170,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         //
         //====================================================================================================
         /// <summary>
-        /// open an existing object
+        /// open the newest response that matches the criteria 
         /// </summary>
         /// <param name="cp"></param>
         /// <param name="sqlCriteria"></param>
@@ -198,7 +180,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             try
             {
                 CPCSBaseClass cs = cpCore.CSNew();
-                if (cs.Open(primaryContentName, sqlCriteria))
+                if (cs.Open(primaryContentName, sqlCriteria,"id desc"))
                 {
                     result = new QuizResponseModel();
                     //
@@ -376,6 +358,41 @@ namespace Contensive.Addons.DistanceLearning.Models
             }
             return modelList;
         }
+        //
+        //====================================================================================================
+        /// <summary>
+        /// get a list of submitted responses for this quiz and this person
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <param name="QuizId"></param>
+        /// <returns></returns>
+        public static List<QuizResponseModel> GetResponseList(CPBaseClass cp, int QuizId, int userId)
+        {
+            List<QuizResponseModel> modelList = new List<QuizResponseModel>();
+            try
+            {
+                CPCSBaseClass cs = cp.CSNew();
+                if ((cs.Open(primaryContentName, "(QuizId=" + QuizId + ")and(memberId=" + cp.User.Id + ")", "name", true, "id")))
+                {
+                    QuizResponseModel instance = null;
+                    do
+                    {
+                        instance = QuizResponseModel.create(cp, cs.GetInteger("id"));
+                        if ((instance != null))
+                        {
+                            modelList.Add(instance);
+                        }
+                        cs.GoNext();
+                    } while (cs.OK());
+                }
+                cs.Close();
+            }
+            catch (Exception ex)
+            {
+                cp.Site.ErrorReport(ex);
+            }
+            return modelList;
+        }
         public class quizResponseReportModel
         {
             public string quizName;
@@ -456,6 +473,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             QuizResponseModel response = create(cp, cp.Content.AddRecord(primaryContentName));
             response.QuizID = quizId;
             response.MemberID = cp.User.Id;
+            response.dateStarted = DateTime.Now;
             return response;
         }
     }

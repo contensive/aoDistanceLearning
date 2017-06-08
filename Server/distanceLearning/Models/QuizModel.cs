@@ -14,25 +14,6 @@ using Contensive.Addons.DistanceLearning.Controllers;
 
 namespace Contensive.Addons.DistanceLearning.Models
 {
-    //
-    //====================================================================================================
-    // entity model pattern
-    //   factory pattern load because if a record is not found, must return nothing
-    //   new() - empty constructor to allow deserialization
-    //   saveObject() - saves instance properties (nonstatic method)
-    //   create() - loads instance properties and returns a model 
-    //   delete() - deletes the record that matches the argument
-    //   getObjectList() - a pattern for creating model lists.
-    //   invalidateFIELDNAMEcache() - method to invalide the model cache. One per cache
-    //
-    //	1) set the primary content name in const cnPrimaryContent. avoid constants Like cnAddons used outside model
-    //	2) find-And-replace "QuizAnswersModel" with the name for this model
-    //	3) when adding model fields, add in three places: the Public Property, the saveObject(), the loadObject()
-    //	4) when adding create() methods to support other fields/combinations of fields, 
-    //       - add a secondary cache For that new create method argument in loadObjec()
-    //       - add it to the injected cachename list in loadObject()
-    //       - add an invalidate
-    //
     public class QuizModel
     {
         //
@@ -52,7 +33,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         public string courseMaterial;
         public string customTopCopy;
         public string customButtonCopy;
-        public string Video;
+        public file Video;
         public string ACaption;
         public string BCaption;
         public string CCaption;
@@ -93,7 +74,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         /// <summary>
         /// Create an empty object. needed for deserialization
         /// </summary>
-        public QuizModel() {}
+        public QuizModel() { }
         //
         //====================================================================================================
         /// <summary>
@@ -176,7 +157,6 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.includeSubject = cs.GetText("includeSubject");
                     result.allowRetake = cs.GetBoolean("allowRetake");
                     result.customTopCopy = cs.GetText("customTopCopy");
-                    result.Video = cs.GetText("Video");
                     result.courseMaterial = cs.GetText("courseMaterial");
                     result.customButtonCopy = cs.GetText("customButtonCopy");
                     result.ACaption = cs.GetText("ACaption");
@@ -247,7 +227,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                 if (cs.OK())
                 {
                     id = cs.GetInteger("id");
-                    if ( string.IsNullOrEmpty(  name )) name = "Quiz " + id.ToString();
+                    if (string.IsNullOrEmpty(name)) name = "Quiz " + id.ToString();
                     cs.SetField("name", name);
                     cs.SetField("ccGuid", guid);
                     cs.SetField("createKey", createKey.ToString());
@@ -257,7 +237,6 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("includeSubject", includeSubject);
                     cs.SetField("allowRetake", allowRetake.ToString());
                     cs.SetField("customTopCopy", customTopCopy);
-                    cs.SetField("Video", Video);
                     cs.SetField("courseMaterial", courseMaterial);
                     cs.SetField("customButtonCopy", customButtonCopy);
                     cs.SetField("ACaption", ACaption);
@@ -308,7 +287,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             {
                 if ((recordId > 0))
                 {
-                    cp.Db.ExecuteSQL("delete from " + cp.Content.GetTable(primaryContentName) + " where (id=" + recordId.ToString()  + ")");
+                    cp.Db.ExecuteSQL("delete from " + cp.Content.GetTable(primaryContentName) + " where (id=" + recordId.ToString() + ")");
                 }
             }
             catch (Exception ex)
@@ -330,7 +309,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             {
                 if ((!string.IsNullOrEmpty(guid)))
                 {
-                    cp.Db.ExecuteSQL( "delete from " + cp.Content.GetTable( primaryContentName) + " where (ccguid=" + cp.Db.EncodeSQLText(guid) + ")");
+                    cp.Db.ExecuteSQL("delete from " + cp.Content.GetTable(primaryContentName) + " where (ccguid=" + cp.Db.EncodeSQLText(guid) + ")");
                 }
             }
             catch (Exception ex)
@@ -422,7 +401,62 @@ namespace Contensive.Addons.DistanceLearning.Models
         {
             return create(cp, cp.Content.AddRecord(primaryContentName));
         }
-
+        /// <summary>
+        /// filename field type. Handles upload method
+        /// </summary>
+        public class file
+        {
+            private CPBaseClass cp;
+            private QuizModel quiz;
+            private string requestName;
+            private string contentName;
+            private string fieldName;
+            private int recordId;
+            /// <summary>
+            /// constructor
+            /// </summary>
+            /// <param name="cp"></param>
+            public file(CPBaseClass cp, string contentName, string fieldName, int recordId)
+            {
+                this.cp = cp;
+                this.contentName = contentName;
+                this.fieldName = fieldName;
+                this.recordId = recordId;
+            }
+            public bool upload(string requestName)
+            {
+                bool result = false;
+                try
+                {
+                    CPCSBaseClass cs = cp.CSNew();
+                    if (cs.Open(contentName, "id=" + recordId)) cs.SetFormInput(fieldName, requestName);
+                    cs.Close();
+                }
+                catch (Exception ex)
+                {
+                    cp.Site.ErrorReport(ex);
+                }
+                return result;
+            }
+            public string filename()
+            {
+                string result = "";
+                try
+                {
+                    CPCSBaseClass cs = cp.CSNew();
+                    if (cs.Open(contentName, "id=" + recordId))
+                    {
+                        result = cs.GetFilename(fieldName);
+                    }
+                    cs.Close();
+                }
+                catch (Exception ex)
+                {
+                    cp.Site.ErrorReport(ex);
+                }
+                return result;
+            }
+        }
     }
 }
 
