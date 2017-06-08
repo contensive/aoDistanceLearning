@@ -34,7 +34,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         //public int pageOrder;
         //
         //public bool Active;
-        //public string SortOrder;
+        public int SortOrder;
         //public DateTime DateAdded;
         //public int CreatedBy;
         //public DateTime ModifiedDate;
@@ -138,6 +138,8 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.points = cs.GetInteger("points");
                     result.instructions = cs.GetText("instructions");
                     result.qOrder = cs.GetInteger("qOrder");
+                    result.SortOrder = cs.GetInteger("SortOrder");
+                   
                 }
                 cs.Close();
             }
@@ -190,6 +192,8 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("points", points.ToString());
                     cs.SetField("instructions", instructions);
                     cs.SetField("qOrder", qOrder.ToString());
+                    cs.SetField("SortOrder", SortOrder.ToString());
+                   
                 }
                 cs.Close();
             }
@@ -259,7 +263,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             {
                 CPCSBaseClass cs = cp.CSNew();
                 List<string> ignoreCacheNames = new List<string>();
-                if ((cs.Open(primaryContentName, "(quizid=" + quizId + ")", "sortOrder", true, "id")))
+                if ((cs.Open(primaryContentName, "(quizid=" + quizId + ")", "SortOrder", true, "id")))
                 {
                     QuizQuestionModel instance = null;
                     do

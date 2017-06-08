@@ -34,6 +34,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         public string customTopCopy;
         public string customButtonCopy;
         public file Video;
+        public string videoEmbedCode;
         public string ACaption;
         public string BCaption;
         public string CCaption;
@@ -184,6 +185,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.typeId = cs.GetInteger("typeId");
                     result.requireAuthentication = cs.GetBoolean("requireAuthentication");
                     result.allowCustomTopCopy = cs.GetBoolean("allowCustomTopCopy");
+                    result.videoEmbedCode = cs.GetText("videoEmbedCode");
                 }
                 cs.Close();
             }
@@ -264,6 +266,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("typeId", typeId.ToString());
                     cs.SetField("requireAuthentication", requireAuthentication.ToString());
                     cs.SetField("allowCustomTopCopy", allowCustomTopCopy.ToString());
+                    cs.SetField("videoEmbedCode", videoEmbedCode.ToString());
                 }
                 cs.Close();
             }

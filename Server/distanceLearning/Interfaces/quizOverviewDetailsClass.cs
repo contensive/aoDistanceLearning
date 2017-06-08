@@ -32,6 +32,7 @@ namespace Contensive.Addons.DistanceLearning
                 string innerBody = "";
                 CPCSBaseClass cs = cp.CSNew();
                 QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger("QuizId"));
+                QuizQuestionModel questions = QuizQuestionModel.create(cp, cp.Doc.GetInteger("QuizId"));
                 if (quiz == null)
                 {
                     //
@@ -61,6 +62,8 @@ namespace Contensive.Addons.DistanceLearning
                 form.body = innerBody;
                 form.addFormButton("Cancel", "button");
                 form.title = quiz.name;
+                string pencilImage = "NavRecord.gif";
+                
                 //
                 // -- add row
                 form.addRow();
@@ -68,11 +71,15 @@ namespace Contensive.Addons.DistanceLearning
                 qs = cp.Doc.RefreshQueryString;
                 qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewSetting, true);
                 qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
-                form.rowValue = ("<div><a href=\"?" + qs + "\">One question per page: subjects; Users can retake quiz; max 5 questions</a></div>");
-               // form.rowValue =("< div >< a href = ""/admin/default.aspx?cid=68&amp;id=182&amp;af=4&amp;aa=2&amp;ad=1"" tabindex = ""-1"" >< img border = ""0"" id = "" onmouseover = ""this.style.backgroundPosition=''0px -44px'';"" onmouseout = ""this.style.backgroundPosition=''0px 0px''"" ondblclick = "" alt = ""Edit the Quiz Overview Details Add-on"" title = ""Edit the Quiz Overview Details Add-on" src = "/ccLib/images/spacer.gif" style = "background: url(&quot;/ccLib/images/tooledit.png&quot;) 0px 0px no-repeat; width: 22px; height: 22px; vertical-align: middle; display: inline;" ></ a >
-                                       //
-                                       // -- wrap in tabs and output finished form
-                                       result = genericController.getTabWrapper(cp, form.getHtml(cp), "Details",quiz);
+                form.rowValue = ("<div><img src=/images/NavRecord.gif display:inline;><a href=\"?" + qs + "\">" + quiz.questionPresentation + " ; Using Subjects; " + quiz.includeSubject + "User can retake quiz:  " + quiz.allowRetake + "; Max " + quiz.maxNumberQuest + " Questions </a></div>");
+                form.addRow();
+                form.rowValue = ("<div><img src=/images/NavRecord.gif display:inline;><a href=\"?" + qs + "\">" + quiz.maxNumberQuest + " total Questions in Quiz</a></div>");
+                qs = cp.Doc.RefreshQueryString;
+                qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewScoring);
+                    form.addRow();
+                form.rowValue = ("<div><img src=/images/NavRecord.gif display:inline;><a href=\"?" + qs + "\"> Mastery " + quiz.APercentile + "+ </b>      Above Average " + quiz.BPercentile + "+ </br></a></div>");
+                // -- wrap in tabs and output finished form
+                result = genericController.getTabWrapper(cp, form.getHtml(cp), "Details",quiz);
                 cp.Doc.AddHeadStyle(form.styleSheet);
             }
             catch (Exception ex)

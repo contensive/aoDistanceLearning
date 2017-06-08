@@ -98,7 +98,7 @@ namespace Contensive.Addons.DistanceLearning
                     }                        
                     reportList.columnCellClass = "afwTextAlignLeft";
                     reportList.setCell(question.QText);
-                    reportList.setCell(question.qOrder.ToString());
+                    reportList.setCell(question.SortOrder.ToString());
                     //
                     string miniForm = "";
                     miniForm += cp.Html.Button("button", "Edit", "questionEdit", "js-questionEdit");
