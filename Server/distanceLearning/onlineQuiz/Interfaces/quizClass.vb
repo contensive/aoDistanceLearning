@@ -42,15 +42,22 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim isScoreCardPage As Boolean = CP.Doc.GetBoolean("scoreCard")
                 Dim dstPageOrder As Integer = CP.Doc.GetInteger(rnDstPageOrder)
                 Dim userMessageList As New List(Of String)
+                Dim loadHint As String = ""
                 '
                 Dim quiz As DistanceLearning.Models.QuizModel = Nothing
                 If True Then
                     Dim quizName As String
                     Dim quizId As Integer = CP.Doc.GetInteger("quiz")
                     If (quizId = 0) Then
+                        loadHint &= "Addon argument quizId (Quiz in features tab) was not found in addon instance. Use advanded edit on this page to set it. "
                         quizName = CP.Doc.GetText("Quiz Name")
-                        If (Not String.IsNullOrEmpty(quizName)) Then
+                        If (String.IsNullOrEmpty(quizName)) Then
+                            loadHint &= "Legacy addon argument quizName (Quiz Name in features tab) was not found in addon instance. "
+                        Else
                             quizId = CP.Content.GetRecordID("quizzes", quizName)
+                            If quizId = 0 Then
+                                loadHint &= "Legacy addon argument quizName (Quiz Name in features tab) was found, but no quizzes were found with this name. "
+                            End If
                         End If
                     End If
                     quiz = DistanceLearning.Models.QuizModel.create(CP, quizId)
@@ -58,7 +65,7 @@ Namespace Contensive.Addons.OnlineQuiz
                 If (quiz Is Nothing) Then
                     '
                     '
-                    adminHint &= "<p>The quiz you selected cannot be found. Use advanced edit to change the addon options and select a different quiz.</p>"
+                    adminHint &= "<p>The quiz you selected cannot be found. " & loadHint & "</p>"
                     returnHtml = "<p>This quiz is not currently available.</p>"
                 Else
                     'srcPageOrder = CP.Utils.EncodeInteger(srcPageOrderText)
@@ -127,11 +134,11 @@ Namespace Contensive.Addons.OnlineQuiz
                             returnHtml = getScoreCardform(CP, quiz, response, adminHint, userMessageList)
                         End If
                     End If
-                    '
-                    ' Add wrapper
-                    '
-                    returnHtml = "" & vbCrLf & vbTab & "<div class=""onlineQuiz"">" & CP.Html.Indent(returnHtml) & CP.Html.Indent(adminHintWrapper(CP, adminHint)) & vbCrLf & vbTab & "</div>"
                 End If
+                '
+                ' Add wrapper
+                '
+                returnHtml = "" & vbCrLf & vbTab & "<div class=""onlineQuiz"">" & CP.Html.Indent(returnHtml) & CP.Html.Indent(adminHintWrapper(CP, adminHint)) & vbCrLf & vbTab & "</div>"
             Catch ex As Exception
                 errorReport(CP, ex, "execute")
             End Try
