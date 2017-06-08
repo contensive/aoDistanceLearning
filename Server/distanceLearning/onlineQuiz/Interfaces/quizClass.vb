@@ -95,8 +95,8 @@ Namespace Contensive.Addons.OnlineQuiz
                         ' -- get the response (like an application)
                         Dim response As DistanceLearning.Models.QuizResponseModel = Nothing
                         If True Then
-                            Dim responseId As Integer = CP.Doc.GetInteger("responseId")
-                            response = DistanceLearning.Models.QuizResponseModel.create(CP, responseId, quiz.id, CP.User.Id)
+                            'Dim responseId As Integer = CP.Doc.GetInteger("responseId")
+                            response = DistanceLearning.Models.QuizResponseModel.createUncompletedObject(CP, quiz.id, CP.User.Id)
                         End If
                         If response Is Nothing Then
                             response = New DistanceLearning.Models.QuizResponseModel
@@ -124,7 +124,7 @@ Namespace Contensive.Addons.OnlineQuiz
                             '
                             ' -- study page
                             returnHtml = getStudyPageForm(CP, quiz, response, adminHint, userMessageList)
-                        ElseIf (response.dateSubmitted = Date.MinValue) Then
+                        ElseIf (DistanceLearning.Controllers.genericController.isDateEmpty(response.dateSubmitted)) Then
                             '
                             ' -- online quiz
                             returnHtml = getOnlineQuizForm(CP, quiz, response, adminHint, userMessageList)
@@ -616,13 +616,14 @@ Namespace Contensive.Addons.OnlineQuiz
         '
         '====================================================================================================
         '
-        Private Sub processStudyForm(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, response As Contensive.Addons.DistanceLearning.Models.QuizResponseModel, ByRef userMessages As List(Of String))
+        Private Sub processStudyForm(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, ByRef response As Contensive.Addons.DistanceLearning.Models.QuizResponseModel, ByRef userMessages As List(Of String))
             Try
                 Dim button As String = cp.Doc.GetText(rnButton)
                 If button = buttonStartQuiz Then
                     If (response.id = 0) Then
-                        genericController.createNewQuizResponse(cp, quiz)
+                        response = genericController.createNewQuizResponse(cp, quiz)
                     End If
+                    response.MemberID = cp.User.Id
                     response.currentPageNumber = 1
                     response.saveObject(cp)
                 End If
@@ -733,7 +734,7 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim subjectName As String = ""
                 Dim quizProgressText As String = ""
                 '
-                If (response.dateStarted = Date.MinValue) Then
+                If (DistanceLearning.Controllers.genericController.isDateEmpty(response.dateStarted)) Then
                     response.dateStarted = Now
                 End If
                 response.saveObject(cp)
@@ -1003,8 +1004,11 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim layout As CPBlockBaseClass = cp.BlockNew
                 '
                 layout.OpenLayout("Quiz Landing Page")
-                layout.SetInner("#js-quizTittle h2", quiz.name)
-                layout.SetOuter("#js-quizCustomCopy", quiz.studyCopy)
+                layout.SetInner("#js-quizTitle", quiz.name)
+                layout.SetInner("#js-quizStudyCopy", quiz.studyCopy)
+                'todo -- needs to be removed from template
+                layout.SetOuter("#js-quizStCustomText", "")
+                '
                 If (String.IsNullOrEmpty(quiz.videoEmbedCode)) Then
                     layout.SetOuter("#js-quizVideo", "")
                 Else
@@ -1012,52 +1016,6 @@ Namespace Contensive.Addons.OnlineQuiz
                 End If
                 layout.SetOuter("#js-quizStartButton", cp.Html.Form(cp.Html.Button(rnButton, buttonStartQuiz), "startbuttonform"))
                 returnHtml = layout.GetHtml
-
-
-
-
-                'Dim buttonCopy As String = ""
-                'Dim buttonList As String = ""
-                'Dim topCopy As String = ""
-                ''
-                '' -- display the study page
-                'returnHtml = quiz.studyCopy
-                'If Not String.IsNullOrEmpty(quiz.videoEmbedCode) Then
-                '    '
-                '    'returnHtml &= "<script>window.open('" & quiz.Video.filename & "', '');</script>"
-                '    returnHtml &= quiz.videoEmbedCode
-                'End If
-                'If (response.dateStarted > DateTime.MinValue) Then
-                '    buttonCopy = "<p>Click Resume Quiz when you are ready.</p>"
-                '    buttonList &= vbCrLf & vbTab & "<input type=""submit"" name=""action"" value=""Resume Quiz"">"
-                'Else
-                '    buttonCopy = "<p>Click Begin Quiz when you are ready to start.</p>"
-                '    buttonList &= vbCrLf & vbTab & "<input type=""submit"" name=""action"" value=""Begin Quiz"">"
-                'End If
-                'returnHtml = "" _
-                '        & cp.Html.Indent(returnHtml) _
-                '        & cp.Html.Indent(buttonCopy) _
-                '        & vbCrLf & vbTab & "<div class=""button"">" _
-                '        & cp.Html.Indent(buttonList) _
-                '        & vbCrLf & vbTab & "</div>"
-                ''
-                '' Add form wrapper
-                ''
-                'Dim qs As String = cp.Doc.RefreshQueryString
-                'Dim formAction As String = "?" & qs
-                'For Each msg As String In userMessages
-                '    returnHtml &= cp.Html.div(msg)
-                'Next
-                'returnHtml = "" _
-                '    & cp.Html.Indent(topCopy) _
-                '    & vbCrLf & vbTab & "<form method=""post"" name=""quizForm"" action=""" & formAction & """>" _
-                '    & cp.Html.Indent(returnHtml) _
-                '    & vbCrLf & vbTab & "<input type=""hidden"" name=""quizID"" value=""" & quiz.id & """>" _
-                '    & vbCrLf & vbTab & "<input type=""hidden"" name=""" & rnPageNumber & """ value=""" & response.currentPageNumber & """>" _
-                '    & vbCrLf & vbTab & "<input type=""hidden"" name=""qNumbers"" value=""" & CStr(0) & """>" _
-                '    & vbCrLf & vbTab & "<input type=""hidden"" name=""quizName"" value=""" & quiz.name & """>" _
-                '    & vbCrLf & vbTab & "<input type=""hidden"" name=""responseId"" value=""" & response.id & """>" _
-                '    & vbCrLf & vbTab & "</form>"
             Catch ex As Exception
                 cp.Site.ErrorReport(ex)
             End Try
@@ -1067,7 +1025,7 @@ Namespace Contensive.Addons.OnlineQuiz
         '====================================================================================================
         '
         Private Function getAdminHints(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, response As DistanceLearning.Models.QuizResponseModel) As String
-            Dim result As String = "getAdminHints"
+            Dim result As String = ""
             Try
                 '
                 Dim lastQuestionId As Integer = 0
@@ -1081,7 +1039,12 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim itemList As String = ""
                 Dim adminUrl As String = cp.Site.GetText("adminUrl")
                 Dim warningMsgPoints As Integer
+                Dim distanceLearningPortalLink As String
                 '
+                distanceLearningPortalLink = cp.Site.GetText("adminUrl") _
+                    & "?addonGuid=" & DistanceLearning.constants.portalAddonGuid _
+                    & "&setPortalGuid=" & DistanceLearning.constants.portalDistanceLearning _
+                    & "&dstFeatureGuid="
                 If cp.User.IsAdmin Then
                     If (quiz.typeId = quizTypeIdGraded) Then
                         '
@@ -1117,7 +1080,10 @@ Namespace Contensive.Addons.OnlineQuiz
                                     answerList = ""
                                 End If
                                 foundCorrect = foundCorrect Or cs.GetBoolean("correct")
-                                answerList &= cr & cp.Html.li("<a href=""" & adminUrl & "?af=4&cid=" & answersCid & "&id=" & answerId & """>" & answerName & "</a>")
+                                Dim link As String = distanceLearningPortalLink & DistanceLearning.constants.portalFeatureQuizOverviewQuestionDetails _
+                                    & "&questionId=" & questionId _
+                                    & "&quizId=" & quiz.id
+                                answerList &= cr & cp.Html.li("<a href=""" & link & """>" & answerName & "</a>")
                                 lastQuestionName = questionName
                                 lastQuestionId = questionId
                                 Call cs.GoNext()
@@ -1153,7 +1119,11 @@ Namespace Contensive.Addons.OnlineQuiz
                                 If answerName = "" Then
                                     answerName = "Answer #" & answerId
                                 End If
-                                itemList &= cr & cp.Html.li("<a href=""" & adminUrl & "?af=4&cid=" & answersCid & "&id=" & answerId & """>" & answerName & "</a>")
+                                Dim link2 As String = distanceLearningPortalLink & DistanceLearning.constants.portalFeatureQuizOverviewQuestionDetails _
+                                    & "&answerId=" & answerId _
+                                    & "&quizId=" & quiz.id
+                                itemList &= cr & cp.Html.li("<a href=""" & link2 & """>" & answerName & "</a>")
+                                'itemList &= cr & cp.Html.li("<a href=""" & adminUrl & "?af=4&cid=" & answersCid & "&id=" & answerId & """>" & answerName & "</a>")
                             End If
                             Call cs.GoNext()
                         Loop
@@ -1218,7 +1188,9 @@ Namespace Contensive.Addons.OnlineQuiz
                         result &= "<p>Your online quiz appears to be configured correctly.</p>"
                     End If
                     If (quiz IsNot Nothing) Then
-                        result &= "<p>Edit this quiz <a href=""" & adminUrl & "?af=4&cid=" & cp.Content.GetID("quizzes") & "&id=" & quiz.id & """>" & cp.Utils.EncodeHTML(quiz.name) & "</a>.</p>"
+                        Dim link2 As String = distanceLearningPortalLink & DistanceLearning.constants.portalFeaturesQuizOverviewDetails _
+                                    & "&quizId=" & quiz.id
+                        result &= "<p>Edit this quiz <a href=""" & link2 & """>" & cp.Utils.EncodeHTML(quiz.name) & "</a>.</p>"
                         result &= "<p>To edit questions and answers on this page, turn on edit mode from the tool panel.</p>"
                     End If
                     result &= "<p>Create a <a href=""" & adminUrl & "?af=4&cid=" & cp.Content.GetID("quizzes") & """>new quiz</a>.</p>"

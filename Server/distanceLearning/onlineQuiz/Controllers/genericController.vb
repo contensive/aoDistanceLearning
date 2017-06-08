@@ -13,8 +13,11 @@ Namespace Contensive.Addons.OnlineQuiz
         Public Shared Function createNewQuizResponse(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel) As DistanceLearning.Models.QuizResponseModel
             Dim response As DistanceLearning.Models.QuizResponseModel = Nothing
             Try
-                response = DistanceLearning.Models.QuizResponseModel.create(cp, quiz.id, cp.User.Id)
+                response = DistanceLearning.Models.QuizResponseModel.createUncompletedObject(cp, quiz.id, cp.User.Id)
                 If (response Is Nothing) Then
+                    '
+                    ' -- clear FK
+                    cp.Db.ExecuteSQL("update quizquestions set subjectid=null where id in (select q.id from quizquestions q left join quizsubjects s on s.id=q.subjectid where s.id is null)")
                     '
                     ' -- add a new response, and create all the response details (with no answer selected)
                     response = DistanceLearning.Models.QuizResponseModel.add(cp, quiz.id)

@@ -47,8 +47,8 @@ namespace Contensive.Addons.DistanceLearning
                
                 //
                 // -- load filters
-                DateTime filterFromDate = genericController.encodeMinDate( cp.Doc.GetDate(constants.rnFilterDateFrom));
-                DateTime filterToDate = genericController.encodeMinDate(cp.Doc.GetDate(constants.rnFilterDateTo));
+                DateTime filterFromDate = cp.Doc.GetDate(constants.rnFilterDateFrom);
+                DateTime filterToDate = cp.Doc.GetDate(constants.rnFilterDateTo);
                 //
                 adminFramework.reportListClass form = new adminFramework.reportListClass(cp);
                 form.addFormHidden(constants.rnQuizId, quiz.id.ToString());

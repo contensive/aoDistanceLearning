@@ -124,7 +124,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         /// <param name="quizId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public static QuizResponseModel create(CPBaseClass cp, int quizId, int userId )
+        public static QuizResponseModel createUncompletedObject(CPBaseClass cp, int quizId, int userId )
         {
             QuizResponseModel result = null;
             try

@@ -26,8 +26,8 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 {
                     CPBlockBaseClass layout = cp.BlockNew();
                     CPCSBaseClass cs = cp.CSNew();
-                    DateTime filterDateFrom = genericController.encodeMinDate(cp.Utils.EncodeDate(cp.Doc.get_Var(constants.rnFilterDateFrom)));
-                    DateTime filterDateTo = genericController.encodeMinDate(cp.Utils.EncodeDate(cp.Doc.get_Var(constants.rnFilterDateTo)));
+                    DateTime filterDateFrom = cp.Utils.EncodeDate(cp.Doc.get_Var(constants.rnFilterDateFrom));
+                    DateTime filterDateTo = cp.Utils.EncodeDate(cp.Doc.get_Var(constants.rnFilterDateTo));
                     DateTime tmpDate;
                     //
                     if ((filterDateTo != DateTime.MinValue) & (filterDateTo < filterDateFrom))

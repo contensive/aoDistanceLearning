@@ -9,7 +9,7 @@ using Contensive.Addons.DistanceLearning.Controllers;
 
 namespace Contensive.Addons.DistanceLearning.Controllers
 {
-    static class genericController
+    public static class genericController
     {
         //
         // create main form tab container
@@ -152,11 +152,16 @@ namespace Contensive.Addons.DistanceLearning.Controllers
         {
             string returnString = "";
             DateTime workingDate = encodeMinDate( srcDate );
-            if (srcDate > new DateTime(1900, 1, 1))
+            if (!isDateEmpty( srcDate ))
             {
                 returnString = workingDate.ToShortDateString();
             }
             return returnString;
+        }
+        //
+        public static bool isDateEmpty(DateTime srcDate)
+        {
+            return (srcDate < new DateTime(1900, 1, 1));
         }
     }
 }

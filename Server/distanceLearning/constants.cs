@@ -6,7 +6,7 @@ using Contensive.BaseClasses;
 
 namespace Contensive.Addons.DistanceLearning
 {
-    static class constants
+    public static class constants
     {
         public static string cr = "\n\t";
         public static string cr2 = "\n\t\t";
@@ -56,6 +56,7 @@ namespace Contensive.Addons.DistanceLearning
 
         //
         // addon guids
+        public const string portalAddonGuid = "{A1BCA00C-2657-42A1-8F98-BED1E5A42025}";
         //public const string dashBoardAddon = "{061eafdb-147c-4f09-afb8-7e51aa5181f3}";
         //public const string quizDetailsAddon = "{fd30f314-f37d-40e9-ac56-841e74de84fd}";
         //public const string quizOverViewSelectAddon = "{dfafb5b3-7c68-40d7-b6ce-ef982aad3441}";
@@ -66,7 +67,6 @@ namespace Contensive.Addons.DistanceLearning
         //public const string quizOverQuestionDetailsPageAddon = "{71e8f8bd-a2f1-4f78-a036-506103877f75}";
         //public const string quizOverViewManageScoringPageAddon = "{99758dd6-6df4-4260-98ef-f511a76458fa}";
         public const string portalFeatureQuizOverviewSetting = "{19136f9a-b976-4339-81a8-c5565380f648}";
-        //public const string portalAddonGuid = "{A1BCA00C-2657-42A1-8F98-BED1E5A42025}";
         public const string portalFeaturesQuizOverviewDetails = "{f3600bc9-7323-4b27-a782-6da6133eeb96}";
         public const string portalFeatureQuizOverviewStudyPage = "{dfdb76e1-af7a-42a7-bc49-3af95417aee2}";
         public const string portalFeatureDashboard = "{6b921555-04b2-4ec0-83e1-24ac6c3bcd62}";
@@ -75,14 +75,7 @@ namespace Contensive.Addons.DistanceLearning
         public const string portalFeatureQuizOverviewScoring = "{bc2f69da-ab79-4051-aed5-63ba98b88b8f}";
         public const string portalFeatureQuizOverviewResults = "{e75b026b-1f9c-4839-83bb-801518cec97d}";
         public const string portalFeatureQuizOverviewResultsDetails = "{20d45c8f-0989-4e79-a2d7-4f7991add604}";
-
-        //
-
-        // public const string portalAddonId = "109";
-
-
-
-
+        public const string portalDistanceLearning = "{771bfee5-1fa7-4edf-8b6c-1406ab7bacf9}";
         //
         public const int formIdHome = 1;
         public const int formIdBlank = 2;
