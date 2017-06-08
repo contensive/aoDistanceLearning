@@ -27,10 +27,10 @@ namespace Contensive.Addons.DistanceLearning.Models
         public string name;
         public string guid;
         public DateTime DateAdded;
-        public int maxNumberQuest;
-        public string questionPresentation;
-        public string includeSubject;
-        public bool allowRetake;
+        //public int maxNumberQuest;
+        //public string questionPresentation;
+        //public string includeSubject;
+        //public bool allowRetake;
         //
         public int MemberID;
         public int QuizID;
@@ -191,10 +191,10 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.guid = cs.GetText("ccGuid");
                     result.createKey = cs.GetInteger("createKey");
                     result.DateAdded = cs.GetDate("dateadded");
-                    result.maxNumberQuest = cs.GetInteger("maxNumberQuest");
-                    result.questionPresentation = cs.GetText("questionPresentation");
-                    result.includeSubject = cs.GetText("includeSubject");
-                    result.allowRetake = cs.GetBoolean("allowRetake");
+                    //result.maxNumberQuest = cs.GetInteger("maxNumberQuest");
+                    //result.questionPresentation = cs.GetText("questionPresentation");
+                    //result.includeSubject = cs.GetText("includeSubject");
+                    //result.allowRetake = cs.GetBoolean("allowRetake");
                     result.QuizID = cs.GetInteger("QuizID");
                     result.MemberID = cs.GetInteger("MemberID");
                     result.attemptNumber = cs.GetInteger("attemptNumber");
@@ -255,10 +255,10 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("ccGuid", guid);
                     cs.SetField("createKey", createKey.ToString());
                     cs.SetField("dateadded", DateAdded.ToString());
-                    cs.SetField("maxNumberQuest", maxNumberQuest.ToString());
-                    cs.SetField("questionPresentation", questionPresentation);
-                    cs.SetField("includeSubject", includeSubject);
-                    cs.SetField("allowRetake", allowRetake.ToString());
+                    //cs.SetField("maxNumberQuest", maxNumberQuest.ToString());
+                    //cs.SetField("questionPresentation", questionPresentation);
+                    //cs.SetField("includeSubject", includeSubject);
+                    //cs.SetField("allowRetake", allowRetake.ToString());
                     cs.SetField("QuizID", QuizID.ToString());
                     cs.SetField("MemberID", MemberID.ToString());
                     cs.SetField("attemptNumber", attemptNumber.ToString());
@@ -420,7 +420,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             List<quizResponseReportModel> modelList = new List<quizResponseReportModel>();
             try
             {
-                string sql = "select q.name, u.name as userName, r.dateSubmitted, r.attemptNumber, r.score, r.totalQuestions, r.totalCorrect, r.totalPoints"
+                string sql = "select q.name as quizName, u.name as userName, r.dateSubmitted, r.attemptNumber, r.score, r.totalQuestions, r.totalCorrect, r.totalPoints"
                     + " from ((quizResponses r"
                     + " left join quizzes q on q.id=r.quizId)"
                     + " left join ccMembers u on u.id=r.memberId)"
