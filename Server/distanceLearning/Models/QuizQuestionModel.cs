@@ -34,7 +34,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         //public int pageOrder;
         //
         //public bool Active;
-        public int SortOrder;
+        public string SortOrder;
         //public DateTime DateAdded;
         //public int CreatedBy;
         //public DateTime ModifiedDate;
@@ -138,7 +138,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.points = cs.GetInteger("points");
                     result.instructions = cs.GetText("instructions");
                     result.qOrder = cs.GetInteger("qOrder");
-                    result.SortOrder = cs.GetInteger("SortOrder");
+                    result.SortOrder = cs.GetText("SortOrder");
                    
                 }
                 cs.Close();

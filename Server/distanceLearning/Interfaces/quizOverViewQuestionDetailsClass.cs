@@ -51,7 +51,7 @@ namespace Contensive.Addons.DistanceLearning
                         question.SubjectID = cp.Doc.GetInteger("SubjectId");
                         question.name= cp.Doc.GetText("Qtext");
                         question.qOrder = cp.Doc.GetInteger("qOrder");
-                        question.SortOrder = cp.Doc.GetInteger("SortOrder");
+                        question.SortOrder = cp.Doc.GetText("SortOrder");
                         question.saveObject(cp);
                         List<QuizAnswerModel> quizAnswersList = QuizAnswerModel.getAnswersForQuestionList(cp, question.id);
                         foreach (QuizAnswerModel quizAnswer in quizAnswersList)
@@ -98,7 +98,7 @@ namespace Contensive.Addons.DistanceLearning
                 questionForm.rowValue = cp.Html.InputText("Qtext", question.QText, "5", "", false, "qtext", "js-qText");
                 questionForm.addRow();
                 questionForm.rowName = "Sort Order </b>";
-                questionForm.rowValue = cp.Html.InputText("Sort Order", question.SortOrder.ToString());
+                questionForm.rowValue = cp.Html.InputText("SortOrder", question.SortOrder.ToString());
                 questionForm.addRow();
                 questionForm.rowName = "Points* </b>";
                 questionForm.rowValue = cp.Html.InputText("points", question.points.ToString());
