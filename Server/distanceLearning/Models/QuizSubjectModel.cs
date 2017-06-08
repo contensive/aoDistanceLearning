@@ -25,6 +25,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         public int id;
         public string name;
         public string guid;
+        public int quizId;
         //public string ACaption;
         //public string BCaption;
         //public string CCaption;
@@ -128,16 +129,18 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.name = cs.GetText("name");
                     result.guid = cs.GetText("ccGuid");
                     result.createKey = cs.GetInteger("createKey");
-                    //result.ACaption = cs.GetText("ACaption");
-                    //result.APercentile = cs.GetNumber("APercentile");
-                    //result.BCaption = cs.GetText("BCaption");
-                    //result.BPercentile = cs.GetNumber("BPercentile");
-                    //result.CCaption = cs.GetText("CCaption");
-                    //result.CPercentile = cs.GetNumber("CPercentile");
-                    //result.DCaption = cs.GetText("DCaption");
-                    //result.DPercentile = cs.GetNumber("DPercentile");
-                    //result.FCaption = cs.GetText("FCaption");
-                }
+                    result.quizId = cs.GetInteger("quizId");
+                      
+        //result.ACaption = cs.GetText("ACaption");
+        //result.APercentile = cs.GetNumber("APercentile");
+        //result.BCaption = cs.GetText("BCaption");
+        //result.BPercentile = cs.GetNumber("BPercentile");
+        //result.CCaption = cs.GetText("CCaption");
+        //result.CPercentile = cs.GetNumber("CPercentile");
+        //result.DCaption = cs.GetText("DCaption");
+        //result.DPercentile = cs.GetNumber("DPercentile");
+        //result.FCaption = cs.GetText("FCaption");
+    }
                 cs.Close();
             }
             catch (Exception ex)
@@ -183,6 +186,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("name", name);
                     cs.SetField("ccGuid", guid);
                     cs.SetField("createKey", createKey.ToString());
+                    cs.SetField("quizId", quizId.ToString());
                     //cs.SetField("ACaption", ACaption);
                     //cs.SetField("APercentile", APercentile.ToString());
                     //cs.SetField("BCaption", BCaption);
@@ -192,7 +196,8 @@ namespace Contensive.Addons.DistanceLearning.Models
                     //cs.SetField("DCaption", DCaption);
                     //cs.SetField("DPercentile", DPercentile.ToString());
                     //cs.SetField("FCaption", FCaption);
-                }
+                    
+    }
                 cs.Close();
             }
             catch (Exception ex)

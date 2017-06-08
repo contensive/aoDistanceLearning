@@ -51,7 +51,7 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim Button As String = CP.Doc.GetText("Start")
                 If Button = customButtonCopy Then
                     qs = CP.Doc.RefreshQueryString
-                    qs = CP.Utils.ModifyQueryString(qs, "AddonGuid", addonGuid)
+                    qs = CP.Utils.ModifyQueryString(qs, "AddonGuid", onlineQuizAddonGuid)
                     qs = CP.Utils.ModifyQueryString(qs, "quizId", quizId)
                     CP.Response.Redirect("?" + qs)
                 End If

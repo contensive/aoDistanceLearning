@@ -58,9 +58,9 @@ namespace Contensive.Addons.DistanceLearning
                 reportList.addColumn();
                 reportList.columnCaption = "Questions    ";
                 reportList.columnCaptionClass = "afwTextAlignright";
-                reportList.addColumn();
-                reportList.columnCaption = "Sort Order";
-                reportList.columnCaptionClass = "afwTextAlignright afwWidth100px";
+                //reportList.addColumn();
+                //reportList.columnCaption = "Sort Order";
+                //reportList.columnCaptionClass = "afwTextAlignright afwWidth100px";
                 //
                 reportList.addColumn();
                 reportList.columnCaption = " ";
@@ -98,7 +98,7 @@ namespace Contensive.Addons.DistanceLearning
                     }                        
                     reportList.columnCellClass = "afwTextAlignLeft";
                     reportList.setCell(question.QText);
-                    reportList.setCell(question.qOrder.ToString());
+                    //reportList.setCell(question.qOrder.ToString());
                     //
                     string miniForm = "";
                     miniForm += cp.Html.Button("button", "Edit", "questionEdit", "js-questionEdit");
