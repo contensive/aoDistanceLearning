@@ -33,7 +33,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         public string courseMaterial;
         public string customTopCopy;
         public string customButtonCopy;
-        public file Video;
+        //public file Video;
         public string videoEmbedCode;
         public string ACaption;
         public string BCaption;

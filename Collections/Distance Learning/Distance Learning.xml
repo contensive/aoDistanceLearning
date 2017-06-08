@@ -43,7 +43,7 @@
 		<CopyText></CopyText>
 		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass><![CDATA[Contensive.Addons.OnlineQuiz.quizClass]]></DotNetClass>
-		<ArgumentList><![CDATA[Quiz Name=[List(Quizzes)]]]></ArgumentList>
+		<ArgumentList><![CDATA[Quiz =[ListId(Quizzes)]]]></ArgumentList>
 		<AsAjax>No</AsAjax>
 		<Filter>No</Filter>
 		<Help></Help>
@@ -133,6 +133,7 @@ jQuery(document).ready(function(){
 		<PageTitle></PageTitle>
 		<RemoteAssetLink></RemoteAssetLink>
 		<Styles><![CDATA[
+
 
 #afw .afwFormRowValue .afwRowValueHelpBox {padding: 5px 0 0 20px;}
 #afw .afwFormRowValue input[type="text"].afwRowTextInput {width:50px;}
@@ -234,6 +235,7 @@ jQuery(document).ready(function(){
 
 
 
+
 .dlFilterRow {
     width: 300px;
     text-align: right;
@@ -326,6 +328,7 @@ jQuery(document).ready(function(){
 		<PageTitle></PageTitle>
 		<RemoteAssetLink></RemoteAssetLink>
 		<Styles><![CDATA[
+
 
 
 
@@ -480,11 +483,11 @@ margin-left:400px;
 		<Styles></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
-	<Addon name="Quiz OverView Start Page" guid="{87f875ac-659e-40eb-9aca-1045120e6771}" type="Add-on">
+	<Addon name="Quiz OverView Study Page" guid="{87f875ac-659e-40eb-9aca-1045120e6771}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
 		<ActiveXProgramID></ActiveXProgramID>
-		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.quizoverviewStartPageClass]]></DotNetClass>
+		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.quizoverviewStudyPageClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
 		<Filter>No</Filter>
@@ -1298,5 +1301,6 @@ end function]]></Code>
 	</CDef>
 	<ImportCollection name="Portal Framework">{87249F75-A065-4F2F-8DCD-FBBF2CA0DCCD}</ImportCollection>
 	<ImportCollection name="Ecommerce">{8DBE6B55-18DB-44EB-9A4A-5CBBA84DF35A}</ImportCollection>
+	<Resource name="NavRecord.gif" type="www" path="/myDistanceLearning" />
 	<Resource name="distancelearning.dll" type="executable" path="" />
 </Collection>

@@ -98,7 +98,7 @@
     <Compile Include="Interfaces\quizOverviewDetailsClass.cs" />
     <Compile Include="Interfaces\quizOverViewlSettingClass.cs" />
     <Compile Include="Interfaces\quizOverviewResultsClass.cs" />
-    <Compile Include="Interfaces\quizoverviewStartPageClass.cs" />
+    <Compile Include="Interfaces\quizoverviewStudyPageClass.cs" />
     <Compile Include="Interfaces\quizOverviewQuestionsClass.cs" />
     <Compile Include="Interfaces\quizOverViewQuestionDetailsClass.cs" />
   </ItemGroup>
@@ -142,7 +142,7 @@
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" />
+      <UserProperties BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
