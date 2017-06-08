@@ -87,10 +87,9 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="commonModule.vb" />
+    <Compile Include="constants.vb" />
     <Compile Include="Controllers\genericController.vb" />
-    <Compile Include="onlineQuizModule.vb" />
-    <Compile Include="QuizLandingPageClass.vb" />
+    <Compile Include="Views\QuizLandingPageView.vb" />
     <Compile Include="scoreCardClass.vb" />
     <Compile Include="Interfaces\quizClass.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -168,7 +167,7 @@
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_AssemblyInfoFilename="My Project\AssemblyInfo.vb" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_AssemblyInfoFilename="My Project\AssemblyInfo.vb" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

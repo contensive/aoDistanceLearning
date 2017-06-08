@@ -7,13 +7,8 @@ Imports System
     Imports Contensive.BaseClasses
 
 Namespace Contensive.Addons.OnlineQuiz
-    '
-    ' Sample Vb2005 addon
-    '
-    Public Class QuizLandingPageClass
-        Inherits Contensive.BaseClasses.AddonBaseClass
-        '
-        Public Overrides Function Execute(ByVal CP As CPBaseClass) As Object
+    Public Class QuizLandingPageView
+        Public Function getView(ByVal CP As CPBaseClass) As String
             Dim returnHtml As String = ""
             Try
                 Dim cs As CPCSBaseClass = CP.CSNew()
