@@ -447,7 +447,7 @@ margin-left:400px;
 		<Styles></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
-	<Addon name="Quiz Overview Results" guid="{6969a1ad-49af-4b10-a76e-ee736f73772f}" type="Add-on">
+	<Addon name="Quiz Overview Responses" guid="{6969a1ad-49af-4b10-a76e-ee736f73772f}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
 		<ActiveXProgramID></ActiveXProgramID>
@@ -740,7 +740,7 @@ end function]]></Code>
 		<Styles></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
-	<Addon name="Quiz Overview Result Details" guid="{3f71750b-1b2d-4f4e-9753-097b5c4da496}" type="Add-on">
+	<Addon name="Quiz Overview Response Details" guid="{3f71750b-1b2d-4f4e-9753-097b5c4da496}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
 		<ActiveXProgramID></ActiveXProgramID>
@@ -760,10 +760,10 @@ end function]]></Code>
 		<JavascriptBodyEnd></JavascriptBodyEnd>
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
-		<Content>No</Content>
-		<Template>No</Template>
+		<Content>Yes</Content>
+		<Template>Yes</Template>
 		<Email>No</Email>
-		<Admin>No</Admin>
+		<Admin>Yes</Admin>
 		<OnPageEndEvent>No</OnPageEndEvent>
 		<OnPageStartEvent>No</OnPageStartEvent>
 		<OnBodyStart>No</OnBodyStart>
@@ -783,12 +783,12 @@ end function]]></Code>
 			<field name="defaultConfigJson"></field>
 			<field name="defaultFeatureId">{6b921555-04b2-4ec0-83e1-24ac6c3bcd62}</field>
 		</record>
-		<record content="Portal Features" guid="{6b921555-04b2-4ec0-83e1-24ac6c3bcd62}" name="Quizes">
+		<record content="Portal Features" guid="{6b921555-04b2-4ec0-83e1-24ac6c3bcd62}" name="Quizzes">
 			<field name="Active">True</field>
 			<field name="SortOrder"><![CDATA[0]]></field>
 			<field name="portalId">{771bfee5-1fa7-4edf-8b6c-1406ab7bacf9}</field>
 			<field name="addonId">{061eafdb-147c-4f09-afb8-7e51aa5181f3}</field>
-			<field name="Heading"><![CDATA[Quizes]]></field>
+			<field name="Heading"><![CDATA[Quizzes]]></field>
 			<field name="parentFeatureId"></field>
 			<field name="dataContentId"></field>
 			<field name="addPadding">False</field>
@@ -873,12 +873,12 @@ end function]]></Code>
 			<field name="dataContentId"></field>
 			<field name="addPadding">False</field>
 		</record>
-		<record content="Portal Features" guid="{e75b026b-1f9c-4839-83bb-801518cec97d}" name="Quiz Reporting">
+		<record content="Portal Features" guid="{e75b026b-1f9c-4839-83bb-801518cec97d}" name="Quiz Overview Responses">
 			<field name="Active">True</field>
-			<field name="SortOrder"></field>
+			<field name="SortOrder"><![CDATA[Quiz Overview Responses]]></field>
 			<field name="portalId">{771bfee5-1fa7-4edf-8b6c-1406ab7bacf9}</field>
 			<field name="addonId">{6969a1ad-49af-4b10-a76e-ee736f73772f}</field>
-			<field name="Heading"><![CDATA[Quiz Reporting]]></field>
+			<field name="Heading"><![CDATA[Quiz Overview Responses]]></field>
 			<field name="parentFeatureId">{6b921555-04b2-4ec0-83e1-24ac6c3bcd62}</field>
 			<field name="dataContentId"></field>
 			<field name="addPadding">False</field>

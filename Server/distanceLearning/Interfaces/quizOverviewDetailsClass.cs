@@ -62,7 +62,7 @@ namespace Contensive.Addons.DistanceLearning
                 form.body = innerBody;
                 form.addFormButton("Cancel", "button");
                 form.title = quiz.name;
-                string pencilImage = "NavRecord.gif";
+  
                 
                 //
                 // -- add row

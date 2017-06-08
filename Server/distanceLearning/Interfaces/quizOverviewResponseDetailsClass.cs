@@ -8,18 +8,18 @@ using Contensive.Addons.DistanceLearning.Controllers;
 
 namespace Contensive.Addons.DistanceLearning
 {
-    class quizOverviewResponseDetailsClass : Contensive.BaseClasses.AddonBaseClass
+    public class quizOverviewResponseDetailsClass : Contensive.BaseClasses.AddonBaseClass
 
         {
             public override object Execute(CPBaseClass cp)
             {
-                string result = "Hello World";
+                string result = "";
                 try
                 {
-                    
-                   
+                cp.Doc.SetProperty("id", cp.Doc.GetInteger("responseid").ToString());
+                result = cp.Utils.ExecuteAddon(constants.scoreCardAddon);
                 }
-                catch (Exception ex)
+            catch (Exception ex)
                 {
                     errorReport(cp, ex, "execute");
                 }

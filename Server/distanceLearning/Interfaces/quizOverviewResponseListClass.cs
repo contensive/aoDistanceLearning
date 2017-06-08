@@ -17,6 +17,7 @@ namespace Contensive.Addons.DistanceLearning
             try
             {
                 QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger(constants.rnQuizId));
+                QuizResponseModel Myquizresponse = QuizResponseModel.create(cp, cp.Doc.GetInteger(constants.rnQuizId));
                 if (quiz == null)
                 {
                     //
@@ -84,9 +85,15 @@ namespace Contensive.Addons.DistanceLearning
                 foreach (QuizResponseModel.quizResponseReportModel quizResponse in quizResponseList)
                 {
                     MemberModel member = MemberModel.create(cp, cp.Doc.GetInteger(constants.rnMemberId));
+                    
                     form.addRow();
-                    //quizUserDetailsForm.setCell(quizResponse.quizName);                  
-                    form.setCell(quizResponse.userName);
+                    //quizUserDetailsForm.setCell(quizResponse.quizName); 
+                    qs = cp.Doc.RefreshQueryString;
+                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewResultsDetails, true);
+                    qs = cp.Utils.ModifyQueryString(qs, "ResponseId", quizResponse.id.ToString(), true);
+                    qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
+                   
+                    form.setCell("<div><a href=\"?" + qs + "\"> " + quizResponse.userName + " </ a></div>");
                     form.setCell(quizResponse.dateSubmitted.ToShortDateString());
                     form.setCell(quizResponse.attemptNumber.ToString());
                     form.setCell(quizResponse.score.ToString());
