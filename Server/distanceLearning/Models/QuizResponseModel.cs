@@ -44,6 +44,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         public int lastDisplayedPageOrder;
         public DateTime dateStarted;
         public string SortOrder;
+        public int lastPageNumber;
         //
         //public bool Active;
         //public DateTime DateAdded;
@@ -206,6 +207,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.lastDisplayedPageOrder = cs.GetInteger("lastDisplayedPageOrder");
                     result.dateStarted = cs.GetDate("dateStarted");
                     result.SortOrder = cs.GetText("SortOrder");
+                    result.lastPageNumber = cs.GetInteger("lastPageNumber");
                 }
                 cs.Close();
             }
@@ -269,6 +271,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("lastDisplayedPageOrder", lastDisplayedPageOrder.ToString());
                     cs.SetField("dateStarted", dateStarted.ToString());
                     cs.SetField("SortOrder", SortOrder.ToString());
+                    cs.SetField("lastPageNumber", lastPageNumber.ToString());
                 }
                 cs.Close();
             }

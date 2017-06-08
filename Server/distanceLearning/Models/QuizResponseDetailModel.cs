@@ -28,6 +28,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         public int responseId;
         public int questionId;
         public int answerId;
+        public int pageNumber;
         //
         //public bool Active;
         //public string SortOrder;
@@ -145,6 +146,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.responseId = cs.GetInteger("responseId");
                     result.questionId = cs.GetInteger("questionId");
                     result.answerId = cs.GetInteger("answerId");
+                    result.pageNumber = cs.GetInteger("pageNumber");
                 }
                 cs.Close();
             }
@@ -194,6 +196,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("responseId", responseId.ToString());
                     cs.SetField("questionId", questionId.ToString());
                     cs.SetField("answerId", answerId.ToString());
+                    cs.SetField("pageNumber",pageNumber.ToString());
                 }
                 cs.Close();
             }
