@@ -40,11 +40,11 @@ namespace Contensive.Addons.DistanceLearning.Models
         public int totalCorrect;
         public int totalPoints;
         public double Score;
-        public bool lastDisplayedStudyPage;
-        public int lastDisplayedPageOrder;
+        //public bool lastDisplayedStudyPage;
+        //public int lastDisplayedPageOrder;
         public DateTime dateStarted;
         public string SortOrder;
-        public int lastPageNumber;
+        public int currentPageNumber;
         //
         //public bool Active;
         //public DateTime DateAdded;
@@ -203,11 +203,11 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.totalCorrect = cs.GetInteger("totalCorrect");
                     result.totalPoints = cs.GetInteger("totalPoints");
                     result.Score = cs.GetNumber("Score");
-                    result.lastDisplayedStudyPage = cs.GetBoolean("lastDisplayedStudyPage");
-                    result.lastDisplayedPageOrder = cs.GetInteger("lastDisplayedPageOrder");
+                    //result.lastDisplayedStudyPage = cs.GetBoolean("lastDisplayedStudyPage");
+                    //result.lastDisplayedPageOrder = cs.GetInteger("lastDisplayedPageOrder");
                     result.dateStarted = cs.GetDate("dateStarted");
                     result.SortOrder = cs.GetText("SortOrder");
-                    result.lastPageNumber = cs.GetInteger("lastPageNumber");
+                    result.currentPageNumber = cs.GetInteger("lastPageNumber");
                 }
                 cs.Close();
             }
@@ -267,11 +267,11 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("totalCorrect", totalCorrect.ToString());
                     cs.SetField("totalPoints", totalPoints.ToString());
                     cs.SetField("Score", Score.ToString());
-                    cs.SetField("lastDisplayedStudyPage", lastDisplayedStudyPage.ToString());
-                    cs.SetField("lastDisplayedPageOrder", lastDisplayedPageOrder.ToString());
+                    //cs.SetField("lastDisplayedStudyPage", lastDisplayedStudyPage.ToString());
+                    //cs.SetField("lastDisplayedPageOrder", lastDisplayedPageOrder.ToString());
                     cs.SetField("dateStarted", dateStarted.ToString());
                     cs.SetField("SortOrder", SortOrder.ToString());
-                    cs.SetField("lastPageNumber", lastPageNumber.ToString());
+                    cs.SetField("lastPageNumber", currentPageNumber.ToString());
                 }
                 cs.Close();
             }

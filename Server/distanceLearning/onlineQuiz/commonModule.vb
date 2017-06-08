@@ -41,7 +41,7 @@ Namespace Contensive.Addons.OnlineQuiz
         Public Const rnSrcFormId = "srcFormId"
         Public Const rnDstFormId = "dstFormId"
         Public Const rnButton = "button"
-        Public Const rnSrcPageOrder = "pageOrder"
+        Public Const rnPageNumber = "pageOrder"
         Public Const rnDstPageOrder = "dstPageOrder"
         '
         ' custom log path

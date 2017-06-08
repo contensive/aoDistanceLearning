@@ -287,6 +287,42 @@ namespace Contensive.Addons.DistanceLearning.Models
             }
             return result;
         }
+        //
+        //====================================================================================================
+        /// <summary>
+        /// get a list of objects from this model
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <param name="questionId"></param>
+        /// <returns></returns>
+        public static List<QuizSubjectModel> getObjectList(CPBaseClass cp, int quizId )
+        {
+            List<QuizSubjectModel> result = new List<QuizSubjectModel>();
+            try
+            {
+                CPCSBaseClass cs = cp.CSNew();
+                List<string> ignoreCacheNames = new List<string>();
+                if ((cs.Open(primaryContentName, "(quizId=" + quizId + ")", "name", true, "id")))
+                {
+                    QuizSubjectModel instance = null;
+                    do
+                    {
+                        instance = QuizSubjectModel.create(cp, cs.GetInteger("id"));
+                        if ((instance != null))
+                        {
+                            result.Add(instance);
+                        }
+                        cs.GoNext();
+                    } while (cs.OK());
+                }
+                cs.Close();
+            }
+            catch (Exception ex)
+            {
+                cp.Site.ErrorReport(ex);
+            }
+            return result;
+        }
         public static QuizSubjectModel add(CPBaseClass cp)
         {
             return create(cp, cp.Content.AddRecord(primaryContentName));

@@ -45,7 +45,7 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim answersCid As Integer = CP.Content.GetID("quiz answers")
                 Dim questionsCid As Integer = CP.Content.GetID("quiz questions")
                 Dim quizResultMessagesCid As Integer = CP.Content.GetID("quiz result messages")
-                Dim srcPageOrderText As String = CP.Doc.GetText(rnSrcPageOrder)
+                Dim srcPageOrderText As String = CP.Doc.GetText(rnPageNumber)
                 Dim Action As String = CP.Doc.GetText("Action")
                 Dim isScoreCardPage As Boolean = CP.Doc.GetBoolean("scoreCard")
                 Dim dstPageOrder As Integer = CP.Doc.GetInteger(rnDstPageOrder)
@@ -108,6 +108,7 @@ Namespace Contensive.Addons.OnlineQuiz
                             response = New DistanceLearning.Models.QuizResponseModel
                         End If
                         '
+                        adminHint = getAdminHints(CP, quiz, response)
                         If (srcFormId > 0) Then
                             '
                             ' -- process the form results
@@ -138,20 +139,19 @@ Namespace Contensive.Addons.OnlineQuiz
                             Case scoreCardFormId
                                 '
                                 '
-                                returnHtml = getScoreCardform(CP, quiz, response)
+                                returnHtml = getScoreCardform(CP, quiz, response, adminHint, userMessages)
                                 'returnHtml = getQuiz(CP, quiz.name, quiz.id, adminHint, isEditing, CP.User.Id, response.id, userMessage, isAuthenticated, quiz.allowRetake, dstPageOrder, isStudyPage, (response.dateSubmitted > Date.MinValue))
                             Case onineQuizFormId
                                 '
                                 '
-                                returnHtml = getOnlineQuizForm(CP, quiz, response)
+                                returnHtml = getOnlineQuizForm(CP, quiz, response, adminHint, userMessages)
                                 'returnHtml = getQuiz(CP, quiz.name, quiz.id, adminHint, isEditing, CP.User.Id, response.id, userMessage, isAuthenticated, quiz.allowRetake, dstPageOrder, isStudyPage, (response.dateSubmitted > Date.MinValue))
                             Case Else
                                 '
                                 '
-                                returnHtml = getScoreCardform(CP, quiz, response)
+                                returnHtml = getScoreCardform(CP, quiz, response, adminHint, userMessages)
                                 'returnHtml = getQuiz(CP, quiz.name, quiz.id, adminHint, isEditing, CP.User.Id, response.id, userMessage, isAuthenticated, quiz.allowRetake, dstPageOrder, isStudyPage, (response.dateSubmitted > Date.MinValue))
                         End Select
-                        adminHint = getAdminHints(CP, quiz, response)
                     End If
                     '
                     ' Add wrapper
@@ -708,7 +708,7 @@ Namespace Contensive.Addons.OnlineQuiz
         '
         '====================================================================================================
         '
-        Private Function getOnlineQuizForm(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, response As DistanceLearning.Models.QuizResponseModel) As String
+        Private Function getOnlineQuizForm(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, response As DistanceLearning.Models.QuizResponseModel, ByRef adminHint As String, ByRef userMessages As List(Of String)) As String
             Dim returnHtml As String = ""
             Try
                 Dim buttonList As String = ""
@@ -716,17 +716,8 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim answerId As Integer
                 Dim htmlRadio As String
                 Dim answerCnt As Integer
-                Dim questionCnt As Integer
-                'Dim cs As CPCSBaseClass = cp.CSNew()
-                'Dim cs2 As CPCSBaseClass = cp.CSNew()
-                'Dim CS3 As CPCSBaseClass = cp.CSNew()
-                'Dim cs4 As CPCSBaseClass = cp.CSNew()
-                Dim Counter As Integer
                 Dim q As String
-                'Dim quizVideo As String = ""
-                Dim questionId As Integer
-                'Dim sqlCriteria As String
-                Dim questionName As String
+                'Dim questionName As String
                 Dim quizEditIcon As String = ""
                 Dim topCopy As String = ""
                 Dim buttonCopy As String = ""
@@ -736,119 +727,86 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim previousPageOrder As Integer
                 Dim isLastPage As Boolean
                 Dim isFirstPage As Boolean
-                'Dim quizIncludeStudyPage As Boolean = False
-                'Dim quizStudycopy As String = ""
                 Dim answerText As String = ""
-                'Dim quizTypeId As Integer
-                'Dim quizDateStart As Date
-                'Dim quizPageList As String
-                Dim quizpages() As String
-                Dim pagePtr As Integer
                 Dim quizProgress As Double
                 Dim jsHead As String
                 Dim progressBarHtml As String = ""
                 Dim questionSubjectId As Integer
                 Dim subjectName As String = ""
+                Dim quizProgressText As String = ""
                 '
-                ' not submitted -- mark the response with the lastDisplayedPageOrder 
-                '
-                response.lastDisplayedPageOrder = 1
-                response.lastDisplayedStudyPage = 1
                 If (response.dateStarted = Date.MinValue) Then
                     response.dateStarted = Now
                 End If
                 response.saveObject(cp)
                 '
-                ' take the quiz for the first time
-                '
-                Dim quizProgressText As String = ""
-                '
-                ' progress bar for all but first page
-                '
+                ' -- progress bar for all but first page
+                Dim responseDetailList As List(Of DistanceLearning.Models.QuizResponseDetailModel) = DistanceLearning.Models.QuizResponseDetailModel.getObjectList(cp, response.id)
                 quizProgress = 0
-                quizPageList = cs.GetText("pageList")
-                If quizPageList <> "" Then
-                    quizpages = quizPageList.Split(","c)
-                    For pagePtr = 0 To quizpages.Length - 1
-                        If (quizpages(pagePtr) = dstPageOrder.ToString) Then
-                            Exit For
+                If responseDetailList.Count > 0 Then
+                    Dim answeredCount As Integer = 0
+                    For Each responseDetail As DistanceLearning.Models.QuizResponseDetailModel In responseDetailList
+                        If responseDetail.answerId > 0 Then
+                            answeredCount += 1
                         End If
                     Next
-                    If (pagePtr > 0) Then
-                        quizProgress = pagePtr / quizpages.Length
-                        quizProgressText = CStr(Int(quizProgress * 100))
-                        progressBarHtml = "" _
-                                        & cr & "<div class=""progressbarCon"">" _
-                                        & cr & "<div class=""progressbarTitle"">Your Progress " & quizProgressText & "%</div>" _
-                                        & cr & "<div id=""progressbar""></div>" _
-                                        & cr & "</div>"
-                        jsHead = "$(document).ready(function(){$(""#progressbar"").progressbar({value:" & quizProgressText & "});});"
-                        cp.Doc.AddHeadJavascript(jsHead)
-                    End If
+                    quizProgress = answeredCount / responseDetailList.Count
+                    quizProgressText = CStr(Int(quizProgress * 100))
+                    progressBarHtml = "" _
+                        & cr & "<div class=""progressbarCon"">" _
+                        & cr & "<div class=""progressbarTitle"">Your Progress " & quizProgressText & "%</div>" _
+                        & cr & "<div id=""progressbar""></div>" _
+                        & cr & "</div>"
+                    jsHead = "$(document).ready(function(){$(""#progressbar"").progressbar({value:" & quizProgressText & "});});"
+                    cp.Doc.AddHeadJavascript(jsHead)
                 End If
                 '
-                If isEditing Then
-                    returnHtml &= "<div class=""quizName"">" & quizEditIcon & "Edit this quiz (" & cs.GetText("name") & ")</div>"
+                If cp.User.IsEditingAnything Then
+                    'returnHtml &= "<div class=""quizName"">" & quizEditIcon & "Edit this quiz (" & cs.GetText("name") & ")</div>"
                 End If
                 '
-                If pagePtr = 0 Then
-                    If cs.GetBoolean("allowCustomTopCopy") Then
-                        topCopy = cs.GetText("CustomTopCopy")
+                If response.currentPageNumber = 0 Then
+                    If quiz.allowCustomTopCopy Then
+                        topCopy = quiz.customTopCopy
                     Else
-                        If (quizVideo <> "") Then
+                        If (quiz.Video.filename <> "") Then
                             topCopy = defaultTopVideoCopy
                         Else
                             topCopy = defaultTopNoVideoCopy
                         End If
-                        If Not quizAllowRetake Then
+                        If Not quiz.allowRetake Then
                             topCopy = topCopy & defaultOneTime
                         End If
                     End If
                 End If
                 '
-                If cs.GetBoolean("allowCustomButtonCopy") Then
-                    buttonCopy = cs.GetText("CustomButtonCopy")
-                ElseIf isAuthenticated Then
+                If quiz.allowCustomButtonCopy Then
+                    buttonCopy = quiz.customButtonCopy
+                ElseIf cp.User.IsAuthenticated Then
                     buttonCopy = defaultButtonWithSaveCopy
                 Else
                     buttonCopy = defaultButtonCopy
                 End If
                 '
-                questionCnt = 0
-                sqlCriteria = "(QuizID=" & cp.Db.EncodeSQLNumber(quizId) & ")"
-                If dstPageOrder <= 0 Then
-                    sqlCriteria &= "and((pageOrder=0)or(pageOrder is null))"
-                Else
-                    sqlCriteria &= "and(pageOrder=" & dstPageOrder.ToString() & ")"
-                End If
-                cs2.Open("Quiz Questions", sqlCriteria, "QOrder")
-                If Not cs2.OK() Then
-                    '
-                    ' no questions found
-                    '
-                    adminHint &= "<p>No Quiz Questions can be found for this quiz.</p>"
-                Else
-                    '
-                    Counter = 0
-                    '
-                    questionName = cs2.GetText("name")
-                    Do While cs2.OK()
-                        questionId = cs2.GetInteger("ID")
-                        questionSubjectId = cs2.GetInteger("subjectId")
-                        Counter = Counter + 1
+                Dim questionCnt As Integer = 0
+                For Each responseDetail As DistanceLearning.Models.QuizResponseDetailModel In responseDetailList
+                    If responseDetail.pageNumber = response.currentPageNumber Then
+                        Dim question As DistanceLearning.Models.QuizQuestionModel = DistanceLearning.Models.QuizQuestionModel.create(cp, responseDetail.questionId)
+                        '
+                        answerCnt = 0
+                        answerCnt += 1
                         q = ""
                         '
                         ' Add Question
                         '
-                        quizEditIcon = ""
-                        If isEditing Then
-                            quizEditIcon = cs2.GetEditLink(False) & "&nbsp;&nbsp;&nbsp;&nbsp;"
+                        If cp.User.IsEditingAnything Then
+                            'quizEditIcon = cs2.GetEditLink(False) & "&nbsp;&nbsp;&nbsp;&nbsp;"
                         End If
-                        q = q & vbCrLf & vbTab & "<div class=""questionText"">" & quizEditIcon & cs2.GetText("name") & "</div>"
+                        q = q & vbCrLf & vbTab & "<div class=""questionText"">" & quizEditIcon & question.name & "</div>"
                         '
                         ' Add subject edit
                         '
-                        If isEditing And (questionSubjectId <> 0) Then
+                        If cp.User.IsEditingAnything And (question.SubjectID <> 0) Then
                             subjectName = cp.Content.GetRecordName("quiz subjects", questionSubjectId)
                             quizEditIcon = cp.Content.GetEditLink("quiz subjects", questionSubjectId.ToString(), False, subjectName, True) & "&nbsp;&nbsp;&nbsp;&nbsp;"
                             q &= cr & "<div class=""questionChoice"">" & quizEditIcon & "&nbsp;Edit the subject for this question, " & subjectName & ".</div>"
@@ -856,41 +814,32 @@ Namespace Contensive.Addons.OnlineQuiz
                         '
                         ' Add Choices
                         '
-                        Call CS3.Open("Quiz Answers", "QuestionID=" & CStr(questionId), "QOrder")
-                        answerCnt = 0
-                        If Not CS3.OK() Then
+                        Dim answerList As List(Of DistanceLearning.Models.QuizAnswerModel) = DistanceLearning.Models.QuizAnswerModel.getAnswersForQuestionList(cp, question.id)
+                        If (answerList Is Nothing) Then
                             '
                             ' this question has no answers
                             '
-                            adminHint &= "<p>Your Quiz Question """ & questionName & """ does not appear to have any answers configured. To add answers, turn on Edit and click the Add icon under the question.</p>"
+                            adminHint &= "<p>Your Quiz Question """ & question.name & """ does not appear to have any answers configured. To add answers, turn on Edit and click the Add icon under the question.</p>"
                         Else
+                            responseAnswerId = responseDetail.answerId
+                            For Each answer As DistanceLearning.Models.QuizAnswerModel In answerList
 
-                            responseAnswerId = 0
-                            Call cs4.Open("quiz response details", "(responseid=" & responseId & ")and(questionid=" & questionId & ")")
-                            If cs4.OK() Then
-                                responseAnswerId = cs4.GetInteger("answerId")
-                            End If
-                            Call cs4.Close()
-                            '
-                            Do While CS3.OK()
-                                '
-                                answerText = CS3.GetText("name")
-                                'answerText = CS3.GetText("AText")
+                                answerText = answer.name
                                 quizEditIcon = ""
-                                If isEditing Then
-                                    If quizTypeId = quizTypeIdPoints Then
-                                        If (CS3.GetInteger("points") = 1) Then
-                                            answerText = "[" & CS3.GetInteger("points") & " point ] " & answerText
-                                        Else
-                                            answerText = "[" & CS3.GetInteger("points") & " points ] " & answerText
-                                        End If
-                                    ElseIf CS3.GetBoolean("correct") Then
-                                        answerText = "[ correct answer ] " & answerText
-                                    End If
-                                    quizEditIcon = CS3.GetEditLink(False) & "&nbsp;&nbsp;&nbsp;&nbsp;"
+                                If cp.User.IsEditingAnything Then
+                                    'If quizTypeId = quizTypeIdPoints Then
+                                    '    If (CS3.GetInteger("points") = 1) Then
+                                    '        answerText = "[" & CS3.GetInteger("points") & " point ] " & answerText
+                                    '    Else
+                                    '        answerText = "[" & CS3.GetInteger("points") & " points ] " & answerText
+                                    '    End If
+                                    'ElseIf CS3.GetBoolean("correct") Then
+                                    '    answerText = "[ correct answer ] " & answerText
+                                    'End If
+                                    'quizEditIcon = CS3.GetEditLink(False) & "&nbsp;&nbsp;&nbsp;&nbsp;"
                                 End If
-                                answerId = CS3.GetInteger("ID")
-                                htmlRadio = "<input type=""radio"" name=""" & CStr(Counter) & "Answer"" value=""" & answerId & """"
+                                answerId = answer.id
+                                htmlRadio = "<input type=""radio"" name=""" & CStr(answerCnt) & "Answer"" value=""" & answerId & """"
                                 If (answerId = responseAnswerId) Then
                                     htmlRadio = htmlRadio & " checked=""checked"">"
                                 Else
@@ -898,62 +847,56 @@ Namespace Contensive.Addons.OnlineQuiz
                                 End If
                                 q = q & vbCrLf & vbTab & "<div class=""questionChoice"">" & htmlRadio & "" & quizEditIcon & "&nbsp;" & answerText & "</div>"
                                 answerCnt = answerCnt + 1
-                                Call CS3.GoNext()
-                                '
-                            Loop
+                            Next
                         End If
-                        If isEditing Then
-                            quizEditIcon = CS3.GetAddLink("questionId=" & questionId)
-                            If answerCnt > 0 Then
-                                q = q & vbCrLf & vbTab & "<div class=""questionChoice"">" & quizEditIcon & "&nbsp;Add another answer to this question.</div>"
-                            Else
-                                q = q & vbCrLf & vbTab & "<div class=""questionChoice"">" & quizEditIcon & "&nbsp;Add an answer to this question.</div>"
-                            End If
+                        If cp.User.IsEditingAnything Then
+                            'quizEditIcon = CS3.GetAddLink("questionId=" & questionId)
+                            'If answerCnt > 0 Then
+                            '    q = q & vbCrLf & vbTab & "<div class=""questionChoice"">" & quizEditIcon & "&nbsp;Add another answer to this question.</div>"
+                            'Else
+                            '    q = q & vbCrLf & vbTab & "<div class=""questionChoice"">" & quizEditIcon & "&nbsp;Add an answer to this question.</div>"
+                            'End If
                         End If
-                        '
-                        Call CS3.Close()
                         '
                         returnHtml &= vbCrLf & vbTab & "<div class=""question"">" & cp.Html.Indent(q) & vbCrLf & vbTab & "</div>"
                         questionCnt = questionCnt + 1
-                        cs2.GoNext()
-                    Loop
-                End If
-                If isEditing Then
-                    quizEditIcon = cs2.GetAddLink("quizid=" & quizId & ",pageOrder=" & dstPageOrder)
-                    If questionCnt > 0 Then
-                        returnHtml &= vbCrLf & vbTab & "<div class=""questionText"">" & quizEditIcon & "&nbsp;Add another question to the quiz.</div>"
-                    Else
-                        returnHtml &= vbCrLf & vbTab & "<div class=""questionText"">" & quizEditIcon & "&nbsp;Add a question to the quiz.</div>"
                     End If
+                Next
+                If questionCnt = 0 Then
+                    adminHint &= "<p>No Quiz Questions can be found for this quiz.</p>"
                 End If
-                Call cs2.Close()
+
+                If cp.User.IsEditingAnything Then
+                    'quizEditIcon = cs2.GetAddLink("quizid=" & quizId & ",pageOrder=" & dstPageOrder)
+                    'If questionCnt > 0 Then
+                    '    returnHtml &= vbCrLf & vbTab & "<div class=""questionText"">" & quizEditIcon & "&nbsp;Add another question to the quiz.</div>"
+                    'Else
+                    '    returnHtml &= vbCrLf & vbTab & "<div class=""questionText"">" & quizEditIcon & "&nbsp;Add a question to the quiz.</div>"
+                    'End If
+                End If
                 '
-                ' Add hiddens and button
-                '
+                ' -- Add hiddens and button
                 buttonList = ""
-                nextPageOrder = getNextPageOrder(cp, quizId, dstPageOrder, isStudyPage)
-                previousPageOrder = getPreviousPageOrder(cp, quizId, dstPageOrder, isStudyPage)
-                isLastPage = (dstPageOrder = nextPageOrder)
-                isFirstPage = (dstPageOrder = previousPageOrder)
-                If isFirstPage And quizIncludeStudyPage Then
+                If (response.currentPageNumber = 1) And quiz.includeStudyPage Then
                     '
                     ' go back to study page
                     '
                     buttonList &= vbCrLf & vbTab & "<input type=""submit"" name=""action"" value=""Previous"" onClick=""return verifyAnswers();"">" & ""
                 End If
-                If Not isFirstPage Then
+                If (response.currentPageNumber > 1) Then
                     '
                     ' not first page
                     '
                     buttonList &= vbCrLf & vbTab & "<input type=""submit"" name=""action"" value=""Previous"" onClick=""return verifyAnswers();"">" & ""
                 End If
-                If isAuthenticated Then
+                If cp.User.IsAuthenticated Then
                     '
                     ' if authenticated, allow save
                     '
                     buttonList &= vbCrLf & vbTab & "<input type=""submit"" name=""action"" value=""Save"" onClick=""return verifyAnswers();"">"
                 End If
-                If isLastPage Then
+
+                If (response.currentPageNumber = responseDetailList(responseDetailList.Count - 1).pageNumber) Then
                     '
                     ' this is the last page of the quiz
                     '
@@ -975,19 +918,20 @@ Namespace Contensive.Addons.OnlineQuiz
                 ' Add form wrapper
                 '
                 qs = cp.Doc.RefreshQueryString
-                qs = cp.Utils.ModifyQueryString(qs, rnDstPageOrder, dstPageOrder.ToString(), True)
                 formAction = "?" & qs
-                returnHtml = "" _
-                            & cp.Html.Indent(userMessages) _
-                            & cp.Html.Indent(topCopy) _
-                            & vbCrLf & vbTab & "<form method=""post"" name=""quizForm"" action=""" & formAction & """>" _
-                            & cp.Html.Indent(returnHtml) _
-                            & vbCrLf & vbTab & "<input type=""hidden"" name=""quizID"" value=""" & quizId & """>" _
-                            & vbCrLf & vbTab & "<input type=""hidden"" name=""" & rnSrcPageOrder & """ value=""" & dstPageOrder & """>" _
-                            & vbCrLf & vbTab & "<input type=""hidden"" name=""qNumbers"" value=""" & CStr(Counter) & """>" _
-                            & vbCrLf & vbTab & "<input type=""hidden"" name=""quizName"" value=""" & quizName & """>" _
-                            & vbCrLf & vbTab & "<input type=""hidden"" name=""responseId"" value=""" & responseId & """>" _
-                            & vbCrLf & vbTab & "</form>"
+                For Each msg As String In userMessages
+                    returnHtml &= cp.Html.div(msg)
+                Next
+                returnHtml &= "" _
+                    & cp.Html.Indent(topCopy) _
+                    & vbCrLf & vbTab & "<form method=""post"" name=""quizForm"" action=""" & formAction & """>" _
+                    & cp.Html.Indent(returnHtml) _
+                    & vbCrLf & vbTab & "<input type=""hidden"" name=""quizID"" value=""" & quiz.id & """>" _
+                    & vbCrLf & vbTab & "<input type=""hidden"" name=""" & rnPageNumber & """ value=""" & response.currentPageNumber & """>" _
+                    & vbCrLf & vbTab & "<input type=""hidden"" name=""qNumbers"" value=""" & CStr(answerCnt) & """>" _
+                    & vbCrLf & vbTab & "<input type=""hidden"" name=""quizName"" value=""" & quiz.name & """>" _
+                    & vbCrLf & vbTab & "<input type=""hidden"" name=""responseId"" value=""" & response.id & """>" _
+                    & vbCrLf & vbTab & "</form>"
             Catch ex As Exception
                 cp.Site.ErrorReport(ex)
             End Try
@@ -996,11 +940,11 @@ Namespace Contensive.Addons.OnlineQuiz
         '
         '====================================================================================================
         '
-        Private Function getScoreCardform(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, response As DistanceLearning.Models.QuizResponseModel) As String
+        Private Function getScoreCardform(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, response As DistanceLearning.Models.QuizResponseModel, ByRef adminHint As String, ByRef userMessages As List(Of String)) As String
             Dim returnHtml As String = ""
             Try
                 Dim buttonList As String = ""
-                Dim Counter As Integer
+                Dim answerCnt As Integer
                 Dim quizEditIcon As String = ""
                 Dim topCopy As String = ""
                 Dim buttonCopy As String = ""
@@ -1025,7 +969,7 @@ Namespace Contensive.Addons.OnlineQuiz
                     '
                     ' graded quiz, show scorecard
                     '
-                    Call cp.Doc.SetProperty("id", responseId.ToString())
+                    Call cp.Doc.SetProperty("id", response.id.ToString())
                     returnHtml = cp.Utils.ExecuteAddon(scoreCardAddon)
                 End If
                 If quiz.allowRetake Then
@@ -1041,19 +985,18 @@ Namespace Contensive.Addons.OnlineQuiz
                 '
                 ' Add form wrapper
                 '
-                qs = cp.Doc.RefreshQueryString
-                qs = cp.Utils.ModifyQueryString(qs, rnDstPageOrder, dstPageOrder.ToString(), True)
-                formAction = "?" & qs
-                returnHtml = "" _
-                    & cp.Html.Indent(userMessages) _
+                For Each msg As String In userMessages
+                    returnHtml &= cp.Html.div(msg)
+                Next
+                returnHtml &= "" _
                     & cp.Html.Indent(topCopy) _
                     & vbCrLf & vbTab & "<form method=""post"" name=""quizForm"" action=""" & formAction & """>" _
                     & cp.Html.Indent(returnHtml) _
-                    & vbCrLf & vbTab & "<input type=""hidden"" name=""quizID"" value=""" & quizId & """>" _
-                    & vbCrLf & vbTab & "<input type=""hidden"" name=""" & rnSrcPageOrder & """ value=""" & dstPageOrder & """>" _
-                    & vbCrLf & vbTab & "<input type=""hidden"" name=""qNumbers"" value=""" & CStr(Counter) & """>" _
-                    & vbCrLf & vbTab & "<input type=""hidden"" name=""quizName"" value=""" & quizName & """>" _
-                    & vbCrLf & vbTab & "<input type=""hidden"" name=""responseId"" value=""" & responseId & """>" _
+                    & vbCrLf & vbTab & "<input type=""hidden"" name=""quizID"" value=""" & quiz.id & """>" _
+                    & vbCrLf & vbTab & "<input type=""hidden"" name=""" & rnPageNumber & """ value=""" & response.currentPageNumber & """>" _
+                    & vbCrLf & vbTab & "<input type=""hidden"" name=""qNumbers"" value=""" & CStr(answerCnt) & """>" _
+                    & vbCrLf & vbTab & "<input type=""hidden"" name=""quizName"" value=""" & quiz.name & """>" _
+                    & vbCrLf & vbTab & "<input type=""hidden"" name=""responseId"" value=""" & response.id & """>" _
                     & vbCrLf & vbTab & "</form>"
             Catch ex As Exception
                 cp.Site.ErrorReport(ex)
@@ -1063,29 +1006,54 @@ Namespace Contensive.Addons.OnlineQuiz
         '
         '====================================================================================================
         '
-        Private Function getStudyPageForm(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, response As DistanceLearning.Models.QuizResponseModel) As String
-            Dim result As String = "getStudyPageForm"
+        Private Function getStudyPageForm(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, response As DistanceLearning.Models.QuizResponseModel, ByRef adminHint As String, ByRef userMessages As List(Of String)) As String
+            Dim returnHtml As String = "getStudyPageForm"
             Try
+                Dim buttonCopy As String = ""
+                Dim buttonList As String = ""
+                Dim topCopy As String = ""
                 '
-                ' display the study page
-                '
-                returnHtml = quizStudycopy
-                If quizVideo <> "" Then
+                ' -- display the study page
+                returnHtml = quiz.studyCopy
+                If quiz.Video.filename <> "" Then
                     '
-                    returnHtml &= "<script>window.open('" & quizVideo & "', '');</script>"
-                    '
+                    returnHtml &= "<script>window.open('" & quiz.Video.filename & "', '');</script>"
                 End If
-                If (quizDateStart <> DateTime.MinValue) Then
+                If (response.dateStarted > DateTime.MinValue) Then
                     buttonCopy = "<p>Click Resume Quiz when you are ready.</p>"
                     buttonList &= vbCrLf & vbTab & "<input type=""submit"" name=""action"" value=""Resume Quiz"">"
                 Else
                     buttonCopy = "<p>Click Begin Quiz when you are ready to start.</p>"
                     buttonList &= vbCrLf & vbTab & "<input type=""submit"" name=""action"" value=""Begin Quiz"">"
                 End If
+                returnHtml = "" _
+                        & cp.Html.Indent(returnHtml) _
+                        & cp.Html.Indent(buttonCopy) _
+                        & vbCrLf & vbTab & "<div class=""button"">" _
+                        & cp.Html.Indent(buttonList) _
+                        & vbCrLf & vbTab & "</div>"
+                '
+                ' Add form wrapper
+                '
+                Dim qs As String = cp.Doc.RefreshQueryString
+                Dim formAction As String = "?" & qs
+                For Each msg As String In userMessages
+                    returnHtml &= cp.Html.div(msg)
+                Next
+                returnHtml &= "" _
+                    & cp.Html.Indent(topCopy) _
+                    & vbCrLf & vbTab & "<form method=""post"" name=""quizForm"" action=""" & formAction & """>" _
+                    & cp.Html.Indent(returnHtml) _
+                    & vbCrLf & vbTab & "<input type=""hidden"" name=""quizID"" value=""" & quiz.id & """>" _
+                    & vbCrLf & vbTab & "<input type=""hidden"" name=""" & rnPageNumber & """ value=""" & response.currentPageNumber & """>" _
+                    & vbCrLf & vbTab & "<input type=""hidden"" name=""qNumbers"" value=""" & CStr(0) & """>" _
+                    & vbCrLf & vbTab & "<input type=""hidden"" name=""quizName"" value=""" & quiz.name & """>" _
+                    & vbCrLf & vbTab & "<input type=""hidden"" name=""responseId"" value=""" & response.id & """>" _
+                    & vbCrLf & vbTab & "</form>"
             Catch ex As Exception
                 cp.Site.ErrorReport(ex)
             End Try
-            Return result
+            Return returnHtml
         End Function
         '
         '====================================================================================================
@@ -1104,6 +1072,7 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim cs As CPCSBaseClass = cp.CSNew()
                 Dim itemList As String = ""
                 Dim adminUrl As String = cp.Site.GetText("adminUrl")
+                Dim warningMsgPoints As Integer
                 '
                 If cp.User.IsAdmin Then
                     If (quiz.typeId = quizTypeIdGraded) Then
@@ -1193,6 +1162,7 @@ Namespace Contensive.Addons.OnlineQuiz
                         Dim pointThreshold As Integer = 0
                         Dim itemListIssues As String = ""
                         Dim lastPointThreshold As Integer = 0
+                        Dim lastItemEdit As String = ""
                         If (Not cs.Open("quiz result messages", "(quizid=" & quiz.id & ")", "pointThreshold")) Then
                             result &= cr & cp.Html.p("WARNING: This quiz has no Quiz Result Messages. The quiz will end with a simple thank you page.")
                         Else
@@ -1217,7 +1187,7 @@ Namespace Contensive.Addons.OnlineQuiz
                                     Else
                                         If (pointThreshold = lastPointThreshold) And (pointThreshold <> warningMsgPoints) Then
                                             warningMsgPoints = pointThreshold
-                                            itemListIssues &= cr & cp.Html.p("WARNING: There are multiple Quiz Result Messages with a Point Threshold [" & pointThreshold & "]. Only the messag with the lowest ID # will be displayed.")
+                                            itemListIssues &= cr & cp.Html.p("WARNING: There are multiple Quiz Result Messages with a Point Threshold [" & pointThreshold & "]. Only the message with the lowest ID # will be displayed.")
                                         End If
                                         itemList &= "<li>Total Points from " & lastPointThreshold & " to " & (pointThreshold - 1) & " see Result Message " & lastItemEdit & "</li>"
                                     End If
@@ -1229,7 +1199,7 @@ Namespace Contensive.Addons.OnlineQuiz
                             Loop
                             itemList &= "<li>Total Points over " & lastPointThreshold & " see Result Message " & lastItemEdit & "</li>"
                         End If
-                        link = adminUrl & "?cid=" & quizResultMessagesCid & "&af=4&aa=2&wc=quizid%3D" & quiz.id
+                        Dim link As String = adminUrl & "?cid=" & quizResultMessagesCid & "&af=4&aa=2&wc=quizid%3D" & quiz.id
                         itemList &= cr & cp.Html.li("<a href=""" & link & """>Add a Quiz Result Message</a>")
                         result &= "" _
                                 & cr & cp.Html.p("Result Messages.") _
@@ -1239,8 +1209,8 @@ Namespace Contensive.Addons.OnlineQuiz
                     If result = "" Then
                         result &= "<p>Your online quiz appears to be configured correctly.</p>"
                     End If
-                    If (quizSelected) Then
-                        result &= "<p>Edit this quiz <a href=""" & adminUrl & "?af=4&cid=" & cp.Content.GetID("quizzes") & "&id=" & quiz.id & """>" & cp.Utils.EncodeHTML(quizName) & "</a>.</p>"
+                    If (quiz IsNot Nothing) Then
+                        result &= "<p>Edit this quiz <a href=""" & adminUrl & "?af=4&cid=" & cp.Content.GetID("quizzes") & "&id=" & quiz.id & """>" & cp.Utils.EncodeHTML(quiz.name) & "</a>.</p>"
                         result &= "<p>To edit questions and answers on this page, turn on edit mode from the tool panel.</p>"
                     End If
                     result &= "<p>Create a <a href=""" & adminUrl & "?af=4&cid=" & cp.Content.GetID("quizzes") & """>new quiz</a>.</p>"

@@ -259,14 +259,48 @@ namespace Contensive.Addons.DistanceLearning.Models
         /// <param name="cp"></param>
         /// <param name="someCriteria"></param>
         /// <returns></returns>
-        public static List<QuizResponseDetailModel> getObjectList(CPBaseClass cp, int someCriteria)
+        public static List<QuizResponseDetailModel> getObjectList(CPBaseClass cp, int responseId)
         {
             List<QuizResponseDetailModel> result = new List<QuizResponseDetailModel>();
             try
             {
                 CPCSBaseClass cs = cp.CSNew();
                 List<string> ignoreCacheNames = new List<string>();
-                if ((cs.Open(primaryContentName, "(someCriteria=" + someCriteria + ")", "name", true, "id")))
+                if ((cs.Open(primaryContentName, "(responseId=" + responseId + ")", "name", true, "id")))
+                {
+                    QuizResponseDetailModel instance = null;
+                    do
+                    {
+                        instance = QuizResponseDetailModel.create(cp, cs.GetInteger("id"));
+                        if ((instance != null))
+                        {
+                            result.Add(instance);
+                        }
+                        cs.GoNext();
+                    } while (cs.OK());
+                }
+                cs.Close();
+            }
+            catch (Exception ex)
+            {
+                cp.Site.ErrorReport(ex);
+            }
+            return result;
+        }
+        /// <summary>
+        /// get list of completed response details
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <param name="someCriteria"></param>
+        /// <returns></returns>
+        public static List<QuizResponseDetailModel> getAnsweredObjectList(CPBaseClass cp, int responseId)
+        {
+            List<QuizResponseDetailModel> result = new List<QuizResponseDetailModel>();
+            try
+            {
+                CPCSBaseClass cs = cp.CSNew();
+                List<string> ignoreCacheNames = new List<string>();
+                if ((cs.Open(primaryContentName, "(answerId is null)or(answerId=0)", "name", true, "id")))
                 {
                     QuizResponseDetailModel instance = null;
                     do
@@ -296,6 +330,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         {
             return create(cp, cp.Content.AddRecord(primaryContentName));
         }
+        //
     }
 }
 
