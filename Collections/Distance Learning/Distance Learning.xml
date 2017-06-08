@@ -483,11 +483,11 @@ margin-left:400px;
 		<Styles></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
-	<Addon name="Quiz OverView Start Page" guid="{87f875ac-659e-40eb-9aca-1045120e6771}" type="Add-on">
+	<Addon name="Quiz OverView Study Page" guid="{87f875ac-659e-40eb-9aca-1045120e6771}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
 		<ActiveXProgramID></ActiveXProgramID>
-		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.quizoverviewStartPageClass]]></DotNetClass>
+		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.quizoverviewStudyPageClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
 		<Filter>No</Filter>

@@ -8,7 +8,7 @@ using Contensive.Addons.DistanceLearning.Controllers;
 
 namespace Contensive.Addons.DistanceLearning
 {
-    public class quizoverviewStartPageClass : Contensive.BaseClasses.AddonBaseClass
+    public class quizoverviewStudyPageClass : Contensive.BaseClasses.AddonBaseClass
     {
         public override object Execute(CPBaseClass cp)
         {
@@ -20,7 +20,7 @@ namespace Contensive.Addons.DistanceLearning
                 string customTopCopy = cp.Doc.GetText("customTopCopy");
                 string Video = cp.Doc.GetText("Video");
                 string customButtonCopy = cp.Doc.GetText("customButtonCopy");
-                string courseMaterial = cp.Doc.GetText("CorseMaterial");
+                //string courseMaterial = cp.Doc.GetText("CorseMaterial");
                 string innerBody = "";
                 //
                 QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger("QuizId"));
@@ -36,7 +36,7 @@ namespace Contensive.Addons.DistanceLearning
                 {
                     case "Save":
                         quiz.customTopCopy = cp.Doc.GetText("customTopCopy");
-                        quiz.Video.upload("Video");
+                        quiz.videoEmbedCode=cp.Doc.GetText("videoEmbedCode");
                         quiz.courseMaterial = cp.Doc.GetText("CorseMaterial");
                         if ( !string.IsNullOrEmpty( quiz.courseMaterial ))
                         {
@@ -61,28 +61,28 @@ namespace Contensive.Addons.DistanceLearning
                 form.addFormButton("Cancel", "button");
                 form.isOuterContainer = false;
                 form.addRow();
-                form.title = "<b>Start Page </b></br>";
+                form.title = "<b>Study Page </b></br>";
                 //
                 form.addRow();
-                form.rowName = "Start Page Text </b>";
+                form.rowName = "Study Page Text </b>";
                 form.rowValue = cp.Html.InputWysiwyg("customTopCopy", quiz.customTopCopy,CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page, "10", "700")
-                        + "This is the list of instructions that go on the Start Page. You can describe the quiz, it's purpose, how to take it, etc.";
+                        + "This is the list of instructions that go on the study Page. You can describe the quiz, it's purpose, how to take it, etc.";
                 //form.rowValue = cp.Html.InputTextExpandable("customTopCopy", quiz.customTopCopy)
-                // + "This is the list of instructions that go on the Start Page. You can describe the quiz, it's purpose, how to take it, etc.";
+                // + "This is the list of instructions that go on the study Page. You can describe the quiz, it's purpose, how to take it, etc.";
                 form.addRow();
-                form.rowName = "Start Page Video link </b>";
-                form.rowValue = cp.Html.InputFile("Video")
-                    + "</br> When included, a video can be presented on the start page.";
-                form.addRow();
-                form.rowName = "Course Materials </b>";
-                form.rowValue = cp.Html.InputFile("CorseMaterial", "addCourseMaterialClass", "js-addCourseMaterialButtonId")
-                + "</br> When included, a file can be uploaded on the start page.";
+                form.rowName = "Video Embed Code </b>";
+                form.rowValue = cp.Html.InputText("videoEmbedCode",quiz.videoEmbedCode)
+                    + "</br> When included, a video can be presented on the study page.";
+                //form.addRow();
+                //form.rowName = "Course Materials </b>";
+                //form.rowValue = cp.Html.InputFile("CorseMaterial", "addCourseMaterialClass", "js-addCourseMaterialButtonId")
+                //+ "</br> When included, a file can be uploaded on the study page.";
                 form.addRow();               
-                form.rowName = "Start Quiz Button </b>";
-                form.rowValue = cp.Html.InputText("customButtonCopy", "Start")
-                + "</br> This is the text that will be shown on the start button for the quiz.";
+                form.rowName = "Study Quiz Button </b>";
+                form.rowValue = cp.Html.InputText("customButtonCopy", "study")
+                + "</br> This is the text that will be shown on the study button for the quiz.";
                 // 
-                result =  genericController.getTabWrapper(cp, form.getHtml(cp), "Start Page", quiz);
+                result =  genericController.getTabWrapper(cp, form.getHtml(cp), "Study", quiz);
 
                 cp.Doc.AddHeadStyle(form.styleSheet);
             }

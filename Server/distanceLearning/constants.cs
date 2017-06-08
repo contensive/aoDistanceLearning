@@ -68,7 +68,7 @@ namespace Contensive.Addons.DistanceLearning
         public const string portalFeatureQuizOverviewSetting = "{19136f9a-b976-4339-81a8-c5565380f648}";
         //public const string portalAddonGuid = "{A1BCA00C-2657-42A1-8F98-BED1E5A42025}";
         public const string portalFeaturesQuizOverviewDetails = "{f3600bc9-7323-4b27-a782-6da6133eeb96}";
-        public const string portalFeatureQuizOverviewStartPage = "{dfdb76e1-af7a-42a7-bc49-3af95417aee2}";
+        public const string portalFeatureQuizOverviewStudyPage = "{dfdb76e1-af7a-42a7-bc49-3af95417aee2}";
         public const string portalFeatureDashboard = "{6b921555-04b2-4ec0-83e1-24ac6c3bcd62}";
         public const string portalFeatureQuizOverviewQuestions = "{12c1944f-5994-4c0b-9e13-3320f29b16c3}";
         public const string portalFeatureQuizOverviewQuestionDetails = "{2d1ad031-7f03-4b26-bdcc-0e48697236e4}";

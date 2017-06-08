@@ -49,8 +49,8 @@ namespace Contensive.Addons.DistanceLearning.Controllers
             tabForm.tabStyleClass = "";
             //
             tabForm.addTab();
-            tabForm.tabCaption = "Start Page";
-            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewStartPage);
+            tabForm.tabCaption = "Study";
+            tabForm.tabLink = "?" + cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewStudyPage);
             tabForm.tabStyleClass = "";
             //
             tabForm.addTab();
