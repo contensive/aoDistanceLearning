@@ -46,8 +46,8 @@
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="adminFramework, Version=1.2.27.1805, Culture=neutral, PublicKeyToken=5c28a630afe60b2f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Contensive.portalApi.1.0.5\lib\net35\adminFramework.dll</HintPath>
+    <Reference Include="adminFramework, Version=1.6.0.0, Culture=neutral, PublicKeyToken=5c28a630afe60b2f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Contensive.portalApi.1.0.7\lib\net35\adminFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CPBase, Version=4.1.2.0, Culture=neutral, PublicKeyToken=10b3c53389b845fb, processorArchitecture=MSIL">

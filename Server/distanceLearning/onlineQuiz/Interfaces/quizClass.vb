@@ -93,12 +93,12 @@ Namespace Contensive.Addons.OnlineQuiz
                         '
                         ' -- get the response (like an application)
                         Dim response As DistanceLearning.Models.QuizResponseModel = Nothing
-                        If True Then
-                            'Dim responseId As Integer = CP.Doc.GetInteger("responseId")
-                            response = DistanceLearning.Models.QuizResponseModel.createLastForThisUser(CP, quiz.id, CP.User.Id)
-                        End If
+                        Dim responseDetailsList As New List(Of DistanceLearning.Models.QuizResponseDetailModel)
+                        response = DistanceLearning.Models.QuizResponseModel.createLastForThisUser(CP, quiz.id, CP.User.Id)
                         If response Is Nothing Then
                             response = New DistanceLearning.Models.QuizResponseModel
+                        Else
+                            responseDetailsList = DistanceLearning.Models.QuizResponseDetailModel.getObjectListForQuizDisplay(CP, response.id)
                         End If
                         '
                         If (Not String.IsNullOrEmpty(CP.Doc.GetText(rnButton))) Then
@@ -113,7 +113,7 @@ Namespace Contensive.Addons.OnlineQuiz
                             Else
                                 '
                                 ' -- process the online quiz
-                                processOnlineQuizForm(CP, quiz, response, userMessageList)
+                                processOnlineQuizForm(CP, quiz, response, responseDetailsList, userMessageList)
                             End If
                         End If
                         adminHint = getAdminHints(CP, quiz, response)
@@ -635,7 +635,7 @@ Namespace Contensive.Addons.OnlineQuiz
         '
         '
         '
-        Private Function processOnlineQuizForm(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, response As Contensive.Addons.DistanceLearning.Models.QuizResponseModel, ByRef userMessages As List(Of String)) As Integer
+        Private Function processOnlineQuizForm(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, response As Contensive.Addons.DistanceLearning.Models.QuizResponseModel, responseDetailsList As List(Of DistanceLearning.Models.QuizResponseDetailModel), ByRef userMessages As List(Of String)) As Integer
             Dim result As Integer = 0
             Try
                 Select Case cp.Doc.GetText(rnButton)
@@ -666,7 +666,9 @@ Namespace Contensive.Addons.OnlineQuiz
                         ' continue
                         '
                         Call saveResponseDetails(cp, quiz, response)
-                        response.currentPageNumber += 1
+                        If (response.currentPageNumber < responseDetailsList(responseDetailsList.Count - 1).pageNumber) Then
+                            response.currentPageNumber += 1
+                        End If
                         response.saveObject(cp)
                     Case buttonSave
                         '
@@ -849,7 +851,7 @@ Namespace Contensive.Addons.OnlineQuiz
                 '
                 ' -- Add hiddens and button
                 Dim isFirstPage As Boolean = (response.currentPageNumber = 1)
-                Dim isLastPage As Boolean = (response.currentPageNumber = responseDetailList(responseDetailList.Count - 1).pageNumber)
+                Dim isLastPage As Boolean = (response.currentPageNumber >= responseDetailList(responseDetailList.Count - 1).pageNumber)
                 buttonList = ""
                 If ((Not isFirstPage) Or quiz.includeStudyPage) Then
                     '

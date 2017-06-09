@@ -102,10 +102,10 @@ namespace Contensive.Addons.DistanceLearning
                     form.setCell(quizResponse.totalPoints.ToString());
                 };
                 form.htmlLeftOfTable = ""
-                    + constants.cr + "<div class=\"afwFilterHead\">filters</div>"
-                    + constants.cr + "<div class=\"afwFilterCaption\">Date</div>"
-                    + constants.cr + "<div class=\"afwFilterRow\"><label for=fromfilter>from</label><input type=\"date\" name=\"" + constants.rnFilterDateFrom + "\" value=\"2017 - 06 - 02\" id=\"js-fromdate\" /></div>"
-                    + constants.cr + "<div class=\"afwFilterRow\"><label for=tofilter>to</label><input type=\"date\" name=\"" + constants.rnFilterDateTo + "\" value=\"2017 - 06 - 02\" id=\"js-fromdate\" /></div>"
+                    + constants.cr + "<h3 class=\"afwFilterHead\">filters</h3>"
+                    + constants.cr + "<h4 class=\"afwFilterCaption\">Date</h4>"
+                    + constants.cr + "<div class=\"afwFilterRow\"><label for=fromfilter>from</label><input type=\"date\" name=\"" + constants.rnFilterDateFrom + "\" value=\"2017 - 06 - 02\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
+                    + constants.cr + "<div class=\"afwFilterRow\"><label for=tofilter>to</label><input type=\"date\" name=\"" + constants.rnFilterDateTo + "\" value=\"2017 - 06 - 02\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
                     + "";
                 cp.Doc.AddHeadJavascript(""
                     + constants.cr + "jQuery(document).ready(function(){"
