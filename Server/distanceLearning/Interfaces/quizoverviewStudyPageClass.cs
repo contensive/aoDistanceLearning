@@ -37,11 +37,7 @@ namespace Contensive.Addons.DistanceLearning
                     case "Save":
                         quiz.customTopCopy = cp.Doc.GetText("customTopCopy");
                         quiz.videoEmbedCode=cp.Doc.GetText("videoEmbedCode");
-                        quiz.courseMaterial = cp.Doc.GetText("CorseMaterial");
-                        if ( !string.IsNullOrEmpty( quiz.courseMaterial ))
-                        {
-                            cp.Html.ProcessInputFile(quiz.courseMaterial, "");
-                        }
+                        quiz.courseMaterial.upload( "CorseMaterial");
                         quiz.customButtonCopy = cp.Doc.GetText("customButtonCopy");
                         quiz.saveObject(cp);
                         break;

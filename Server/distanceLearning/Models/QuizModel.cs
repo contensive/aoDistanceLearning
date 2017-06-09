@@ -36,7 +36,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         public int questionPresentation;
         public string includeSubject;
         public bool allowRetake;
-        public string courseMaterial;
+        public file courseMaterial;
         public string customTopCopy;
         public string customButtonCopy;
         //public file Video;
@@ -81,7 +81,9 @@ namespace Contensive.Addons.DistanceLearning.Models
         /// <summary>
         /// Create an empty object. needed for deserialization
         /// </summary>
-        public QuizModel() { }
+        public QuizModel()
+        {
+        }
         //
         //====================================================================================================
         /// <summary>
@@ -143,12 +145,12 @@ namespace Contensive.Addons.DistanceLearning.Models
         /// </summary>
         /// <param name="cp"></param>
         /// <param name="sqlCriteria"></param>
-        private static QuizModel loadObject(CPBaseClass cpCore, string sqlCriteria)
+        private static QuizModel loadObject(CPBaseClass cp, string sqlCriteria)
         {
             QuizModel result = null;
             try
             {
-                CPCSBaseClass cs = cpCore.CSNew();
+                CPCSBaseClass cs = cp.CSNew();
                 if (cs.Open(primaryContentName, sqlCriteria))
                 {
                     result = new QuizModel();
@@ -164,7 +166,8 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.includeSubject = cs.GetText("includeSubject");
                     result.allowRetake = cs.GetBoolean("allowRetake");
                     result.customTopCopy = cs.GetText("customTopCopy");
-                    result.courseMaterial = cs.GetText("courseMaterial");
+                    result.courseMaterial = new file(cp, primaryContentName, "courseMaterial", result.id);
+                    result.courseMaterial.pathFilename = cs.GetText("courseMaterial");
                     result.customButtonCopy = cs.GetText("customButtonCopy");
                     result.ACaption = cs.GetText("ACaption");
                     result.APercentile = cs.GetNumber("APercentile");
@@ -197,7 +200,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             }
             catch (Exception ex)
             {
-                cpCore.Site.ErrorReport(ex);
+                cp.Site.ErrorReport(ex);
                 throw;
             }
             return result;
@@ -245,7 +248,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("includeSubject", includeSubject);
                     cs.SetField("allowRetake", allowRetake.ToString());
                     cs.SetField("customTopCopy", customTopCopy);
-                    cs.SetField("courseMaterial", courseMaterial);
+                    //cs.SetField("courseMaterial", courseMaterial);
                     cs.SetField("customButtonCopy", customButtonCopy);
                     cs.SetField("ACaption", ACaption);
                     cs.SetField("APercentile", APercentile.ToString());
@@ -421,6 +424,9 @@ namespace Contensive.Addons.DistanceLearning.Models
             private string contentName;
             private string fieldName;
             private int recordId;
+            //
+            // -- this value is set from the db record field and can be read back directly
+            private string _pathFilename;
             /// <summary>
             /// constructor
             /// </summary>
@@ -437,9 +443,18 @@ namespace Contensive.Addons.DistanceLearning.Models
                 bool result = false;
                 try
                 {
-                    CPCSBaseClass cs = cp.CSNew();
-                    if (cs.Open(contentName, "id=" + recordId)) cs.SetFormInput(fieldName, requestName);
-                    cs.Close();
+                    if (!string.IsNullOrEmpty(  cp.Doc.GetText(requestName)))
+                    {
+                        //
+                        // -- the file is being uploaded
+                        CPCSBaseClass cs = cp.CSNew();
+                        if (cs.Open(contentName, "id=" + recordId))
+                        {
+                            cs.SetFormInput(fieldName, requestName);
+                            _pathFilename = cs.GetText(requestName);
+                        }
+                        cs.Close();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -464,6 +479,11 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cp.Site.ErrorReport(ex);
                 }
                 return result;
+            }
+            public string pathFilename
+            {
+                get { return _pathFilename; }
+                set { _pathFilename = value; }
             }
         }
     }
