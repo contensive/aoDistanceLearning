@@ -100,11 +100,11 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 reportList.columnCaptionClass = "afwTextAlignCenter afwWidth100px";
                 //
                 sqlWhere = "(dateSubmitted is not null)";
-                if (filterDateFrom != DateTime.MinValue)
+                if (!genericController.isDateEmpty( filterDateFrom ) )
                 {
                     sqlWhere += "and(dateSubmitted>=" + cp.Db.EncodeSQLDate(filterDateFrom) + ")";
                 }
-                if (filterDateTo != DateTime.MinValue)
+                if (!genericController.isDateEmpty(filterDateTo ))
                 {
                     if (filterDateTo == filterDateTo.Date )
                     {
