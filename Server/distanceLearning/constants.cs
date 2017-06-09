@@ -48,7 +48,8 @@ namespace Contensive.Addons.DistanceLearning
         //
         //
         public const string rnCorrectBlank = "CorrectBlank";
-        public const string rnAtextBlank = "ATextBlank";
+        public const string rnAnswerNameBlank = "ATextBlank";
+        public const string rnAnswerName = "AText";
         public const string cnQuizSubjects = "Quiz Subjects";
         public const string cnCertificateTypes = "Certificate Types";
         public const string cnCertificationTypes = "Certification Types";

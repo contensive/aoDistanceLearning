@@ -52,6 +52,10 @@ Namespace Contensive.Addons.OnlineQuiz
         '
         Public Const buttonPrintAll = " Print All "
         Public Const buttonStartQuiz = "Start Quiz"
+        Public Const buttonPrevious = "Previous"
+        Public Const buttonSave = "Save"
+        Public Const buttonSubmit = "Submit"
+        Public Const buttonContinue = "Continue"
         '
         ' request Names
         '
@@ -63,53 +67,6 @@ Namespace Contensive.Addons.OnlineQuiz
         '
         ' custom log path
         '
-        Private traceLogPath As String = "sample"
-        '
-        Friend Function encodeMinDate(ByVal sourceDate As Date) As Date
-            Dim returnValue As Date = sourceDate
-            If returnValue < #1/1/1900# Then
-                returnValue = Date.MinValue
-            End If
-            Return returnValue
-        End Function
-        '
-        '
-        '
-        Friend Function encodeShortDateString(ByVal sourceDate As Date) As String
-            Dim returnValue As String
-            '
-            If sourceDate < #1/1/1900# Then
-                returnValue = ""
-            Else
-                returnValue = sourceDate.ToShortDateString
-            End If
-            Return returnValue
-
-        End Function
-        '
-        '
-        '
-        Friend Function encodeBlankCurrency(ByVal source As Double) As String
-            Dim returnValue As String = ""
-            If source <> 0 Then
-                returnValue = FormatCurrency(source, 2)
-            End If
-            Return returnValue
-        End Function
-        '
-        '
-        '
-        Friend Sub appendLog(ByVal cp As CPBaseClass, ByVal logMessage As String)
-            Dim nowDate As Date = Date.Now.Date()
-            Dim logFilename As String = nowDate.Year & nowDate.Month.ToString("D2") & nowDate.Day.ToString("D2") & ".log"
-            Call cp.File.CreateFolder(cp.Site.PhysicalInstallPath & "\logs\" & traceLogPath)
-            Call cp.Utils.AppendLog(traceLogPath & "\" & logFilename, logMessage)
-        End Sub
-        '
-        '
-        '
-        Private Sub localErrorReport(ByVal cp As CPBaseClass, ByVal ex As Exception, ByVal method As String)
-            Call cp.Site.ErrorReport(ex, "error in aoAccountBilling.commonModule." & method)
-        End Sub
+        Public traceLogPath As String = "sample"
     End Module
 End Namespace

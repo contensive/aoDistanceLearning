@@ -108,7 +108,7 @@ Namespace Contensive.Addons.OnlineQuiz
                                 '
                                 ' -- process the landing page form
                                 processStudyForm(CP, quiz, response, userMessageList)
-                            ElseIf (response.dateSubmitted = Date.MinValue) Then
+                            ElseIf (distancelearning.Controllers.genericcontroller.isdateEmpty(response.dateSubmitted)) Then
                                 '
                                 ' -- process the online quiz
                                 processOnlineQuizForm(CP, quiz, response, userMessageList)
@@ -459,7 +459,7 @@ Namespace Contensive.Addons.OnlineQuiz
             Try
                 Dim questionList As List(Of DistanceLearning.Models.QuizQuestionModel) = DistanceLearning.Models.QuizQuestionModel.getQuestionsForQuizList(cp, quiz.id)
                 For Each question As DistanceLearning.Models.QuizQuestionModel In questionList
-                    Dim SelectedAnswerID As Integer = cp.Doc.GetInteger("question" & question.id.ToString() & "answer")
+                    Dim SelectedAnswerID As Integer = cp.Doc.GetInteger(getRadioAnswerRequestName(question.id))
                     If SelectedAnswerID <> 0 Then
                         Dim responseDetails As DistanceLearning.Models.QuizResponseDetailModel = DistanceLearning.Models.QuizResponseDetailModel.create(cp, response.id, question.id)
                         If (responseDetails Is Nothing) Then
@@ -639,14 +639,6 @@ Namespace Contensive.Addons.OnlineQuiz
             Try
                 Dim button As String = cp.Doc.GetText(rnButton)
                 Select Case LCase(button)
-                    Case "begin quiz"
-                        '
-                        ' ? 
-                        '
-                    Case "resume quiz"
-                        '
-                        ' ? 
-                        '
                     Case "previous"
                         '
                         ' previous - if past start, try studypage
@@ -685,7 +677,7 @@ Namespace Contensive.Addons.OnlineQuiz
             Try
                 Dim Action As String = cp.Doc.GetText("Action")
                 '
-                If (response.dateSubmitted > Date.MinValue) Then
+                If (DistanceLearning.Controllers.genericController.isDateEmpty(response.dateSubmitted)) Then
                     If LCase(Action) = "retake quiz" Then
                         '
                         ' start a retake - create a response and set dstPageOrder, isStudyPage
@@ -711,22 +703,14 @@ Namespace Contensive.Addons.OnlineQuiz
             Dim returnHtml As String = ""
             Try
                 Dim buttonList As String = ""
-                Dim responseAnswerId As Integer
-                Dim answerId As Integer
                 Dim htmlRadio As String
                 Dim answerCnt As Integer
                 Dim q As String
-                'Dim questionName As String
                 Dim quizEditIcon As String = ""
                 Dim topCopy As String = ""
                 Dim buttonCopy As String = ""
-                Dim nextPageOrder As Integer
                 Dim qs As String
                 Dim formAction As String
-                Dim previousPageOrder As Integer
-                Dim isLastPage As Boolean
-                Dim isFirstPage As Boolean
-                Dim answerText As String = ""
                 Dim quizProgress As Double
                 Dim jsHead As String
                 Dim progressBarHtml As String = ""
@@ -736,8 +720,8 @@ Namespace Contensive.Addons.OnlineQuiz
                 '
                 If (DistanceLearning.Controllers.genericController.isDateEmpty(response.dateStarted)) Then
                     response.dateStarted = Now
+                    response.saveObject(cp)
                 End If
-                response.saveObject(cp)
                 '
                 ' -- progress bar for all but first page
                 Dim responseDetailList As List(Of DistanceLearning.Models.QuizResponseDetailModel) = DistanceLearning.Models.QuizResponseDetailModel.getObjectList(cp, response.id)
@@ -805,10 +789,8 @@ Namespace Contensive.Addons.OnlineQuiz
                             '
                             adminHint &= "<p>Your Quiz Question """ & question.name & """ does not appear to have any answers configured. To add answers, turn on Edit and click the Add icon under the question.</p>"
                         Else
-                            responseAnswerId = responseDetail.answerId
                             For Each answer As DistanceLearning.Models.QuizAnswerModel In answerList
-
-                                answerText = answer.name
+                                Dim answerText As String = answer.name
                                 quizEditIcon = ""
                                 If cp.User.IsEditingAnything Then
                                     'If quizTypeId = quizTypeIdPoints Then
@@ -822,9 +804,8 @@ Namespace Contensive.Addons.OnlineQuiz
                                     'End If
                                     'quizEditIcon = CS3.GetEditLink(False) & "&nbsp;&nbsp;&nbsp;&nbsp;"
                                 End If
-                                answerId = answer.id
-                                htmlRadio = "<input type=""radio"" name=""" & CStr(answerCnt) & "Answer"" value=""" & answerId & """"
-                                If (answerId = responseAnswerId) Then
+                                htmlRadio = "<input type=""radio"" name=""" & getRadioAnswerRequestName(question.id) & """ value=""" & answer.id & """"
+                                If (answer.id = responseDetail.answerId) Then
                                     htmlRadio = htmlRadio & " checked=""checked"">"
                                 Else
                                     htmlRadio = htmlRadio & ">"
@@ -865,31 +846,25 @@ Namespace Contensive.Addons.OnlineQuiz
                     '
                     ' go back to study page
                     '
-                    buttonList &= vbCrLf & vbTab & "<input type=""submit"" name=""action"" value=""Previous"" onClick=""return verifyAnswers();"">" & ""
-                End If
-                If (response.currentPageNumber > 1) Then
-                    '
-                    ' not first page
-                    '
-                    buttonList &= vbCrLf & vbTab & "<input type=""submit"" name=""action"" value=""Previous"" onClick=""return verifyAnswers();"">" & ""
+                    buttonList &= vbCrLf & vbTab & cp.Html.Button(rnButton, buttonPrevious, "quizButtonPrevious", "quizButtonPrevious").Replace(">", " onClick=""return verifyAnswers();"">") ' "<input type=""submit"" name=""action"" value=""Previous"" onClick=""return verifyAnswers();"">" & ""
                 End If
                 If cp.User.IsAuthenticated Then
                     '
                     ' if authenticated, allow save
                     '
-                    buttonList &= vbCrLf & vbTab & "<input type=""submit"" name=""action"" value=""Save"" onClick=""return verifyAnswers();"">"
+                    buttonList &= vbCrLf & vbTab & cp.Html.Button(rnButton, buttonSave, "quizButtonSave", "quizButtonSave").Replace(">", " onClick=""return verifyAnswers();"">") '"<input type=""submit"" name=""action"" value=""Save"" onClick=""return verifyAnswers();"">"
                 End If
-
-                If (response.currentPageNumber = responseDetailList(responseDetailList.Count - 1).pageNumber) Then
+                If (response.currentPageNumber > 1) Or (response.currentPageNumber = responseDetailList(responseDetailList.Count - 1).pageNumber) Then
                     '
-                    ' this is the last page of the quiz
+                    ' (not first page) or (last page)
                     '
-                    buttonList &= vbCrLf & vbTab & "<input type=""submit"" name=""action"" value=""Submit"" onClick=""return verifyAnswers();"">"
-                Else
+                    buttonList &= vbCrLf & vbTab & cp.Html.Button(rnButton, buttonSubmit, "quizButtonSubmit", "quizButtonSubmit").Replace(">", " onClick=""return verifyAnswers();"">") ' "<input type=""submit"" name=""action"" value=""Previous"" onClick=""return verifyAnswers();"">" & ""
+                End If
+                If (response.currentPageNumber <> responseDetailList(responseDetailList.Count - 1).pageNumber) Then
                     '
-                    ' now last, allow continue
+                    ' not last page
                     '
-                    buttonList &= vbCrLf & vbTab & "<input type=""submit"" name=""action"" value=""Continue"" onClick=""return verifyAnswers();"">"
+                    buttonList &= vbCrLf & vbTab & cp.Html.Button(rnButton, buttonContinue, "quizButtonContinue", "quizButtonContinue").Replace(">", " onClick=""return verifyAnswers();"">") '"<input type=""submit"" name=""action"" value=""Continue"" onClick=""return verifyAnswers();"">"
                 End If
                 returnHtml = "" _
                         & cp.Html.Indent(returnHtml) _
@@ -906,7 +881,7 @@ Namespace Contensive.Addons.OnlineQuiz
                 For Each msg As String In userMessages
                     returnHtml &= cp.Html.div(msg)
                 Next
-                returnHtml &= "" _
+                returnHtml = "" _
                     & cp.Html.Indent(topCopy) _
                     & vbCrLf & vbTab & "<form method=""post"" name=""quizForm"" action=""" & formAction & """>" _
                     & cp.Html.Indent(returnHtml) _
@@ -1200,6 +1175,10 @@ Namespace Contensive.Addons.OnlineQuiz
                 cp.Site.ErrorReport(ex)
             End Try
             Return result
+        End Function
+        '
+        Private Function getRadioAnswerRequestName(questionId As Integer) As String
+            Return "q" & questionId.ToString() & "a"
         End Function
         '
         '====================================================================================================

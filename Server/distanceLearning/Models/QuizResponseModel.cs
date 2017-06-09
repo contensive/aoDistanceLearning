@@ -475,11 +475,12 @@ namespace Contensive.Addons.DistanceLearning.Models
 
         public static QuizResponseModel add(CPBaseClass cp, int quizId )
         {
-            QuizResponseModel response = create(cp, cp.Content.AddRecord(primaryContentName));
-            response.QuizID = quizId;
-            response.MemberID = cp.User.Id;
-            response.dateStarted = DateTime.Now;
-            return response;
+            QuizResponseModel instance = create(cp, cp.Content.AddRecord(primaryContentName));
+            instance.QuizID = quizId;
+            instance.MemberID = cp.User.Id;
+            instance.dateStarted = DateTime.Now;
+            instance.SortOrder = genericController.getSortOrderFromInteger(instance.id);
+            return instance;
         }
     }
 }

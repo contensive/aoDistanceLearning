@@ -29,9 +29,9 @@ namespace Contensive.Addons.DistanceLearning.Models
         public int questionId;
         public int answerId;
         public int pageNumber;
+        public string SortOrder;
         //
         //public bool Active;
-        //public string SortOrder;
         //public DateTime DateAdded;
         //public int CreatedBy;
         //public DateTime ModifiedDate;
@@ -147,6 +147,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.questionId = cs.GetInteger("questionId");
                     result.answerId = cs.GetInteger("answerId");
                     result.pageNumber = cs.GetInteger("pageNumber");
+                    result.SortOrder = cs.GetText("sortOrder");
                 }
                 cs.Close();
             }
@@ -196,7 +197,8 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("responseId", responseId.ToString());
                     cs.SetField("questionId", questionId.ToString());
                     cs.SetField("answerId", answerId.ToString());
-                    cs.SetField("pageNumber",pageNumber.ToString());
+                    cs.SetField("pageNumber", pageNumber.ToString());
+                    cs.SetField("SortOrder", SortOrder.ToString());
                 }
                 cs.Close();
             }
@@ -266,7 +268,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             {
                 CPCSBaseClass cs = cp.CSNew();
                 List<string> ignoreCacheNames = new List<string>();
-                if ((cs.Open(primaryContentName, "(responseId=" + responseId + ")", "name", true, "id")))
+                if ((cs.Open(primaryContentName, "(responseId=" + responseId + ")", "sortOrder", true, "id")))
                 {
                     QuizResponseDetailModel instance = null;
                     do

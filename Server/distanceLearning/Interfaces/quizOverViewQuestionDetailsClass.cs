@@ -56,18 +56,18 @@ namespace Contensive.Addons.DistanceLearning
                         List<QuizAnswerModel> quizAnswersList = QuizAnswerModel.getAnswersForQuestionList(cp, question.id);
                         foreach (QuizAnswerModel quizAnswer in quizAnswersList)
                         {
-                            quizAnswer.AText = cp.Doc.GetText("AText" + quizAnswer.id);
+                            quizAnswer.name = cp.Doc.GetText(constants.rnAnswerName + quizAnswer.id);
                             quizAnswer.Correct = cp.Doc.GetBoolean("Correct" + quizAnswer.id);
                             quizAnswer.saveObject(cp);
                         }
 
                         for (int ptr = 0; ptr <= constants.maxQuestionAnswer-1; ptr++)
                         {
-                            string AText = cp.Doc.GetText(constants.rnAtextBlank + ptr.ToString() );
-                            if (!string.IsNullOrEmpty(AText))
+                            string answerName = cp.Doc.GetText(constants.rnAnswerNameBlank + ptr.ToString() );
+                            if (!string.IsNullOrEmpty(answerName))
                             {
                                 QuizAnswerModel newAnswer = new QuizAnswerModel();
-                                newAnswer.AText = AText;
+                                newAnswer.name = answerName;
                                 newAnswer.Correct = cp.Doc.GetBoolean(constants.rnCorrectBlank + ptr.ToString());
                                 newAnswer.QuestionID = question.id;
                                 newAnswer.saveObject(cp);
@@ -112,7 +112,7 @@ namespace Contensive.Addons.DistanceLearning
                     descnt++;
                     questionForm.addRow();
                     questionForm.rowName = "Answer " + descnt;
-                    questionForm.rowValue = cp.Html.InputText("Atext" + quizAnswer.id, quizAnswer.AText, "1", "300", false, "answerOneClass", "js-answerOne")
+                    questionForm.rowValue = cp.Html.InputText(constants.rnAnswerName + quizAnswer.id, quizAnswer.name, "1", "300", false, "answerOneClass", "js-answerOne")
                         + "&nbsp;" + cp.Html.CheckBox("Correct" + quizAnswer.id, quizAnswer.Correct) + " Correct Answer";
                     cnt--;
                     
@@ -125,7 +125,7 @@ namespace Contensive.Addons.DistanceLearning
                         descnt++;
                         questionForm.addRow();
                         questionForm.rowName = "Answer " + descnt;
-                        questionForm.rowValue = cp.Html.InputText(constants.rnAtextBlank + ptr, "", "1", "300", false, "answerOneClass", "js-answerOne")
+                        questionForm.rowValue = cp.Html.InputText(constants.rnAnswerNameBlank + ptr, "", "1", "300", false, "answerOneClass", "js-answerOne")
                             + "&nbsp;" + cp.Html.CheckBox(constants.rnCorrectBlank + ptr, false) + " Correct Answer";
                     }
                 }

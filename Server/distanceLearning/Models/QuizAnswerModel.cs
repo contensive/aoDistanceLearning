@@ -27,11 +27,11 @@ namespace Contensive.Addons.DistanceLearning.Models
         public string guid;
         public bool Correct;
         public int QuestionID;
-        public string AText;
+        //public string AText; <-- use name
         public string SortOrder;
+        //public int QOrder;  // <-- use sortorder
+        public int points;
         //      
-        //public int QOrder;
-        //public int points;
         //
         //public bool Active;
         //public DateTime DateAdded;
@@ -114,6 +114,10 @@ namespace Contensive.Addons.DistanceLearning.Models
             QuizAnswerModel result = null;
             try
             {
+                //
+                // -- upgrade Atext -> name
+                cpCore.Db.ExecuteSQL("update quizAnswers set name=atext where name is null");
+                cpCore.Db.ExecuteSQL("update quizAnswers set sortOrder=qorder where sortOrder is null");
                 CPCSBaseClass cs = cpCore.CSNew();
                 if (cs.Open(primaryContentName, sqlCriteria))
                 {
@@ -126,8 +130,10 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.Correct = cs.GetBoolean("Correct");
                     result.createKey = cs.GetInteger("createKey");
                     result.QuestionID = cs.GetInteger("QuestionID");
-                    result.AText = cs.GetText("AText");
                     result.SortOrder = cs.GetText("SortOrder");
+                    result.points = cs.GetInteger("points");
+                    //result.AText = cs.GetText("AText");
+                    //result.QOrder = cs.GetInteger("qorder");
                 }
                 cs.Close();
             }
@@ -174,11 +180,13 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("name", name);
                     cs.SetField("ccGuid", guid);
                     cs.SetField("createKey", createKey.ToString());
-                    cs.SetField("AText", AText);
+                    //cs.SetField("AText", AText);
                     cs.SetField("Correct", Correct.ToString());
                     cs.SetField("QuestionID", QuestionID.ToString());
                     if (string.IsNullOrEmpty( SortOrder )) SortOrder = id.ToString().PadLeft(7, '0');
                     cs.SetField("SortOrder", SortOrder.ToString());
+                    //cs.SetField("qorder", QOrder.ToString());
+                    cs.SetField("points", points.ToString());
                 }
                 cs.Close();
             }
@@ -279,7 +287,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         public static QuizAnswerModel add(CPBaseClass cp)
         {
             QuizAnswerModel answer = create(cp, cp.Content.AddRecord(primaryContentName));
-            answer.SortOrder = answer.id.ToString().PadLeft(7, '0');
+            answer.SortOrder = genericController.getSortOrderFromInteger( answer.id) ;
             return answer;
         }
     }

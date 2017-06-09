@@ -157,7 +157,7 @@ Namespace Contensive.Addons.OnlineQuiz
                         '
                         hint = 30
                         q = ""
-                        Call CS3.Open("Quiz Answers", "QuestionID=" & questionId, "QOrder")
+                        Call CS3.Open("Quiz Answers", "QuestionID=" & questionId, "sortOrder")
                         If Not CS3.OK() Then
                             '
                             ' Question with no choices is correct
