@@ -73,10 +73,10 @@ namespace Contensive.Addons.DistanceLearning
                 form.rowName = "Video Embed Code </b>";
                 form.rowValue = cp.Html.InputTextExpandable("videoEmbedCode",quiz.videoEmbedCode)
                     + "</br> When included, a video can be presented on the study page.";
-                form.addRow();
-                form.rowName = "Course Materials </b>";
-                form.rowValue = cp.Html.InputFile("CorseMaterial", "addCourseMaterialClass", "js-addCourseMaterialButtonId")
-                + "</br> When included, a file can be uploaded on the study page.";
+                //form.addRow();
+                //form.rowName = "Course Materials </b>";
+                //form.rowValue = cp.Html.InputFile("CorseMaterial", "addCourseMaterialClass", "js-addCourseMaterialButtonId")
+                //+ "</br> When included, a file can be uploaded on the study page.";
                 //form.addRow();               
                 //form.rowName = "Study Quiz Button </b>";
                 //form.rowValue = cp.Html.InputText("customButtonCopy", "study")
