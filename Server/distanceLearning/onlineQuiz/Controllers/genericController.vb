@@ -41,6 +41,7 @@ Namespace Contensive.Addons.OnlineQuiz
                 ' -- pages start with questions with subjects
                 Dim pageNumber As Integer = 1
                 For Each quizSubject As DistanceLearning.Models.QuizSubjectModel In quizSubjectList
+                    Dim subjectQuestionCount As Integer = 0
                     For Each quizQuestion As DistanceLearning.Models.QuizQuestionModel In quizQuestionList
                         If quizQuestion.SubjectID = quizSubject.id Then
                             Dim detail As DistanceLearning.Models.QuizResponseDetailModel = DistanceLearning.Models.QuizResponseDetailModel.add(cp)
@@ -49,12 +50,13 @@ Namespace Contensive.Addons.OnlineQuiz
                             detail.pageNumber = pageNumber
                             detail.SortOrder = quizQuestion.SortOrder
                             detail.saveObject(cp)
-                            If (quiz.questionPresentation = 1) Then
+                            If (quiz.questionPresentation = DistanceLearning.Models.QuizModel.questionPresentationEnum.OneQuestionPerPage) Then
                                 pageNumber += 1
                             End If
+                            subjectQuestionCount += 1
                         End If
                     Next
-                    If (quiz.questionPresentation = 3) Then
+                    If (subjectQuestionCount > 0) And (quiz.questionPresentation = DistanceLearning.Models.QuizModel.questionPresentationEnum.OneSubjectPerPage) Then
                         pageNumber += 1
                     End If
                 Next
@@ -76,7 +78,7 @@ Namespace Contensive.Addons.OnlineQuiz
                         detail.responseId = response.id
                         detail.pageNumber = pageNumber
                         detail.saveObject(cp)
-                        If (quiz.questionPresentation = 1) Then
+                        If (quiz.questionPresentation = DistanceLearning.Models.QuizModel.questionPresentationEnum.OneQuestionPerPage) Then
                             pageNumber += 1
                         End If
                     End If

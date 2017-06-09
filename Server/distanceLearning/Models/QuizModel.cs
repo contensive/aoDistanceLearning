@@ -20,6 +20,12 @@ namespace Contensive.Addons.DistanceLearning.Models
         //-- const
         public const string primaryContentName = "Quizzes";
         private const string primaryContentTableName = "quizzes";
+        public enum questionPresentationEnum
+        {
+            AllQuestionsOnOnePage=1,
+            OneSubjectPerPage=2,
+            OneQuestionPerPage=3
+        }
         //
         // -- instance properties
         public int id;

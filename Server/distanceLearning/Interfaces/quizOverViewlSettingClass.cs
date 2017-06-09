@@ -44,38 +44,62 @@ namespace Contensive.Addons.DistanceLearning
                         quiz.questionPresentation = cp.Doc.GetInteger("questionPresentation");
                         quiz.maxNumberQuest = cp.Doc.GetInteger("maxNumberQuest");
                         string subjectNameEditList = cp.Doc.GetText(constants.rnSubjectNameEditList);
-                        if (!string.IsNullOrEmpty(subjectNameEditList))
+                        if (true)
                         {
                             string subjectIdEditList = cp.Doc.GetText(constants.rnSubjectIdEditList);
                             List<string> subjectNameList = new List<string>();
-                            subjectNameList.AddRange(subjectNameEditList.Split(new string[] { Environment.NewLine }, StringSplitOptions.None));
+                            if(!string.IsNullOrEmpty(subjectNameEditList))
+                            {
+                                subjectNameList.AddRange(subjectNameEditList.Split(new string[] { Environment.NewLine }, StringSplitOptions.None));
+                            }
                             List<string> subjectIdList = new List<string>();
-                            subjectIdList.AddRange(subjectIdEditList.Split(new string[] { "," }, StringSplitOptions.None));
+                            if (!string.IsNullOrEmpty(subjectIdEditList))
+                            {
+                                subjectIdList.AddRange(subjectIdEditList.Split(new string[] { "," }, StringSplitOptions.None));
+                            }
                             for (int ptr=0; ptr<subjectIdList.Count; ptr++)
                             {
                                 int subjectId=0;
                                 if (int.TryParse(subjectIdList[ptr],out subjectId))
                                 {
-                                    Models.QuizSubjectModel subject = Models.QuizSubjectModel.create(cp, subjectId);
-                                    if (subject == null)
+                                    if (ptr >= subjectNameList.Count)
                                     {
-                                        if (string.IsNullOrEmpty(subjectNameList[ptr].Trim()))
+                                        // -- past the end of the list of names, delete this id
+                                        Models.QuizSubjectModel.delete(cp, subjectId);
+                                    }
+                                    else
+                                    {
+                                        Models.QuizSubjectModel subject = Models.QuizSubjectModel.create(cp, subjectId);
+                                        if (subject != null)
                                         {
-                                            Models.QuizSubjectModel.delete(cp, subjectId);
-                                        }
-                                        else
-                                        {
-                                            subject = Models.QuizSubjectModel.add(cp);
-                                            subject.name = subjectNameList[ptr];
-                                            subject.quizId = quiz.id;
-                                            subject.saveObject(cp);
+                                            if (string.IsNullOrEmpty(subjectNameList[ptr].Trim()))
+                                            {
+                                                // -- name is a blank line, delete the subject
+                                                Models.QuizSubjectModel.delete(cp, subjectId);
+                                            }
+                                            else
+                                            {
+                                                // -- update the subject name 
+                                                if (subject.name != subjectNameList[ptr])
+                                                {
+                                                    subject.name = subjectNameList[ptr];
+                                                    subject.saveObject(cp);
+                                                }
+                                            }
                                         }
                                     }
                                 }
                             }
-
-                            foreach (string subjectIdText in subjectIdList)
+                            if (subjectNameList.Count > subjectIdList.Count )
                             {
+                                // -- they added more to the names, insert them as new subject
+                                for (int ptr = subjectIdList.Count; ptr < subjectNameList.Count; ptr++)
+                                {
+                                    Models.QuizSubjectModel subject = Models.QuizSubjectModel.add(cp);
+                                    subject.name = subjectNameList[ptr];
+                                    subject.quizId = quiz.id;
+                                    subject.saveObject(cp);
+                                }
                             }
                         }
                         quiz.saveObject(cp);
@@ -121,9 +145,13 @@ namespace Contensive.Addons.DistanceLearning
                 List<Models.QuizSubjectModel> subjectList = Models.QuizSubjectModel.getObjectList(cp, quiz.id);
                 string subjectNameTextList = "";
                 string subjectIdCommaList = "";
+                string nameDelimiter = "";
+                string idDelimiter = "";
                 foreach (Models.QuizSubjectModel subject in subjectList) {
-                    subjectNameTextList += subject.name + Environment.NewLine;
-                    subjectIdCommaList += subject.id + ",";
+                    subjectNameTextList += nameDelimiter + subject.name;
+                    nameDelimiter = Environment.NewLine;
+                    subjectIdCommaList += idDelimiter + subject.id;
+                    idDelimiter = ",";
                 }
                 form.rowValue = cp.Html.InputTextExpandable(constants.rnSubjectNameEditList, subjectNameTextList) + cp.Html.Hidden( constants.rnSubjectIdEditList, subjectIdCommaList ) 
                     + "<p>If you wish to organize your questions by subject, enter the subject section in the text box one subject per line."
