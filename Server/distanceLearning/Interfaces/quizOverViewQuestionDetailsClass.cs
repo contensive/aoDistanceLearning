@@ -59,6 +59,10 @@ namespace Contensive.Addons.DistanceLearning
                             quizAnswer.name = cp.Doc.GetText(constants.rnAnswerName + quizAnswer.id);
                             quizAnswer.Correct = cp.Doc.GetBoolean("Correct" + quizAnswer.id);
                             quizAnswer.saveObject(cp);
+                            qs = cp.Doc.RefreshQueryString;
+                            qs = cp.Utils.ModifyQueryString(qs, constants.rnQuizId, question.quizId.ToString());
+                            qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewQuestions);
+                            cp.Response.Redirect("?" + qs);
                         }
 
                         for (int ptr = 0; ptr <= constants.maxQuestionAnswer-1; ptr++)
@@ -134,7 +138,7 @@ namespace Contensive.Addons.DistanceLearning
                 questionForm.rowName = "Subject</b>";
                 questionForm.rowValue = cp.Html.SelectContent(constants.rnSubjectId , question.SubjectID.ToString(), constants.cnQuizSubjects,"(quizid=" + quiz.id.ToString() + ")","Select Subject");
                 questionForm.addRow();
-                questionForm.rowName = "Question Instructions</b>";
+                questionForm.rowName = "Answer Information</b>";
                 questionForm.rowValue = cp.Html.InputWysiwyg("instructions", question.instructions, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page, "10", "700") +
                     "<p>This is a list of instructions that go on the Start page. You can describe the quiz, its purpose, how you take it, etc. </p>";
                 //

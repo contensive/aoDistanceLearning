@@ -239,7 +239,7 @@ Namespace Contensive.Addons.OnlineQuiz
                         hint = 50
                         If Correct Then
                             q = "" _
-                                & vbCrLf & vbTab & "<div class=""ExpinationText"">" & cs2.GetText("instructions") & "</div>" _
+                                & vbCrLf & vbTab & "<div class=""instructionText"">" & cs2.GetText("instructions") & "</div>" _
                                 & q
                             NumCorrect = NumCorrect + 1
                             If (subjectCnt > subjectPtr) Then
@@ -249,7 +249,7 @@ Namespace Contensive.Addons.OnlineQuiz
                             End If
                         Else
                             q = "" _
-                                & vbCrLf & vbTab & "<div class=""ExpinationText"">" & cs2.GetText("instructions") & "</div>" _
+                                & vbCrLf & vbTab & "<div class=""instructionText"">" & cs2.GetText("instructions") & "</div>" _
                                 & q
                             Passed = False
                             NumIncorrect = NumIncorrect + 1
