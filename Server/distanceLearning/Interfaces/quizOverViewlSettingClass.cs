@@ -44,24 +44,40 @@ namespace Contensive.Addons.DistanceLearning
                         quiz.questionPresentation = cp.Doc.GetInteger("questionPresentation");
                         quiz.maxNumberQuest = cp.Doc.GetInteger("maxNumberQuest");
                         string subjectNameEditList = cp.Doc.GetText(constants.rnSubjectNameEditList);
-                        List<string> subjectNameList = new List<string>();
                         if (!string.IsNullOrEmpty(subjectNameEditList))
                         {
-                            subjectNameList.AddRange(subjectNameEditList.Split(new string[] { Environment.NewLine },StringSplitOptions.RemoveEmptyEntries));
-                        }
-                        foreach (string subjectName in subjectNameList)
-                        {
-                            Models.QuizSubjectModel subject = Models.QuizSubjectModel.createByName(cp, subjectName.Trim());
-                            if (subject == null)
+                            string subjectIdEditList = cp.Doc.GetText(constants.rnSubjectIdEditList);
+                            List<string> subjectNameList = new List<string>();
+                            subjectNameList.AddRange(subjectNameEditList.Split(new string[] { Environment.NewLine }, StringSplitOptions.None));
+                            List<string> subjectIdList = new List<string>();
+                            subjectIdList.AddRange(subjectIdEditList.Split(new string[] { "," }, StringSplitOptions.None));
+                            for (int ptr=0; ptr<subjectIdList.Count; ptr++)
                             {
-                                subject = Models.QuizSubjectModel.add(cp);
-                                subject.name = subjectName;
-                                subject.saveObject(cp);
+                                int subjectId=0;
+                                if (int.TryParse(subjectIdList[ptr],out subjectId))
+                                {
+                                    Models.QuizSubjectModel subject = Models.QuizSubjectModel.create(cp, subjectId);
+                                    if (subject == null)
+                                    {
+                                        if (string.IsNullOrEmpty(subjectNameList[ptr].Trim()))
+                                        {
+                                            Models.QuizSubjectModel.delete(cp, subjectId);
+                                        }
+                                        else
+                                        {
+                                            subject = Models.QuizSubjectModel.add(cp);
+                                            subject.name = subjectNameList[ptr];
+                                            subject.quizId = quiz.id;
+                                            subject.saveObject(cp);
+                                        }
+                                    }
+                                }
+                            }
+
+                            foreach (string subjectIdText in subjectIdList)
+                            {
                             }
                         }
-                        
-
-                        //quiz.includeSubject = cp.Doc.GetText("includeSubject");
                         quiz.saveObject(cp);
                         break;
                     case "Cancel":
@@ -98,14 +114,20 @@ namespace Contensive.Addons.DistanceLearning
                     + "<p>This is the max number of questions that will display per quiz or per subject(if subjects are used ). The system will randomly select"
                     + " questions from the available pool up to the max number entered. If user is allowed to retake it will display a random selection from the pool"
                     + " so the user doesnt get the same quiz twice</p>";
-                //form.addRow();
-                //form.rowName = "Include Subjects";
-                //List<Models.QuizSubjectModel> subjectList = Models.QuizSubjectModel.getObjectList(cp);
-                //string subjectTextList = "";
-                //foreach (Models.QuizSubjectModel subject in subjectList) { subjectTextList += subject.name + Environment.NewLine; }
-                //form.rowValue = cp.Html.InputTextExpandable(constants.rnSubjectNameEditList, subjectTextList)
-                //    + "<p>If you wish to organize your questions by subject, enter the subject section in the text box one subject per line."
-                //    + " if this quiz has no sections leave blank</p>";
+                //
+                // -- build subjects list with subject id list to handle edits
+                form.addRow();
+                form.rowName = "Include Subjects";
+                List<Models.QuizSubjectModel> subjectList = Models.QuizSubjectModel.getObjectList(cp, quiz.id);
+                string subjectNameTextList = "";
+                string subjectIdCommaList = "";
+                foreach (Models.QuizSubjectModel subject in subjectList) {
+                    subjectNameTextList += subject.name + Environment.NewLine;
+                    subjectIdCommaList += subject.id + ",";
+                }
+                form.rowValue = cp.Html.InputTextExpandable(constants.rnSubjectNameEditList, subjectNameTextList) + cp.Html.Hidden( constants.rnSubjectIdEditList, subjectIdCommaList ) 
+                    + "<p>If you wish to organize your questions by subject, enter the subject section in the text box one subject per line."
+                    + " if this quiz has no sections leave blank</p>";
                 //
                 result = genericController.getTabWrapper(cp, form.getHtml(cp), "Settings", quiz);
                 cp.Doc.AddHeadStyle(form.styleSheet);

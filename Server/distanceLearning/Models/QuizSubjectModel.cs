@@ -327,6 +327,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         {
             return create(cp, cp.Content.AddRecord(primaryContentName));
         }
+
     }
 }
 

@@ -46,7 +46,16 @@ Namespace Contensive.Addons.OnlineQuiz
                     '
                     ' -- then add questions with no subjects
                     For Each quizQuestion As DistanceLearning.Models.QuizQuestionModel In quizQuestionList
-                        If quizQuestion.SubjectID = 0 Then
+                        Dim addDetail As Boolean = True
+                        If quizQuestion.SubjectID > 0 Then
+                            Dim subjectFound As Boolean = False
+                            For Each quizSubject As DistanceLearning.Models.QuizSubjectModel In quizSubjectList
+                                subjectFound = Equals(quizQuestion.SubjectID, quizSubject.id)
+                                If (subjectFound) Then Exit For
+                            Next
+                            addDetail = Not subjectFound
+                        End If
+                        If addDetail Then
                             Dim detail As DistanceLearning.Models.QuizResponseDetailModel = DistanceLearning.Models.QuizResponseDetailModel.add(cp)
                             detail.questionId = quizQuestion.id
                             detail.responseId = response.id
