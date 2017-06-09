@@ -133,9 +133,6 @@ jQuery(document).ready(function(){
 		<PageTitle></PageTitle>
 		<RemoteAssetLink></RemoteAssetLink>
 		<Styles><![CDATA[
-
-
-
 #afw .afwFormRowValue .afwRowValueHelpBox {padding: 5px 0 0 20px;}
 #afw .afwFormRowValue input[type="text"].afwRowTextInput {width:50px;}
 
@@ -154,8 +151,12 @@ jQuery(document).ready(function(){
 	margin-top:10px;
 	color:red;
 }
+.onlineQuiz .subject {
+	font-weight: bold;
+	margin:20px 0 10px 0;
+}
 .onlineQuiz .question {
-	margin-top:10px;
+	margin:10px 0 0 20px;
 }
 .onlineQuiz .question .questionText {
 	font-weight: bold;
@@ -174,6 +175,9 @@ jQuery(document).ready(function(){
 		
 .onlineQuiz .button {
 	margin-top:10px;
+}
+.onlineQuiz .progressbarCon {
+	margin:20px 0 0 0;
 }
 
 .onlineQuiz .quizChart{

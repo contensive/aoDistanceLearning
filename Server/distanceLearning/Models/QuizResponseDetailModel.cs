@@ -261,14 +261,14 @@ namespace Contensive.Addons.DistanceLearning.Models
         /// <param name="cp"></param>
         /// <param name="someCriteria"></param>
         /// <returns></returns>
-        public static List<QuizResponseDetailModel> getObjectList(CPBaseClass cp, int responseId)
+        public static List<QuizResponseDetailModel> getObjectListForQuizDisplay(CPBaseClass cp, int responseId)
         {
             List<QuizResponseDetailModel> result = new List<QuizResponseDetailModel>();
             try
             {
                 CPCSBaseClass cs = cp.CSNew();
                 List<string> ignoreCacheNames = new List<string>();
-                if ((cs.Open(primaryContentName, "(responseId=" + responseId + ")", "sortOrder", true, "id")))
+                if ((cs.Open(primaryContentName, "(responseId=" + responseId + ")", "pageNumber,sortOrder", true, "id")))
                 {
                     QuizResponseDetailModel instance = null;
                     do

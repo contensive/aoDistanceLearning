@@ -56,6 +56,8 @@ Namespace Contensive.Addons.OnlineQuiz
         Public Const buttonSave = "Save"
         Public Const buttonSubmit = "Submit"
         Public Const buttonContinue = "Continue"
+        Public Const buttonRetakeQuiz = "Retake Quiz"
+        Public Const buttonResumeQuiz = "Resume Quiz"
         '
         ' request Names
         '

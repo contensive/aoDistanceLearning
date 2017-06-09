@@ -79,7 +79,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                 {
                     if ((result == null))
                     {
-                        result = loadObject(cp, "id=" + recordId.ToString());
+                        result = loadLastObject(cp, "id=" + recordId.ToString());
                     }
                 }
             }
@@ -106,7 +106,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                 {
                     if ((result == null))
                     {
-                        result = loadObject(cp, "(id=" + recordId.ToString() + ")and(quizId=" + quizId.ToString() + ")and(memberId=" + userId.ToString() + ")");
+                        result = loadLastObject(cp, "(id=" + recordId.ToString() + ")and(quizId=" + quizId.ToString() + ")and(memberId=" + userId.ToString() + ")");
                     }
                 }
             }
@@ -124,14 +124,15 @@ namespace Contensive.Addons.DistanceLearning.Models
         /// <param name="quizId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public static QuizResponseModel createUncompletedObject(CPBaseClass cp, int quizId, int userId )
+        public static QuizResponseModel createLastForThisUser(CPBaseClass cp, int quizId, int userId )
         {
             QuizResponseModel result = null;
             try
             {
                 if ((result == null))
                 {
-                    result = loadObject(cp, "(memberId=" + userId.ToString() + ")and(dateSubmitted is null)and(quizId=" + quizId.ToString() + ")");
+                    result = loadLastObject(cp, "(memberId=" + userId.ToString() + ")and(quizId=" + quizId.ToString() + ")");
+                    //result = loadObject(cp, "(memberId=" + userId.ToString() + ")and(dateSubmitted is null)and(quizId=" + quizId.ToString() + ")");
                 }
             }
             catch (Exception ex)
@@ -157,7 +158,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                 {
                     if ((result == null))
                     {
-                        result = loadObject(cp, "ccGuid=" + cp.Db.EncodeSQLText(recordGuid));
+                        result = loadLastObject(cp, "ccGuid=" + cp.Db.EncodeSQLText(recordGuid));
                     }
                 }
             }
@@ -175,7 +176,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         /// </summary>
         /// <param name="cp"></param>
         /// <param name="sqlCriteria"></param>
-        private static QuizResponseModel loadObject(CPBaseClass cpCore, string sqlCriteria)
+        private static QuizResponseModel loadLastObject(CPBaseClass cpCore, string sqlCriteria)
         {
             QuizResponseModel result = null;
             try
@@ -478,7 +479,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             QuizResponseModel instance = create(cp, cp.Content.AddRecord(primaryContentName));
             instance.QuizID = quizId;
             instance.MemberID = cp.User.Id;
-            instance.dateStarted = DateTime.Now;
+            //instance.dateStarted = DateTime.Now;
             instance.SortOrder = genericController.getSortOrderFromInteger(instance.id);
             return instance;
         }
