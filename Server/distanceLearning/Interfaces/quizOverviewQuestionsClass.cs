@@ -82,12 +82,10 @@ namespace Contensive.Addons.DistanceLearning
                 // 
                 foreach (QuizQuestionModel question in questionList)
                 {
-                    //
-                    //this next statement is like a cs.open but opens the object to get there field
                     List<QuizResponseModel> responseList = QuizResponseModel.GetResponseList(cp, question.id);
-                    reportList.addRow();
-                    // the following is how to look up a field in another model
                     Models.QuizSubjectModel subject = QuizSubjectModel.create(cp, question.SubjectID);
+                    //
+                    reportList.addRow();
                     reportList.columnCellClass = "afwTextAlignLeft";
                     if (subject == null)
                     {
@@ -96,9 +94,10 @@ namespace Contensive.Addons.DistanceLearning
                     else
                     {
                         reportList.setCell(subject.name);
-                    }                        
+                    }
+                    //
                     reportList.columnCellClass = "afwTextAlignLeft";
-                    reportList.setCell(question.QText);
+                    reportList.setCell(question.questionText);
                     reportList.setCell(question.SortOrder.ToString());
                     //
                     string miniForm = "";

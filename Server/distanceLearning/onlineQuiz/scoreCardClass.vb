@@ -71,7 +71,7 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim cs4 As CPCSBaseClass = cp.CSNew()
                 Dim Counter As Integer
                 Dim SummaryBox As String = ""
-                Dim q As String
+                Dim questionRow As String
                 Dim SelectedAnswerID As Integer
                 Dim Correct As Boolean
                 Dim NumIncorrect As Integer
@@ -117,7 +117,7 @@ Namespace Contensive.Addons.OnlineQuiz
                 If cs.OK() Then
                     '
                     quizName = cs.GetText("name")
-                    Call cs2.Open("Quiz Questions", "QuizID=" & CStr(quizId), "QOrder")
+                    Call cs2.Open("Quiz Questions", "QuizID=" & CStr(quizId), "SortOrder")
                     '
                     ' subjectPtr=0 is the 'no subject' subject
                     '
@@ -156,7 +156,7 @@ Namespace Contensive.Addons.OnlineQuiz
                         ' New Question
                         '
                         hint = 30
-                        q = ""
+                        questionRow = ""
                         Call CS3.Open("Quiz Answers", "QuestionID=" & questionId, "sortOrder")
                         If Not CS3.OK() Then
                             '
@@ -191,7 +191,7 @@ Namespace Contensive.Addons.OnlineQuiz
                                         '
                                         Correct = True
                                     End If
-                                    q = q & vbCrLf & vbTab & "<div class=""questionChoice"">" & Choice & "</div>"
+                                    questionRow = questionRow & vbCrLf & vbTab & "<div class=""questionChoice"">" & Choice & "</div>"
                                 Else
                                     Choice = Choice & "<input type=""radio"" name=""" & Counter & "Answer"" value=""" & CStr(CS3.GetInteger("ID")) & """ disabled>"
                                     Choice = Choice & "&nbsp;" & CS3.GetText("name")
@@ -200,12 +200,12 @@ Namespace Contensive.Addons.OnlineQuiz
                                         '
                                         ' unselected answer is correct answer, make red
                                         '
-                                        q = q & vbCrLf & vbTab & "<div class=""questionChoiceWrong"">" & Choice & "</div>"
+                                        questionRow = questionRow & vbCrLf & vbTab & "<div class=""questionChoiceWrong"">" & Choice & "</div>"
                                     Else
                                         '
                                         ' unselected answer is not correct answer
                                         '
-                                        q = q & vbCrLf & vbTab & "<div class=""questionChoice"">" & Choice & "</div>"
+                                        questionRow = questionRow & vbCrLf & vbTab & "<div class=""questionChoice"">" & Choice & "</div>"
                                     End If
                                 End If
                                 '
@@ -217,9 +217,9 @@ Namespace Contensive.Addons.OnlineQuiz
                         '
                         hint = 50
                         If Correct Then
-                            q = "" _
-                                & vbCrLf & vbTab & "<div class=""questionText"">" & cs2.GetText("QText") & "</div>" _
-                                & q
+                            questionRow = "" _
+                                & vbCrLf & vbTab & "<div class=""questionText"">" & cs2.GetText("questionText") & "</div>" _
+                                & questionRow
                             NumCorrect = NumCorrect + 1
                             If (subjectCnt > subjectPtr) Then
                                 If SubjectID > 0 Then
@@ -227,9 +227,9 @@ Namespace Contensive.Addons.OnlineQuiz
                                 End If
                             End If
                         Else
-                            q = "" _
-                                & vbCrLf & vbTab & "<div class=""questionTextWrong"">" & cs2.GetText("QText") & "</div>" _
-                                & q
+                            questionRow = "" _
+                                & vbCrLf & vbTab & "<div class=""questionTextWrong"">" & cs2.GetText("questionText") & "</div>" _
+                                & questionRow
                             Passed = False
                             NumIncorrect = NumIncorrect + 1
                         End If
@@ -238,9 +238,9 @@ Namespace Contensive.Addons.OnlineQuiz
                         '
                         hint = 50
                         If Correct Then
-                            q = "" _
+                            questionRow = "" _
                                 & vbCrLf & vbTab & "<div class=""instructionText"">" & cs2.GetText("instructions") & "</div>" _
-                                & q
+                                & questionRow
                             NumCorrect = NumCorrect + 1
                             If (subjectCnt > subjectPtr) Then
                                 If SubjectID > 0 Then
@@ -248,9 +248,9 @@ Namespace Contensive.Addons.OnlineQuiz
                                 End If
                             End If
                         Else
-                            q = "" _
+                            questionRow = "" _
                                 & vbCrLf & vbTab & "<div class=""instructionText"">" & cs2.GetText("instructions") & "</div>" _
-                                & q
+                                & questionRow
                             Passed = False
                             NumIncorrect = NumIncorrect + 1
                         End If
@@ -259,7 +259,7 @@ Namespace Contensive.Addons.OnlineQuiz
                         '
                         SummaryBox &= "" _
                             & vbCrLf & vbTab & "<div class=""question"">" _
-                            & cp.Html.Indent(q) _
+                            & cp.Html.Indent(questionRow) _
                             & vbCrLf & vbTab & "</div>"
                         Call cs2.GoNext()
                     Loop

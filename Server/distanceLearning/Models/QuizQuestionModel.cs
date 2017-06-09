@@ -27,14 +27,14 @@ namespace Contensive.Addons.DistanceLearning.Models
         public string guid;
         public int SubjectID;
         public int quizId;
-        public string QText ="";
         public int points;
         public string instructions;
-        public int qOrder;
-        //public int pageOrder;
-        //
-        //public bool Active;
+        public string questionText;
         public string SortOrder;
+        //
+        //public int qOrder;
+        //public int pageOrder;
+        //public bool Active;
         //public DateTime DateAdded;
         //public int CreatedBy;
         //public DateTime ModifiedDate;
@@ -50,7 +50,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         /// </summary>
         public QuizQuestionModel()
         {
-            QText = "";
+            questionText = "";
             name = "";
             guid = "";
             instructions = "";
@@ -129,17 +129,17 @@ namespace Contensive.Addons.DistanceLearning.Models
                     //
                     // -- populate result model
                     result.id = cs.GetInteger("id");
-                    result.name = cs.GetText("name");
                     result.guid = cs.GetText("ccGuid");
                     result.createKey = cs.GetInteger("createKey");
                     result.quizId = cs.GetInteger("QuizID");
                     result.SubjectID = cs.GetInteger("SubjectID");
-                    result.QText = cs.GetText("QText");
+                    result.questionText = cs.GetText("questionText");
                     result.points = cs.GetInteger("points");
                     result.instructions = cs.GetText("instructions");
-                    result.qOrder = cs.GetInteger("qOrder");
                     result.SortOrder = cs.GetText("SortOrder");
-                   
+                    result.name = cs.GetText("name");
+                    if (string.IsNullOrEmpty(result.name)) { result.name = result.questionText.Substring(0, 100); }
+
                 }
                 cs.Close();
             }
@@ -183,17 +183,17 @@ namespace Contensive.Addons.DistanceLearning.Models
                 if (cs.OK())
                 {
                     id = cs.GetInteger("id");
+                    if (string.IsNullOrEmpty(name)) { name = questionText.Substring(0, 100); }
                     cs.SetField("name", name);
                     cs.SetField("ccGuid", guid);
                     cs.SetField("QuizID", quizId.ToString());
                     cs.SetField("createKey", createKey.ToString());
-                    cs.SetField("QText", QText);
+                    cs.SetField("questionText", questionText);
                     cs.SetField("SubjectID", SubjectID.ToString());
                     cs.SetField("points", points.ToString());
                     cs.SetField("instructions", instructions);
-                    cs.SetField("qOrder", qOrder.ToString());
+                    //cs.SetField("qOrder", qOrder.ToString());
                     cs.SetField("SortOrder", SortOrder.ToString());
-                   
                 }
                 cs.Close();
             }

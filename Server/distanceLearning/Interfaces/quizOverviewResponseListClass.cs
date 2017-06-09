@@ -53,7 +53,7 @@ namespace Contensive.Addons.DistanceLearning
                 adminFramework.reportListClass form = new adminFramework.reportListClass(cp);
                 form.addFormHidden(constants.rnQuizId, quiz.id.ToString());
                 form.addFormButton(constants.buttonCancel);
-                form.addFormButton(constants.buttonRefresh);
+                //form.addFormButton(constants.buttonRefresh);
                 form.title = "Results";
                 form.description = "";
                 //quizUserDetailsForm.addColumn();
@@ -90,7 +90,7 @@ namespace Contensive.Addons.DistanceLearning
                     //quizUserDetailsForm.setCell(quizResponse.quizName); 
                     qs = cp.Doc.RefreshQueryString;
                     qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewResultsDetails, true);
-                    qs = cp.Utils.ModifyQueryString(qs, "ResponseId", quizResponse.id.ToString(), true);
+                    qs = cp.Utils.ModifyQueryString(qs, constants.rnResponseId, quizResponse.id.ToString(), true);
                     qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
                    
                     form.setCell("<div><a href=\"?" + qs + "\"> " + quizResponse.userName + " </ a></div>");

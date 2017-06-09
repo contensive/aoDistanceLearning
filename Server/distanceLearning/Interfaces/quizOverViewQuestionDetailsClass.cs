@@ -38,19 +38,19 @@ namespace Contensive.Addons.DistanceLearning
                     }
                 }
                 if (quiz == null) quiz = QuizModel.create(cp, question.quizId);
-                string innerBody = "";
+                //string innerBody = "";
                 string button = cp.Doc.GetText("button");
                 switch (button)
                 {
 
                     case constants.buttonSave:
-                        question.QText = cp.Doc.GetText("Qtext");
+                        question.questionText = cp.Doc.GetText("questionText");
                         question.points = cp.Doc.GetInteger("points");
                         question.instructions = cp.Doc.GetText("instructions");
                         question.quizId = cp.Doc.GetInteger("quizId");
                         question.SubjectID = cp.Doc.GetInteger("SubjectId");
-                        question.name= cp.Doc.GetText("Qtext");
-                        question.qOrder = cp.Doc.GetInteger("qOrder");
+                        //question.name= cp.Doc.GetText("Qtext");
+                        //question.qOrder = cp.Doc.GetInteger("qOrder");
                         question.SortOrder = cp.Doc.GetText("SortOrder");
                         question.saveObject(cp);
                         List<QuizAnswerModel> quizAnswersList = QuizAnswerModel.getAnswersForQuestionList(cp, question.id);
@@ -91,15 +91,22 @@ namespace Contensive.Addons.DistanceLearning
                 questionForm.isOuterContainer = false;
                 questionForm.addFormHidden("questionId", question.id.ToString());
                 questionForm.addFormHidden(constants.rnQuizId, question.quizId.ToString());
-                questionForm.body = innerBody;
-                questionForm.addFormButton(constants.buttonSave, "button");
-                questionForm.addFormButton(constants.buttonCancel, "button");
+                //questionForm.body = innerBody;
+                questionForm.addFormButton(constants.buttonSave);
+                questionForm.addFormButton(constants.buttonCancel);
                 questionForm.isOuterContainer = false;
-                questionForm.addRow();
-                questionForm.title = "<b>Question" + question.id + "  </b></br>";
+                //questionForm.addRow();
+                if (question.id == 0)
+                {
+                    questionForm.title = "<b>New Question</b></br>";
+                }
+                else
+                {
+                    questionForm.title = "<b>Question " + question.id + "  </b></br>";
+                }
                 questionForm.addRow();
                 questionForm.rowName = "Question </b>";
-                questionForm.rowValue = cp.Html.InputText("Qtext", question.QText, "5", "", false, "qtext", "js-qText");
+                questionForm.rowValue = cp.Html.InputText("questionText", question.questionText, "5", "", false, "qtext", "js-qText");
                 questionForm.addRow();
                 questionForm.rowName = "Sort Order </b>";
                 questionForm.rowValue = cp.Html.InputText("SortOrder", question.SortOrder.ToString());

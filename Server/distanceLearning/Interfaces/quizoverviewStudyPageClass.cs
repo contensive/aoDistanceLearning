@@ -56,12 +56,11 @@ namespace Contensive.Addons.DistanceLearning
                 form.addFormButton("Save", "button");
                 form.addFormButton("Cancel", "button");
                 form.isOuterContainer = false;
-                form.addRow();
                 form.title = "<b>Study Page </b></br>";
                 //
                 form.addRow();
                 form.rowName = "Study Page Text </b>";
-                form.rowValue = cp.Html.InputWysiwyg("customTopCopy", quiz.customTopCopy,CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page, "10", "700")
+                form.rowValue = cp.Html.InputWysiwyg("customTopCopy", quiz.customTopCopy,CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page)
                         + "This is the list of instructions that go on the study Page. You can describe the quiz, it's purpose, how to take it, etc.";
                 //form.rowValue = cp.Html.InputTextExpandable("customTopCopy", quiz.customTopCopy)
                 // + "This is the list of instructions that go on the study Page. You can describe the quiz, it's purpose, how to take it, etc.";

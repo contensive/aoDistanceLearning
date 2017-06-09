@@ -199,7 +199,7 @@ Namespace Contensive.Addons.OnlineQuiz
                 If cs.OK() Then
                     quizName = cs.GetText("name")
                     quizTypeId = cs.GetInteger("typeId")
-                    cs2.Open("Quiz Questions", "QuizID=" & CStr(quizId), "QOrder")
+                    cs2.Open("Quiz Questions", "QuizID=" & CStr(quizId), "sortOrder")
                     '
                     ' subjectPtr=0 is the 'no subject' subject
                     '
@@ -240,7 +240,7 @@ Namespace Contensive.Addons.OnlineQuiz
                         answerPoints = 0
                         Correct = False
                         AnswerCorrect = False
-                        Call CS3.Open("Quiz Answers", "QuestionID=" & questionId, "QOrder")
+                        Call CS3.Open("Quiz Answers", "QuestionID=" & questionId, "sortOrder")
                         If Not CS3.OK() Then
                             '
                             ' Question with no choices is correct

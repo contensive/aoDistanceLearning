@@ -15,7 +15,7 @@ namespace Contensive.Addons.DistanceLearning
             string result = "";
             try
             {
-                int responseId = cp.Doc.GetInteger("responseid");
+                int responseId = cp.Doc.GetInteger(constants.rnResponseId);
                 Models.QuizResponseModel response = Models.QuizResponseModel.create(cp, responseId);
                 Models.QuizModel quiz = Models.QuizModel.create(cp, response.QuizID);
                 if (cp.Doc.GetText(constants.rnButton) == constants.buttonCancel)
@@ -36,6 +36,8 @@ namespace Contensive.Addons.DistanceLearning
                 cp.Doc.SetProperty("id", responseId.ToString());
                 form.body = cp.Utils.ExecuteAddon(constants.scoreCardAddon);
                 form.addFormButton(constants.buttonCancel);
+                form.addFormHidden(constants.rnQuizId, quiz.id.ToString());
+                form.addFormHidden(constants.rnResponseId, response.id.ToString());
                 result = form.getHtml(cp);
                 result = genericController.getTabWrapper(cp, result, "Results", quiz);
             }

@@ -150,7 +150,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                         userName = cs.GetText("userName");
                         if (userName.ToLower() == "guest") { userName += " #" + cs.GetInteger("userId"); }
                         reportList.addRow();
-                        qs = cp.Utils.ModifyQueryString(qsBase, "id", cs.GetInteger("responseId").ToString(), true);
+                        qs = cp.Utils.ModifyQueryString(qsBase, "id", cs.GetInteger(constants.rnResponseId).ToString(), true);
                         reportList.setCell("<a href=\"?" + qs + "\">" + cs.GetText("quizName") + "</a>");
                         reportList.setCell(userName );
                         reportList.setCell(genericController.getShortDateString(cs.GetDate("dateSubmitted")));
