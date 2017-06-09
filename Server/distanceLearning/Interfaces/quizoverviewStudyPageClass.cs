@@ -71,16 +71,16 @@ namespace Contensive.Addons.DistanceLearning
                 // + "This is the list of instructions that go on the study Page. You can describe the quiz, it's purpose, how to take it, etc.";
                 form.addRow();
                 form.rowName = "Video Embed Code </b>";
-                form.rowValue = cp.Html.InputText("videoEmbedCode",quiz.videoEmbedCode)
+                form.rowValue = cp.Html.InputTextExpandable("videoEmbedCode",quiz.videoEmbedCode)
                     + "</br> When included, a video can be presented on the study page.";
                 form.addRow();
                 form.rowName = "Course Materials </b>";
                 form.rowValue = cp.Html.InputFile("CorseMaterial", "addCourseMaterialClass", "js-addCourseMaterialButtonId")
                 + "</br> When included, a file can be uploaded on the study page.";
-                form.addRow();               
-                form.rowName = "Study Quiz Button </b>";
-                form.rowValue = cp.Html.InputText("customButtonCopy", "study")
-                + "</br> This is the text that will be shown on the study button for the quiz.";
+                //form.addRow();               
+                //form.rowName = "Study Quiz Button </b>";
+                //form.rowValue = cp.Html.InputText("customButtonCopy", "study")
+                //+ "</br> This is the text that will be shown on the study button for the quiz.";
                 // 
                 result =  genericController.getTabWrapper(cp, form.getHtml(cp), "Study", quiz);
 
