@@ -132,7 +132,7 @@ namespace Contensive.Addons.DistanceLearning
 
                 questionForm.addRow();
                 questionForm.rowName = "Subject</b>";
-                questionForm.rowValue = cp.Html.SelectContent(constants.rnSubjectId , question.SubjectID.ToString(), constants.cnQuizSubjects,"","Select Subject");
+                questionForm.rowValue = cp.Html.SelectContent(constants.rnSubjectId , question.SubjectID.ToString(), constants.cnQuizSubjects,"(quizid=" + quiz.id.ToString() + ")","Select Subject");
                 questionForm.addRow();
                 questionForm.rowName = "Question Instructions</b>";
                 questionForm.rowValue = cp.Html.InputWysiwyg("instructions", question.instructions, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page, "10", "700") +

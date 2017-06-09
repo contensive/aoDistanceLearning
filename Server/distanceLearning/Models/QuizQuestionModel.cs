@@ -54,7 +54,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             name = "";
             guid = "";
             instructions = "";
-
+            SortOrder = "";
         }
         //
         //====================================================================================================

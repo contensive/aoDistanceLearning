@@ -35,8 +35,9 @@ namespace Contensive.Addons.DistanceLearning
                     qs = cp.Doc.RefreshQueryString;
                     qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewQuestionDetails);
                     qs = cp.Utils.ModifyQueryString(qs, constants.rnQuizId, cp.Doc.GetInteger(constants.rnQuizId).ToString());
-                    qs = cp.Utils.ModifyQueryString(qs, constants.rnQuestionId, "");
-                    cp.Response.Redirect("?" + qs);
+                        cp.Response.Redirect("?" + qs);
+                       // qs = cp.Utils.ModifyQueryString(qs, constants.rnQuestionId, " ");
+                        
                     break;
             }
 
