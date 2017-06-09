@@ -915,8 +915,8 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim quizEditIcon As String = ""
                 Dim topCopy As String = ""
                 Dim buttonCopy As String = ""
-                Dim qs As String
-                Dim formAction As String
+                'Dim qs As String
+                Dim formAction As String = "?" & cp.Doc.RefreshQueryString()
                 Dim answerText As String = ""
                 Dim progressBarHtml As String = ""
                 Dim subjectName As String = ""

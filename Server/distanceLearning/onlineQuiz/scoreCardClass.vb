@@ -234,6 +234,27 @@ Namespace Contensive.Addons.OnlineQuiz
                             NumIncorrect = NumIncorrect + 1
                         End If
                         '
+                        ' Add Explination
+                        '
+                        hint = 50
+                        If Correct Then
+                            q = "" _
+                                & vbCrLf & vbTab & "<div class=""ExpinationText"">" & cs2.GetText("instructions") & "</div>" _
+                                & q
+                            NumCorrect = NumCorrect + 1
+                            If (subjectCnt > subjectPtr) Then
+                                If SubjectID > 0 Then
+                                    subjects(subjectPtr).CorrectAnswers = subjects(subjectPtr).CorrectAnswers + 1
+                                End If
+                            End If
+                        Else
+                            q = "" _
+                                & vbCrLf & vbTab & "<div class=""ExpinationText"">" & cs2.GetText("instructions") & "</div>" _
+                                & q
+                            Passed = False
+                            NumIncorrect = NumIncorrect + 1
+                        End If
+                        '
                         ' Question container
                         '
                         SummaryBox &= "" _

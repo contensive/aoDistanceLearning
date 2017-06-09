@@ -101,20 +101,20 @@ namespace Contensive.Addons.DistanceLearning
                     form.setCell(quizResponse.totalCorrect.ToString());
                     form.setCell(quizResponse.totalPoints.ToString());
                 };
-                form.htmlLeftOfTable = ""
-                    + constants.cr + "<h3 class=\"afwFilterHead\">filters</h3>"
-                    + constants.cr + "<h4 class=\"afwFilterCaption\">Date</h4>"
-                    + constants.cr + "<div class=\"afwFilterRow\"><label for=fromfilter>from</label><input type=\"date\" name=\"" + constants.rnFilterDateFrom + "\" value=\"2017 - 06 - 02\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
-                    + constants.cr + "<div class=\"afwFilterRow\"><label for=tofilter>to</label><input type=\"date\" name=\"" + constants.rnFilterDateTo + "\" value=\"2017 - 06 - 02\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
-                    + "";
-                cp.Doc.AddHeadJavascript(""
-                    + constants.cr + "jQuery(document).ready(function(){"
-                    + constants.cr2 + "jQuery('.abAccountAddButton').click(function(){"
-                    + constants.cr2 + "window.location='" + cp.Site.GetProperty("adminUrl") + "?af=4&id=0&cid=" + cp.Content.GetID("people") + "';"
-                    + constants.cr2 + "return false;"
-                    + constants.cr2 + "});"
-                    + constants.cr + "})"
-                    + "");
+                form.htmlLeftOfTable = "";
+                //    + constants.cr + "<h3 class=\"afwFilterHead\">filters</h3>"
+                //    + constants.cr + "<h4 class=\"afwFilterCaption\">Date</h4>"
+                //    + constants.cr + "<div class=\"afwFilterRow\"><label for=fromfilter>from</label><input type=\"date\" name=\"" + constants.rnFilterDateFrom + "\" value=\"2017 - 06 - 02\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
+                //    + constants.cr + "<div class=\"afwFilterRow\"><label for=tofilter>to</label><input type=\"date\" name=\"" + constants.rnFilterDateTo + "\" value=\"2017 - 06 - 02\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
+                //    + "";
+                //cp.Doc.AddHeadJavascript(""
+                //    + constants.cr + "jQuery(document).ready(function(){"
+                //    + constants.cr2 + "jQuery('.abAccountAddButton').click(function(){"
+                //    + constants.cr2 + "window.location='" + cp.Site.GetProperty("adminUrl") + "?af=4&id=0&cid=" + cp.Content.GetID("people") + "';"
+                //    + constants.cr2 + "return false;"
+                //    + constants.cr2 + "});"
+                //    + constants.cr + "})"
+                //    + "");
                 result = form.getHtml(cp);
                 result = genericController.getTabWrapper(cp, result, "Results", quiz);
             }
