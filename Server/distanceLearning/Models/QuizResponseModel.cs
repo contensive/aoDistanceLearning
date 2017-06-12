@@ -426,7 +426,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     + " from ((quizResponses r"
                     + " left join quizzes q on q.id=r.quizId)"
                     + " left join ccMembers u on u.id=r.memberId)"
-                    + " where (QuizId=" + QuizId + ")";
+                    + " where (r.QuizId=" + QuizId + ")and(q.active>0)and(u.active>0)and(r.dateSubmitted is not null)";
                 if (  fromDate > DateTime.MinValue)
                 {
                     string sqlFromDate = cp.Db.EncodeSQLDate(fromDate.Date);

@@ -94,7 +94,7 @@ namespace Contensive.Addons.DistanceLearning
                     qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
                    
                     form.setCell("<div><a href=\"?" + qs + "\"> " + quizResponse.userName + " </ a></div>");
-                    form.setCell(quizResponse.dateSubmitted.ToShortDateString());
+                    form.setCell( genericController.getShortDateString(  quizResponse.dateSubmitted));
                     form.setCell(quizResponse.attemptNumber.ToString());
                     form.setCell( Convert.ToInt32( 0.5 + quizResponse.score).ToString());
                     form.setCell(quizResponse.totalQuestions.ToString());
