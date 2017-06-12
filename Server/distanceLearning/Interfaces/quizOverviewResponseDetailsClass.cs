@@ -18,6 +18,8 @@ namespace Contensive.Addons.DistanceLearning
                 int responseId = cp.Doc.GetInteger(constants.rnResponseId);
                 Models.QuizResponseModel response = Models.QuizResponseModel.create(cp, responseId);
                 Models.QuizModel quiz = Models.QuizModel.create(cp, response.QuizID);
+                Models.MemberModel member = MemberModel.create(cp, response.MemberID);
+                if (member==null) { member = new MemberModel() { name = "Unknown" }; }
                 if (cp.Doc.GetText(constants.rnButton) == constants.buttonCancel)
                 {
                     // -- go back to response
@@ -31,10 +33,10 @@ namespace Contensive.Addons.DistanceLearning
                 form.title = "Quiz Response";
                 form.description = ""
                     + cp.Html.div("Date Completed: " + response.dateSubmitted.ToShortDateString() )
-                    + cp.Html.div("Participant: #" + response.MemberID)
+                    + cp.Html.div("Participant: " + member.name)
                     + "";
                 cp.Doc.SetProperty("id", responseId.ToString());
-                form.body = cp.Utils.ExecuteAddon(constants.scoreCardAddon);
+                form.body = cp.Html.div(cp.Utils.ExecuteAddon(constants.scoreCardAddon), "", "onlineQuiz"); ;
                 form.addFormButton(constants.buttonCancel);
                 form.addFormHidden(constants.rnQuizId, quiz.id.ToString());
                 form.addFormHidden(constants.rnResponseId, response.id.ToString());

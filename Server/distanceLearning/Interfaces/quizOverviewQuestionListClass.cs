@@ -80,35 +80,46 @@ namespace Contensive.Addons.DistanceLearning
                 //
                 // the following is modifying a refreshquery string to add to the query model
                 // 
-                foreach (QuizQuestionModel question in questionList)
+                List<Models.QuizSubjectModel> subjectList = Models.QuizSubjectModel.getObjectList(cp);
+                //
+                // - add empty subject at end for questions without subjects
+                subjectList.Add(new QuizSubjectModel() { });
+                foreach (QuizSubjectModel subject in subjectList)
                 {
-                    List<QuizResponseModel> responseList = QuizResponseModel.GetResponseList(cp, question.id);
-                    Models.QuizSubjectModel subject = QuizSubjectModel.create(cp, question.SubjectID);
                     //
-                    reportList.addRow();
-                    reportList.columnCellClass = "afwTextAlignLeft";
-                    if (subject == null)
+                    // -- list all questions in this subject
+                    foreach (QuizQuestionModel question in questionList)
                     {
-                        reportList.setCell("");
+                        //
+                        // -- list this question if it is in this subject
+                        if (subject.id == question.SubjectID)
+                        {
+                            List<QuizResponseModel> responseList = QuizResponseModel.GetResponseList(cp, question.id);
+                            reportList.addRow();
+                            reportList.columnCellClass = "afwTextAlignLeft";
+                            if (subject == null)
+                            {
+                                reportList.setCell("");
+                            }
+                            else
+                            {
+                                reportList.setCell(subject.name);
+                            }
+                            //
+                            reportList.columnCellClass = "afwTextAlignLeft";
+                            reportList.setCell(question.copy);
+                            reportList.setCell(question.SortOrder.ToString());
+                            //
+                            string miniForm = "";
+                            miniForm += cp.Html.Button("button", "Edit", "questionEdit", "js-questionEdit");
+                            miniForm += cp.Html.Button("button", "Delete", "questionDelete", "js-questionDelete");
+                            miniForm += cp.Html.Hidden(constants.rnQuestionId, question.id.ToString());
+                            miniForm += cp.Html.Hidden(constants.rnQuizId, question.quizId.ToString());
+                            miniForm = cp.Html.Form(miniForm);
+                            reportList.columnCellClass = "afwTextAlignLeft";
+                            reportList.setCell(miniForm);
+                        }
                     }
-                    else
-                    {
-                        reportList.setCell(subject.name);
-                    }
-                    //
-                    reportList.columnCellClass = "afwTextAlignLeft";
-                    reportList.setCell(question.copy);
-                    reportList.setCell(question.SortOrder.ToString());
-                    //
-                    string miniForm = "";
-                    miniForm += cp.Html.Button("button", "Edit", "questionEdit", "js-questionEdit");
-                    miniForm += cp.Html.Button("button", "Delete", "questionDelete", "js-questionDelete");
-                    miniForm += cp.Html.Hidden(constants.rnQuestionId, question.id.ToString());
-                    miniForm += cp.Html.Hidden(constants.rnQuizId, question.quizId.ToString());
-                    miniForm = cp.Html.Form(miniForm);
-                    reportList.columnCellClass = "afwTextAlignLeft";
-                    reportList.setCell(miniForm);
-                    //
                 }
                 cp.Doc.AddRefreshQueryString("quizId", quiz.id.ToString());
                 //

@@ -11,7 +11,7 @@ using Contensive.Addons.DistanceLearning.Models;
 using Contensive.Addons.DistanceLearning.Interfaces;
 using Contensive.Addons.DistanceLearning.Controllers;
 
-namespace Contensive.Addons.DistanceLearning
+namespace Contensive.Addons.DistanceLearning.Models
 {
 
     public class MemberModel

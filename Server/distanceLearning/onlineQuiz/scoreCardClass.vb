@@ -55,7 +55,7 @@ Namespace Contensive.Addons.OnlineQuiz
             Dim hint As Integer = 0
             Try
                 '
-                Dim chart As String
+                Dim chart As String = ""
                 Dim responseSubject As String
                 Dim responseName As String
                 Dim scoreCaption As String
@@ -113,22 +113,17 @@ Namespace Contensive.Addons.OnlineQuiz
                         ' -- quiz not valid
                         returnHtml = "<p>The quiz associated to the response requested is not currently longer available.</p>"
                     Else
-                        Dim questionList As List(Of DistanceLearning.Models.QuizQuestionModel) = DistanceLearning.Models.QuizQuestionModel.getQuestionsForQuizList(cp, quiz.id)
                         subjectCnt = 0
                         totalQuestions = 0
                         totalQuestionsIncorrect = 0
                         totalQuestionsCorrect = 0
                         Dim totalPoints As Integer = 0
-                        For Each question As DistanceLearning.Models.QuizQuestionModel In questionList
+                        For Each responseDetail As DistanceLearning.Models.QuizResponseDetailModel In responseDetailList
+                            '
+                            ' -- process all the questions selected in the resposne detail list
+                            Dim question As DistanceLearning.Models.QuizQuestionModel = DistanceLearning.Models.QuizQuestionModel.create(cp, responseDetail.questionId)
                             hint = 20
                             totalQuestions = totalQuestions + 1
-                            Dim responseDetail As New DistanceLearning.Models.QuizResponseDetailModel
-                            For Each responseDetailTest As DistanceLearning.Models.QuizResponseDetailModel In responseDetailList
-                                If (responseDetailTest.questionId = question.id) Then
-                                    responseDetail = responseDetailTest
-                                    Exit For
-                                End If
-                            Next
                             '
                             ' Set subjectPtr to the Response Array for this question's subject
                             subjectPtr = 0
@@ -207,11 +202,11 @@ Namespace Contensive.Addons.OnlineQuiz
                                 & vbCrLf & vbTab & "<div class=""questionText"">" & question.copy & "</div>" _
                                 & questionRow
                                 totalQuestionsCorrect = totalQuestionsCorrect + 1
-                                If (subjectCnt > subjectPtr) Then
-                                    If question.SubjectID > 0 Then
-                                        subjects(subjectPtr).CorrectAnswers = subjects(subjectPtr).CorrectAnswers + 1
-                                    End If
-                                End If
+                                'If (subjectCnt > subjectPtr) Then
+                                '    If question.SubjectID > 0 Then
+                                '        subjects(subjectPtr).CorrectAnswers = subjects(subjectPtr).CorrectAnswers + 1
+                                '    End If
+                                'End If
                             Else
                                 questionRow = "" _
                                 & vbCrLf & vbTab & "<div class=""questionTextWrong"">" & question.copy & "</div>" _
@@ -222,24 +217,25 @@ Namespace Contensive.Addons.OnlineQuiz
                             '
                             ' Add Explination
                             '
-                            hint = 50
-                            If Correct Then
-                                questionRow = "" _
-                                & vbCrLf & vbTab & "<div class=""instructionText"">" & question.instructions & "</div>" _
-                                & questionRow
-                                totalQuestionsCorrect = totalQuestionsCorrect + 1
-                                If (subjectCnt > subjectPtr) Then
-                                    If question.SubjectID > 0 Then
-                                        subjects(subjectPtr).CorrectAnswers = subjects(subjectPtr).CorrectAnswers + 1
-                                    End If
-                                End If
-                            Else
-                                questionRow = "" _
-                                & vbCrLf & vbTab & "<div class=""instructionText"">" & question.instructions & "</div>" _
-                                & questionRow
-                                Passed = False
-                                totalQuestionsIncorrect = totalQuestionsIncorrect + 1
-                            End If
+                            questionRow &= vbCrLf & vbTab & "<div class=""instructionText"">" & question.instructions & "</div>"
+                            'hint = 50
+                            'If Correct Then
+                            '    questionRow = "" _
+                            '    & vbCrLf & vbTab & "<div class=""instructionText"">" & question.instructions & "</div>" _
+                            '    & questionRow
+                            '    totalQuestionsCorrect = totalQuestionsCorrect + 1
+                            '    If (subjectCnt > subjectPtr) Then
+                            '        If question.SubjectID > 0 Then
+                            '            subjects(subjectPtr).CorrectAnswers = subjects(subjectPtr).CorrectAnswers + 1
+                            '        End If
+                            '    End If
+                            'Else
+                            '    questionRow = "" _
+                            '    & vbCrLf & vbTab & "<div class=""instructionText"">" & question.instructions & "</div>" _
+                            '    & questionRow
+                            '    Passed = False
+                            '    totalQuestionsIncorrect = totalQuestionsIncorrect + 1
+                            'End If
                             '
                             ' Question container
                             '
@@ -250,7 +246,11 @@ Namespace Contensive.Addons.OnlineQuiz
                         Next
                         response.totalCorrect = totalQuestionsCorrect
                         response.totalPoints = totalPoints
-                        response.totalQuestions = questionList.Count
+                        response.totalQuestions = responseDetailList.Count
+                        response.Score = 0
+                        If (response.totalQuestions > 0) Then
+                            response.Score = (CDbl(response.totalCorrect) * 100) / CDbl(response.totalQuestions)
+                        End If
                         response.saveObject(cp)
                         '
                         hint = 60
@@ -334,7 +334,7 @@ Namespace Contensive.Addons.OnlineQuiz
                         Percentage = 0
                         If (response.totalQuestions > 0) Then
                             Dim PassingGrade As Boolean = False
-                            Percentage = CDbl(response.totalCorrect) / CDbl(response.totalQuestions)
+                            Percentage = CDbl(response.Score) / CDbl(100)
                             getQuizGradeCaption(cp, quiz, Percentage, GradeCaption, PassingGrade)
                             scoreCaption = ""
                             If PassingGrade Then
@@ -391,11 +391,11 @@ Namespace Contensive.Addons.OnlineQuiz
                         '
                         ' Build the final form
                         '
-                        hint = 100
-                        chart = ""
-                        If subjectCnt > 1 Then
-                            chart = GetChart(cp, subjectCnt, SubjectCaptions, subjectScores)
-                        End If
+                        'hint = 100
+                        'chart = ""
+                        'If subjectCnt > 1 Then
+                        '    chart = GetChart(cp, subjectCnt, SubjectCaptions, subjectScores)
+                        'End If
                         returnHtml = headerCopy & ScoreBox & SummaryBox & chart & footerCopy
                     End If
                 End If

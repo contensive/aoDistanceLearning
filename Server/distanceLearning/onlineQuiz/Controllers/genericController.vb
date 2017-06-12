@@ -36,7 +36,64 @@ Namespace Contensive.Addons.OnlineQuiz
                 response.saveObject(cp)
                 '
                 Dim quizSubjectList As List(Of DistanceLearning.Models.QuizSubjectModel) = DistanceLearning.Models.QuizSubjectModel.getObjectList(cp, quiz.id)
-                Dim quizQuestionList As List(Of DistanceLearning.Models.QuizQuestionModel) = DistanceLearning.Models.QuizQuestionModel.getQuestionsForQuizList(cp, quiz.id)
+                Dim quizQuestionList As List(Of DistanceLearning.Models.QuizQuestionModel) = New List(Of DistanceLearning.Models.QuizQuestionModel)
+                Dim quizQuestionFullList As List(Of DistanceLearning.Models.QuizQuestionModel) = DistanceLearning.Models.QuizQuestionModel.getQuestionsForQuizList(cp, quiz.id)
+                If (quiz.maxNumberQuest = 0) Or (quiz.maxNumberQuest >= quizQuestionFullList.Count) Then
+                    '
+                    ' -- include all questions, order them in subject order
+                    For Each subject As DistanceLearning.Models.QuizSubjectModel In quizSubjectList
+                        For Each quizQuestion As DistanceLearning.Models.QuizQuestionModel In quizQuestionFullList
+                            If (quizQuestion.SubjectID = subject.id) Then
+                                quizQuestionList.Add(quizQuestion)
+                                quizQuestionFullList.Remove(quizQuestion)
+                            End If
+                        Next
+                    Next
+                Else
+                    '
+                    ' -- include a random set of questions
+                    If (quizSubjectList.Count > 0) Then
+                        '
+                        ' -- subjects included, add maxNumberQuest to each subject
+                        Randomize()
+                        For Each subject As DistanceLearning.Models.QuizSubjectModel In quizSubjectList
+                            '
+                            ' -- create list of all questions in the subject
+                            Dim subjectQuestionList As List(Of DistanceLearning.Models.QuizQuestionModel) = New List(Of DistanceLearning.Models.QuizQuestionModel)
+                            For Each question As DistanceLearning.Models.QuizQuestionModel In quizQuestionFullList
+                                If question.SubjectID = subject.id Then
+                                    subjectQuestionList.Add(question)
+                                End If
+                            Next
+                            '
+                            ' -- add random maxNumberQuest to quizquestionList
+                            If (subjectQuestionList.Count > 0) Then
+                                For questionPtr As Integer = 0 To quiz.maxNumberQuest - 1
+                                    If (subjectQuestionList.Count = 0) Then
+                                        '
+                                        ' -- no more questions in this subject
+                                        Exit For
+                                    Else
+                                        Dim indexTest As Integer = CInt(Int(Rnd() * (subjectQuestionList.Count)))
+                                        Dim question As DistanceLearning.Models.QuizQuestionModel = subjectQuestionList(indexTest)
+                                        quizQuestionList.Add(question)
+                                        subjectQuestionList.Remove(question)
+                                    End If
+                                Next
+                            End If
+                        Next
+                    Else
+                        '
+                        ' -- no subjects, add maxNumberQuest questions to quiz
+                        Randomize()
+                        For questionPtr As Integer = 0 To quiz.maxNumberQuest - 1
+                            Dim indexTest As Integer = CInt(Int(Rnd() * (quizQuestionFullList.Count)))
+                            Dim question As DistanceLearning.Models.QuizQuestionModel = quizQuestionFullList(indexTest)
+                            quizQuestionList.Add(question)
+                            quizQuestionFullList.Remove(question)
+                        Next
+                    End If
+                End If
                 '
                 ' -- pages start with questions with subjects
                 Dim pageNumber As Integer = 1

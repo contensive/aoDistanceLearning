@@ -220,7 +220,11 @@ namespace Contensive.Addons.DistanceLearning.Models
                                 id = cs.GetInteger("id");
                                 break;
                             case "name":
-                                if (string.IsNullOrEmpty(name)) { name = copy.Substring(0, 100); }
+                                if (string.IsNullOrEmpty(name))
+                                {
+                                    name = copy;
+                                    if (name.Length > 100) { name = name.Substring(0, 100)+"...."; }
+                                }
                                 cs.SetField("name",name);
                                 break;
                             default:
