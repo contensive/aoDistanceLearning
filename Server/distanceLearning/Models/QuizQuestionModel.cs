@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Contensive.Addons.DistanceLearning.Models;
 using Contensive.Addons.DistanceLearning.Interfaces;
 using Contensive.Addons.DistanceLearning.Controllers;
+using System.Reflection;
 
 namespace Contensive.Addons.DistanceLearning.Models
 {
@@ -22,17 +23,17 @@ namespace Contensive.Addons.DistanceLearning.Models
         private const string primaryContentTableName = "quizQuestions";
         //
         // -- instance properties
-        public int id;
-        public string name;
-        public string guid;
-        public int SubjectID;
-        public int quizId;
-        public int points;
-        public string instructions;
-        public string questionText;
-        public string SortOrder;
+        public int id{get;set;}
+        public string name{get;set;}
+        public string guid{get;set;}
+        public int SubjectID{get;set;}
+        public int quizId{get;set;}
+        public int points{get;set;}
+        public string instructions{get;set;}
+        public string copy{get;set;}
+        public string SortOrder { get; set; }
+        public int createKey { get; set; }
         //
-        //public int qOrder;
         //public int pageOrder;
         //public bool Active;
         //public DateTime DateAdded;
@@ -41,8 +42,6 @@ namespace Contensive.Addons.DistanceLearning.Models
         //public int ModifiedBy;
         //
         // -- publics not exposed to the UI (test/internal data)
-        [JsonIgnore()]
-        public int createKey;
         //
         //====================================================================================================
         /// <summary>
@@ -50,7 +49,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         /// </summary>
         public QuizQuestionModel()
         {
-            questionText = "";
+            copy = "";
             name = "";
             guid = "";
             instructions = "";
@@ -128,18 +127,48 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result = new QuizQuestionModel();
                     //
                     // -- populate result model
-                    result.id = cs.GetInteger("id");
-                    result.guid = cs.GetText("ccGuid");
-                    result.createKey = cs.GetInteger("createKey");
-                    result.quizId = cs.GetInteger("QuizID");
-                    result.SubjectID = cs.GetInteger("SubjectID");
-                    result.questionText = cs.GetText("questionText");
-                    result.points = cs.GetInteger("points");
-                    result.instructions = cs.GetText("instructions");
-                    result.SortOrder = cs.GetText("SortOrder");
-                    result.name = cs.GetText("name");
-                    if (string.IsNullOrEmpty(result.name)) { result.name = result.questionText.Substring(0, 100); }
-
+                    result.name = result.copy;
+                    if (result.name.Length > 255) result.name = result.name.Substring(0, 255);
+                    //result.id = cs.GetInteger("id");
+                    //result.name = cs.GetText("name");
+                    //result.copy = cs.GetText("copy");
+                    //result.guid = cs.GetText("ccGuid");
+                    //result.createKey = cs.GetInteger("createKey");
+                    //result.quizId = cs.GetInteger("QuizID");
+                    //result.SubjectID = cs.GetInteger("SubjectID");
+                    //result.points = cs.GetInteger("points");
+                    //result.instructions = cs.GetText("instructions");
+                    //result.SortOrder = cs.GetText("SortOrder");
+                    //if (string.IsNullOrEmpty(result.name)) { result.name = result.copy.Substring(0, 100); }
+                    // iterate through all the public instance properties, saving to Db fields with the same name
+                    foreach (PropertyInfo property in result.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                    {
+                        switch (property.Name.ToLower())
+                        {
+                            case "exception":
+                                break;
+                            default:
+                                switch (property.PropertyType.Name)
+                                {
+                                    case "Int32":
+                                        property.SetValue(result,cs.GetInteger(property.Name),null);
+                                        break;
+                                    case "Boolean":
+                                        property.SetValue(result, cs.GetBoolean(property.Name), null);
+                                        break;
+                                    case "DateTime":
+                                        property.SetValue(result, cs.GetDate(property.Name), null);
+                                        break;
+                                    case "Double":
+                                        property.SetValue(result, cs.GetNumber(property.Name), null);
+                                        break;
+                                    default:
+                                        property.SetValue(result, cs.GetText(property.Name), null);
+                                        break;
+                                }
+                                break;
+                        }
+                    }
                 }
                 cs.Close();
             }
@@ -182,18 +211,24 @@ namespace Contensive.Addons.DistanceLearning.Models
                 }
                 if (cs.OK())
                 {
-                    id = cs.GetInteger("id");
-                    if (string.IsNullOrEmpty(name)) { name = questionText.Substring(0, 100); }
-                    cs.SetField("name", name);
-                    cs.SetField("ccGuid", guid);
-                    cs.SetField("QuizID", quizId.ToString());
-                    cs.SetField("createKey", createKey.ToString());
-                    cs.SetField("questionText", questionText);
-                    cs.SetField("SubjectID", SubjectID.ToString());
-                    cs.SetField("points", points.ToString());
-                    cs.SetField("instructions", instructions);
-                    //cs.SetField("qOrder", qOrder.ToString());
-                    cs.SetField("SortOrder", SortOrder.ToString());
+                    // iterate through all the public instance properties, saving to Db fields with the same name
+                    foreach (PropertyInfo property in this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                    {
+                        switch(property.Name.ToLower())
+                        {
+                            case "id":
+                                id = cs.GetInteger("id");
+                                break;
+                            case "name":
+                                if (string.IsNullOrEmpty(name)) { name = copy.Substring(0, 100); }
+                                cs.SetField("name",name);
+                                break;
+                            default:
+                                string value= property.GetValue(this, null).ToString();
+                                cs.SetField(property.Name, value);
+                                break;
+                        }
+                    }
                 }
                 cs.Close();
             }

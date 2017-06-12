@@ -9652,7 +9652,6 @@ public ModifiedDate as Date
 public Name as String
 public pageOrder as Integer
 public points as Integer
-public QOrder as Integer
 public QText as String
 public QuizID as Integer
 public SortOrder as String
@@ -9674,7 +9673,6 @@ public SubjectID as Integer
 .Name = cs.getText("Name")
 .pageOrder = cs.getInteger("pageOrder")
 .points = cs.getInteger("points")
-.QOrder = cs.getInteger("QOrder")
 .QText = cs.getText("QText")
 .QuizID = cs.getInteger("QuizID")
 .SortOrder = cs.getText("SortOrder")
@@ -9695,7 +9693,6 @@ cs.SetField("ModifiedDate", ModifiedDate.ToString())
 cs.SetField("Name", Name)
 cs.SetField("pageOrder", pageOrder.ToString())
 cs.SetField("points", points.ToString())
-cs.SetField("QOrder", QOrder.ToString())
 cs.SetField("QText", QText)
 cs.SetField("QuizID", QuizID.ToString())
 cs.SetField("SortOrder", SortOrder)
@@ -9717,7 +9714,6 @@ instance.ModifiedDate = genericController.EncodeDate(.fields("ModifiedDate").def
 instance.Name = genericController.EncodeText(.fields("Name").defaultValue)
 instance.pageOrder = genericController.EncodeInteger(.fields("pageOrder").defaultValue)
 instance.points = genericController.EncodeInteger(.fields("points").defaultValue)
-instance.QOrder = genericController.EncodeInteger(.fields("QOrder").defaultValue)
 instance.QText = genericController.EncodeText(.fields("QText").defaultValue)
 instance.QuizID = genericController.EncodeInteger(.fields("QuizID").defaultValue)
 instance.SortOrder = genericController.EncodeText(.fields("SortOrder").defaultValue)
@@ -9743,7 +9739,6 @@ public ModifiedBy as Integer
 public ModifiedDate as Date
 public Name as String
 public points as Integer
-public QOrder as Integer
 public QuestionID as Integer
 public SortOrder as String
 
@@ -9764,7 +9759,6 @@ public SortOrder as String
 .ModifiedDate = cs.GetDate("ModifiedDate")
 .Name = cs.getText("Name")
 .points = cs.getInteger("points")
-.QOrder = cs.getInteger("sortOrder")
 .QuestionID = cs.getInteger("QuestionID")
 .SortOrder = cs.getText("SortOrder")
 
@@ -9784,7 +9778,6 @@ cs.SetField("ModifiedBy", ModifiedBy.ToString())
 cs.SetField("ModifiedDate", ModifiedDate.ToString())
 cs.SetField("Name", Name)
 cs.SetField("points", points.ToString())
-cs.SetField("sortOrder", QOrder.ToString())
 cs.SetField("QuestionID", QuestionID.ToString())
 cs.SetField("SortOrder", SortOrder)
 if (String.IsNullOrEmpty(ccGuid)) Then ccGuid = Controllers.genericController.getGUID()
@@ -9805,7 +9798,6 @@ instance.ModifiedBy = genericController.EncodeInteger(.fields("ModifiedBy").defa
 instance.ModifiedDate = genericController.EncodeDate(.fields("ModifiedDate").defaultValue)
 instance.Name = genericController.EncodeText(.fields("Name").defaultValue)
 instance.points = genericController.EncodeInteger(.fields("points").defaultValue)
-instance.QOrder = genericController.EncodeInteger(.fields("QOrder").defaultValue)
 instance.QuestionID = genericController.EncodeInteger(.fields("QuestionID").defaultValue)
 instance.SortOrder = genericController.EncodeText(.fields("SortOrder").defaultValue)
 

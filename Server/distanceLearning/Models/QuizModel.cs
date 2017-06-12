@@ -419,8 +419,8 @@ namespace Contensive.Addons.DistanceLearning.Models
         public class file
         {
             private CPBaseClass cp;
-            private QuizModel quiz;
-            private string requestName;
+            //private QuizModel quiz;
+            //private string requestName;
             private string contentName;
             private string fieldName;
             private int recordId;
@@ -438,22 +438,39 @@ namespace Contensive.Addons.DistanceLearning.Models
                 this.fieldName = fieldName;
                 this.recordId = recordId;
             }
-            public bool upload(string requestName)
+            public bool processRequest()
+            {
+                return processRequest(fieldName);
+            }
+            public bool processRequest(string requestName)
             {
                 bool result = false;
                 try
                 {
-                    if (!string.IsNullOrEmpty(  cp.Doc.GetText(requestName)))
+                    bool requestDelete = (cp.Doc.GetBoolean(requestName + "_delete"));
+                    bool requestUpload = !string.IsNullOrEmpty(cp.Doc.GetText(requestName));
+                    if (requestDelete||(requestUpload))
                     {
-                        //
-                        // -- the file is being uploaded
                         CPCSBaseClass cs = cp.CSNew();
                         if (cs.Open(contentName, "id=" + recordId))
                         {
-                            cs.SetFormInput(fieldName, requestName);
-                            _pathFilename = cs.GetText(requestName);
+                            if (requestDelete)
+                            {
+                                //
+                                // -- the previous file is being deleted
+                                _pathFilename = "";
+                                cs.SetField(fieldName, _pathFilename);
+                            }
+                            if (requestUpload)
+                            {
+                                //
+                                // -- the file is being uploaded
+                                cs.SetFormInput(fieldName, requestName);
+                                _pathFilename = cs.GetText(requestName);
+                            }
                         }
                         cs.Close();
+
                     }
                 }
                 catch (Exception ex)
@@ -462,29 +479,48 @@ namespace Contensive.Addons.DistanceLearning.Models
                 }
                 return result;
             }
-            public string filename()
-            {
-                string result = "";
-                try
-                {
-                    CPCSBaseClass cs = cp.CSNew();
-                    if (cs.Open(contentName, "id=" + recordId))
-                    {
-                        result = cs.GetFilename(fieldName);
+            public string filename {
+                get {
+                    string result = "";
+                    if (!string.IsNullOrEmpty(_pathFilename)){
+                        string[] pathSegments = _pathFilename.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+                        result = pathSegments[pathSegments.GetUpperBound(0)];
                     }
-                    cs.Close();
+                    return result;
                 }
-                catch (Exception ex)
-                {
-                    cp.Site.ErrorReport(ex);
-                }
-                return result;
             }
             public string pathFilename
             {
-                get { return _pathFilename; }
-                set { _pathFilename = value; }
+                get {
+                    return _pathFilename;
+                }
+                set {
+                    _pathFilename = value;
+                }
             }
+            //
+            public string getHtmlInput()
+            {
+                return getHtmlInput(fieldName);
+            }
+            public string getHtmlInput(string requestName)
+            {
+                return getHtmlInput(requestName, "fileInput", "fileInput_"+fieldName);
+            }
+            public string getHtmlInput( string requestName, string htmlClass, string htmlId)
+            {
+                string result = "";
+                result += "<div class=\"" + htmlClass + "\">";
+                if (!string.IsNullOrEmpty(_pathFilename))
+                {
+                    result += "<span class=\"fileInputLink\"><a href=\"" + cp.Site.FilePath + _pathFilename + "\" target=\"_blank\">" + filename + "</a></span>";
+                    result += "<span class=\"fileInputDelete\">" + cp.Html.CheckBox(requestName + "_delete", false) + "&nbsp;Delete</span>";
+                }
+                result += "<span class=\"fileInputChoose\">" + cp.Html.InputFile(requestName) + "</span>";
+                result += "</div>";
+                return result;
+            }
+
         }
     }
 }

@@ -44,44 +44,46 @@ namespace Contensive.Addons.DistanceLearning
                 {
 
                     case constants.buttonSave:
-                        question.questionText = cp.Doc.GetText("questionText");
+                        question.copy = cp.Doc.GetText("copy");
                         question.points = cp.Doc.GetInteger("points");
                         question.instructions = cp.Doc.GetText("instructions");
                         question.quizId = cp.Doc.GetInteger("quizId");
                         question.SubjectID = cp.Doc.GetInteger("SubjectId");
-                        //question.name= cp.Doc.GetText("Qtext");
-                        //question.qOrder = cp.Doc.GetInteger("qOrder");
                         question.SortOrder = cp.Doc.GetText("SortOrder");
                         question.saveObject(cp);
                         List<QuizAnswerModel> quizAnswersList = QuizAnswerModel.getAnswersForQuestionList(cp, question.id);
                         foreach (QuizAnswerModel quizAnswer in quizAnswersList)
                         {
-                            quizAnswer.name = cp.Doc.GetText(constants.rnAnswerName + quizAnswer.id);
+                            quizAnswer.copy = cp.Doc.GetText(constants.rnAnswerCopy + quizAnswer.id);
                             quizAnswer.Correct = cp.Doc.GetBoolean("Correct" + quizAnswer.id);
                             quizAnswer.saveObject(cp);
                             qs = cp.Doc.RefreshQueryString;
                             qs = cp.Utils.ModifyQueryString(qs, constants.rnQuizId, question.quizId.ToString());
-                            qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewQuestions);
+                            qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewQuestionList);
                             cp.Response.Redirect("?" + qs);
                         }
 
                         for (int ptr = 0; ptr <= constants.maxQuestionAnswer-1; ptr++)
                         {
-                            string answerName = cp.Doc.GetText(constants.rnAnswerNameBlank + ptr.ToString() );
-                            if (!string.IsNullOrEmpty(answerName))
+                            string answerCopy = cp.Doc.GetText(constants.rnAnswerCopyBlank + ptr.ToString() );
+                            if (!string.IsNullOrEmpty(answerCopy))
                             {
                                 QuizAnswerModel newAnswer = new QuizAnswerModel();
-                                newAnswer.name = answerName;
+                                newAnswer.copy = answerCopy;
                                 newAnswer.Correct = cp.Doc.GetBoolean(constants.rnCorrectBlank + ptr.ToString());
                                 newAnswer.QuestionID = question.id;
                                 newAnswer.saveObject(cp);
                             }
                         }
-                            break;
+                        qs = cp.Doc.RefreshQueryString;
+                        qs = cp.Utils.ModifyQueryString(qs, constants.rnQuizId, question.quizId.ToString());
+                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewQuestionList);
+                        cp.Response.Redirect("?" + qs);
+                        break;
                     case constants.buttonCancel:
                         qs = cp.Doc.RefreshQueryString;
                         qs = cp.Utils.ModifyQueryString(qs, constants.rnQuizId, question.quizId.ToString());
-                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewQuestions);
+                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewQuestionList);
                         cp.Response.Redirect("?" + qs);
                         break;
                 }
@@ -106,7 +108,7 @@ namespace Contensive.Addons.DistanceLearning
                 }
                 questionForm.addRow();
                 questionForm.rowName = "Question </b>";
-                questionForm.rowValue = cp.Html.InputText("questionText", question.questionText, "5", "", false, "qtext", "js-qText");
+                questionForm.rowValue = cp.Html.InputText(constants.rnQuestionCopy, question.copy, "5", "", false, "qtext", "js-qText");
                 questionForm.addRow();
                 questionForm.rowName = "Sort Order </b>";
                 questionForm.rowValue = cp.Html.InputText("SortOrder", question.SortOrder.ToString());
@@ -123,7 +125,7 @@ namespace Contensive.Addons.DistanceLearning
                     descnt++;
                     questionForm.addRow();
                     questionForm.rowName = "Answer " + descnt;
-                    questionForm.rowValue = cp.Html.InputText(constants.rnAnswerName + quizAnswer.id, quizAnswer.name, "1", "300", false, "answerOneClass", "js-answerOne")
+                    questionForm.rowValue = cp.Html.InputText(constants.rnAnswerCopy + quizAnswer.id, quizAnswer.copy, "1", "300", false, "answerOneClass", "js-answerOne")
                         + "&nbsp;" + cp.Html.CheckBox("Correct" + quizAnswer.id, quizAnswer.Correct) + " Correct Answer";
                     cnt--;
                     
@@ -136,7 +138,7 @@ namespace Contensive.Addons.DistanceLearning
                         descnt++;
                         questionForm.addRow();
                         questionForm.rowName = "Answer " + descnt;
-                        questionForm.rowValue = cp.Html.InputText(constants.rnAnswerNameBlank + ptr, "", "1", "300", false, "answerOneClass", "js-answerOne")
+                        questionForm.rowValue = cp.Html.InputText(constants.rnAnswerCopyBlank + ptr, "", "1", "300", false, "answerOneClass", "js-answerOne")
                             + "&nbsp;" + cp.Html.CheckBox(constants.rnCorrectBlank + ptr, false) + " Correct Answer";
                     }
                 }

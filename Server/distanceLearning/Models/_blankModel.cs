@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Text;
+using System.Reflection;
 using Contensive.BaseClasses;
 using Newtonsoft.Json;
 using Contensive.Addons.DistanceLearning.Models;
@@ -41,19 +42,29 @@ namespace Contensive.Addons.DistanceLearning.Models
         private const string primaryContentTableName = "";
         //
         // -- instance properties
-        public int id;
-        public string name;
-        public string guid;
-        //
-        // -- publics not exposed to the UI (test/internal data)
-        [JsonIgnore()]
-        public int createKey;
+        public int id { get; set; }
+        public string name { get; set; }
+        public string guid { get; set; }
+        public string SortOrder { get; set; }
+        public int createKey { get; set; }
         //
         //====================================================================================================
         /// <summary>
         /// Create an empty object. needed for deserialization
         /// </summary>
-        public _blankModel() {}
+        public _blankModel()
+        {
+            // initialize strings to prevernt Null Ref excetion on methods
+            foreach (PropertyInfo property in this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            {
+                switch (property.PropertyType.Name)
+                {
+                    case "String":
+                        property.SetValue(this, String.Empty, null);
+                        break;
+                }
+            }
+        }
         //
         //====================================================================================================
         /// <summary>
@@ -125,11 +136,35 @@ namespace Contensive.Addons.DistanceLearning.Models
                 {
                     result = new _blankModel();
                     //
-                    // -- populate result model
-                    result.id = cs.GetInteger("id");
-                    result.name = cs.GetText("name");
-                    result.guid = cs.GetText("ccGuid");
-                    result.createKey = cs.GetInteger("createKey");
+                    // -- populate result model, iterate through all the public instance properties, saving to Db fields with the same name
+                    foreach (PropertyInfo property in result.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                    {
+                        switch (property.Name.ToLower())
+                        {
+                            case "special_case_field_name":
+                                break;
+                            default:
+                                switch (property.PropertyType.Name)
+                                {
+                                    case "Int32":
+                                        property.SetValue(result, cs.GetInteger(property.Name), null);
+                                        break;
+                                    case "Boolean":
+                                        property.SetValue(result, cs.GetBoolean(property.Name), null);
+                                        break;
+                                    case "DateTime":
+                                        property.SetValue(result, cs.GetDate(property.Name), null);
+                                        break;
+                                    case "Double":
+                                        property.SetValue(result, cs.GetNumber(property.Name), null);
+                                        break;
+                                    default:
+                                        property.SetValue(result, cs.GetText(property.Name), null);
+                                        break;
+                                }
+                                break;
+                        }
+                    }
                 }
                 cs.Close();
             }
@@ -172,10 +207,20 @@ namespace Contensive.Addons.DistanceLearning.Models
                 }
                 if (cs.OK())
                 {
-                    id = cs.GetInteger("id");
-                    cs.SetField("name", name);
-                    cs.SetField("ccGuid", guid);
-                    cs.SetField("createKey", createKey.ToString());
+                    // iterate through all the public instance properties, saving to Db fields with the same name
+                    foreach (PropertyInfo property in this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                    {
+                        switch (property.Name.ToLower())
+                        {
+                            case "id":
+                                id = cs.GetInteger("id");
+                                break;
+                            default:
+                                string value = property.GetValue(this, null).ToString();
+                                cs.SetField(nameof(property.Name), value);
+                                break;
+                        }
+                    }
                 }
                 cs.Close();
             }

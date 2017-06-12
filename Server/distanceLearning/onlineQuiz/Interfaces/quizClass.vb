@@ -788,7 +788,7 @@ Namespace Contensive.Addons.OnlineQuiz
                         If cp.User.IsEditingAnything Then
                             'quizEditIcon = cs2.GetEditLink(False) & "&nbsp;&nbsp;&nbsp;&nbsp;"
                         End If
-                        q = q & vbCrLf & vbTab & "<div class=""questionText"">" & quizEditIcon & question.name & "</div>"
+                        q = q & vbCrLf & vbTab & "<div class=""questionText"">" & quizEditIcon & question.copy & "</div>"
                         '
                         ' Add Choices
                         '
@@ -799,7 +799,7 @@ Namespace Contensive.Addons.OnlineQuiz
                             adminHint &= "<p>Your Quiz Question """ & question.name & """ does not appear to have any answers configured. To add answers, turn on Edit and click the Add icon under the question.</p>"
                         Else
                             For Each answer As DistanceLearning.Models.QuizAnswerModel In answerList
-                                Dim answerText As String = answer.name
+                                Dim answerCopy As String = answer.copy
                                 quizEditIcon = ""
                                 If cp.User.IsEditingAnything Then
                                     'If quizTypeId = quizTypeIdPoints Then
@@ -819,7 +819,7 @@ Namespace Contensive.Addons.OnlineQuiz
                                 Else
                                     htmlRadio = htmlRadio & ">"
                                 End If
-                                q = q & vbCrLf & vbTab & "<div class=""questionChoice"">" & htmlRadio & "" & quizEditIcon & "&nbsp;" & answerText & "</div>"
+                                q = q & vbCrLf & vbTab & "<div class=""questionChoice"">" & htmlRadio & "" & quizEditIcon & "&nbsp;" & answerCopy & "</div>"
                                 answerCnt = answerCnt + 1
                             Next
                         End If

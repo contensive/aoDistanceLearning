@@ -24,6 +24,7 @@ namespace Contensive.Addons.DistanceLearning
         public const string rnQuizId = "quizId";
         public const string rnMemberId = "Id";
         public const string rnResponseId = "responseId";
+        public const string rnQuestionCopy = "copy";
         //
         public const string rnSampleField = "sampleField";
         public const string rnQuestionId = "questionId";
@@ -49,8 +50,8 @@ namespace Contensive.Addons.DistanceLearning
         //
         //
         public const string rnCorrectBlank = "CorrectBlank";
-        public const string rnAnswerNameBlank = "ATextBlank";
-        public const string rnAnswerName = "AText";
+        public const string rnAnswerCopyBlank = "ATextBlank";
+        public const string rnAnswerCopy = "AText";
         public const string cnQuizSubjects = "Quiz Subjects";
         public const string cnCertificateTypes = "Certificate Types";
         public const string cnCertificationTypes = "Certification Types";
@@ -73,7 +74,7 @@ namespace Contensive.Addons.DistanceLearning
         public const string portalFeaturesQuizOverviewDetails = "{f3600bc9-7323-4b27-a782-6da6133eeb96}";
         public const string portalFeatureQuizOverviewStudyPage = "{dfdb76e1-af7a-42a7-bc49-3af95417aee2}";
         public const string portalFeatureDashboard = "{6b921555-04b2-4ec0-83e1-24ac6c3bcd62}";
-        public const string portalFeatureQuizOverviewQuestions = "{12c1944f-5994-4c0b-9e13-3320f29b16c3}";
+        public const string portalFeatureQuizOverviewQuestionList = "{12c1944f-5994-4c0b-9e13-3320f29b16c3}";
         public const string portalFeatureQuizOverviewQuestionDetails = "{2d1ad031-7f03-4b26-bdcc-0e48697236e4}";
         public const string portalFeatureQuizOverviewScoring = "{bc2f69da-ab79-4051-aed5-63ba98b88b8f}";
         public const string portalFeatureQuizOverviewResults = "{e75b026b-1f9c-4839-83bb-801518cec97d}";

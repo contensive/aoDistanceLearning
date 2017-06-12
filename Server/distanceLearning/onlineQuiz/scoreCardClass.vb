@@ -61,26 +61,26 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim scoreCaption As String
                 Dim Choice As String
                 Dim ScoreBox As String
-                Dim TotalCorrect As Integer
-                Dim TotalQuestions As Integer
-                Dim answerId As Integer
-                Dim AnswerCorrect As Boolean
-                Dim cs As CPCSBaseClass = cp.CSNew()
-                Dim cs2 As CPCSBaseClass = cp.CSNew()
-                Dim CS3 As CPCSBaseClass = cp.CSNew()
+                'Dim TotalCorrect As Integer
+                'Dim TotalQuestions As Integer
+                'Dim answerId As Integer
+                'Dim AnswerCorrect As Boolean
+                'Dim cs As CPCSBaseClass = cp.CSNew()
+                'Dim cs2 As CPCSBaseClass = cp.CSNew()
+                'Dim CS3 As CPCSBaseClass = cp.CSNew()
                 Dim cs4 As CPCSBaseClass = cp.CSNew()
-                Dim Counter As Integer
+                Dim totalQuestions As Integer
                 Dim SummaryBox As String = ""
                 Dim questionRow As String
-                Dim SelectedAnswerID As Integer
+                'Dim SelectedAnswerID As Integer
                 Dim Correct As Boolean
-                Dim NumIncorrect As Integer
-                Dim NumCorrect As Integer
+                Dim totalQuestionsIncorrect As Integer
+                Dim totalQuestionsCorrect As Integer
                 Dim Percentage As Double
                 Dim Passed As Boolean
-                Dim SubjectID As Integer
+                'Dim SubjectID As Integer
                 Dim subjects() As subjectsStruc = Nothing
-                Dim questionId As Integer
+                'Dim questionId As Integer
                 Dim subjectCnt As Integer = 0
                 Dim subjectPtr As Integer
                 Dim GradeCaption As String = ""
@@ -89,316 +89,316 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim subjectScores() As Integer = Nothing
                 Dim headerCopy As String
                 Dim footerCopy As String
-                Dim quizName As String = ""
+                'Dim quizName As String = ""
                 Dim rightNow As Date
-                Dim userId As Integer
-                Dim quizId As Integer
-                Dim answerPoints As Integer
+                'Dim userId As Integer
+                'Dim quizId As Integer
+                'Dim answerPoints As Integer
                 'Dim resultPoints As Integer = 0
                 '
                 rightNow = Now()
                 '
                 ' only the responseId is valid, lookup the quiz and userId
                 '
-                Call cs.Open("quiz responses", "id=" & responseId)
-                If cs.OK() Then
-                    quizId = cs.GetInteger("quizId")
-                    userId = cs.GetInteger("memberId")
-                    TotalQuestions = cs.GetInteger("TotalQuestions")
-                    TotalCorrect = cs.GetInteger("TotalCorrect")
-                End If
-                Call cs.Close()
-                '
-                'Call verifyQuizResponse(responseId, userId, quizId)
-                '
-                hint = 10
-                Call cs.Open("Quizzes", "id=" & quizId)
-                '
-                If cs.OK() Then
+                Dim response As DistanceLearning.Models.QuizResponseModel = DistanceLearning.Models.QuizResponseModel.create(cp, responseId)
+                If (response Is Nothing) Then
                     '
-                    quizName = cs.GetText("name")
-                    Call cs2.Open("Quiz Questions", "QuizID=" & CStr(quizId), "SortOrder")
-                    '
-                    ' subjectPtr=0 is the 'no subject' subject
-                    '
-                    subjectCnt = 0
-                    'ReDim Preserve subjectTally(subjectCnt)
-                    '
-                    Counter = 0
-                    NumIncorrect = 0
-                    NumCorrect = 0
-                    Do While cs2.OK()
-                        hint = 20
-                        Counter = Counter + 1
-                        SubjectID = cs2.GetInteger("SubjectID")
-                        questionId = cs2.GetInteger("ID")
-                        SelectedAnswerID = getResponseAnswerId(cp, responseId, questionId)
+                    ' -- response is not valid
+                    returnHtml = "<p>The requested response could not be found.</p>"
+                Else
+                    Dim responseDetailList As List(Of DistanceLearning.Models.QuizResponseDetailModel) = DistanceLearning.Models.QuizResponseDetailModel.getObjectListForQuizDisplay(cp, response.id)
+                    Dim quiz As DistanceLearning.Models.QuizModel = DistanceLearning.Models.QuizModel.create(cp, response.QuizID)
+                    If (quiz Is Nothing) Then
                         '
-                        ' Set subjectPtr to the Response Array for this question's subject
-                        '
-                        subjectPtr = 0
-                        If SubjectID > 0 Then
-                            Do While (subjectPtr < subjectCnt)
-                                If (subjects(subjectPtr).SubjectID = SubjectID) Then
-                                    Exit Do
+                        ' -- quiz not valid
+                        returnHtml = "<p>The quiz associated to the response requested is not currently longer available.</p>"
+                    Else
+                        Dim questionList As List(Of DistanceLearning.Models.QuizQuestionModel) = DistanceLearning.Models.QuizQuestionModel.getQuestionsForQuizList(cp, quiz.id)
+                        subjectCnt = 0
+                        totalQuestions = 0
+                        totalQuestionsIncorrect = 0
+                        totalQuestionsCorrect = 0
+                        Dim totalPoints As Integer = 0
+                        For Each question As DistanceLearning.Models.QuizQuestionModel In questionList
+                            hint = 20
+                            totalQuestions = totalQuestions + 1
+                            Dim responseDetail As New DistanceLearning.Models.QuizResponseDetailModel
+                            For Each responseDetailTest As DistanceLearning.Models.QuizResponseDetailModel In responseDetailList
+                                If (responseDetailTest.questionId = question.id) Then
+                                    responseDetail = responseDetailTest
+                                    Exit For
                                 End If
-                                subjectPtr = subjectPtr + 1
-                            Loop
-                            If subjectPtr >= subjectCnt Then
-                                ReDim Preserve subjects(subjectPtr)
-                                subjects(subjectPtr).SubjectID = SubjectID
-                                subjectCnt = subjectCnt + 1
+                            Next
+                            '
+                            ' Set subjectPtr to the Response Array for this question's subject
+                            subjectPtr = 0
+                            If question.SubjectID > 0 Then
+                                Do While (subjectPtr < subjectCnt)
+                                    If (subjects(subjectPtr).SubjectID = question.SubjectID) Then
+                                        Exit Do
+                                    End If
+                                    subjectPtr = subjectPtr + 1
+                                Loop
+                                If subjectPtr >= subjectCnt Then
+                                    ReDim Preserve subjects(subjectPtr)
+                                    subjects(subjectPtr).SubjectID = question.SubjectID
+                                    subjectCnt = subjectCnt + 1
+                                End If
+                                subjects(subjectPtr).TotalQuestions = subjects(subjectPtr).TotalQuestions + 1
                             End If
-                            subjects(subjectPtr).TotalQuestions = subjects(subjectPtr).TotalQuestions + 1
-                        End If
-                        '
-                        '
-                        ' New Question
-                        '
-                        hint = 30
-                        questionRow = ""
-                        Call CS3.Open("Quiz Answers", "QuestionID=" & questionId, "sortOrder")
-                        If Not CS3.OK() Then
                             '
-                            ' Question with no choices is correct
+                            ' New Question
                             '
-                            Correct = True
-                        Else
-                            '
-                            ' Add Choices
-                            '
-                            Correct = False
-                            Do While CS3.OK()
+                            hint = 30
+                            questionRow = ""
+                            Dim answerList As List(Of DistanceLearning.Models.QuizAnswerModel) = DistanceLearning.Models.QuizAnswerModel.getAnswersForQuestionList(cp, question.id)
+                            If (answerList.Count = 0) Then
                                 '
-                                ' cycle through all the answers and build display
+                                ' --Question with no choices is correct
+                                Correct = True
+                            Else
                                 '
-                                answerId = CS3.GetInteger("ID")
-                                AnswerCorrect = CS3.GetBoolean("Correct")
-                                answerPoints = CS3.GetInteger("points")
-                                Choice = ""
-                                '
-                                hint = 40
-                                If answerId = SelectedAnswerID Then
-                                    If (subjectCnt > subjectPtr) And (SubjectID > 0) Then
-                                        subjects(subjectPtr).points += answerPoints
-                                    End If
-                                    Choice = Choice & "<input type=""radio"" name=""" & Counter & "Answer"" value=""" & CStr(CS3.GetInteger("ID")) & """ checked disabled>"
-                                    Choice = Choice & "&nbsp;" & CS3.GetText("name")
-                                    'Choice = Choice & "&nbsp;" & CS3.GetText("AText")
-                                    If AnswerCorrect Then
+                                ' -- Add Choices
+                                Correct = False
+                                For Each answer As DistanceLearning.Models.QuizAnswerModel In answerList
+                                    '
+                                    ' -- cycle through all the answers and build display
+                                    Choice = ""
+                                    If answer.id = responseDetail.answerId Then
                                         '
-                                        ' selected answer is current answer
-                                        '
-                                        Correct = True
-                                    End If
-                                    questionRow = questionRow & vbCrLf & vbTab & "<div class=""questionChoice"">" & Choice & "</div>"
-                                Else
-                                    Choice = Choice & "<input type=""radio"" name=""" & Counter & "Answer"" value=""" & CStr(CS3.GetInteger("ID")) & """ disabled>"
-                                    Choice = Choice & "&nbsp;" & CS3.GetText("name")
-                                    'Choice = Choice & "&nbsp;" & CS3.GetText("AText")
-                                    If AnswerCorrect Then
-                                        '
-                                        ' unselected answer is correct answer, make red
-                                        '
-                                        questionRow = questionRow & vbCrLf & vbTab & "<div class=""questionChoiceWrong"">" & Choice & "</div>"
+                                        ' -- user selected this answer
+                                        totalPoints += answer.points
+                                        If (subjectCnt > subjectPtr) And (question.SubjectID > 0) Then
+                                            subjects(subjectPtr).points += answer.points
+                                        End If
+                                        Choice = Choice & "<input type=""radio"" name=""" & totalQuestions & "Answer"" value=""" & answer.id.ToString() & """ checked disabled>"
+                                        Choice = Choice & "&nbsp;" & answer.copy
+                                        If answer.Correct Then
+                                            '
+                                            ' selected answer is current answer
+                                            Correct = True
+                                        End If
+                                        questionRow = questionRow & vbCrLf & vbTab & "<div class=""questionChoice"">" & Choice & "</div>"
                                     Else
                                         '
-                                        ' unselected answer is not correct answer
-                                        '
-                                        questionRow = questionRow & vbCrLf & vbTab & "<div class=""questionChoice"">" & Choice & "</div>"
+                                        ' -- user did not select this answer
+                                        Choice = Choice & "<input type=""radio"" name=""" & totalQuestions & "Answer"" value=""" & answer.id.ToString() & """ disabled>"
+                                        Choice = Choice & "&nbsp;" & answer.copy
+                                        If answer.Correct Then
+                                            '
+                                            ' unselected answer is correct answer, make red
+                                            '
+                                            questionRow = questionRow & vbCrLf & vbTab & "<div class=""questionChoiceWrong"">" & Choice & "</div>"
+                                        Else
+                                            '
+                                            ' unselected answer is not correct answer
+                                            '
+                                            questionRow = questionRow & vbCrLf & vbTab & "<div class=""questionChoice"">" & Choice & "</div>"
+                                        End If
+                                    End If
+                                Next
+                            End If
+                            '
+                            ' Add QuestionText to top
+                            '
+                            hint = 50
+                            If Correct Then
+                                questionRow = "" _
+                                & vbCrLf & vbTab & "<div class=""questionText"">" & question.copy & "</div>" _
+                                & questionRow
+                                totalQuestionsCorrect = totalQuestionsCorrect + 1
+                                If (subjectCnt > subjectPtr) Then
+                                    If question.SubjectID > 0 Then
+                                        subjects(subjectPtr).CorrectAnswers = subjects(subjectPtr).CorrectAnswers + 1
                                     End If
                                 End If
-                                '
-                                Call CS3.GoNext()
-                            Loop
-                        End If
-                        '
-                        ' Add QuestionText to top
-                        '
-                        hint = 50
-                        If Correct Then
-                            questionRow = "" _
-                                & vbCrLf & vbTab & "<div class=""questionText"">" & cs2.GetText("questionText") & "</div>" _
+                            Else
+                                questionRow = "" _
+                                & vbCrLf & vbTab & "<div class=""questionTextWrong"">" & question.copy & "</div>" _
                                 & questionRow
-                            NumCorrect = NumCorrect + 1
-                            If (subjectCnt > subjectPtr) Then
-                                If SubjectID > 0 Then
-                                    subjects(subjectPtr).CorrectAnswers = subjects(subjectPtr).CorrectAnswers + 1
-                                End If
+                                Passed = False
+                                totalQuestionsIncorrect = totalQuestionsIncorrect + 1
                             End If
-                        Else
-                            questionRow = "" _
-                                & vbCrLf & vbTab & "<div class=""questionTextWrong"">" & cs2.GetText("questionText") & "</div>" _
+                            '
+                            ' Add Explination
+                            '
+                            hint = 50
+                            If Correct Then
+                                questionRow = "" _
+                                & vbCrLf & vbTab & "<div class=""instructionText"">" & question.instructions & "</div>" _
                                 & questionRow
-                            Passed = False
-                            NumIncorrect = NumIncorrect + 1
-                        End If
-                        '
-                        ' Add Explination
-                        '
-                        hint = 50
-                        If Correct Then
-                            questionRow = "" _
-                                & vbCrLf & vbTab & "<div class=""instructionText"">" & cs2.GetText("instructions") & "</div>" _
-                                & questionRow
-                            NumCorrect = NumCorrect + 1
-                            If (subjectCnt > subjectPtr) Then
-                                If SubjectID > 0 Then
-                                    subjects(subjectPtr).CorrectAnswers = subjects(subjectPtr).CorrectAnswers + 1
+                                totalQuestionsCorrect = totalQuestionsCorrect + 1
+                                If (subjectCnt > subjectPtr) Then
+                                    If question.SubjectID > 0 Then
+                                        subjects(subjectPtr).CorrectAnswers = subjects(subjectPtr).CorrectAnswers + 1
+                                    End If
                                 End If
-                            End If
-                        Else
-                            questionRow = "" _
-                                & vbCrLf & vbTab & "<div class=""instructionText"">" & cs2.GetText("instructions") & "</div>" _
+                            Else
+                                questionRow = "" _
+                                & vbCrLf & vbTab & "<div class=""instructionText"">" & question.instructions & "</div>" _
                                 & questionRow
-                            Passed = False
-                            NumIncorrect = NumIncorrect + 1
-                        End If
-                        '
-                        ' Question container
-                        '
-                        SummaryBox &= "" _
+                                Passed = False
+                                totalQuestionsIncorrect = totalQuestionsIncorrect + 1
+                            End If
+                            '
+                            ' Question container
+                            '
+                            SummaryBox &= "" _
                             & vbCrLf & vbTab & "<div class=""question"">" _
                             & cp.Html.Indent(questionRow) _
                             & vbCrLf & vbTab & "</div>"
-                        Call cs2.GoNext()
-                    Loop
-                    '
-                    hint = 60
-                    If NumIncorrect = 0 Then
+                        Next
+                        response.totalCorrect = totalQuestionsCorrect
+                        response.totalPoints = totalPoints
+                        response.totalQuestions = questionList.Count
+                        response.saveObject(cp)
                         '
-                        Passed = True
-                        '
-                    Else
-                        '
-                        SummaryBox = "" _
+                        hint = 60
+                        If totalQuestionsIncorrect = 0 Then
+                            '
+                            Passed = True
+                            '
+                        Else
+                            '
+                            SummaryBox = "" _
                             & vbCrLf & vbTab & "<div class=""errorMsg"">Questions with incorrect answers are highlighted in red.</div>" _
                             & SummaryBox
-                    End If
-                    '
-                    ' add hiddens
-                    '
-                    SummaryBox = "" _
+                        End If
+                        '
+                        ' add hiddens
+                        '
+                        SummaryBox = "" _
                         & SummaryBox _
-                        & vbCrLf & vbTab & "<input type=""hidden"" name=""quizID"" value=""" & CStr(quizId) & """>" _
+                        & vbCrLf & vbTab & "<input type=""hidden"" name=""quizID"" value=""" & CStr(response.QuizID) & """>" _
                         & vbCrLf & vbTab & "<input type=""hidden"" name=""scoreCard"" value=""1"">" _
-                        & vbCrLf & vbTab & "<input type=""hidden"" name=""qNumbers"" value=""" & CStr(Counter) & """>"
-                    '
-                    ' add summary wrapper
-                    '
-                    SummaryBox = "" _
+                        & vbCrLf & vbTab & "<input type=""hidden"" name=""qNumbers"" value=""" & CStr(totalQuestions) & """>"
+                        '
+                        ' add summary wrapper
+                        '
+                        SummaryBox = "" _
                         & vbCrLf & vbTab & "<div class=""summary"">" _
                         & cp.Html.Indent(SummaryBox) _
                         & vbCrLf & vbTab & "</div>"
-                    '
-                    cs2.Close()
-                    '
-                End If
-                '
-                ' Build ScoreBox
-                '
-                hint = 70
-                ScoreBox = ""
-                'TotalCorrect = 0
-                'TotalQuestions = 0
-                If subjectCnt > 0 Then
-                    ReDim SubjectCaptions(subjectCnt - 1)
-                    ReDim subjectScores(subjectCnt - 1)
-                    '
-                    ' if more than just 'no subject', Iterate through all the subjects, displaying the score for each
-                    '
-                    For subjectPtr = 0 To subjectCnt - 1
-                        With subjects(subjectPtr)
-                            If .TotalQuestions > 0 Then
+                        '
+                        ' Build ScoreBox
+                        '
+                        hint = 70
+                        ScoreBox = ""
+                        'TotalCorrect = 0
+                        'TotalQuestions = 0
+                        If False Then
+                            '
+                            ' -- no longer score by subject
+                            If subjectCnt > 0 Then
+                                ReDim SubjectCaptions(subjectCnt - 1)
+                                ReDim subjectScores(subjectCnt - 1)
                                 '
-                                ' Determine Score
+                                ' if more than just 'no subject', Iterate through all the subjects, displaying the score for each
                                 '
-                                'TotalQuestions = TotalQuestions + .TotalQuestions
-                                'TotalCorrect = TotalCorrect + .CorrectAnswers
-                                .Score = CDbl(.CorrectAnswers) / CDbl(.TotalQuestions)
-                                '
-                                ' Determine grade and get Caption
-                                '
-                                Call SetSubjectArgs(cp, .SubjectID, .Score, .SubjectCaption, GradeCaption)
-                                '
-                                ' Save Chart data
-                                '
-                                SubjectCaptions(subjectPtr) = .SubjectCaption & "\n" & GradeCaption
-                                subjectScores(subjectPtr) = .Score * 100
-                                '
-                                ' Output line
-                                '
-                                ScoreBox = ScoreBox & vbCrLf & vbTab & "<li class=""subjectScore"">Your grade for the " & .SubjectCaption & " section is <b>" & GradeCaption & "</b>, " & CStr(.CorrectAnswers) & " correct out of " & CStr(.TotalQuestions) & " questions is " & CStr(Int(.Score * 100)) & "%.</li>"
+                                For subjectPtr = 0 To subjectCnt - 1
+                                    With subjects(subjectPtr)
+                                        If .TotalQuestions > 0 Then
+                                            '
+                                            ' Determine Score
+                                            '
+                                            'TotalQuestions = TotalQuestions + .TotalQuestions
+                                            'TotalCorrect = TotalCorrect + .CorrectAnswers
+                                            .Score = CDbl(.CorrectAnswers) / CDbl(.TotalQuestions)
+                                            '
+                                            ' Determine grade and get Caption
+                                            '
+                                            Call getSubjectGradeCaption(cp, .SubjectID, .Score, .SubjectCaption, GradeCaption)
+                                            '
+                                            ' Save Chart data
+                                            '
+                                            SubjectCaptions(subjectPtr) = .SubjectCaption & "\n" & GradeCaption
+                                            subjectScores(subjectPtr) = .Score * 100
+                                            '
+                                            ' Output line
+                                            '
+                                            ScoreBox = ScoreBox & vbCrLf & vbTab & "<li class=""subjectScore"">Your grade for the " & .SubjectCaption & " section is <b>" & GradeCaption & "</b>, " & CStr(.CorrectAnswers) & " correct out of " & CStr(.TotalQuestions) & " questions is " & CStr(Int(.Score * 100)) & "%.</li>"
+                                        End If
+                                    End With
+                                Next
                             End If
-                        End With
-                    Next
-                End If
-                hint = 80
-                If ScoreBox <> "" Then
-                    ScoreBox = "" _
-                        & vbCrLf & vbTab & "<div class=""subjectScoreCaption"">Your score in each subject is as follows:</div>" _
-                        & vbCrLf & vbTab & "<ul class=""subjectScoreList"">" _
-                        & cp.Html.Indent(ScoreBox) _
-                        & vbCrLf & vbTab & "</ul>"
-                End If
-                '
-                Percentage = 0
-                If TotalQuestions > 0 Then
-                    Percentage = CDbl(TotalCorrect) / CDbl(TotalQuestions)
-                    Call SetSubjectArgs(cp, 0, Percentage, "", GradeCaption)
-                    scoreCaption = ""
-                    If GradeCaption <> "" Then
-                        scoreCaption = "Your grade for this quiz is <b>" & GradeCaption & "</b>, "
-                    Else
-                        scoreCaption = "Your total score for this quiz is " & CStr(Int(Percentage * 100)) & "%"
-                    End If
-                    scoreCaption = scoreCaption & " (" & CStr(TotalCorrect) & " correct out of " & CStr(TotalQuestions)
-                    If TotalQuestions = 1 Then
-                        scoreCaption = scoreCaption & " question)"
-                    Else
-                        scoreCaption = scoreCaption & " questions)"
-                    End If
-                    ScoreBox = vbCrLf & vbTab & "<div class=""totalScore"">" & scoreCaption & "</div>" & ScoreBox
-                End If
-                ScoreBox = "" _
-                    & vbCrLf & vbTab & "<div class=""score"">" _
-                    & cp.Html.Indent(ScoreBox) _
-                    & vbCrLf & vbTab & "</div>"
-                '
-                ' Save the response
-                '
-                hint = 90
-                Call verifyQuizResponse(cp, responseId, userId, quizId)
-                '
-                If subjectCnt > 0 Then
-                    For subjectPtr = 0 To subjectCnt - 1
-                        With subjects(subjectPtr)
-                            Call cs4.Insert("Quiz Response Scores")
-                            If cs4.OK() Then
-                                responseName = cp.Content.GetRecordName("quiz responses", responseId)
-                                responseSubject = cp.Content.GetRecordName("quiz subjects", .SubjectID)
-                                '
-                                Call cs4.SetField("name", responseName & ", subject:" & responseSubject)
-                                Call cs4.SetField("QuizResponseID", responseId)
-                                Call cs4.SetField("QuizSubjectID", .SubjectID)
-                                Call cs4.SetField("Score", .Score)
+                            hint = 80
+                            If ScoreBox <> "" Then
+                                ScoreBox = "" _
+                                & vbCrLf & vbTab & "<div class=""subjectScoreCaption"">Your score in each subject is as follows:</div>" _
+                                & vbCrLf & vbTab & "<ul class=""subjectScoreList"">" _
+                                & cp.Html.Indent(ScoreBox) _
+                                & vbCrLf & vbTab & "</ul>"
                             End If
-                            cs4.Close()
-                        End With
-                    Next
+                        End If
+                        '
+                        Percentage = 0
+                        If (response.totalQuestions > 0) Then
+                            Dim PassingGrade As Boolean = False
+                            Percentage = CDbl(response.totalCorrect) / CDbl(response.totalQuestions)
+                            getQuizGradeCaption(cp, quiz, Percentage, GradeCaption, PassingGrade)
+                            scoreCaption = ""
+                            If PassingGrade Then
+                                scoreCaption = "Congratulations, you passed the quiz!"
+                            Else
+                                scoreCaption = "Your score did not pass the quiz."
+                            End If
+                            If GradeCaption <> "" Then
+                                scoreCaption &= " Your grade for this quiz is <b>" & GradeCaption & "</b>, "
+                            Else
+                                scoreCaption &= " Your total score for this quiz is " & CStr(Int(Percentage * 100)) & "%"
+                            End If
+                            scoreCaption &= " (" & CStr(response.totalCorrect) & " correct out of " & CStr(response.totalQuestions)
+                            If response.totalQuestions = 1 Then
+                                scoreCaption = scoreCaption & " question)"
+                            Else
+                                scoreCaption = scoreCaption & " questions)"
+                            End If
+                            ScoreBox = vbCrLf & vbTab & "<div class=""totalScore"">" & scoreCaption & "</div>" & ScoreBox
+                        End If
+                        ScoreBox = "" _
+                            & vbCrLf & vbTab & "<div class=""score"">" _
+                            & cp.Html.Indent(ScoreBox) _
+                            & vbCrLf & vbTab & "</div>"
+                        '
+                        ' Save the response
+                        '
+                        'Call verifyQuizResponse(cp, responseId, response.MemberID, response.QuizID)
+                        '
+                        If False Then
+                            '
+                            ' -- no longer score by subject
+                            If subjectCnt > 0 Then
+                                For subjectPtr = 0 To subjectCnt - 1
+                                    With subjects(subjectPtr)
+                                        Call cs4.Insert("Quiz Response Scores")
+                                        If cs4.OK() Then
+                                            responseName = cp.Content.GetRecordName("quiz responses", responseId)
+                                            responseSubject = cp.Content.GetRecordName("quiz subjects", .SubjectID)
+                                            '
+                                            Call cs4.SetField("name", responseName & ", subject:" & responseSubject)
+                                            Call cs4.SetField("QuizResponseID", responseId)
+                                            Call cs4.SetField("QuizSubjectID", .SubjectID)
+                                            Call cs4.SetField("Score", .Score)
+                                        End If
+                                        cs4.Close()
+                                    End With
+                                Next
+                            End If
+                        End If
+                        '
+                        headerCopy = "<div class=""aodlHeaderContainer"">" & cp.Content.GetCopy(quiz.name & " Summary Header Copy") & "</div>"
+                        footerCopy = "<div class=""aodlFooterContainer"">" & cp.Content.GetCopy(quiz.name & " Summary Footer Copy") & "</div>"
+                        '
+                        ' Build the final form
+                        '
+                        hint = 100
+                        chart = ""
+                        If subjectCnt > 1 Then
+                            chart = GetChart(cp, subjectCnt, SubjectCaptions, subjectScores)
+                        End If
+                        returnHtml = headerCopy & ScoreBox & SummaryBox & chart & footerCopy
+                    End If
                 End If
-                '
-                headerCopy = "<div class=""aodlHeaderContainer"">" & cp.Content.GetCopy(quizName & " Summary Header Copy") & "</div>"
-                footerCopy = "<div class=""aodlFooterContainer"">" & cp.Content.GetCopy(quizName & " Summary Footer Copy") & "</div>"
-                '
-                ' Build the final form
-                '
-                hint = 100
-                chart = ""
-                If subjectCnt > 1 Then
-                    chart = GetChart(cp, subjectCnt, SubjectCaptions, subjectScores)
-                End If
-                returnHtml = headerCopy & ScoreBox & SummaryBox & chart & footerCopy
             Catch ex As Exception
                 Call errorReport(cp, ex, "getScoreCard-hint=" & hint.ToString())
             End Try
@@ -446,7 +446,7 @@ Namespace Contensive.Addons.OnlineQuiz
         '
         '
         '
-        Private Sub SetSubjectArgs(ByVal cp As CPBaseClass, ByVal SubjectID As Integer, ByVal ScorePercentile As Double, ByRef Return_SubjectCaption As String, ByRef Return_GradeCaption As String)
+        Private Sub getSubjectGradeCaption(ByVal cp As CPBaseClass, ByVal SubjectID As Integer, ByVal ScorePercentile As Double, ByRef Return_SubjectCaption As String, ByRef Return_GradeCaption As String)
             Try
                 Dim cs As CPCSBaseClass = cp.CSNew()
                 Dim Score As Integer
@@ -486,7 +486,46 @@ Namespace Contensive.Addons.OnlineQuiz
                 End If
                 Call cs.Close()
             Catch ex As Exception
-                Call errorReport(cp, ex, "verifyQuizResponse")
+                Call errorReport(cp, ex, "getSubjectGradeCaption")
+            End Try
+        End Sub
+        '
+        Private Sub getQuizGradeCaption(ByVal cp As CPBaseClass, ByVal quiz As DistanceLearning.Models.QuizModel, ByVal ScorePercentile As Double, ByRef Return_GradeCaption As String, ByRef Return_PassingGrade As Boolean)
+            Try
+                Return_GradeCaption = ""
+                Dim Score As Integer = CLng(Int(100 * ScorePercentile))
+                If Score >= quiz.APercentile Then
+                    '
+                    ' Got an A
+                    Return_GradeCaption = quiz.ACaption
+                    Return_PassingGrade = quiz.APassingGrade
+                ElseIf Score >= quiz.bPercentile Then
+                    '
+                    ' Got a B
+                    '
+                    Return_GradeCaption = quiz.BCaption
+                    Return_PassingGrade = quiz.BPassingGrade
+                ElseIf Score >= quiz.cPercentile Then
+                    '
+                    ' Got a C
+                    '
+                    Return_GradeCaption = quiz.CCaption
+                    Return_PassingGrade = quiz.CPassingGrade
+                ElseIf Score >= quiz.DPercentile Then
+                    '
+                    ' Got a D
+                    '
+                    Return_GradeCaption = quiz.DCaption
+                    Return_PassingGrade = quiz.DPassingGrade
+                Else
+                    '
+                    ' Got an F
+                    '
+                    Return_GradeCaption = quiz.FCaption
+                    Return_PassingGrade = quiz.FPassingGrade
+                End If
+            Catch ex As Exception
+                Call errorReport(cp, ex, "getQuizGradeCaption")
             End Try
         End Sub
         '
@@ -508,43 +547,43 @@ Namespace Contensive.Addons.OnlineQuiz
                 Call errorReport(cp, ex, "verifyQuizResponse")
             End Try
         End Function
-        '
-        '
-        '
-        Private Sub verifyQuizResponse(ByVal cp As CPBaseClass, ByRef responseId As Integer, ByVal userId As Integer, ByVal quizId As Integer)
-            Try
-                '
-                Dim cs As CPCSBaseClass = cp.CSNew()
-                Dim userName As String
-                Dim quizName As String
-                Dim attemptNumber As Integer
-                '
-                ' verify response record
-                '
-                Call cs.Open("quiz responses", "id=" & responseId)
-                If Not cs.OK() Then
-                    Call cs.Close()
-                    attemptNumber = 1
-                    Call cs.OpenSQL("select count(*) as cnt from quizResponses where (memberid=" & userId & ")and(quizid=" & quizId & ")and(dateSubmitted is not null)")
-                    If cs.OK() Then
-                        attemptNumber = cs.GetInteger("cnt") + 1
-                    End If
-                    Call cs.Close()
+        ''
+        ''
+        ''
+        'Private Sub verifyQuizResponse(ByVal cp As CPBaseClass, ByRef responseId As Integer, ByVal userId As Integer, ByVal quizId As Integer)
+        '    Try
+        '        '
+        '        Dim cs As CPCSBaseClass = cp.CSNew()
+        '        Dim userName As String
+        '        Dim quizName As String
+        '        Dim attemptNumber As Integer
+        '        '
+        '        ' verify response record
+        '        '
+        '        Call cs.Open("quiz responses", "id=" & responseId)
+        '        If Not cs.OK() Then
+        '            Call cs.Close()
+        '            attemptNumber = 1
+        '            Call cs.OpenSQL("select count(*) as cnt from quizResponses where (memberid=" & userId & ")and(quizid=" & quizId & ")and(dateSubmitted is not null)")
+        '            If cs.OK() Then
+        '                attemptNumber = cs.GetInteger("cnt") + 1
+        '            End If
+        '            Call cs.Close()
 
-                    userName = cp.Content.GetRecordName("people", userId)
-                    quizName = cp.Content.GetRecordName("quizzes", quizId)
-                    Call cs.Insert("quiz responses")
-                    responseId = cs.GetInteger("id")
-                    Call cs.SetField("name", userName & ", quiz:" & quizName)
-                    Call cs.SetField("memberid", userId)
-                    Call cs.SetField("quizid", quizId)
-                    Call cs.SetField("attemptNumber", attemptNumber)
-                End If
-                Call cs.Close()
+        '            userName = cp.Content.GetRecordName("people", userId)
+        '            quizName = cp.Content.GetRecordName("quizzes", quizId)
+        '            Call cs.Insert("quiz responses")
+        '            responseId = cs.GetInteger("id")
+        '            Call cs.SetField("name", userName & ", quiz:" & quizName)
+        '            Call cs.SetField("memberid", userId)
+        '            Call cs.SetField("quizid", quizId)
+        '            Call cs.SetField("attemptNumber", attemptNumber)
+        '        End If
+        '        Call cs.Close()
 
-            Catch ex As Exception
-                Call errorReport(cp, ex, "verifyQuizResponse")
-            End Try
-        End Sub
+        '    Catch ex As Exception
+        '        Call errorReport(cp, ex, "verifyQuizResponse")
+        '    End Try
+        'End Sub
     End Class
 End Namespace

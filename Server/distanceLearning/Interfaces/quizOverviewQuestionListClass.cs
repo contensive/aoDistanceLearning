@@ -8,7 +8,7 @@ using Contensive.Addons.DistanceLearning.Controllers;
 
 namespace Contensive.Addons.DistanceLearning
 {
-   public class quizOverviewQuestionsClass : Contensive.BaseClasses.AddonBaseClass
+   public class quizOverviewQuestionListClass : Contensive.BaseClasses.AddonBaseClass
    {
         public override object Execute(CPBaseClass cp)
         {
@@ -97,7 +97,7 @@ namespace Contensive.Addons.DistanceLearning
                     }
                     //
                     reportList.columnCellClass = "afwTextAlignLeft";
-                    reportList.setCell(question.questionText);
+                    reportList.setCell(question.copy);
                     reportList.setCell(question.SortOrder.ToString());
                     //
                     string miniForm = "";

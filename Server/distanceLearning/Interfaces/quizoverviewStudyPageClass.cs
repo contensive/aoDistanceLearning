@@ -15,18 +15,12 @@ namespace Contensive.Addons.DistanceLearning
             string result = "";
             try
             {
-                string qs;
-                string quizName = cp.Doc.GetText("quizName");
-                string customTopCopy = cp.Doc.GetText("customTopCopy");
-                string Video = cp.Doc.GetText("Video");
-                string customButtonCopy = cp.Doc.GetText("customButtonCopy");
-                //string courseMaterial = cp.Doc.GetText("CorseMaterial");
                 string innerBody = "";
                 //
-                QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger("QuizId"));
+                QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger(constants.rnQuizId));
                 if (quiz == null)
                 {
-                    qs = cp.Doc.RefreshQueryString;
+                    string qs = cp.Doc.RefreshQueryString;
                     qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureDashboard, true);
                     cp.Response.Redirect("?" + qs);
                     return "";
@@ -35,23 +29,23 @@ namespace Contensive.Addons.DistanceLearning
                 switch (button)
                 {
                     case "Save":
-                        quiz.customTopCopy = cp.Doc.GetText("customTopCopy");
-                        quiz.videoEmbedCode=cp.Doc.GetText("videoEmbedCode");
-                        quiz.courseMaterial.upload( "CorseMaterial");
-                        quiz.customButtonCopy = cp.Doc.GetText("customButtonCopy");
+                        quiz.customTopCopy = cp.Doc.GetText(nameof(quiz.customTopCopy));
+                        quiz.videoEmbedCode=cp.Doc.GetText(nameof(quiz.videoEmbedCode));
+                        quiz.courseMaterial.processRequest(nameof(quiz.courseMaterial));
+                        quiz.customButtonCopy = cp.Doc.GetText(nameof(quiz.customButtonCopy));
                         quiz.saveObject(cp);
                         break;
                     case "Cancel":
-                        qs = cp.Doc.RefreshQueryString;
+                        string qs = cp.Doc.RefreshQueryString;
                         qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeaturesQuizOverviewDetails, true);
-                        qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
+                        qs = cp.Utils.ModifyQueryString(qs, constants.rnQuizId, quiz.id.ToString(), true);
                         cp.Response.Redirect("?" + qs);
                         break;
                 }
                 //
                 adminFramework.formNameValueRowsClass form = new adminFramework.formNameValueRowsClass();                         
                 form.isOuterContainer = false;             
-                form.addFormHidden("quizId", quiz.id.ToString());
+                form.addFormHidden(constants.rnQuizId, quiz.id.ToString());
                 form.body = innerBody;
                 form.addFormButton("Save", "button");
                 form.addFormButton("Cancel", "button");
@@ -59,23 +53,24 @@ namespace Contensive.Addons.DistanceLearning
                 form.title = "<b>Study Page </b></br>";
                 //
                 form.addRow();
-                form.rowName = "Study Page Text </b>";
-                form.rowValue = cp.Html.InputWysiwyg("customTopCopy", quiz.customTopCopy,CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page)
-                        + "This is the list of instructions that go on the study Page. You can describe the quiz, it's purpose, how to take it, etc.";
-                //form.rowValue = cp.Html.InputTextExpandable("customTopCopy", quiz.customTopCopy)
-                // + "This is the list of instructions that go on the study Page. You can describe the quiz, it's purpose, how to take it, etc.";
-                form.addRow();
                 form.rowName = "Video Embed Code </b>";
-                form.rowValue = cp.Html.InputTextExpandable("videoEmbedCode",quiz.videoEmbedCode)
+                form.rowValue = cp.Html.InputTextExpandable("videoEmbedCode", quiz.videoEmbedCode)
                     + "</br> When included, a video can be presented on the study page.";
-                //form.addRow();
-                //form.rowName = "Course Materials </b>";
-                //form.rowValue = cp.Html.InputFile("CorseMaterial", "addCourseMaterialClass", "js-addCourseMaterialButtonId")
-                //+ "</br> When included, a file can be uploaded on the study page.";
-                //form.addRow();               
-                //form.rowName = "Study Quiz Button </b>";
-                //form.rowValue = cp.Html.InputText("customButtonCopy", "study")
-                //+ "</br> This is the text that will be shown on the study button for the quiz.";
+                //
+                form.addRow();
+                form.rowName = "Study Page Text </b>";
+                form.rowValue = cp.Html.InputWysiwyg("studyCopy", quiz.studyCopy, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page)
+                        + "This is the list of instructions that go on the study Page. You can describe the quiz, it's purpose, how to take it, etc.";
+                //
+                form.addRow();
+                form.rowName = "Course Materials </b>";
+                form.rowValue = quiz.courseMaterial.getHtmlInput(nameof(quiz.courseMaterial), "addCourseMaterialClass", "js-addCourseMaterialButtonId")
+                + "</br> When included, a file can be uploaded on the study page.";
+                //
+                form.addRow();
+                form.rowName = "Study Quiz Button </b>";
+                form.rowValue = cp.Html.InputText("customButtonCopy", "study")
+                + "</br> This is the text that will be shown on the study button for the quiz.";
                 // 
                 result =  genericController.getTabWrapper(cp, form.getHtml(cp), "Study", quiz);
 

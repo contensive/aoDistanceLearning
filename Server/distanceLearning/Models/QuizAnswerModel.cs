@@ -24,24 +24,19 @@ namespace Contensive.Addons.DistanceLearning.Models
         // -- instance properties
         public int id;
         public string name;
+        public string copy;
         public string guid;
         public bool Correct;
         public int QuestionID;
-        //public string AText; <-- use name
         public string SortOrder;
-        //public int QOrder;  // <-- use sortorder
         public int points;
-        //      
+        public int createKey;
         //
         //public bool Active;
         //public DateTime DateAdded;
         //public int CreatedBy;
         //public DateTime ModifiedDate;
         //public int ModifiedBy;
-        //
-        // -- publics not exposed to the UI (test/internal data)
-        [JsonIgnore()]
-        public int createKey;
         //
         //====================================================================================================
         /// <summary>
@@ -115,9 +110,6 @@ namespace Contensive.Addons.DistanceLearning.Models
             try
             {
                 //
-                // -- upgrade Atext -> name
-                cpCore.Db.ExecuteSQL("update quizAnswers set name=atext where name is null");
-                cpCore.Db.ExecuteSQL("update quizAnswers set sortOrder=qorder where sortOrder is null");
                 CPCSBaseClass cs = cpCore.CSNew();
                 if (cs.Open(primaryContentName, sqlCriteria))
                 {
@@ -125,15 +117,15 @@ namespace Contensive.Addons.DistanceLearning.Models
                     //
                     // -- populate result model
                     result.id = cs.GetInteger("id");
-                    result.name = cs.GetText("name");
+                    result.copy = cs.GetText("copy");
                     result.guid = cs.GetText("ccGuid");
                     result.Correct = cs.GetBoolean("Correct");
                     result.createKey = cs.GetInteger("createKey");
                     result.QuestionID = cs.GetInteger("QuestionID");
                     result.SortOrder = cs.GetText("SortOrder");
                     result.points = cs.GetInteger("points");
-                    //result.AText = cs.GetText("AText");
-                    //result.QOrder = cs.GetInteger("qorder");
+                    result.name = result.copy;
+                    if (result.name.Length > 255) result.name = result.name.Substring(0, 255);
                 }
                 cs.Close();
             }
@@ -177,15 +169,16 @@ namespace Contensive.Addons.DistanceLearning.Models
                 if (cs.OK())
                 {
                     id = cs.GetInteger("id");
+                    if (string.IsNullOrEmpty(SortOrder)) SortOrder = id.ToString().PadLeft(7, '0');
+                    name = copy;
+                    if (name.Length > 255) name = name.Substring(0, 255);
+                    cs.SetField("copy", copy);
                     cs.SetField("name", name);
                     cs.SetField("ccGuid", guid);
                     cs.SetField("createKey", createKey.ToString());
-                    //cs.SetField("AText", AText);
                     cs.SetField("Correct", Correct.ToString());
                     cs.SetField("QuestionID", QuestionID.ToString());
-                    if (string.IsNullOrEmpty( SortOrder )) SortOrder = id.ToString().PadLeft(7, '0');
                     cs.SetField("SortOrder", SortOrder.ToString());
-                    //cs.SetField("qorder", QOrder.ToString());
                     cs.SetField("points", points.ToString());
                 }
                 cs.Close();
