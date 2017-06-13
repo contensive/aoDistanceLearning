@@ -148,7 +148,7 @@ namespace Contensive.Addons.DistanceLearning
                 questionForm.rowValue = cp.Html.SelectContent(constants.rnSubjectId , question.SubjectID.ToString(), constants.cnQuizSubjects,"(quizid=" + quiz.id.ToString() + ")","Select Subject");
                 questionForm.addRow();
                 questionForm.rowName = "Answer Information</b>";
-                questionForm.rowValue = cp.Html.InputWysiwyg("instructions", question.instructions, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page, "10", "700") +
+                questionForm.rowValue = cp.Html.InputWysiwyg("instructions", question.instructions, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page) +
                     "<p>This is a list of instructions that go on the Start page. You can describe the quiz, its purpose, how you take it, etc. </p>";
                 //
                 result = genericController.getTabWrapper(cp, questionForm.getHtml(cp), "Questions",  quiz );

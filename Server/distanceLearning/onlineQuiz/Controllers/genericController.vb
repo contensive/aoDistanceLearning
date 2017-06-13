@@ -40,22 +40,28 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim quizQuestionFullList As List(Of DistanceLearning.Models.QuizQuestionModel) = DistanceLearning.Models.QuizQuestionModel.getQuestionsForQuizList(cp, quiz.id)
                 If (quiz.maxNumberQuest = 0) Or (quiz.maxNumberQuest >= quizQuestionFullList.Count) Then
                     '
-                    ' -- include all questions, order them in subject order
+                    ' -- include all questions that have subjects, ordered by subject order
                     For Each subject As DistanceLearning.Models.QuizSubjectModel In quizSubjectList
                         For Each quizQuestion As DistanceLearning.Models.QuizQuestionModel In quizQuestionFullList
                             If (quizQuestion.SubjectID = subject.id) Then
                                 quizQuestionList.Add(quizQuestion)
-                                quizQuestionFullList.Remove(quizQuestion)
                             End If
                         Next
+                    Next
+                    '
+                    ' -- include all questions with no subjects
+                    For Each quizQuestion As DistanceLearning.Models.QuizQuestionModel In quizQuestionFullList
+                        If (quizQuestion.SubjectID = 0) Then
+                            quizQuestionList.Add(quizQuestion)
+                        End If
                     Next
                 Else
                     '
                     ' -- include a random set of questions
+                    Randomize()
                     If (quizSubjectList.Count > 0) Then
                         '
                         ' -- subjects included, add maxNumberQuest to each subject
-                        Randomize()
                         For Each subject As DistanceLearning.Models.QuizSubjectModel In quizSubjectList
                             '
                             ' -- create list of all questions in the subject
@@ -85,7 +91,6 @@ Namespace Contensive.Addons.OnlineQuiz
                     Else
                         '
                         ' -- no subjects, add maxNumberQuest questions to quiz
-                        Randomize()
                         For questionPtr As Integer = 0 To quiz.maxNumberQuest - 1
                             Dim indexTest As Integer = CInt(Int(Rnd() * (quizQuestionFullList.Count)))
                             Dim question As DistanceLearning.Models.QuizQuestionModel = quizQuestionFullList(indexTest)
@@ -95,8 +100,9 @@ Namespace Contensive.Addons.OnlineQuiz
                     End If
                 End If
                 '
-                ' -- pages start with questions with subjects
+                ' -- first create quiz pages that have subjects
                 Dim pageNumber As Integer = 1
+                Dim detailSortOrder As Integer = 0
                 For Each quizSubject As DistanceLearning.Models.QuizSubjectModel In quizSubjectList
                     Dim subjectQuestionCount As Integer = 0
                     For Each quizQuestion As DistanceLearning.Models.QuizQuestionModel In quizQuestionList
@@ -105,12 +111,13 @@ Namespace Contensive.Addons.OnlineQuiz
                             detail.questionId = quizQuestion.id
                             detail.responseId = response.id
                             detail.pageNumber = pageNumber
-                            detail.SortOrder = quizQuestion.SortOrder
+                            detail.SortOrder = detailSortOrder.ToString.PadLeft(7, "0"c)
                             detail.saveObject(cp)
                             If (quiz.questionPresentation = DistanceLearning.Models.QuizModel.questionPresentationEnum.OneQuestionPerPage) Then
                                 pageNumber += 1
                             End If
                             subjectQuestionCount += 1
+                            detailSortOrder += 1
                         End If
                     Next
                     If (subjectQuestionCount > 0) And (quiz.questionPresentation = DistanceLearning.Models.QuizModel.questionPresentationEnum.OneSubjectPerPage) Then
@@ -118,7 +125,7 @@ Namespace Contensive.Addons.OnlineQuiz
                     End If
                 Next
                 '
-                ' -- then add questions with no subjects
+                ' -- then add pages for questions with no subjects
                 For Each quizQuestion As DistanceLearning.Models.QuizQuestionModel In quizQuestionList
                     Dim addDetail As Boolean = True
                     If quizQuestion.SubjectID > 0 Then
@@ -134,10 +141,12 @@ Namespace Contensive.Addons.OnlineQuiz
                         detail.questionId = quizQuestion.id
                         detail.responseId = response.id
                         detail.pageNumber = pageNumber
+                        detail.SortOrder = detailSortOrder.ToString.PadLeft(7, "0"c)
                         detail.saveObject(cp)
                         If (quiz.questionPresentation = DistanceLearning.Models.QuizModel.questionPresentationEnum.OneQuestionPerPage) Then
                             pageNumber += 1
                         End If
+                        detailSortOrder += 1
                     End If
                 Next
             Catch ex As Exception

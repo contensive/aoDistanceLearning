@@ -22,15 +22,15 @@ namespace Contensive.Addons.DistanceLearning.Models
         private const string primaryContentTableName = "quizAnswers";
         //
         // -- instance properties
-        public int id;
-        public string name;
-        public string copy;
-        public string guid;
-        public bool Correct;
-        public int QuestionID;
-        public string SortOrder;
-        public int points;
-        public int createKey;
+        public int id { get; set; }
+        public string name { get; set; }
+        public string copy { get; set; }
+        public string guid { get; set; }
+        public bool Correct { get; set; }
+        public int QuestionID { get; set; }
+        public string SortOrder { get; set; }
+        public int points { get; set; }
+        public int createKey { get; set; }
         //
         //public bool Active;
         //public DateTime DateAdded;

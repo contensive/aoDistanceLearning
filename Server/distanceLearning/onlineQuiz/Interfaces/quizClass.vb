@@ -1101,7 +1101,7 @@ Namespace Contensive.Addons.OnlineQuiz
                             & " left join quizQuestions q on q.quizId=z.id)" _
                             & " left join quizAnswers a on a.questionid=q.id)" _
                             & " where(z.id=" & quiz.id & ")" _
-                            & " and (points is null)"
+                            & " and (q.points is null)"
                         Call cs.OpenSQL(Sql)
                         Do While cs.OK()
                             Dim answerId As Integer = cs.GetInteger("id")
