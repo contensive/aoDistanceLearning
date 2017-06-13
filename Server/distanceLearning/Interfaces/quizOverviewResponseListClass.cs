@@ -37,10 +37,10 @@ namespace Contensive.Addons.DistanceLearning
                         cp.Response.Redirect("?" + qs);
                         break;
                     case "Refresh":
-                        qs = cp.Doc.RefreshQueryString;
-                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewResults, true);
-                        qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
-                        cp.Response.Redirect("?" + qs);
+                        //qs = cp.Doc.RefreshQueryString;
+                        //qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewResults, true);
+                        //qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
+                        //cp.Response.Redirect("?" + qs);
                         break;
                         
                 }
@@ -53,7 +53,7 @@ namespace Contensive.Addons.DistanceLearning
                 adminFramework.reportListClass form = new adminFramework.reportListClass(cp);
                 form.addFormHidden(constants.rnQuizId, quiz.id.ToString());
                 form.addFormButton(constants.buttonCancel);
-                //form.addFormButton(constants.buttonRefresh);
+                form.addFormButton(constants.buttonRefresh);
                 form.title = "Results";
                 form.description = "";
                 //quizUserDetailsForm.addColumn();
@@ -62,24 +62,31 @@ namespace Contensive.Addons.DistanceLearning
                 form.addColumn();
                 form.columnCaption = "User";
                 form.columnCaptionClass = "afwTextAlignCenter";
+                form.columnCellClass = "afwTextAlignLeft";
                 form.addColumn();
                 form.columnCaption = "Date";
-                form.columnCaptionClass = "afwTextAlignCenter afwWidth200px";
+                form.columnCaptionClass = "afwTextAlignCenter afwWidth100px";
+                form.columnCellClass = "afwTextAlignRight";
                 form.addColumn();
                 form.columnCaption = "Attempt";
-                form.columnCaptionClass = "afwTextAlignCenter afwWidth200px";
+                form.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
+                form.columnCellClass = "afwTextAlignRight";
                 form.addColumn();
                 form.columnCaption = "Score";
                 form.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
+                form.columnCellClass = "afwTextAlignRight";
                 form.addColumn();
                 form.columnCaption = "Questions";
                 form.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
+                form.columnCellClass = "afwTextAlignRight";
                 form.addColumn();
                 form.columnCaption = "Correct";
                 form.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
+                form.columnCellClass = "afwTextAlignRight";
                 form.addColumn();
                 form.columnCaption = "Points";
                 form.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
+                form.columnCellClass = "afwTextAlignRight";
                 //
                 List<QuizResponseModel.quizResponseReportModel> quizResponseList = QuizResponseModel.GetQuizOverviewResponseList(cp, quiz.id, filterFromDate, filterToDate);
                 foreach (QuizResponseModel.quizResponseReportModel quizResponse in quizResponseList)
@@ -93,6 +100,7 @@ namespace Contensive.Addons.DistanceLearning
                     qs = cp.Utils.ModifyQueryString(qs, constants.rnResponseId, quizResponse.id.ToString(), true);
                     qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
                    
+                    
                     form.setCell("<div><a href=\"?" + qs + "\"> " + quizResponse.userName + " </ a></div>");
                     form.setCell( genericController.getShortDateString(  quizResponse.dateSubmitted));
                     form.setCell(quizResponse.attemptNumber.ToString());
@@ -101,12 +109,12 @@ namespace Contensive.Addons.DistanceLearning
                     form.setCell(quizResponse.totalCorrect.ToString());
                     form.setCell(quizResponse.totalPoints.ToString());
                 };
-                form.htmlLeftOfTable = "";
-                //    + constants.cr + "<h3 class=\"afwFilterHead\">filters</h3>"
-                //    + constants.cr + "<h4 class=\"afwFilterCaption\">Date</h4>"
-                //    + constants.cr + "<div class=\"afwFilterRow\"><label for=fromfilter>from</label><input type=\"date\" name=\"" + constants.rnFilterDateFrom + "\" value=\"2017 - 06 - 02\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
-                //    + constants.cr + "<div class=\"afwFilterRow\"><label for=tofilter>to</label><input type=\"date\" name=\"" + constants.rnFilterDateTo + "\" value=\"2017 - 06 - 02\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
-                //    + "";
+                form.htmlLeftOfTable = ""
+                    + constants.cr + "<h3 class=\"afwFilterHead\">filters</h3>"
+                    + constants.cr + "<h4 class=\"afwFilterCaption\">Date</h4>"
+                    + constants.cr + "<div class=\"afwFilterRow\"><label for=fromfilter>from</label><input type=\"date\" name=\"" + constants.rnFilterDateFrom + "\" value=\"" + Controllers.genericController.getDateForHtmlInput( filterFromDate ) + "\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
+                    + constants.cr + "<div class=\"afwFilterRow\"><label for=tofilter>to</label><input type=\"date\" name=\"" + constants.rnFilterDateTo + "\" value=\"" + Controllers.genericController.getDateForHtmlInput( filterToDate ) + "\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
+                    + "";
                 //cp.Doc.AddHeadJavascript(""
                 //    + constants.cr + "jQuery(document).ready(function(){"
                 //    + constants.cr2 + "jQuery('.abAccountAddButton').click(function(){"

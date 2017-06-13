@@ -419,18 +419,15 @@ namespace Contensive.Addons.DistanceLearning.Models
         public class file
         {
             private CPBaseClass cp;
-            //private QuizModel quiz;
-            //private string requestName;
             private string contentName;
             private string fieldName;
             private int recordId;
             //
-            // -- this value is set from the db record field and can be read back directly
-            private string _pathFilename;
             /// <summary>
             /// constructor
             /// </summary>
             /// <param name="cp"></param>
+            //================================================================================
             public file(CPBaseClass cp, string contentName, string fieldName, int recordId)
             {
                 this.cp = cp;
@@ -438,10 +435,21 @@ namespace Contensive.Addons.DistanceLearning.Models
                 this.fieldName = fieldName;
                 this.recordId = recordId;
             }
+            //================================================================================
+            /// <summary>
+            /// upload a file from a request field with the same name as the Db field
+            /// </summary>
+            /// <returns></returns>
             public bool processRequest()
             {
                 return processRequest(fieldName);
             }
+            //================================================================================
+            /// <summary>
+            /// upload a file
+            /// </summary>
+            /// <param name="requestName"></param>
+            /// <returns></returns>
             public bool processRequest(string requestName)
             {
                 bool result = false;
@@ -466,7 +474,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                                 //
                                 // -- the file is being uploaded
                                 cs.SetFormInput(fieldName, requestName);
-                                _pathFilename = cs.GetText(requestName);
+                                _pathFilename = cs.GetFilename(requestName);
                             }
                         }
                         cs.Close();
@@ -479,6 +487,10 @@ namespace Contensive.Addons.DistanceLearning.Models
                 }
                 return result;
             }
+            //================================================================================
+            /// <summary>
+            /// get the filename part of the current field's pathFilename
+            /// </summary>
             public string filename {
                 get {
                     string result = "";
@@ -489,6 +501,10 @@ namespace Contensive.Addons.DistanceLearning.Models
                     return result;
                 }
             }
+            //================================================================================
+            /// <summary>
+            /// get/set the pathFilename of the current field. Use upload() method to upload a file
+            /// </summary>
             public string pathFilename
             {
                 get {
@@ -498,15 +514,42 @@ namespace Contensive.Addons.DistanceLearning.Models
                     _pathFilename = value;
                 }
             }
+            private string _pathFilename;
             //
+            //================================================================================
+            /// <summary>
+            /// Build the file input with delete and download link, using the fieldname as the requestname and class/id fileInput/fileInput_fieldname
+            /// </summary>
+            /// <returns></returns>
             public string getHtmlInput()
             {
                 return getHtmlInput(fieldName);
             }
+            //
+            //================================================================================
+            /// <summary>
+            /// Build the file input with delete and download link, using class/id fileInput/fileInput_fieldname
+            /// </summary>
+            /// <returns></returns>
             public string getHtmlInput(string requestName)
             {
-                return getHtmlInput(requestName, "fileInput", "fileInput_"+fieldName);
+                string result = getHtmlInput(requestName, "fileInput", "fileInput_"+fieldName);
+                result += "<style>"
+                    + ".fileInput{margin:2px;padding:4px;border:1px solid rgba(50,50,50,0.5);white-space:nowrap;}"
+                    + ".fileInputLink{}"
+                    + ".fileInputDelete{padding:0 0 0 14px}"
+                    + ".fileInputDelete input{vertical-align:middle}"
+                    + ".fileInputChoose{padding:0 0 0 14px}"
+                    + ".fileInput_" + fieldName + "{}"
+                    + "</style>";
+                return result;
             }
+            //
+            //================================================================================
+            /// <summary>
+            /// Build the file input with delete and download link
+            /// </summary>
+            /// <returns></returns>
             public string getHtmlInput( string requestName, string htmlClass, string htmlId)
             {
                 string result = "";

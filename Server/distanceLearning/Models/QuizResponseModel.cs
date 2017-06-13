@@ -431,13 +431,13 @@ namespace Contensive.Addons.DistanceLearning.Models
                 {
                     string sqlFromDate = cp.Db.EncodeSQLDate(fromDate.Date);
                     string sqlFromNextDate = cp.Db.EncodeSQLDate(fromDate.AddDays(1).Date);
-                    sql += "and(r.dateSubmitted>=" + sqlFromDate + ")and(r.dateSubmitted<" + sqlFromNextDate + ")";
+                    sql += "and(r.dateSubmitted>=" + sqlFromDate + ")";
                 }
                 if (toDate > DateTime.MinValue)
                 {
                     string sqlToDate = cp.Db.EncodeSQLDate(toDate.Date);
                     string sqlToNextDate = cp.Db.EncodeSQLDate(toDate.AddDays(1).Date);
-                    sql += "and(r.dateSubmitted>=" + sqlToDate + ")and(r.dateSubmitted<" + sqlToNextDate + ")";
+                    sql += "and(r.dateSubmitted<" + sqlToNextDate + ")";
                 }
                 CPCSBaseClass cs = cp.CSNew();
                 if (cs.OpenSQL(sql))

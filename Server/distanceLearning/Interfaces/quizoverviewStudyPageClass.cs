@@ -54,23 +54,23 @@ namespace Contensive.Addons.DistanceLearning
                 //
                 form.addRow();
                 form.rowName = "Video Embed Code </b>";
-                form.rowValue = cp.Html.InputTextExpandable("videoEmbedCode", quiz.videoEmbedCode)
-                    + "</br> When included, a video can be presented on the study page.";
+                form.rowValue = cp.Html.InputTextExpandable("videoEmbedCode", quiz.videoEmbedCode);
+                form.rowHelp = "When included, a video can be presented on the study page.";
                 //
                 form.addRow();
                 form.rowName = "Study Page Text </b>";
-                form.rowValue = cp.Html.InputWysiwyg("studyCopy", quiz.studyCopy, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page)
-                        + "This is the list of instructions that go on the study Page. You can describe the quiz, it's purpose, how to take it, etc.";
+                form.rowValue = cp.Html.InputWysiwyg("studyCopy", quiz.studyCopy, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page);
+                form.rowHelp = "This is the list of instructions that go on the study Page. You can describe the quiz, it's purpose, how to take it, etc.";
                 //
                 form.addRow();
                 form.rowName = "Course Materials </b>";
-                form.rowValue = quiz.courseMaterial.getHtmlInput(nameof(quiz.courseMaterial), "addCourseMaterialClass", "js-addCourseMaterialButtonId")
-                + "</br> When included, a file can be uploaded on the study page.";
+                form.rowValue = quiz.courseMaterial.getHtmlInput();
+                form.rowHelp = "When included, a file can be uploaded on the study page.";
                 //
                 form.addRow();
                 form.rowName = "Study Quiz Button </b>";
-                form.rowValue = cp.Html.InputText("customButtonCopy", "study")
-                + "</br> This is the text that will be shown on the study button for the quiz.";
+                form.rowValue = cp.Html.InputText("customButtonCopy", "study");
+                form.rowHelp = "This is the text that will be shown on the study button for the quiz.";
                 // 
                 result =  genericController.getTabWrapper(cp, form.getHtml(cp), "Study", quiz);
 

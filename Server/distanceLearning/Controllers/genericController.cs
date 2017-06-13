@@ -167,5 +167,16 @@ namespace Contensive.Addons.DistanceLearning.Controllers
         {
             return id.ToString().PadLeft(7, '0');
         }
+        public static string getDateForHtmlInput( DateTime source)
+        {
+            if (isDateEmpty(source))
+            {
+                return "";
+            }
+            else
+            {
+                return source.Year + "-" + source.Month.ToString().PadLeft(2, '0') + "-" + source.Day.ToString().PadLeft(2, '0');
+            }
+        }
     }
 }
