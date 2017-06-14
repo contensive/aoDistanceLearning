@@ -43,6 +43,7 @@ namespace Contensive.Addons.DistanceLearning
                         quiz.allowRetake = cp.Doc.GetBoolean("allowRetake");
                         quiz.questionPresentation = cp.Doc.GetInteger("questionPresentation");
                         quiz.maxNumberQuest = cp.Doc.GetInteger("maxNumberQuest");
+                        quiz.customButtonCopy = cp.Doc.GetText(nameof(quiz.customButtonCopy));
                         string subjectNameEditList = cp.Doc.GetText(constants.rnSubjectNameEditList);
                         if (true)
                         {
@@ -119,25 +120,22 @@ namespace Contensive.Addons.DistanceLearning
                 form.addFormButton("Save", "button");
                 form.addFormButton("Cancel", "button");
                 //
-
-
                 form.title = "Settings";
                 form.isOuterContainer = false;
                 form.addRow();
                 form.rowName = "Question Presentation";
-                form.rowValue = cp.Html.SelectList("questionPresentation", quiz.questionPresentation.ToString(), "All questions on one page, One subject per page, One question per page.", "Select Type of Presentation")
-                    + "<p>You can choose to display one question per page, all questions on one page , or all subject"
-                    + " questions per page</p>";
+                form.rowValue = cp.Html.SelectList("questionPresentation", quiz.questionPresentation.ToString(), "All questions on one page, One subject per page, One question per page.", "Select Type of Presentation");
+                form.rowHelp = "You can choose to display one question per page, all questions on one page , or all subject questions per page.";
                 form.addRow();
                 form.rowName = "Allow users to retake";
-                form.rowValue = cp.Html.CheckBox("allowRetake", quiz.allowRetake)
-                    + "<p>If this box is checked users can choose to retake the quiz.</p>";
+                form.rowValue = cp.Html.CheckBox("allowRetake", quiz.allowRetake);
+                form.rowHelp = "If this box is checked users can choose to retake the quiz.";
                 form.addRow();
                 form.rowName = "Max questions to display";
-                form.rowValue = cp.Html.InputText("maxNumberQuest", quiz.maxNumberQuest.ToString())
-                    + "<p>This is the max number of questions that will display per quiz or per subject(if subjects are used ). The system will randomly select"
+                form.rowValue = cp.Html.InputText("maxNumberQuest", quiz.maxNumberQuest.ToString());
+                form.rowHelp = "This is the max number of questions that will display per quiz or per subject(if subjects are used ). The system will randomly select"
                     + " questions from the available pool up to the max number entered. If user is allowed to retake it will display a random selection from the pool"
-                    + " so the user doesnt get the same quiz twice</p>";
+                    + " so the user doesnt get the same quiz twice";
                 //
                 // -- build subjects list with subject id list to handle edits
                 form.addRow();
@@ -153,9 +151,13 @@ namespace Contensive.Addons.DistanceLearning
                     subjectIdCommaList += idDelimiter + subject.id;
                     idDelimiter = ",";
                 }
-                form.rowValue = cp.Html.InputTextExpandable(constants.rnSubjectNameEditList, subjectNameTextList) + cp.Html.Hidden( constants.rnSubjectIdEditList, subjectIdCommaList ) 
-                    + "<p>If you wish to organize your questions by subject, enter the subject section in the text box one subject per line."
-                    + " if this quiz has no sections leave blank</p>";
+                form.rowValue = cp.Html.InputTextExpandable(constants.rnSubjectNameEditList, subjectNameTextList, 5) + cp.Html.Hidden(constants.rnSubjectIdEditList, subjectIdCommaList);
+                form.rowHelp = "If you wish to organize your questions by subject, enter the subject section in the text box one subject per line. If this quiz has no sections leave blank</p>";
+                //
+                form.addRow();
+                form.rowName = "Button Instructions";
+                form.rowValue = cp.Html.InputTextExpandable("customButtonCopy", quiz.customButtonCopy, 5);
+                form.rowHelp = "If included, this copy is added at the bottom of the page on each oneline quiz page.";
                 //
                 result = genericController.getTabWrapper(cp, form.getHtml(cp), "Settings", quiz);
                 cp.Doc.AddHeadStyle(form.styleSheet);

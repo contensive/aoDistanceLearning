@@ -401,6 +401,8 @@ namespace Contensive.Addons.DistanceLearning.Models
         {
             public string quizName;
             public string userName;
+            public string userFirstName;
+            public string userLastName;
             public DateTime dateSubmitted;
             public int attemptNumber;
             public double score;
@@ -422,7 +424,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             List<quizResponseReportModel> modelList = new List<quizResponseReportModel>();
             try
             {
-                string sql = "select q.name as quizName, u.name as userName, r.id as responseId,r.dateSubmitted, r.attemptNumber, r.score, r.totalQuestions, r.totalCorrect, r.totalPoints"
+                string sql = "select q.name as quizName, u.firstName as userFirstName, u.lastName as userLastName, u.name as userName, r.id as responseId,r.dateSubmitted, r.attemptNumber, r.score, r.totalQuestions, r.totalCorrect, r.totalPoints"
                     + " from ((quizResponses r"
                     + " left join quizzes q on q.id=r.quizId)"
                     + " left join ccMembers u on u.id=r.memberId)"
@@ -451,6 +453,8 @@ namespace Contensive.Addons.DistanceLearning.Models
                         instance.dateSubmitted = cs.GetDate("dateSubmitted");
                         instance.quizName = cs.GetText("quizName");
                         instance.userName = cs.GetText("userName");
+                        instance.userFirstName = cs.GetText("userFirstName");
+                        instance.userLastName = cs.GetText("userLastName");
                         instance.score = cs.GetNumber("score");
                         instance.totalQuestions = cs.GetInteger("totalQuestions");
                         instance.totalCorrect = cs.GetInteger("totalCorrect");

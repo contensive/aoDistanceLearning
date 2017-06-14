@@ -32,7 +32,6 @@ namespace Contensive.Addons.DistanceLearning
                         quiz.customTopCopy = cp.Doc.GetText(nameof(quiz.customTopCopy));
                         quiz.videoEmbedCode=cp.Doc.GetText(nameof(quiz.videoEmbedCode));
                         quiz.courseMaterial.processRequest(nameof(quiz.courseMaterial));
-                        quiz.customButtonCopy = cp.Doc.GetText(nameof(quiz.customButtonCopy));
                         quiz.saveObject(cp);
                         break;
                     case "Cancel":
@@ -50,28 +49,23 @@ namespace Contensive.Addons.DistanceLearning
                 form.addFormButton("Save", "button");
                 form.addFormButton("Cancel", "button");
                 form.isOuterContainer = false;
-                form.title = "<b>Study Page </b></br>";
+                form.title = "<b>Study Page</b></br>";
                 //
                 form.addRow();
-                form.rowName = "Video Embed Code </b>";
-                form.rowValue = cp.Html.InputTextExpandable("videoEmbedCode", quiz.videoEmbedCode);
+                form.rowName = "Video Embed Code";
+                form.rowValue = cp.Html.InputTextExpandable("videoEmbedCode", quiz.videoEmbedCode,5);
                 form.rowHelp = "When included, a video can be presented on the study page.";
                 //
                 form.addRow();
-                form.rowName = "Study Page Text </b>";
+                form.rowName = "Study Page Text";
                 form.rowValue = cp.Html.InputWysiwyg("studyCopy", quiz.studyCopy, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page);
                 form.rowHelp = "This is the list of instructions that go on the study Page. You can describe the quiz, it's purpose, how to take it, etc.";
                 //
                 form.addRow();
-                form.rowName = "Course Materials </b>";
+                form.rowName = "Course Materials";
                 form.rowValue = quiz.courseMaterial.getHtmlInput();
                 form.rowHelp = "When included, a file can be uploaded on the study page.";
-                //
-                form.addRow();
-                form.rowName = "Study Quiz Button </b>";
-                form.rowValue = cp.Html.InputText("customButtonCopy", "study");
-                form.rowHelp = "This is the text that will be shown on the study button for the quiz.";
-                // 
+
                 result =  genericController.getTabWrapper(cp, form.getHtml(cp), "Study", quiz);
 
                 cp.Doc.AddHeadStyle(form.styleSheet);

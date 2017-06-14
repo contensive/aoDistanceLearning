@@ -108,13 +108,11 @@ namespace Contensive.Addons.DistanceLearning
                 }
                 questionForm.addRow();
                 questionForm.rowName = "Question </b>";
-                questionForm.rowValue = cp.Html.InputText(constants.rnQuestionCopy, question.copy, "5", "", false, "qtext", "js-qText");
-                questionForm.addRow();
-                questionForm.rowName = "Sort Order </b>";
-                questionForm.rowValue = cp.Html.InputText("SortOrder", question.SortOrder.ToString());
-                questionForm.addRow();
-                questionForm.rowName = "Points* </b>";
-                questionForm.rowValue = cp.Html.InputText("points", question.points.ToString());
+                questionForm.rowValue = cp.Html.InputText(constants.rnQuestionCopy, question.copy, "4", "", false, "qtext", "js-qText");
+                questionForm.rowHelp = "The question as it appears on the quiz.";
+                //questionForm.addRow();
+                //questionForm.rowName = "Points* </b>";
+                //questionForm.rowValue = cp.Html.InputText("points", question.points.ToString());
                 //
                 //
                List<QuizAnswerModel> quizAnswerList = QuizAnswerModel.getAnswersForQuestionList(cp, question.id);
@@ -125,8 +123,8 @@ namespace Contensive.Addons.DistanceLearning
                     descnt++;
                     questionForm.addRow();
                     questionForm.rowName = "Answer " + descnt;
-                    questionForm.rowValue = cp.Html.InputText(constants.rnAnswerCopy + quizAnswer.id, quizAnswer.copy, "1", "300", false, "answerOneClass", "js-answerOne")
-                        + "&nbsp;" + cp.Html.CheckBox("Correct" + quizAnswer.id, quizAnswer.Correct) + " Correct Answer";
+                    questionForm.rowValue = cp.Html.InputText(constants.rnAnswerCopy + quizAnswer.id, quizAnswer.copy, "2", "", false, "answerOneClass", "js-answerOne")
+                        + "<br>" + cp.Html.CheckBox("Correct" + quizAnswer.id, quizAnswer.Correct) + " Correct Answer";
                     cnt--;
                     
                 }
@@ -138,18 +136,23 @@ namespace Contensive.Addons.DistanceLearning
                         descnt++;
                         questionForm.addRow();
                         questionForm.rowName = "Answer " + descnt;
-                        questionForm.rowValue = cp.Html.InputText(constants.rnAnswerCopyBlank + ptr, "", "1", "300", false, "answerOneClass", "js-answerOne")
-                            + "&nbsp;" + cp.Html.CheckBox(constants.rnCorrectBlank + ptr, false) + " Correct Answer";
+                        questionForm.rowValue = cp.Html.InputText(constants.rnAnswerCopyBlank + ptr, "", "2", "", false, "answerOneClass", "js-answerOne")
+                            + "<br>" + cp.Html.CheckBox(constants.rnCorrectBlank + ptr, false) + " Correct Answer";
                     }
                 }
-
+                questionForm.rowHelp = "";
                 questionForm.addRow();
                 questionForm.rowName = "Subject</b>";
                 questionForm.rowValue = cp.Html.SelectContent(constants.rnSubjectId , question.SubjectID.ToString(), constants.cnQuizSubjects,"(quizid=" + quiz.id.ToString() + ")","Select Subject");
+                questionForm.rowHelp = "Add a subject for this question. to add subjects, use the quiz details form.";
+                questionForm.addRow();
+                questionForm.rowName = "Sort Order </b>";
+                questionForm.rowValue = cp.Html.InputText("SortOrder", question.SortOrder.ToString());
+                questionForm.rowHelp = "Use this alphanumeric text field to order your questions. ";
                 questionForm.addRow();
                 questionForm.rowName = "Answer Information</b>";
-                questionForm.rowValue = cp.Html.InputWysiwyg("instructions", question.instructions, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page) +
-                    "<p>This is a list of instructions that go on the Start page. You can describe the quiz, its purpose, how you take it, etc. </p>";
+                questionForm.rowValue = cp.Html.InputWysiwyg("instructions", question.instructions, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page);
+                questionForm.rowHelp = "<p>This is a list of instructions that go on the Start page. You can describe the quiz, its purpose, how you take it, etc. </p>";
                 //
                 result = genericController.getTabWrapper(cp, questionForm.getHtml(cp), "Questions",  quiz );
 

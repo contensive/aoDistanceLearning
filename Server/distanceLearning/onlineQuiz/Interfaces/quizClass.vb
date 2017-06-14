@@ -1018,7 +1018,6 @@ Namespace Contensive.Addons.OnlineQuiz
         Private Function getAdminHints(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, response As DistanceLearning.Models.QuizResponseModel) As String
             Dim result As String = ""
             Try
-                '
                 Dim lastQuestionId As Integer = 0
                 Dim foundCorrect As Boolean
                 Dim lastQuestionName As String = ""
@@ -1110,10 +1109,10 @@ Namespace Contensive.Addons.OnlineQuiz
                                 If answerName = "" Then
                                     answerName = "Answer #" & answerId
                                 End If
-                                Dim link2 As String = distanceLearningPortalLink & DistanceLearning.constants.portalFeatureQuizOverviewQuestionDetails _
+                                Dim link3 As String = distanceLearningPortalLink & DistanceLearning.constants.portalFeatureQuizOverviewQuestionDetails _
                                     & "&answerId=" & answerId _
                                     & "&quizId=" & quiz.id
-                                itemList &= cr & cp.Html.li("<a href=""" & link2 & """>" & answerName & "</a>")
+                                itemList &= cr & cp.Html.li("<a href=""" & link3 & """>" & answerName & "</a>")
                                 'itemList &= cr & cp.Html.li("<a href=""" & adminUrl & "?af=4&cid=" & answersCid & "&id=" & answerId & """>" & answerName & "</a>")
                             End If
                             Call cs.GoNext()
@@ -1178,14 +1177,13 @@ Namespace Contensive.Addons.OnlineQuiz
                     If result = "" Then
                         result &= "<p>Your online quiz appears to be configured correctly.</p>"
                     End If
+                    Dim link2 As String
                     If (quiz IsNot Nothing) Then
-                        Dim link2 As String = distanceLearningPortalLink & DistanceLearning.constants.portalFeaturesQuizOverviewDetails _
-                                    & "&quizId=" & quiz.id
+                        link2 = distanceLearningPortalLink & DistanceLearning.constants.portalFeaturesQuizOverviewDetails & "&quizId=" & quiz.id
                         result &= "<p>Edit this quiz <a href=""" & link2 & """>" & cp.Utils.EncodeHTML(quiz.name) & "</a>.</p>"
-                        result &= "<p>To edit questions and answers on this page, turn on edit mode from the tool panel.</p>"
                     End If
-                    result &= "<p>Create a <a href=""" & adminUrl & "?af=4&cid=" & cp.Content.GetID("quizzes") & """>new quiz</a>.</p>"
-                    result &= "<p>Create a <a href=""" & adminUrl & "?af=4&cid=" & cp.Content.GetID("quiz subjects") & """>new quiz subject</a>.</p>"
+                    link2 = distanceLearningPortalLink & DistanceLearning.constants.portalFeatureDashboard
+                    result &= "<p><a href=""" & link2 & """>Distance Learning Manager</a></p>"
                 End If
             Catch ex As Exception
                 cp.Site.ErrorReport(ex)

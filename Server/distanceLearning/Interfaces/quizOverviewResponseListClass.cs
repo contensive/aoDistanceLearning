@@ -64,7 +64,7 @@ namespace Contensive.Addons.DistanceLearning
                 form.columnCaptionClass = "afwTextAlignCenter";
                 form.columnCellClass = "afwTextAlignLeft";
                 form.addColumn();
-                form.columnCaption = "Date";
+                form.columnCaption = "Submitted";
                 form.columnCaptionClass = "afwTextAlignCenter afwWidth100px";
                 form.columnCellClass = "afwTextAlignRight";
                 form.addColumn();
@@ -75,18 +75,18 @@ namespace Contensive.Addons.DistanceLearning
                 form.columnCaption = "Score";
                 form.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
                 form.columnCellClass = "afwTextAlignRight";
-                form.addColumn();
-                form.columnCaption = "Questions";
-                form.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
-                form.columnCellClass = "afwTextAlignRight";
-                form.addColumn();
-                form.columnCaption = "Correct";
-                form.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
-                form.columnCellClass = "afwTextAlignRight";
-                form.addColumn();
-                form.columnCaption = "Points";
-                form.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
-                form.columnCellClass = "afwTextAlignRight";
+                //form.addColumn();
+                //form.columnCaption = "Questions";
+                //form.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
+                //form.columnCellClass = "afwTextAlignRight";
+                //form.addColumn();
+                //form.columnCaption = "Correct";
+                //form.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
+                //form.columnCellClass = "afwTextAlignRight";
+                //form.addColumn();
+                //form.columnCaption = "Points";
+                //form.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
+                //form.columnCellClass = "afwTextAlignRight";
                 //
                 List<QuizResponseModel.quizResponseReportModel> quizResponseList = QuizResponseModel.GetQuizOverviewResponseList(cp, quiz.id, filterFromDate, filterToDate);
                 foreach (QuizResponseModel.quizResponseReportModel quizResponse in quizResponseList)
@@ -99,15 +99,15 @@ namespace Contensive.Addons.DistanceLearning
                     qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewResultsDetails, true);
                     qs = cp.Utils.ModifyQueryString(qs, constants.rnResponseId, quizResponse.id.ToString(), true);
                     qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
-                   
-                    
-                    form.setCell("<div><a href=\"?" + qs + "\"> " + quizResponse.userName + " </ a></div>");
+                    string name = quizResponse.userFirstName + " " + quizResponse.userLastName;
+                    if (string.IsNullOrEmpty(name.Trim())) name = quizResponse.userName;
+                    form.setCell("<div><a href=\"?" + qs + "\"> " + name  + " </ a></div>");
                     form.setCell( genericController.getShortDateString(  quizResponse.dateSubmitted));
                     form.setCell(quizResponse.attemptNumber.ToString());
-                    form.setCell( Convert.ToInt32( 0.5 + quizResponse.score).ToString());
-                    form.setCell(quizResponse.totalQuestions.ToString());
-                    form.setCell(quizResponse.totalCorrect.ToString());
-                    form.setCell(quizResponse.totalPoints.ToString());
+                    form.setCell( Convert.ToInt32( 0.5 + quizResponse.score).ToString() + "%");
+                    //form.setCell(quizResponse.totalQuestions.ToString());
+                    //form.setCell(quizResponse.totalCorrect.ToString());
+                    //form.setCell(quizResponse.totalPoints.ToString());
                 };
                 form.htmlLeftOfTable = ""
                     + constants.cr + "<h3 class=\"afwFilterHead\">filters</h3>"
