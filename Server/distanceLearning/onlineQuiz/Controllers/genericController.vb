@@ -111,7 +111,7 @@ Namespace Contensive.Addons.OnlineQuiz
                             detail.questionId = quizQuestion.id
                             detail.responseId = response.id
                             detail.pageNumber = pageNumber
-                            detail.SortOrder = detailSortOrder.ToString.PadLeft(7, "0"c)
+                            detail.SortOrder = quizSubject.name + quizQuestion.SortOrder '  detailSortOrder.ToString.PadLeft(7, "0"c)
                             detail.saveObject(cp)
                             If (quiz.questionPresentation = DistanceLearning.Models.QuizModel.questionPresentationEnum.OneQuestionPerPage) Then
                                 pageNumber += 1

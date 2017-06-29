@@ -84,8 +84,10 @@ namespace Contensive.Addons.DistanceLearning
                 //
                 // - add empty subject at end for questions without subjects
                 subjectList.Add(new QuizSubjectModel() { });
+                List<int> usedSubjectIdList = new List<int>();
                 foreach (QuizSubjectModel subject in subjectList)
                 {
+                    usedSubjectIdList.Add(subject.id);
                     //
                     // -- list all questions in this subject
                     foreach (QuizQuestionModel question in questionList)
@@ -94,34 +96,19 @@ namespace Contensive.Addons.DistanceLearning
                         // -- list this question if it is in this subject
                         if (subject.id == question.SubjectID)
                         {
-                            List<QuizResponseModel> responseList = QuizResponseModel.GetResponseList(cp, question.id);
-                            reportList.addRow();
-                            reportList.columnCellClass = "afwTextAlignLeft";
-                            if (subject == null)
-                            {
-                                reportList.setCell("");
-                            }
-                            else
-                            {
-                                reportList.setCell(subject.name);
-                            }
-                            //
-                            reportList.columnCellClass = "afwTextAlignLeft";
-                            reportList.setCell(question.copy);
-                            reportList.setCell(question.SortOrder.ToString());
-                            //
-                            string miniForm = "";
-                            miniForm += cp.Html.Button("button", "Edit", "questionEdit", "js-questionEdit");
-                            miniForm += cp.Html.Button("button", "Delete", "questionDelete", "js-questionDelete");
-                            miniForm += cp.Html.Hidden(constants.rnQuestionId, question.id.ToString());
-                            miniForm += cp.Html.Hidden(constants.rnQuizId, question.quizId.ToString());
-                            miniForm = cp.Html.Form(miniForm);
-                            reportList.columnCellClass = "afwTextAlignLeft";
-                            reportList.setCell(miniForm);
+                            addQuestionToList(cp, question, subject, reportList);
                         }
                     }
                 }
-                cp.Doc.AddRefreshQueryString("quizId", quiz.id.ToString());
+                foreach (QuizQuestionModel question in questionList)
+                {
+                    if (!usedSubjectIdList.Contains(question.SubjectID))
+                    {
+                        addQuestionToList(cp, question, null, reportList);
+                    }
+                }
+
+                    cp.Doc.AddRefreshQueryString("quizId", quiz.id.ToString());
                 //
                 result = genericController.getTabWrapper(cp, reportList.getHtml(cp), "Questions", quiz);
 
@@ -143,6 +130,33 @@ namespace Contensive.Addons.DistanceLearning
         private void errorReport(CPBaseClass cp, Exception ex, string method)
         {
             cp.Site.ErrorReport(ex, "error in addonTemplateCs2005.blankClass.getForm");
+        }
+        private void addQuestionToList(CPBaseClass cp, QuizQuestionModel question, QuizSubjectModel subject,  adminFramework.reportListClass reportList)
+        {
+            List<QuizResponseModel> responseList = QuizResponseModel.GetResponseList(cp, question.id);
+            reportList.addRow();
+            reportList.columnCellClass = "afwTextAlignLeft";
+            if (subject == null)
+            {
+                reportList.setCell("");
+            }
+            else
+            {
+                reportList.setCell(subject.name);
+            }
+            //
+            reportList.columnCellClass = "afwTextAlignLeft";
+            reportList.setCell(question.copy);
+            reportList.setCell(question.SortOrder.ToString());
+            //
+            string miniForm = "";
+            miniForm += cp.Html.Button("button", "Edit", "questionEdit", "js-questionEdit");
+            miniForm += cp.Html.Button("button", "Delete", "questionDelete", "js-questionDelete");
+            miniForm += cp.Html.Hidden(constants.rnQuestionId, question.id.ToString());
+            miniForm += cp.Html.Hidden(constants.rnQuizId, question.quizId.ToString());
+            miniForm = cp.Html.Form(miniForm);
+            reportList.columnCellClass = "afwTextAlignLeft";
+            reportList.setCell(miniForm);
         }
     }
 }
