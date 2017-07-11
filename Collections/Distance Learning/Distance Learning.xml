@@ -201,6 +201,11 @@ jQuery(document).ready(function(){
 .onlineQuiz .subjectScoreList{
 }
 
+.onlineQuiz #js-quizVideo {
+	margin:20px auto;
+	text-align: center;
+}
+
 
 		]]></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
