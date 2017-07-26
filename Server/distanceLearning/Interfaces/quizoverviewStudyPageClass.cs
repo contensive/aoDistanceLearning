@@ -32,6 +32,8 @@ namespace Contensive.Addons.DistanceLearning
                         quiz.customTopCopy = cp.Doc.GetText(nameof(quiz.customTopCopy));
                         quiz.videoEmbedCode=cp.Doc.GetText(nameof(quiz.videoEmbedCode));
                         quiz.courseMaterial.processRequest(nameof(quiz.courseMaterial));
+                        quiz.studyCopy=cp.Doc.GetText(nameof(quiz.studyCopy));
+
                         quiz.saveObject(cp);
                         break;
                     case "Cancel":
