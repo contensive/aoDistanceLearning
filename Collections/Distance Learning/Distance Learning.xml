@@ -35,7 +35,13 @@
 		<ProcessInterval>0</ProcessInterval>
 		<PageTitle></PageTitle>
 		<RemoteAssetLink></RemoteAssetLink>
-		<Styles><![CDATA[.instructionText
+		<Styles><![CDATA[
+
+.instructionText
+{
+color:green;
+}
+.instructionText
 {
 color:green;
 }]]></Styles>
@@ -75,7 +81,10 @@ color:green;
 		<ProcessInterval>0</ProcessInterval>
 		<PageTitle></PageTitle>
 		<RemoteAssetLink></RemoteAssetLink>
-		<Styles></Styles>
+		<Styles><![CDATA[.questionRaioInput{
+float: left;
+}
+.quizanswerClass{margin-left: 21px;}]]></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
 	<Addon name="Online Quiz Includes" guid="{596B237C-F206-4324-B0A4-5F66C8AEF966}" type="Add-on">
@@ -136,6 +145,8 @@ jQuery(document).ready(function(){
 		<PageTitle></PageTitle>
 		<RemoteAssetLink></RemoteAssetLink>
 		<Styles><![CDATA[
+
+
 
 
 #afw .afwFormRowValue .afwRowValueHelpBox {padding: 5px 0 0 20px;}
@@ -201,11 +212,6 @@ jQuery(document).ready(function(){
 .onlineQuiz .subjectScoreList{
 }
 
-.onlineQuiz #js-quizVideo {
-	margin:20px auto;
-	text-align: center;
-}
-
 
 		]]></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
@@ -245,6 +251,8 @@ jQuery(document).ready(function(){
 		<PageTitle></PageTitle>
 		<RemoteAssetLink></RemoteAssetLink>
 		<Styles><![CDATA[
+
+
 
 
 
@@ -346,6 +354,8 @@ jQuery(document).ready(function(){
 		<PageTitle></PageTitle>
 		<RemoteAssetLink></RemoteAssetLink>
 		<Styles><![CDATA[
+
+
 
 
 
@@ -1102,7 +1112,7 @@ end function]]></Code>
 			<field name="addPadding">False</field>
 		</record>
 		<record content="layouts" guid="{59b2a83a-3940-4eca-a883-d078da723d57}" name="Quiz Landing Page">
-			<field name="Layout"><![CDATA[	<div class="quizlanding" id="js-quizlanding">
+			<field name="Layout"><![CDATA[<div class="quizlanding" id="js-quizlanding">
 		<div>
 		  <div>
 			<h2 id="js-quizTitle">MY Sample Quiz</h2>
@@ -1140,9 +1150,7 @@ end function]]></Code>
 				<input type="button" class="startTestClass" value="start The test"></input>
 				</div>
 		    </div>
-	    </div>
-	</div>
-]]></field>
+	    </div>]]></field>
 			<field name="StylesFilename"></field>
 			<field name="Active">True</field>
 			<field name="SortOrder"></field>
