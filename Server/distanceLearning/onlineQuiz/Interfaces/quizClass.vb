@@ -813,13 +813,13 @@ Namespace Contensive.Addons.OnlineQuiz
                                     'End If
                                     'quizEditIcon = CS3.GetEditLink(False) & "&nbsp;&nbsp;&nbsp;&nbsp;"
                                 End If
-                                htmlRadio = "<input type=""radio"" name=""" & getRadioAnswerRequestName(question.id) & """ value=""" & answer.id & """"
+                                htmlRadio = "<input type=""radio"" class=""questionRaioInput"" name=""" & getRadioAnswerRequestName(question.id) & """ value=""" & answer.id & """"
                                 If (answer.id = responseDetail.answerId) Then
                                     htmlRadio = htmlRadio & " checked=""checked"">"
                                 Else
                                     htmlRadio = htmlRadio & ">"
                                 End If
-                                q = q & vbCrLf & vbTab & "<div class=""questionChoice"">" & htmlRadio & "" & quizEditIcon & "&nbsp;" & answerCopy & "</div>"
+                                q = q & vbCrLf & vbTab & "<div class=""questionChoice"">" & htmlRadio & "" & quizEditIcon & "<div class=""quizanswerClass"">" & answerCopy & "</div></div>"
                                 answerCnt = answerCnt + 1
                             Next
                         End If
@@ -991,6 +991,13 @@ Namespace Contensive.Addons.OnlineQuiz
                 layout.SetInner("#js-quizStudyCopy", quiz.studyCopy)
                 'todo -- needs to be removed from template
                 layout.SetOuter("#js-quizStCustomText", "")
+
+                '
+                If (String.IsNullOrEmpty(quiz.courseMaterial.filename)) Then
+                    layout.SetInner("#js-quizCourseMaterial", "")
+                Else
+                    layout.SetOuter("#js-quizCourseMaterial", "<br><div id=""js-quizCourseMaterial"">" & cp.Content.GetCopy("courseMaterial") & " <a href=""" & cp.Site.FilePath & quiz.courseMaterial.pathFilename & """  target=""_blank"">Click here</a></div><br>")
+                End If
                 '
                 If (String.IsNullOrEmpty(quiz.videoEmbedCode)) Then
                     layout.SetOuter("#js-quizVideo", "")

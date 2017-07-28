@@ -166,8 +166,8 @@ Namespace Contensive.Addons.OnlineQuiz
                                         If (subjectCnt > subjectPtr) And (question.SubjectID > 0) Then
                                             subjects(subjectPtr).points += answer.points
                                         End If
-                                        Choice = Choice & "<input type=""radio"" name=""" & totalQuestions & "Answer"" value=""" & answer.id.ToString() & """ checked disabled>"
-                                        Choice = Choice & "&nbsp;" & answer.copy
+                                        Choice = Choice & "<input type=""radio"" class=""questionRaioInput"" name=""" & totalQuestions & "Answer"" value=""" & answer.id.ToString() & """ checked disabled>"
+                                        Choice = Choice & "<div class=""quizanswerClass"">" & answer.copy & "</div>"
                                         If answer.Correct Then
                                             '
                                             ' selected answer is current answer
@@ -177,8 +177,8 @@ Namespace Contensive.Addons.OnlineQuiz
                                     Else
                                         '
                                         ' -- user did not select this answer
-                                        Choice = Choice & "<input type=""radio"" name=""" & totalQuestions & "Answer"" value=""" & answer.id.ToString() & """ disabled>"
-                                        Choice = Choice & "&nbsp;" & answer.copy
+                                        Choice = Choice & "<input type=""radio"" class=""questionRaioInput"" name=""" & totalQuestions & "Answer"" value=""" & answer.id.ToString() & """ disabled>"
+                                        Choice = Choice & "<div class=""quizanswerClass"">" & answer.copy & "</div>"
                                         If answer.Correct Then
                                             '
                                             ' unselected answer is correct answer, make red

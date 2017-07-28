@@ -40,6 +40,7 @@ namespace Contensive.Addons.DistanceLearning
                 switch (button)
                 {
                     case "Save":
+                        quiz.name = cp.Doc.GetText("name");
                         quiz.allowRetake = cp.Doc.GetBoolean("allowRetake");
                         quiz.questionPresentation = cp.Doc.GetInteger("questionPresentation");
                         quiz.maxNumberQuest = cp.Doc.GetInteger("maxNumberQuest");
@@ -122,6 +123,10 @@ namespace Contensive.Addons.DistanceLearning
                 //
                 form.title = "Settings";
                 form.isOuterContainer = false;
+                form.addRow();
+                form.rowName = "Quiz Name";
+                form.rowValue = cp.Html.InputText("name", quiz.name);
+                form.rowHelp = "You can choose to Change the name of the quiz.";
                 form.addRow();
                 form.rowName = "Question Presentation";
                 form.rowValue = cp.Html.SelectList("questionPresentation", quiz.questionPresentation.ToString(), "All questions on one page, One subject per page, One question per page.", "Select Type of Presentation");
