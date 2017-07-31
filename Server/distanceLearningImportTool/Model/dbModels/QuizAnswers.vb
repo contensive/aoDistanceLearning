@@ -21,6 +21,8 @@ Namespace Model.dbModels
                         Call cs.SetField("questionId",questionId)
                         Call cs.SetField("correct",correct)
                         '
+                        Call cs.SetField("SortOrder",recordId.ToString("D10"))
+                        '
                     End If
                     Call cs.Close()
                 End If

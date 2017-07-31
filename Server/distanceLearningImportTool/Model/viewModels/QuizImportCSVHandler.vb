@@ -24,6 +24,11 @@ Namespace Model.viewModels
                 '
                 ' if there is no application, only allow form one
                 '
+                'cp.Utils.AppendLog("QuizImportCSVHandler.log","application.id: " & application.id)
+
+                'cp.Utils.AppendLog("QuizImportCSVHandler.log","rnSrcFormId: " & CP.Doc.GetProperty(rnSrcFormId))
+                'cp.Utils.AppendLog("QuizImportCSVHandler.log","rnDstFormId: " & CP.Doc.GetProperty(rnDstFormId))
+
                 If application.id = 0 Then
                     If srcFormId <> formIdFileSelection Then
                         srcFormId = 0

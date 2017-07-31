@@ -24,6 +24,8 @@ Namespace Model.dbModels
                             Call cs.SetField("subjectId",subjectId)
                         End If
                         '
+                        Call cs.SetField("SortOrder",recordId.ToString("D10"))
+                        '
                     End If
                     Call cs.Close()
                 End If
