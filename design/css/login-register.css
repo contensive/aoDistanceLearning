@@ -1,0 +1,169 @@
+h1 {
+    font-size: 28px;
+    font-weight: 100;
+}
+p, h3 {
+    font-size: 12px;
+    text-align: left;
+    color: #64656A;
+    line-height: 14px;
+    font-weight: normal;
+}
+input, textarea {
+    padding-left: 10px;
+    color: #64656A;
+    background: none;
+    border: 1px solid #c3c3c3;
+    margin-top: 10px;
+}
+button {
+    overflow: visible;
+}
+button {
+    border-radius: 4px;
+    box-shadow: none;
+    border: none;
+    padding: 8px 20px;
+    background: #C3C3C3;
+    color: white;
+    font-size: 12px;
+}
+button.create[type="submit"] {
+    border-radius: 4px;
+    box-shadow: none;
+    padding: 8px 20px;
+    background: white;
+    color: #97cc52;
+    font-size: 12px;
+    display: inline-block;
+    margin-top: 10px;
+    width: 100%;
+    height: 45px;
+    border: 1px solid #EAEAEA;
+    font-size: 12px;
+}
+.row {
+    display: block;
+}
+.login {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.container {
+  max-width: 1115px;
+  margin: 0 auto;
+}
+.login .container .login_form {
+    margin: 0 auto;
+    background: white;
+    border: 1px solid #EAEAEA;
+    padding: 10px;
+    top: 50%;
+    /* margin-bottom: 10px; */
+    /* margin-top: -338px; */
+    /* margin-top: 68px; */
+    padding-top: 45px;
+    padding-bottom: 45px;
+    width: 600px;
+}
+
+.login .container .login_form h1 {
+    text-align: center;
+    color: #F15211;
+}
+.login .container .login_form p {
+    text-align: center;
+}
+.login .container .login_form form#loginform,
+.login .container .login_form form#forgotPasswordForm {
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+.login .container .login_form form#loginform .field,
+.login .container .login_form form#forgotPasswordForm .field {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.login .container .login_form form#loginform .field input,
+.login .container .login_form form#forgotPasswordForm .field input {
+    width: 100%;
+    height: 45px;
+    border: 1px solid #ccc;
+    font-size: 12px;
+}
+.login .container .login_form form#loginform .submit,
+.login .container .login_form form#forgotPasswordForm .submit {
+    margin-top: 10px;
+    /* margin-bottom: 30px; */
+}
+.loginBtn {
+    border-radius: 0;
+    box-shadow: none;
+    padding: 8px 20px;
+    background: #F15211;
+    color: #fff;
+    font-size: 12px;
+    display: inline-block;
+    margin-top: 10px;
+    width: 100%;
+    height: 45px;
+    border: 1px solid #F15211;
+    font-size: 12px;
+}
+.login .container .login_form form#loginform p,
+.login .container .login_form form#forgotPasswordForm p {
+    text-align: center;
+    margin: 0;
+    margin-bottom: 5px;
+}
+.login .container .login_form form#loginform p span.bluespane,
+.login .container .login_form form#forgotPasswordForm p span.bluespane {
+    color: #23abe2;
+    /*color:#00131F;*/
+    cursor: pointer;
+}
+.login .container a, .login .container a:visited {
+    color: #F15211;
+    cursor: pointer;
+}
+.login .container a:hover {text-decoration: underline;}
+
+.errorMsg {
+    text-align: center;
+    padding-bottom: 15px;
+}
+.fieldError {
+    padding-top: 5px;
+    color: red;
+    font-size: 12px;
+}
+.returntoLogin {
+  text-align: center;
+  padding: 10px;
+}
+.returntoLogin a {color: #49c1c2;cursor: pointer;}
+
+#loginBlock {display:block;}
+#requestPassBlock {display:none;}
+#registerBlock {display:none;}
+.registerLink {
+font-size: 12px;
+color: #64656A;
+line-height: 14px;
+font-weight: normal;}
+.registerLink a {color: #F15211; text-decoration:none;}
