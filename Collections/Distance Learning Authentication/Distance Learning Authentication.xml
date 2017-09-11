@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<Collection name="Distance Learning Authentication" guid="{c95d8be5-a30f-41fc-957e-f0bd2cfd466d}" system="No" updatable="Yes" blockNavigatorNode="No">
+	<HelpLink></HelpLink>
+	<Help></Help>
+	<Addon name="Appa Quiz Login" guid="{3F80ABC4-2936-4B2F-B57F-E51D3C04E650}" type="Add-on">
+		<Copy></Copy>
+		<CopyText><![CDATA[<!-- LOGIN WITH JQUERY -->
+<div id="loginBlock" class="loginWrapper">
+	<div class="login">
+		<div class="container">
+			<div class="login_form">
+				<h1>Sign in to your account</h1>
+				<form id="loginform" autocomplete="off">
+					<div class="field">
+						<input id="username" type="text" name="username" placeholder="Username/Email Address" autocomplete="new-email">
+					</div>
+					<div class="field">
+						<input id="password" type="password" name="password" placeholder="Password" autocomplete="new-password">
+					</div>
+					<div class="field submit">
+						<button id="loginBtn" class="loginBtn">Log In</button>
+					</div>
+					<div class="row errorMsg">
+						<span class="fieldError">
+						</span></div>
+						<p>I forgot my Password <span class="bluespane"><a id="forgotPasswordLink">Click Here</a></span></p>
+						<div class="field submit">
+              <!-- Don't have an account? <a class="create btn" href="/Registration-Form">Sign Up</a> -->
+						  Don't have an account? <a class="create btn" id="registerLink">Sign Up</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+  <!--  REQUEST EMAIL -->
+<div id="requestPassBlock" class="loginWrapper">
+	<div class="login requestPassword">
+		<div class="container">
+			<div class="login_form">
+				<h1>Request Password</h1>
+				<p>Please enter your email and click send to retrieve your password.</p>
+				<p>If your email/username exists in our system, an email will be sent to the email address you provided. </p>
+				<p>Please check your Junk Mail/Spam folder if you do not see an email in your Inbox. </p>
+				<div class="emailSent"></div>
+				<form id="forgotPasswordForm">
+					<div class="field">
+						<input id="forgotusername" type="text" name="username"placeholder="Username/Email Address" autocomplete="new-email">
+					</div>
+					<div class="row">
+						<span id="emailSendMessage" class="fieldError" style="display: none;">Email Send.</span>
+					</div>
+					<div class=""><button id="sendEmail" class="loginBtn">Send Email</button></div>
+					<div class="returntoLogin"><a id="returntoLoginLink" href="">Return to login</a></div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+  <!--  REGISTER -->
+<div id="registerBlock" class="loginWrapper">
+    <div class="login">
+      <div class="container">
+        <div class="login_form">
+          <h1>Register</h1>
+          <form id="loginform" autocomplete="off">
+            <div class="field">
+              <input id="firstname" type="text" name="firstname" placeholder="First Name" autocomplete="first-name">
+            </div>
+            <div class="field">
+              <input id="lastname" type="text" name="lastname" placeholder="Last Name" autocomplete="last-name">
+            </div>
+            <div class="field">
+              <input id="username" type="text" name="username" placeholder="Username/Email Address" autocomplete="new-email">
+            </div>
+            <div class="field">
+              <input id="password" type="password" name="password" placeholder="Your Password" autocomplete="new-password">
+            </div>
+            <div class="field submit">
+              <button id="registerBtn" class="loginBtn">Create an account and take the quiz!</button>
+            </div>
+            <div class="returntoLogin"><a id="returntoLoginFromRegister" href="">Cancel and return to login</a></div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+]]></CopyText>
+		<ActiveXProgramID></ActiveXProgramID>
+		<DotNetClass></DotNetClass>
+		<ArgumentList></ArgumentList>
+		<AsAjax>No</AsAjax>
+		<Filter>No</Filter>
+		<Help></Help>
+		<HelpLink></HelpLink>
+		<Icon Link="" width="0" height="0" sprites="0" />
+		<InIframe>No</InIframe>
+		<BlockEditTools>No</BlockEditTools>
+		<FormXML></FormXML>
+		<IncludeAddon name="bootstrap CSS" guid="{EF1FD66C-D62F-4BD2-BF07-38F47996EBB3}"/>
+		<IncludeAddon name="JQuery" guid="{9C882078-0DAC-48E3-AD4B-CF2AA230DF80}"/>
+		<IsInline>No</IsInline>
+		<JavascriptOnLoad></JavascriptOnLoad>
+		<JavascriptInHead></JavascriptInHead>
+		<JavascriptBodyEnd><![CDATA[$( document ).ready(function() {
+
+  // ************************
+	$('#loginBtn').click(function(e){
+	e.preventDefault();
+	e.stopPropagation();
+	un = $('#username').val();
+	pw = $('#password').val();
+	jsonDataObject = {};
+	jsonDataObject.username = un;
+	jsonDataObject.password = pw;
+	console.log('processLogin');
+	console.log(JSON.stringify(jsonDataObject));
+	//$.get('processLogin.html', { jsonData : JSON.stringify(jsonDataObject) })
+    $.post('/onlineQuizProcessLogin', { jsonData : JSON.stringify(jsonDataObject) })
+	  .then(function(result){
+  		console.log('post result');
+  		console.log(result);
+  		var json = $.parseJSON(result);
+  		console.log(json.data);
+  		console.log(json);
+  		console.log(json.errors);
+  		if(json.errors.length > 0) {
+  		  console.log('an error occured');
+  		  console.log(json.errors[0].userMsg);
+  		  $( ".fieldError" ).html(json.errors[0].userMsg);
+  		}
+  		else {
+  		  console.log('No Errors!');
+        // window.location.reload();
+        // window.location.href = '/Online-Quiz';
+  		  window.location.href = 'Online-Quiz.html';
+  		}
+	  });
+	});
+
+	// ************************
+
+	$('#forgotPasswordLink').click(function(e){
+		e.preventDefault();
+		e.stopPropagation();
+		$('#loginBlock').css("display", "none");
+		$('#requestPassBlock').css("display", "block");
+	});
+
+	// ************************
+
+	$('#sendEmail').click(function(e){
+		e.preventDefault();
+		e.stopPropagation();
+		var forgotusername = jQuery("#forgotusername").val();
+		if (forgotusername){
+			//$.get('/?remotemethodaddon=processForgotPassword&email='+forgotusername).then(function(result){
+			$.get('/?remotemethodaddon=onlineQuizProcessForgotPassword&email='+forgotusername).then(function(result){
+				var jsonResult = $.parseJSON(result);
+				console.log('jsonResult');
+				console.log(jsonResult);
+				jQuery("#emailSendMessage").show();
+			});
+		}
+	});
+
+	// ************************
+
+	$('#returntoLoginLink').click(function(e){
+	 e.preventDefault();
+		e.stopPropagation();
+		$('#loginBlock').css("display", "block");
+		$('#requestPassBlock').css("display", "none");
+	});
+
+	$('#returntoLoginFromRegister').click(function(e){
+	 e.preventDefault();
+		e.stopPropagation();
+		$('#loginBlock').css("display", "block");
+		$('#registerBlock').css("display", "none");
+	});
+
+	// ************************
+
+  $('#registerLink').click(function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    $('#loginBlock').css("display", "none");
+    $('#registerBlock').css("display", "block");
+  });
+
+  // ************************
+
+
+
+  // ************************ REGISTRATION ***********************
+  $('#registerBtn').click(function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    un = $('#username').val();
+    pw = $('#password').val();
+    fn = $('#firstname').val();
+    ln = $('#lastname').val();
+    jsonDataObject = {};
+    jsonDataObject.username = un;
+    jsonDataObject.password = pw;
+    jsonDataObject.firstname = fn;
+    jsonDataObject.lastname = ln;
+    console.log('processLogin');
+    console.log(JSON.stringify(jsonDataObject));
+    //$.get('processRegistration.html', { jsonData : JSON.stringify(jsonDataObject) })
+    $.post('/onlineQuizProcessRegistration', { jsonData : JSON.stringify(jsonDataObject) })
+      .then(function(result) {
+        console.log('post result');
+        console.log(result);
+        var json = $.parseJSON(result);
+        console.log(json.data);
+        console.log(json);
+        console.log(json.errors);
+        if(json.errors.length > 0) {
+          console.log('an error occured');
+          console.log(json.errors[0].userMsg);
+          $( ".fieldError" ).html(json.errors[0].userMsg);
+        }
+        else {
+          console.log('No Errors!');
+          // window.location.reload();
+          // window.location.href = '/Online-Quiz';
+          window.location.href = 'ThanksForRegistering.html';
+        }
+      });
+    });
+
+});
+]]></JavascriptBodyEnd>
+		<MetaDescription></MetaDescription>
+		<OtherHeadTags></OtherHeadTags>
+		<Content>Yes</Content>
+		<Template>Yes</Template>
+		<Email>No</Email>
+		<Admin>No</Admin>
+		<OnPageEndEvent>No</OnPageEndEvent>
+		<OnPageStartEvent>No</OnPageStartEvent>
+		<OnBodyStart>No</OnBodyStart>
+		<OnBodyEnd>No</OnBodyEnd>
+		<RemoteMethod>No</RemoteMethod>
+		<ProcessRunOnce>No</ProcessRunOnce>
+		<ProcessInterval>0</ProcessInterval>
+		<PageTitle></PageTitle>
+		<RemoteAssetLink></RemoteAssetLink>
+		<Styles><![CDATA[h1 {
+    font-size: 28px;
+    font-weight: 100;
+}
+p, h3 {
+    font-size: 12px;
+    text-align: left;
+    color: #64656A;
+    line-height: 14px;
+    font-weight: normal;
+}
+input, textarea {
+    padding-left: 10px;
+    color: #64656A;
+    background: none;
+    border: 1px solid #c3c3c3;
+    margin-top: 10px;
+}
+button {
+    overflow: visible;
+}
+button {
+    border-radius: 4px;
+    box-shadow: none;
+    border: none;
+    padding: 8px 20px;
+    background: #C3C3C3;
+    color: white;
+    font-size: 12px;
+}
+button.create[type="submit"] {
+    border-radius: 4px;
+    box-shadow: none;
+    padding: 8px 20px;
+    background: white;
+    color: #97cc52;
+    font-size: 12px;
+    display: inline-block;
+    margin-top: 10px;
+    width: 100%;
+    height: 45px;
+    border: 1px solid #EAEAEA;
+    font-size: 12px;
+}
+.row {
+    display: block;
+}
+.login {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.container {
+  max-width: 1115px;
+  margin: 0 auto;
+}
+.login .container .login_form {
+    margin: 0 auto;
+    background: white;
+    border: 1px solid #EAEAEA;
+    padding: 10px;
+    top: 50%;
+    /* margin-bottom: 10px; */
+    /* margin-top: -338px; */
+    /* margin-top: 68px; */
+    padding-top: 45px;
+    padding-bottom: 45px;
+    width: 600px;
+}
+
+.login .container .login_form h1 {
+    text-align: center;
+    color: #F15211;
+}
+.login .container .login_form p {
+    text-align: center;
+}
+.login .container .login_form form#loginform,
+.login .container .login_form form#forgotPasswordForm {
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+.login .container .login_form form#loginform .field,
+.login .container .login_form form#forgotPasswordForm .field {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.login .container .login_form form#loginform .field input,
+.login .container .login_form form#forgotPasswordForm .field input {
+    width: 100%;
+    height: 45px;
+    border: 1px solid #ccc;
+    font-size: 12px;
+}
+.login .container .login_form form#loginform .submit,
+.login .container .login_form form#forgotPasswordForm .submit {
+    margin-top: 10px;
+    /* margin-bottom: 30px; */
+}
+.loginBtn {
+    border-radius: 0;
+    box-shadow: none;
+    padding: 8px 20px;
+    background: #F15211;
+    color: #fff;
+    font-size: 12px;
+    display: inline-block;
+    margin-top: 10px;
+    width: 100%;
+    height: 45px;
+    border: 1px solid #F15211;
+    font-size: 12px;
+}
+.login .container .login_form form#loginform p,
+.login .container .login_form form#forgotPasswordForm p {
+    text-align: center;
+    margin: 0;
+    margin-bottom: 5px;
+}
+.login .container .login_form form#loginform p span.bluespane,
+.login .container .login_form form#forgotPasswordForm p span.bluespane {
+    color: #23abe2;
+    /*color:#00131F;*/
+    cursor: pointer;
+}
+.login .container a, .login .container a:visited {
+    color: #F15211;
+    cursor: pointer;
+}
+.login .container a:hover {text-decoration: underline;}
+
+.errorMsg {
+    text-align: center;
+    padding-bottom: 15px;
+}
+.fieldError {
+    padding-top: 5px;
+    color: red;
+    font-size: 12px;
+}
+.returntoLogin {
+  text-align: center;
+  padding: 10px;
+}
+.returntoLogin a {color: #49c1c2;cursor: pointer;}
+
+#loginBlock {display:block;}
+#requestPassBlock {display:none;}
+#registerBlock {display:none;}
+.registerLink {
+font-size: 12px;
+color: #64656A;
+line-height: 14px;
+font-weight: normal;}
+.registerLink a {color: #F15211; text-decoration:none;}
+]]></Styles>
+		<Scripting Language="" EntryPoint="" Timeout="5000"/>
+	</Addon>
+	<Addon name="onlineQuizProcessLogin" guid="{70B5011C-7564-4CC9-A704-CC62D53E2A0F}" type="Add-on">
+		<Copy></Copy>
+		<CopyText></CopyText>
+		<ActiveXProgramID></ActiveXProgramID>
+		<DotNetClass><![CDATA[Contensive.distanceLearningAuthentication.Interfaces.Remotes.ProcessLogin]]></DotNetClass>
+		<ArgumentList></ArgumentList>
+		<AsAjax>No</AsAjax>
+		<Filter>No</Filter>
+		<Help></Help>
+		<HelpLink></HelpLink>
+		<Icon Link="" width="0" height="0" sprites="0" />
+		<InIframe>No</InIframe>
+		<BlockEditTools>No</BlockEditTools>
+		<FormXML></FormXML>
+		<IsInline>No</IsInline>
+		<JavascriptOnLoad></JavascriptOnLoad>
+		<JavascriptInHead></JavascriptInHead>
+		<JavascriptBodyEnd></JavascriptBodyEnd>
+		<MetaDescription></MetaDescription>
+		<OtherHeadTags></OtherHeadTags>
+		<Content>No</Content>
+		<Template>No</Template>
+		<Email>No</Email>
+		<Admin>No</Admin>
+		<OnPageEndEvent>No</OnPageEndEvent>
+		<OnPageStartEvent>No</OnPageStartEvent>
+		<OnBodyStart>No</OnBodyStart>
+		<OnBodyEnd>No</OnBodyEnd>
+		<RemoteMethod>No</RemoteMethod>
+		<ProcessRunOnce>No</ProcessRunOnce>
+		<ProcessInterval>0</ProcessInterval>
+		<PageTitle></PageTitle>
+		<RemoteAssetLink></RemoteAssetLink>
+		<Styles></Styles>
+		<Scripting Language="" EntryPoint="" Timeout="5000"/>
+	</Addon>
+	<Addon name="onlineQuizProcessForgotPassword" guid="{25BA0495-0646-4547-AD6B-C643CE122887}" type="Add-on">
+		<Copy></Copy>
+		<CopyText></CopyText>
+		<ActiveXProgramID></ActiveXProgramID>
+		<DotNetClass><![CDATA[Contensive.distanceLearningAuthentication.Interfaces.Remotes.ProcessForgetPassword]]></DotNetClass>
+		<ArgumentList></ArgumentList>
+		<AsAjax>No</AsAjax>
+		<Filter>No</Filter>
+		<Help></Help>
+		<HelpLink></HelpLink>
+		<Icon Link="" width="0" height="0" sprites="0" />
+		<InIframe>No</InIframe>
+		<BlockEditTools>No</BlockEditTools>
+		<FormXML></FormXML>
+		<IsInline>No</IsInline>
+		<JavascriptOnLoad></JavascriptOnLoad>
+		<JavascriptInHead></JavascriptInHead>
+		<JavascriptBodyEnd></JavascriptBodyEnd>
+		<MetaDescription></MetaDescription>
+		<OtherHeadTags></OtherHeadTags>
+		<Content>No</Content>
+		<Template>No</Template>
+		<Email>No</Email>
+		<Admin>No</Admin>
+		<OnPageEndEvent>No</OnPageEndEvent>
+		<OnPageStartEvent>No</OnPageStartEvent>
+		<OnBodyStart>No</OnBodyStart>
+		<OnBodyEnd>No</OnBodyEnd>
+		<RemoteMethod>Yes</RemoteMethod>
+		<ProcessRunOnce>No</ProcessRunOnce>
+		<ProcessInterval>0</ProcessInterval>
+		<PageTitle></PageTitle>
+		<RemoteAssetLink></RemoteAssetLink>
+		<Styles></Styles>
+		<Scripting Language="" EntryPoint="" Timeout="5000"/>
+	</Addon>
+	<Addon name="onlineQuizProcessRegistration" guid="{88413AD4-F32A-4A5A-B5DF-C73D451433E8}" type="Add-on">
+		<Copy></Copy>
+		<CopyText></CopyText>
+		<ActiveXProgramID></ActiveXProgramID>
+		<DotNetClass><![CDATA[Contensive.distanceLearningAuthentication.Interfaces.Remotes.ProcessSignUp]]></DotNetClass>
+		<ArgumentList></ArgumentList>
+		<AsAjax>No</AsAjax>
+		<Filter>No</Filter>
+		<Help></Help>
+		<HelpLink></HelpLink>
+		<Icon Link="" width="0" height="0" sprites="0" />
+		<InIframe>No</InIframe>
+		<BlockEditTools>No</BlockEditTools>
+		<FormXML></FormXML>
+		<IsInline>No</IsInline>
+		<JavascriptOnLoad></JavascriptOnLoad>
+		<JavascriptInHead></JavascriptInHead>
+		<JavascriptBodyEnd></JavascriptBodyEnd>
+		<MetaDescription></MetaDescription>
+		<OtherHeadTags></OtherHeadTags>
+		<Content>No</Content>
+		<Template>No</Template>
+		<Email>No</Email>
+		<Admin>No</Admin>
+		<OnPageEndEvent>No</OnPageEndEvent>
+		<OnPageStartEvent>No</OnPageStartEvent>
+		<OnBodyStart>No</OnBodyStart>
+		<OnBodyEnd>No</OnBodyEnd>
+		<RemoteMethod>Yes</RemoteMethod>
+		<ProcessRunOnce>No</ProcessRunOnce>
+		<ProcessInterval>0</ProcessInterval>
+		<PageTitle></PageTitle>
+		<RemoteAssetLink></RemoteAssetLink>
+		<Styles></Styles>
+		<Scripting Language="" EntryPoint="" Timeout="5000"/>
+	</Addon>
+</Collection>

@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<Collection name="Distance Learning Import Tool" guid="{51276f31-ee61-4333-a56c-6c68370b6e2a}" system="No" updatable="Yes" blockNavigatorNode="No">
+	<HelpLink></HelpLink>
+	<Help></Help>
+	<Addon name="processQuizCsvFile" guid="{53588d6f-9915-4712-a9f8-f69624a5a0ec}" type="Add-on">
+		<Copy></Copy>
+		<CopyText></CopyText>
+		<ActiveXProgramID></ActiveXProgramID>
+		<DotNetClass><![CDATA[Contensive.distanceLearningImportTool.Interfaces.Remotes.ProcessCSVFile]]></DotNetClass>
+		<ArgumentList></ArgumentList>
+		<AsAjax>No</AsAjax>
+		<Filter>No</Filter>
+		<Help></Help>
+		<HelpLink></HelpLink>
+		<Icon Link="" width="0" height="0" sprites="0" />
+		<InIframe>No</InIframe>
+		<BlockEditTools>No</BlockEditTools>
+		<FormXML></FormXML>
+		<IsInline>No</IsInline>
+		<JavascriptOnLoad></JavascriptOnLoad>
+		<JavascriptInHead></JavascriptInHead>
+		<JavascriptBodyEnd></JavascriptBodyEnd>
+		<MetaDescription></MetaDescription>
+		<OtherHeadTags></OtherHeadTags>
+		<Content>No</Content>
+		<Template>No</Template>
+		<Email>No</Email>
+		<Admin>No</Admin>
+		<OnPageEndEvent>No</OnPageEndEvent>
+		<OnPageStartEvent>No</OnPageStartEvent>
+		<OnBodyStart>No</OnBodyStart>
+		<OnBodyEnd>No</OnBodyEnd>
+		<RemoteMethod>No</RemoteMethod>
+		<ProcessRunOnce>No</ProcessRunOnce>
+		<ProcessInterval>0</ProcessInterval>
+		<PageTitle></PageTitle>
+		<RemoteAssetLink></RemoteAssetLink>
+		<Styles></Styles>
+		<Scripting Language="" EntryPoint="" Timeout="5000"/>
+	</Addon>
+	<Addon name="Quiz Import CSV Form" guid="{695ca425-05a0-4ae6-9f53-d981c43b6c2c}" type="Add-on">
+		<Copy></Copy>
+		<CopyText></CopyText>
+		<ActiveXProgramID></ActiveXProgramID>
+		<DotNetClass><![CDATA[Contensive.distanceLearningImportTool.Model.viewModels.QuizImportCSVForm]]></DotNetClass>
+		<ArgumentList></ArgumentList>
+		<AsAjax>No</AsAjax>
+		<Filter>No</Filter>
+		<Help></Help>
+		<HelpLink></HelpLink>
+		<Icon Link="" width="0" height="0" sprites="0" />
+		<InIframe>No</InIframe>
+		<BlockEditTools>No</BlockEditTools>
+		<FormXML></FormXML>
+		<IncludeAddon name="JQuery" guid="{9C882078-0DAC-48E3-AD4B-CF2AA230DF80}"/>
+		<IncludeAddon name="jQuery ajaxFileUpload" guid="{AC065D4E-7A81-4182-97ED-A936B093EDC7}"/>
+		<IncludeAddon name="jQuery Validator-jQueryValidator.org" guid="{2B21C190-14D7-46CD-853D-7B5C0EEF1C30}"/>
+		<IncludeAddon name="jQuery Form Validator" guid="{5B7E1009-920A-43E2-BB6E-0D03F0673BC5}"/>
+		<IsInline>No</IsInline>
+		<JavascriptOnLoad></JavascriptOnLoad>
+		<JavascriptInHead><![CDATA[jQuery(document).ready(function(){
+
+	//jQuery('#csvFilename').unbind('change').change( function() {QuizImportCSVFileUpload('#csvFilename');return false;});
+	
+	jQuery('#csvFilename').unbind('change');
+	
+    jQuery('#csvFilename').on('change',function(event){
+        event.preventDefault();
+		QuizImportCSVFileUpload('#csvFilename');
+		return false;
+		})
+	
+
+    jQuery('body').on('click','#mfaForm1 input[value=Continue]',function(event){
+        event.preventDefault();
+		console.log("click mfaForm1 Continue");
+        cj.remote({
+            'method':'QuizImportCSVHandler'
+            ,'formId':'mfaForm1'
+            ,'destinationId':'multiFormAjaxFrame'
+            ,'queryString':'ajaxButton=Continue&multiformAjaxVbFrameRqs='+multiformAjaxVbFrameRqs
+        });
+    })
+	
+    jQuery('body').on('click','#mfaForm2 input[value=Finish]',function(event){
+        event.preventDefault();
+		console.log("click mfaForm2 Finish");
+        cj.remote({
+            'method':'QuizImportCSVHandler'
+            ,'formId':'mfaForm2'
+            ,'destinationId':'multiFormAjaxFrame'
+            ,'queryString':'ajaxButton=Finish&multiformAjaxVbFrameRqs='+multiformAjaxVbFrameRqs
+        });
+    })
+    jQuery('body').on('click','#mfaForm2 input[value=Previous]',function(event){
+        event.preventDefault();
+		console.log("click mfaForm2 previous");
+        cj.remote({
+            'method':'QuizImportCSVHandler'
+            ,'formId':'mfaForm2'
+            ,'destinationId':'multiFormAjaxFrame'
+            ,'queryString':'ajaxButton=Previous&multiformAjaxVbFrameRqs='+multiformAjaxVbFrameRqs
+        });
+    })
+	
+
+	
+})
+
+function QuizImportCSVFileUpload() {
+
+	console.log('QuizImportCSVFileUpload - before call');
+	
+	var recordId = jQuery('input[name=appId]').val();
+	
+	console.log('recordId');
+	console.log(recordId);
+	
+	jQuery.ajaxFileUpload({
+		url:'?remoteMethodAddon=QuizImportCSVFileUploadHandler&requestbinary=true',
+		secureuri:false,
+		fileElementId:'csvFilename',
+		dataType: 'json',
+		data:{appId: recordId},
+		success: function (data, status)
+		{
+			console.log('QuizImportCSVFileUpload - success call');
+	
+			/*
+			if(typeof(data.img) != 'undefined') {
+				jQuery('#abMyAccountProfileLeft .abImage img').attr('src',data.img);
+			}
+			if(typeof(data.error) != 'undefined')
+			{
+				if(data.error != '')
+				{
+					//alert('error in upload handler:'+data.error);
+				}else
+				{
+					//alert(data.msg);
+				}
+			}
+			myAccountBindEvents();
+			*/
+		},
+		error: function (data, status, e)
+		{
+			/*
+			//alert('uploading error:'+e);
+			myAccountBindEvents();
+			*/
+		}
+	})
+	return false;
+}
+]]></JavascriptInHead>
+		<JavascriptBodyEnd></JavascriptBodyEnd>
+		<MetaDescription></MetaDescription>
+		<OtherHeadTags></OtherHeadTags>
+		<Content>No</Content>
+		<Template>No</Template>
+		<Email>No</Email>
+		<Admin>No</Admin>
+		<OnPageEndEvent>No</OnPageEndEvent>
+		<OnPageStartEvent>No</OnPageStartEvent>
+		<OnBodyStart>No</OnBodyStart>
+		<OnBodyEnd>No</OnBodyEnd>
+		<RemoteMethod>No</RemoteMethod>
+		<ProcessRunOnce>No</ProcessRunOnce>
+		<ProcessInterval>0</ProcessInterval>
+		<PageTitle></PageTitle>
+		<RemoteAssetLink></RemoteAssetLink>
+		<Styles></Styles>
+		<Scripting Language="" EntryPoint="" Timeout="5000"/>
+	</Addon>
+	<Addon name="QuizImportCSVHandler" guid="{9e53d7c5-f5d0-4f32-bec9-c337817b9cb6}" type="Add-on">
+		<Copy></Copy>
+		<CopyText></CopyText>
+		<ActiveXProgramID></ActiveXProgramID>
+		<DotNetClass><![CDATA[Contensive.distanceLearningImportTool.Model.viewModels.QuizImportCSVHandler]]></DotNetClass>
+		<ArgumentList></ArgumentList>
+		<AsAjax>No</AsAjax>
+		<Filter>No</Filter>
+		<Help></Help>
+		<HelpLink></HelpLink>
+		<Icon Link="" width="0" height="0" sprites="0" />
+		<InIframe>No</InIframe>
+		<BlockEditTools>No</BlockEditTools>
+		<FormXML></FormXML>
+		<IsInline>No</IsInline>
+		<JavascriptOnLoad></JavascriptOnLoad>
+		<JavascriptInHead></JavascriptInHead>
+		<JavascriptBodyEnd></JavascriptBodyEnd>
+		<MetaDescription></MetaDescription>
+		<OtherHeadTags></OtherHeadTags>
+		<Content>No</Content>
+		<Template>No</Template>
+		<Email>No</Email>
+		<Admin>No</Admin>
+		<OnPageEndEvent>No</OnPageEndEvent>
+		<OnPageStartEvent>No</OnPageStartEvent>
+		<OnBodyStart>No</OnBodyStart>
+		<OnBodyEnd>No</OnBodyEnd>
+		<RemoteMethod>Yes</RemoteMethod>
+		<ProcessRunOnce>No</ProcessRunOnce>
+		<ProcessInterval>0</ProcessInterval>
+		<PageTitle></PageTitle>
+		<RemoteAssetLink></RemoteAssetLink>
+		<Styles></Styles>
+		<Scripting Language="" EntryPoint="" Timeout="5000"/>
+	</Addon>
+	<Addon name="Quiz Import Setting" guid="{6c5893c1-1e55-466e-8065-fc9823cc0e6b}" type="Setting">
+		<Copy></Copy>
+		<CopyText></CopyText>
+		<ActiveXProgramID></ActiveXProgramID>
+		<DotNetClass></DotNetClass>
+		<ArgumentList></ArgumentList>
+		<AsAjax>No</AsAjax>
+		<Filter>No</Filter>
+		<Help></Help>
+		<HelpLink></HelpLink>
+		<Icon Link="" width="0" height="0" sprites="0" />
+		<InIframe>No</InIframe>
+		<BlockEditTools>No</BlockEditTools>
+		<FormXML><![CDATA[<Form>
+	<Description>Quiz Import Tool Settings</Description>
+
+	<Tab name="Form Content" heading="" description="">
+		
+		<CopyContent caption="Import Quiz Tool File Selection" name="Import Quiz Tool File Selection" ReadOnly="0" html="true" Description=""></CopyContent>
+		<CopyContent caption="Import Quiz Tool email Notification" name="Import Quiz Tool email Notification" ReadOnly="0" html="true" Description=""></CopyContent>
+		<CopyContent caption="Import Quiz Tool Thank You" name="Import Quiz Tool Thank You" ReadOnly="0" html="true" Description=""></CopyContent>
+		
+	</Tab>
+
+	<Tab name="Import Task Email Notification" heading="" description="">
+		
+		<SiteProperty caption="From Email" name="Quiz Import Process From Email" ReadOnly="0" Type="text" Selector="" Description=""></SiteProperty>
+		<SiteProperty caption="Subject Email" name="Quiz Import Process Subject Email" ReadOnly="0" Type="text" Selector="" Description=""></SiteProperty>
+		<CopyContent caption="Quiz Import Process Task Content" name="Quiz Import Process Task Content" ReadOnly="0" html="true" Description=""></CopyContent>
+
+	</Tab>
+
+	
+</Form>
+]]></FormXML>
+		<IsInline>No</IsInline>
+		<JavascriptOnLoad></JavascriptOnLoad>
+		<JavascriptInHead></JavascriptInHead>
+		<JavascriptBodyEnd></JavascriptBodyEnd>
+		<MetaDescription></MetaDescription>
+		<OtherHeadTags></OtherHeadTags>
+		<Content>No</Content>
+		<Template>No</Template>
+		<Email>No</Email>
+		<Admin>No</Admin>
+		<OnPageEndEvent>No</OnPageEndEvent>
+		<OnPageStartEvent>No</OnPageStartEvent>
+		<OnBodyStart>No</OnBodyStart>
+		<OnBodyEnd>No</OnBodyEnd>
+		<RemoteMethod>No</RemoteMethod>
+		<ProcessRunOnce>No</ProcessRunOnce>
+		<ProcessInterval>0</ProcessInterval>
+		<PageTitle></PageTitle>
+		<RemoteAssetLink></RemoteAssetLink>
+		<Styles></Styles>
+		<Scripting Language="" EntryPoint="" Timeout="5000"/>
+	</Addon>
+	<Addon name="QuizImportCSVFileUploadHandler" guid="{a471d185-f81c-4ded-93db-921d411ddef5}" type="Add-on">
+		<Copy></Copy>
+		<CopyText></CopyText>
+		<ActiveXProgramID></ActiveXProgramID>
+		<DotNetClass><![CDATA[Contensive.distanceLearningImportTool.Interfaces.Addons.QuizImportCSVFileUploadHandler]]></DotNetClass>
+		<ArgumentList></ArgumentList>
+		<AsAjax>No</AsAjax>
+		<Filter>No</Filter>
+		<Help></Help>
+		<HelpLink></HelpLink>
+		<Icon Link="" width="0" height="0" sprites="0" />
+		<InIframe>No</InIframe>
+		<BlockEditTools>No</BlockEditTools>
+		<FormXML></FormXML>
+		<IsInline>No</IsInline>
+		<JavascriptOnLoad></JavascriptOnLoad>
+		<JavascriptInHead></JavascriptInHead>
+		<JavascriptBodyEnd></JavascriptBodyEnd>
+		<MetaDescription></MetaDescription>
+		<OtherHeadTags></OtherHeadTags>
+		<Content>No</Content>
+		<Template>No</Template>
+		<Email>No</Email>
+		<Admin>No</Admin>
+		<OnPageEndEvent>No</OnPageEndEvent>
+		<OnPageStartEvent>No</OnPageStartEvent>
+		<OnBodyStart>No</OnBodyStart>
+		<OnBodyEnd>No</OnBodyEnd>
+		<RemoteMethod>Yes</RemoteMethod>
+		<ProcessRunOnce>No</ProcessRunOnce>
+		<ProcessInterval>0</ProcessInterval>
+		<PageTitle></PageTitle>
+		<RemoteAssetLink></RemoteAssetLink>
+		<Styles></Styles>
+		<Scripting Language="" EntryPoint="" Timeout="5000"/>
+	</Addon>
+	<data>
+		<record content="Layouts" guid="{6116daa8-a3c8-4c69-9643-7783ef724e37}" name="Quiz CSV Imports File Selection Layout">
+			<field name="Layout"><![CDATA[<div class="formInput">
+	<div id="mfaContent">
+	</div>
+
+	<table border="0" width="100%" cellpadding="5" cellspacing="0">
+		<tbody>
+			<tr>
+			  <td>
+				<input type="file" id="csvFilename" name="csvFilename" value="CSV File">
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+				<div id="mfaErrorWrapper"></div>
+			  </td>
+			</tr>
+			<tr>
+			  <td class="formData">
+				<input id="js-maFormCodeContinue" type="SUBMIT" name="BUTTON" value="Continue">
+			  </td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+]]></field>
+			<field name="StylesFilename"></field>
+			<field name="Active">True</field>
+			<field name="SortOrder"></field>
+		</record>
+		<record content="Layouts" guid="{92a6d8a6-b7f6-49d5-b59f-54ced0de0e70}" name="Quiz CSV Imports Email Notification Layout">
+			<field name="Layout"><![CDATA[<div class="formInput">
+	<div id="mfaContent">
+	</div>
+
+	<table border="0" width="100%" cellpadding="5" cellspacing="0">
+		<tbody>
+			<tr>
+			  <td>
+				<input type="text" name="notificationEmail" placeholder="Notification Email">
+			  </td>
+			</tr>
+			<tr>
+			  <td class="formData">
+				<input id="js-maFormCodePrevious" type="SUBMIT" name="BUTTON" value="Previous">
+				<input id="js-maFormCodeContinue" type="SUBMIT" name="BUTTON" value="Finish">
+			  </td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+]]></field>
+			<field name="StylesFilename"></field>
+			<field name="Active">True</field>
+			<field name="SortOrder"></field>
+		</record>
+		<record content="Layouts" guid="{4d840be4-ba54-4328-8262-66c7427827a1}" name="Quiz CSV Imports Thank You Layout">
+			<field name="Layout"><![CDATA[<div class="formInput">
+	<h3>Thank You</h3>
+	<div id="mfaContent">
+	</div>
+</div>
+]]></field>
+			<field name="StylesFilename"></field>
+			<field name="Active">True</field>
+			<field name="SortOrder"></field>
+		</record>
+	</data>
+	<CDef Name="Quiz CSV Imports" Active="1" AdminOnly="0" AllowAdd="1" AllowCalendarEvents="0" AllowContentChildTool="0" AllowContentTracking="0" AllowDelete="1" AllowMetaContent="0" AllowTopicRules="0" AllowWorkflowAuthoring="0" AuthoringDataSourceName="Default" AuthoringTableName="QuizCSVImports" ContentDataSourceName="Default" ContentTableName="QuizCSVImports" DefaultSortMethod="" DeveloperOnly="0" DropDownFieldList="Name" EditorGroupName="" Parent="" IconLink="" IconHeight="0" IconWidth="0" IconSprites="0" isbasecontent="" guid="{4eaf0cec-138f-4da3-a03e-70bc208c9bbd}" >
+		<Field Name="Name" active="True" AdminOnly="False" Authorable="True" Caption="Name" DeveloperOnly="False" EditSortPriority="110" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="0" RedirectID="0" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
+		<Field Name="Active" active="True" AdminOnly="False" Authorable="True" Caption="Active" DeveloperOnly="False" EditSortPriority="200" FieldType="Boolean" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="0" RedirectID="0" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="1" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
+		<Field Name="SortOrder" active="True" AdminOnly="False" Authorable="False" Caption="Alpha Sort Order" DeveloperOnly="False" EditSortPriority="2000" FieldType="Text" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="0" RedirectID="0" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
+		<Field Name="csvFilename" active="True" AdminOnly="False" Authorable="True" Caption="csvFilename" DeveloperOnly="False" EditSortPriority="1010" FieldType="File" HTMLContent="False" IndexColumn="" IndexSortDirection="" IndexSortOrder="" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
+		<Field Name="notificationEmail" active="True" AdminOnly="False" Authorable="True" Caption="Notification Email" DeveloperOnly="False" EditSortPriority="1020" FieldType="Text" HTMLContent="False" IndexColumn="" IndexSortDirection="" IndexSortOrder="" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
+		<Field Name="importErrors" active="True" AdminOnly="False" Authorable="True" Caption="Errors" DeveloperOnly="False" EditSortPriority="1030" FieldType="LongText" HTMLContent="False" IndexColumn="" IndexSortDirection="" IndexSortOrder="" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="True" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
+		<Field Name="datecompleted" active="True" AdminOnly="False" Authorable="True" Caption="datecompleted" DeveloperOnly="False" EditSortPriority="1040" FieldType="Date" HTMLContent="False" IndexColumn="" IndexSortDirection="" IndexSortOrder="" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
+		<Field Name="dateimportcompleted" active="True" AdminOnly="False" Authorable="True" Caption="dateimportcompleted" DeveloperOnly="False" EditSortPriority="1050" FieldType="Date" HTMLContent="False" IndexColumn="" IndexSortDirection="" IndexSortOrder="" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
+	</CDef>
+	<ImportCollection name="jQuery AjaxFileUpload">{A9669955-6678-4A02-8466-9D5918365420}</ImportCollection>
+	<ImportCollection name="jQuery Form Validator">{E4F51509-F12A-49CE-93D7-76FA3878001C}</ImportCollection>
+</Collection>
