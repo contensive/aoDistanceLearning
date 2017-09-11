@@ -62,10 +62,17 @@ $( document ).ready(function() {
 	// ************************
 
 	$('#returntoLoginLink').click(function(e){
-	e.preventDefault();
+	 e.preventDefault();
 		e.stopPropagation();
 		$('#loginBlock').css("display", "block");
 		$('#requestPassBlock').css("display", "none");
+	});
+
+	$('#returntoLoginFromRegister').click(function(e){
+	 e.preventDefault();
+		e.stopPropagation();
+		$('#loginBlock').css("display", "block");
+		$('#registerBlock').css("display", "none");
 	});
 
 	// ************************
