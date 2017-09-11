@@ -20,7 +20,7 @@ Namespace Model.dbModels
             Try
                 '
                 Dim cs As CPCSBaseClass = CP.CSNew()
-                Dim emailExist As Boolean = False
+                'Dim emailExist As Boolean = False
                 Dim usernameExist As Boolean = False
                 '
                 '
@@ -28,19 +28,19 @@ Namespace Model.dbModels
                 '
                 errorStep = "01"
                 ' check if email exist
-                emailExist = cs.Open(cnPeople, "email = " & CP.Db.EncodeSQLText(ActualUser.email))
-                Call cs.Close()
+                'emailExist = cs.Open(cnPeople, "email = " & CP.Db.EncodeSQLText(ActualUser.email))
+                'Call cs.Close()
 
                 errorStep = "02"
                 ' check if username exist
-                usernameExist = cs.Open(cnPeople, "username = " & CP.Db.EncodeSQLText(ActualUser.email))
+                usernameExist = cs.Open(cnPeople, "username = " & CP.Db.EncodeSQLText(ActualUser.username))
                 Call cs.Close()
 
                 errorStep = "03"
                 '
-                If Not String.IsNullOrEmpty(ActualUser.email) And Not String.IsNullOrEmpty(ActualUser.password) Then
+                If Not String.IsNullOrEmpty(ActualUser.username) And Not String.IsNullOrEmpty(ActualUser.password) Then
 
-                    If Not emailExist And Not usernameExist Then
+                    If Not usernameExist Then
                         '
                         If cs.Insert(cnPeople) Then
                             '
@@ -50,8 +50,7 @@ Namespace Model.dbModels
                             cs.SetField("Name", ActualUser.firstname & " " & ActualUser.lastname)
                             cs.SetField("FirstName", ActualUser.firstname)
                             cs.SetField("LastName", ActualUser.lastname)
-                            cs.SetField("Email", ActualUser.email)
-                            cs.SetField("Username", ActualUser.email)
+                            cs.SetField("Username", ActualUser.username)
 
                             errorStep = "07"
                             cs.SetField("password", ActualUser.password)
@@ -107,8 +106,6 @@ Namespace Model.dbModels
                     oUser.firstname = cs.GetText("FirstName")
                     oUser.lastname = cs.GetText("LastName")
                     oUser.email = cs.GetText("Email")
-
-                    '
                     '
                     oUser.visitId = CP.Visit.Id
                     '

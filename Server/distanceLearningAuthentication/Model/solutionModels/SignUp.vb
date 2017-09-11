@@ -7,7 +7,7 @@ Namespace Model.solutionModels
         Public name As String = ""
         Public firstname As String = ""
         Public lastname As String = ""
-        Public email As String = ""
+        Public username As String = ""
         Public password As String = ""
         '
         '

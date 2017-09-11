@@ -18,7 +18,7 @@ Namespace Interfaces.Remotes
                     remoteResponse.data = "Process Login Result Error"
                     CP.User.Logout()
                 Else
-                    remoteResponse.data = "Ok" 'Model.dbModels.BasicUser.getBasicUser(CP, CP.User.id)
+                    remoteResponse.data = Model.dbModels.User.getUser(CP, CP.User.id)
                 End If
                 
 

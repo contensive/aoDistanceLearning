@@ -69,16 +69,16 @@
           <h1>Register</h1>
           <form id="loginform" autocomplete="off">
             <div class="field">
-              <input id="firstname" type="text" name="firstname" placeholder="First Name" autocomplete="first-name">
+              <input id="registerfirstname" type="text" name="firstname" placeholder="First Name" autocomplete="first-name">
             </div>
             <div class="field">
-              <input id="lastname" type="text" name="lastname" placeholder="Last Name" autocomplete="last-name">
+              <input id="registerlastname" type="text" name="lastname" placeholder="Last Name" autocomplete="last-name">
             </div>
             <div class="field">
-              <input id="username" type="text" name="username" placeholder="Username/Email Address" autocomplete="new-email">
+              <input id="registerusername" type="text" name="username" placeholder="Username/Email Address" autocomplete="new-email">
             </div>
             <div class="field">
-              <input id="password" type="password" name="password" placeholder="Your Password" autocomplete="new-password">
+              <input id="registerpassword" type="password" name="password" placeholder="Your Password" autocomplete="new-password">
             </div>
             <div class="field submit">
               <button id="registerBtn" class="loginBtn">Create an account and take the quiz!</button>
@@ -202,10 +202,10 @@
   $('#registerBtn').click(function(e){
     e.preventDefault();
     e.stopPropagation();
-    un = $('#username').val();
-    pw = $('#password').val();
-    fn = $('#firstname').val();
-    ln = $('#lastname').val();
+    un = $('#registerusername').val();
+    pw = $('#registerpassword').val();
+    fn = $('#registerfirstname').val();
+    ln = $('#registerlastname').val();
     jsonDataObject = {};
     jsonDataObject.username = un;
     jsonDataObject.password = pw;
@@ -453,7 +453,7 @@ font-weight: normal;}
 		<OnPageStartEvent>No</OnPageStartEvent>
 		<OnBodyStart>No</OnBodyStart>
 		<OnBodyEnd>No</OnBodyEnd>
-		<RemoteMethod>No</RemoteMethod>
+		<RemoteMethod>Yes</RemoteMethod>
 		<ProcessRunOnce>No</ProcessRunOnce>
 		<ProcessInterval>0</ProcessInterval>
 		<PageTitle></PageTitle>
@@ -533,4 +533,5 @@ font-weight: normal;}
 		<Styles></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
+	<Resource name="distancelearningauthentication.dll" type="executable" path="" />
 </Collection>
