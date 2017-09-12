@@ -51,6 +51,7 @@ Namespace Model.dbModels
                             cs.SetField("FirstName", ActualUser.firstname)
                             cs.SetField("LastName", ActualUser.lastname)
                             cs.SetField("Username", ActualUser.username)
+                            cs.SetField("Email", ActualUser.username)
 
                             errorStep = "07"
                             cs.SetField("password", ActualUser.password)
@@ -59,7 +60,7 @@ Namespace Model.dbModels
                             '
                             ' Login the user
                             '
-                            CP.User.LoginByID(ActualUser.id)
+                            'CP.User.LoginByID(ActualUser.id)
                             '
                         End If
                         Call cs.Close()
