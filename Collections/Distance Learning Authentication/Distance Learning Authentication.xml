@@ -256,7 +256,8 @@
 		<ProcessInterval>0</ProcessInterval>
 		<PageTitle></PageTitle>
 		<RemoteAssetLink></RemoteAssetLink>
-		<Styles><![CDATA[h1 {
+		<Styles><![CDATA[
+h1 {
     font-size: 28px;
     font-weight: 100;
 }
