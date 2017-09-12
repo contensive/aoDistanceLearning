@@ -161,6 +161,7 @@ button.create[type="submit"] {
 #loginBlock {display:block;}
 #requestPassBlock {display:none;}
 #registerBlock {display:none;}
+#emailSendMessage {display:none;}
 .registerLink {
 font-size: 12px;
 color: #64656A;

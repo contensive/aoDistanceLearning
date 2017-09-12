@@ -11,8 +11,8 @@ $( document ).ready(function() {
 	jsonDataObject.password = pw;
 	console.log('processLogin');
 	console.log(JSON.stringify(jsonDataObject));
-	//$.get('processLogin.html', { jsonData : JSON.stringify(jsonDataObject) })
-    $.post('/onlineQuizProcessLogin', { jsonData : JSON.stringify(jsonDataObject) })
+  // $.post('/processLogin', { jsonData : JSON.stringify(jsonDataObject) })
+	$.get('processLogin.html', { jsonData : JSON.stringify(jsonDataObject) })
 	  .then(function(result){
   		console.log('post result');
   		console.log(result);
@@ -50,13 +50,11 @@ $( document ).ready(function() {
 		e.stopPropagation();
 		var forgotusername = jQuery("#forgotusername").val();
 		if (forgotusername){
-			//$.get('/?remotemethodaddon=processForgotPassword&email='+forgotusername).then(function(result){
-			$.get('/?remotemethodaddon=onlineQuizProcessForgotPassword&email='+forgotusername).then(function(result){
+			$.get('/?remotemethodaddon=processForgotPassword&email='+forgotusername).then(function(result){
 				var jsonResult = $.parseJSON(result);
 				console.log('jsonResult');
 				console.log(jsonResult);
-				// jQuery("#emailSendMessage").show();
-				$('#emailSendMessage').css("display", "block");
+				jQuery("#emailSendMessage").show();
 			});
 		}
 	});
@@ -94,10 +92,10 @@ $( document ).ready(function() {
   $('#registerBtn').click(function(e){
     e.preventDefault();
     e.stopPropagation();
-    un = $('#registerusername').val();
-    pw = $('#registerpassword').val();
-    fn = $('#registerfirstname').val();
-    ln = $('#registerlastname').val();
+    un = $('#username').val();
+    pw = $('#password').val();
+    fn = $('#firstname').val();
+    ln = $('#lastname').val();
     jsonDataObject = {};
     jsonDataObject.username = un;
     jsonDataObject.password = pw;
@@ -105,8 +103,8 @@ $( document ).ready(function() {
     jsonDataObject.lastname = ln;
     console.log('processLogin');
     console.log(JSON.stringify(jsonDataObject));
-    //$.get('processRegistration.html', { jsonData : JSON.stringify(jsonDataObject) })
-    $.post('/onlineQuizProcessRegistration', { jsonData : JSON.stringify(jsonDataObject) })
+    // $.post('/processRegistration', { jsonData : JSON.stringify(jsonDataObject) })
+    $.get('processRegistration.html', { jsonData : JSON.stringify(jsonDataObject) })
       .then(function(result) {
         console.log('post result');
         console.log(result);
@@ -121,11 +119,9 @@ $( document ).ready(function() {
         }
         else {
           console.log('No Errors!');
-					$('#loginBlock').css("display", "block");
-					$('#registerBlock').css("display", "none");
           // window.location.reload();
           // window.location.href = '/Online-Quiz';
-          // window.location.href = 'ThanksForRegistering.html';
+          window.location.href = 'ThanksForRegistering.html';
         }
       });
     });
