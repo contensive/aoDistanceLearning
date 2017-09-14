@@ -69,16 +69,16 @@
           <h1>Register</h1>
           <form id="loginform" autocomplete="off">
             <div class="field">
-              <input id="firstname" type="text" name="firstname" placeholder="First Name" autocomplete="first-name">
+              <input id="registerfirstname" type="text" name="firstname" placeholder="First Name" autocomplete="first-name">
             </div>
             <div class="field">
-              <input id="lastname" type="text" name="lastname" placeholder="Last Name" autocomplete="last-name">
+              <input id="registerlastname" type="text" name="lastname" placeholder="Last Name" autocomplete="last-name">
             </div>
             <div class="field">
-              <input id="username" type="text" name="username" placeholder="Username/Email Address" autocomplete="new-email">
+              <input id="registerusername" type="text" name="username" placeholder="Username/Email Address" autocomplete="new-email">
             </div>
             <div class="field">
-              <input id="password" type="password" name="password" placeholder="Your Password" autocomplete="new-password">
+              <input id="registerpassword" type="password" name="password" placeholder="Your Password" autocomplete="new-password">
             </div>
             <div class="field submit">
               <button id="registerBtn" class="loginBtn">Create an account and take the quiz!</button>
@@ -256,8 +256,7 @@
 		<ProcessInterval>0</ProcessInterval>
 		<PageTitle></PageTitle>
 		<RemoteAssetLink></RemoteAssetLink>
-		<Styles><![CDATA[
-h1 {
+		<Styles><![CDATA[h1 {
     font-size: 28px;
     font-weight: 100;
 }
@@ -531,6 +530,52 @@ font-weight: normal;}
 		<OnBodyStart>No</OnBodyStart>
 		<OnBodyEnd>No</OnBodyEnd>
 		<RemoteMethod>Yes</RemoteMethod>
+		<ProcessRunOnce>No</ProcessRunOnce>
+		<ProcessInterval>0</ProcessInterval>
+		<PageTitle></PageTitle>
+		<RemoteAssetLink></RemoteAssetLink>
+		<Styles></Styles>
+		<Scripting Language="" EntryPoint="" Timeout="5000"/>
+	</Addon>
+	<Addon name="Distance Learning Authentication Setting" guid="{5f2fa20e-da71-4868-b5c8-a215357f4cf1}" type="Setting">
+		<Copy></Copy>
+		<CopyText></CopyText>
+		<ActiveXProgramID></ActiveXProgramID>
+		<DotNetClass></DotNetClass>
+		<ArgumentList></ArgumentList>
+		<AsAjax>No</AsAjax>
+		<Filter>No</Filter>
+		<Help></Help>
+		<HelpLink></HelpLink>
+		<Icon Link="" width="0" height="0" sprites="0" />
+		<InIframe>No</InIframe>
+		<BlockEditTools>No</BlockEditTools>
+		<FormXML><![CDATA[<Form>
+	
+	<Tab name="System Email Additional Content" heading="" description="">
+		
+		<CopyContent caption="Forgot Password Content" name="Distance Learning Authentication - Forgot Password" ReadOnly="0" html="true" Description="Use [Username], [Password], [MemberName], [MemberFirstName] and/or [MemberLastName] tag to refer the actual values."></CopyContent>
+		
+	</Tab>
+
+	
+</Form>
+]]></FormXML>
+		<IsInline>No</IsInline>
+		<JavascriptOnLoad></JavascriptOnLoad>
+		<JavascriptInHead></JavascriptInHead>
+		<JavascriptBodyEnd></JavascriptBodyEnd>
+		<MetaDescription></MetaDescription>
+		<OtherHeadTags></OtherHeadTags>
+		<Content>No</Content>
+		<Template>No</Template>
+		<Email>No</Email>
+		<Admin>No</Admin>
+		<OnPageEndEvent>No</OnPageEndEvent>
+		<OnPageStartEvent>No</OnPageStartEvent>
+		<OnBodyStart>No</OnBodyStart>
+		<OnBodyEnd>No</OnBodyEnd>
+		<RemoteMethod>No</RemoteMethod>
 		<ProcessRunOnce>No</ProcessRunOnce>
 		<ProcessInterval>0</ProcessInterval>
 		<PageTitle></PageTitle>

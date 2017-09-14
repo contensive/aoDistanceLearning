@@ -9,9 +9,86 @@ Namespace Model.dbModels
         Public firstname As String 
         Public lastname As String
         Public email As String
-        Public password As String
+        Public username As String
+        'Public password As String
         Public visitId As Integer
         '
+        '
+        '
+        '
+        Public Function VerifyActualUsernameIsValid(ByVal CP As CPBaseClass) As Boolean
+            Dim result As Boolean = False
+            Try
+                Dim usernameBase As String = ""
+                If String.IsNullOrEmpty(username) Then
+                    usernameBase = (firstName & lastName).replace(" ","").ToLower()
+                    If verifyUsernameAlreadyExist(cp,usernameBase) Then
+                        for i = 1 To 100 
+                            If Not verifyUsernameAlreadyExist(cp, usernameBase & i) Then
+                                username = usernameBase & i
+                                ' set username value
+                                setFieldWithValue(CP, id, "username", username)
+                                Exit For
+                            End If
+                        Next
+                    Else
+                        ' set username value
+                        username = usernameBase
+                        setFieldWithValue(CP, id, "username", username)
+                        result = true
+                    End If
+                Else
+                    result= True
+                End If
+            Catch ex As Exception
+                CP.Site.ErrorReport(ex, "Unexpected error in Member.VerifyActualUsername")
+            End Try
+            Return result
+        End Function
+        '
+        Public Function GenerateUserNewPassword(ByVal CP As CPBaseClass, userId As Integer) As String
+            Dim newPassword As String = ""
+            Try
+                Dim cs As CPCSBaseClass = CP.CSNew()
+                newPassword = (Guid.NewGuid().ToString("N")).Substring(0,8)
+                '
+                Call setFieldWithValue(CP, userId, "password", newPassword)
+                '
+            Catch ex As Exception
+                CP.Site.ErrorReport(ex, "Unexpected error in Member.GenerateUserNewPassword")
+            End Try
+            Return newPassword
+        End Function
+        '
+        ' *****************
+        ' Shared Functions
+        ' *****************
+        '
+        Public Shared Function setFieldWithValue(ByVal CP As CPBaseClass, userId As Integer,fieldName As String, value As String)
+            Dim result As Boolean = False
+            Try
+                Dim cs As CPCSBaseClass = CP.CSNew()
+                If cs.Open(cnPeople,"id=" & userId) Then
+                    Call cs.SetField(fieldName, value)
+                End If
+                Call cs.Close()
+            Catch ex As Exception
+                CP.Site.ErrorReport(ex, "Unexpected error in Member.verifyUsernameAlreadyExist")
+            End Try
+            Return result
+        End Function
+        '
+        Public Shared Function verifyUsernameAlreadyExist(ByVal CP As CPBaseClass, username As String)
+            Dim result As Boolean = False
+            Try
+                Dim cs As CPCSBaseClass = CP.CSNew()
+                result = cs.Open(cnPeople,"username=" &  CP.Db.EncodeSQLText(username))
+                Call cs.Close()
+            Catch ex As Exception
+                CP.Site.ErrorReport(ex, "Unexpected error in Member.verifyUsernameAlreadyExist")
+            End Try
+            Return result
+        End Function
         '
         Public Shared Function CreateUser(ByVal CP As CPBaseClass, ByRef ActualUser As solutionModels.SignUp, ByRef errorList As List(Of architectureModels.errorClass)) As Boolean
             Dim Result As Boolean
@@ -91,7 +168,21 @@ Namespace Model.dbModels
             Return Result
         End Function
         '
-        '
+        Public Shared Function getRecordFromEmail(ByVal CP As CPBaseClass, email As String ) As User
+            Dim oMember As New User
+            Try
+                '
+                Dim cs As CPCSBaseClass = CP.CSNew()
+                If cs.Open(cnPeople,"email = " & CP.Db.EncodeSQLText(email))
+                    oMember = getUser(CP, cs.GetInteger("id"))
+                End If
+                Call cs.Close()
+                '
+            Catch ex As Exception
+                CP.Site.ErrorReport(ex, "Unexpected error in Member.getRecordFromEmail")
+            End Try
+            Return oMember
+        End Function
         '
         Public Shared Function getUser(ByVal CP As CPBaseClass, UserId As Integer) As User
             Dim oUser As New User
@@ -107,6 +198,7 @@ Namespace Model.dbModels
                     oUser.firstname = cs.GetText("FirstName")
                     oUser.lastname = cs.GetText("LastName")
                     oUser.email = cs.GetText("Email")
+                    oUser.username = cs.GetText("username")
                     '
                     oUser.visitId = CP.Visit.Id
                     '

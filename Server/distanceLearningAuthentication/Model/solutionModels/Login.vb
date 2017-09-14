@@ -66,7 +66,33 @@ Namespace Model.solutionModels
         Public Shared Function ForgetPassword(ByVal CP As CPBaseClass, email As String) As Boolean
             Dim Result As Boolean
             Try
-                Call CP.email.sendPassword(email)
+                'Call CP.email.sendPassword(email)
+                '
+                Dim ActualUser = Model.dbModels.User.getRecordFromEmail(CP, email)
+
+                If ActualUser.id <> 0 Then
+                    ' Generate username if not exist
+                    Call ActualUser.VerifyActualUsernameIsValid(CP)
+
+                    ' Generate new password
+                    Dim NewPassword = ActualUser.GenerateUserNewPassword(CP, ActualUser.id)
+
+                    ' Send Email
+                    Dim SystemEmailName As String = "Distance Learning Authentication - Forgot Password"
+                    Dim Message As String = CP.Content.GetCopy("Distance Learning Authentication - Forgot Password")
+
+                    Message = Message.Replace("[Username]", ActualUser.username)
+                    Message = Message.Replace("[Password]", NewPassword)
+                    Message = Message.Replace("[MemberName]", ActualUser.name)
+                    Message = Message.Replace("[MemberFirstName]", ActualUser.firstName)
+                    Message = Message.Replace("[MemberLastName]", ActualUser.lastName)
+                    '
+                    '
+                    'LogEvent(CP, "ForgetPassword.log", "Calling sendSystem: " & SystemEmailName & " from inside of sendUserNameAndPasswordEmail for member id : " & ActualUser.id & " with message : " & Message)
+                    '
+                    Call CP.Email.sendSystem(SystemEmailName, Message, ActualUser.id)
+                End If
+                '
             Catch ex As Exception
                 CP.Site.ErrorReport(ex, "Unexpected error in ForgetPassword")
             End Try
