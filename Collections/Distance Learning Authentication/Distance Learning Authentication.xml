@@ -2,7 +2,7 @@
 <Collection name="Distance Learning Authentication" guid="{c95d8be5-a30f-41fc-957e-f0bd2cfd466d}" system="No" updatable="Yes" blockNavigatorNode="No">
 	<HelpLink></HelpLink>
 	<Help></Help>
-	<Addon name="Appa Quiz Login" guid="{3F80ABC4-2936-4B2F-B57F-E51D3C04E650}" type="Add-on">
+	<Addon name="Distance Learning Login" guid="{3F80ABC4-2936-4B2F-B57F-E51D3C04E650}" type="Add-on">
 		<Copy></Copy>
 		<CopyText><![CDATA[<!-- LOGIN WITH JQUERY -->
 <div id="loginBlock" class="loginWrapper">
