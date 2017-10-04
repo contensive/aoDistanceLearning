@@ -146,7 +146,7 @@ Namespace Model.dbModels
                         '
                         Dim oneError As New architectureModels.errorClass
                         oneError.number = 720
-                        oneError.userMsg = "Email already exist in the system."
+                        oneError.userMsg = "Username already exist in the system."
                         errorList.Add(oneError)
                         '
                     End If

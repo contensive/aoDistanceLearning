@@ -21,7 +21,7 @@
 						<button id="loginBtn" class="loginBtn">Log In</button>
 					</div>
 					<div class="row errorMsg">
-						<span class="fieldError">
+						<span class="fieldError loginError">
 						</span></div>
 						<p>I forgot my Password <span class="bluespane"><a id="forgotPasswordLink">Click Here</a></span></p>
 						<div class="field submit">
@@ -83,6 +83,9 @@
             <div class="field submit">
               <button id="registerBtn" class="loginBtn">Create an account and take the quiz!</button>
             </div>
+			<div class="row errorMsg">
+				<span class="fieldError registerError"></span>
+			</div>
             <div class="returntoLogin"><a id="returntoLoginFromRegister" href="">Cancel and return to login</a></div>
 
           </form>
@@ -132,7 +135,7 @@
   		if(json.errors.length > 0) {
   		  console.log('an error occured');
   		  console.log(json.errors[0].userMsg);
-  		  $( ".fieldError" ).html(json.errors[0].userMsg);
+  		  $( ".loginError" ).html(json.errors[0].userMsg);
   		}
   		else {
   		  console.log('No Errors!');
@@ -226,7 +229,7 @@
         if(json.errors.length > 0) {
           console.log('an error occured');
           console.log(json.errors[0].userMsg);
-          $( ".fieldError" ).html(json.errors[0].userMsg);
+          $( ".registerError" ).html(json.errors[0].userMsg);
         }
         else {
           console.log('No Errors!');

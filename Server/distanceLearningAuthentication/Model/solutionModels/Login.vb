@@ -40,7 +40,7 @@ Namespace Model.solutionModels
                             ' send message error
                             Dim oneError As New architectureModels.errorClass
                             oneError.number = 640
-                            oneError.userMsg = "Error in authentication using provided parameters."
+                            oneError.userMsg = "username or password is invalid."
                             errorList.Add(oneError)
                         End If
 
