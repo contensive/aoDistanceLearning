@@ -33,6 +33,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         public string copy{get;set;}
         public string SortOrder { get; set; }
         public int createKey { get; set; }
+        public int QOrder { get; set; }
         //
         //public int pageOrder;
         //public bool Active;
@@ -53,7 +54,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             name = "";
             guid = "";
             instructions = "";
-            SortOrder = "";
+            SortOrder = "";           
         }
         //
         //====================================================================================================

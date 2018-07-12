@@ -106,7 +106,7 @@ Namespace Contensive.Addons.OnlineQuiz
                                 '
                                 ' -- process the score card
                                 processScoreCardForm(CP, quiz, response, userMessageList)
-                            ElseIf (response.currentPageNumber = 0) Then
+                            ElseIf (response.lastPageNumber = 0) Then
                                 '
                                 ' -- process study page form
                                 processStudyForm(CP, quiz, response, userMessageList)
@@ -122,7 +122,7 @@ Namespace Contensive.Addons.OnlineQuiz
                             '
                             ' -- score card
                             returnHtml = getScoreCardform(CP, quiz, response, adminHint, userMessageList)
-                        ElseIf (response.currentPageNumber = 0) Then
+                        ElseIf (response.lastPageNumber = 0) Then
                             '
                             ' -- study page
                             returnHtml = getStudyPageForm(CP, quiz, response, adminHint, userMessageList)
@@ -625,7 +625,7 @@ Namespace Contensive.Addons.OnlineQuiz
                         response.dateStarted = Now
                     End If
                     response.MemberID = cp.User.Id
-                    response.currentPageNumber = 1
+                    response.lastPageNumber = 1
                     response.saveObject(cp)
                 End If
             Catch ex As Exception
@@ -648,8 +648,8 @@ Namespace Contensive.Addons.OnlineQuiz
                         If quiz.includeStudyPage Then
                             firstPageNumber = 0
                         End If
-                        If (response.currentPageNumber > firstPageNumber) Then
-                            response.currentPageNumber -= 1
+                        If (response.lastPageNumber > firstPageNumber) Then
+                            response.lastPageNumber -= 1
                             response.saveObject(cp)
                         End If
                     Case buttonSubmit
@@ -658,7 +658,7 @@ Namespace Contensive.Addons.OnlineQuiz
                         '
                         Call saveResponseDetails(cp, quiz, response)
                         Call scoreResponse(cp, response.id)
-                        response.currentPageNumber = 0
+                        response.lastPageNumber = 0
                         response.dateSubmitted = Now
                         response.saveObject(cp)
                     Case buttonContinue
@@ -666,8 +666,8 @@ Namespace Contensive.Addons.OnlineQuiz
                         ' continue
                         '
                         Call saveResponseDetails(cp, quiz, response)
-                        If (response.currentPageNumber < responseDetailsList(responseDetailsList.Count - 1).pageNumber) Then
-                            response.currentPageNumber += 1
+                        If (response.lastPageNumber < responseDetailsList(responseDetailsList.Count - 1).pageNumber) Then
+                            response.lastPageNumber += 1
                         End If
                         response.saveObject(cp)
                     Case buttonSave
@@ -762,7 +762,7 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim questionCnt As Integer = 0
                 Dim lastSubjectId As Integer = -1
                 For Each responseDetail As DistanceLearning.Models.QuizResponseDetailModel In responseDetailList
-                    If responseDetail.pageNumber = response.currentPageNumber Then
+                    If responseDetail.pageNumber = response.lastPageNumber Then
                         Dim question As DistanceLearning.Models.QuizQuestionModel = DistanceLearning.Models.QuizQuestionModel.create(cp, responseDetail.questionId)
                         Dim subject As DistanceLearning.Models.QuizSubjectModel = DistanceLearning.Models.QuizSubjectModel.create(cp, question.SubjectID)
                         If subject Is Nothing Then
@@ -850,8 +850,8 @@ Namespace Contensive.Addons.OnlineQuiz
                 End If
                 '
                 ' -- Add hiddens and button
-                Dim isFirstPage As Boolean = (response.currentPageNumber = 1)
-                Dim isLastPage As Boolean = (response.currentPageNumber >= responseDetailList(responseDetailList.Count - 1).pageNumber)
+                Dim isFirstPage As Boolean = (response.lastPageNumber = 1)
+                Dim isLastPage As Boolean = (response.lastPageNumber >= responseDetailList(responseDetailList.Count - 1).pageNumber)
                 buttonList = ""
                 If ((Not isFirstPage) Or quiz.includeStudyPage) Then
                     '
@@ -894,7 +894,7 @@ Namespace Contensive.Addons.OnlineQuiz
                     & vbCrLf & vbTab & "<form method=""post"" name=""quizForm"" action=""" & formAction & """>" _
                     & cp.Html.Indent(returnHtml) _
                     & vbCrLf & vbTab & "<input type=""hidden"" name=""quizID"" value=""" & quiz.id & """>" _
-                    & vbCrLf & vbTab & "<input type=""hidden"" name=""" & rnPageNumber & """ value=""" & response.currentPageNumber & """>" _
+                    & vbCrLf & vbTab & "<input type=""hidden"" name=""" & rnPageNumber & """ value=""" & response.lastPageNumber & """>" _
                     & vbCrLf & vbTab & "<input type=""hidden"" name=""qNumbers"" value=""" & CStr(answerCnt) & """>" _
                     & vbCrLf & vbTab & "<input type=""hidden"" name=""quizName"" value=""" & quiz.name & """>" _
                     & vbCrLf & vbTab & "<input type=""hidden"" name=""responseId"" value=""" & response.id & """>" _
@@ -960,7 +960,7 @@ Namespace Contensive.Addons.OnlineQuiz
                     & vbCrLf & vbTab & "<form method=""post"" name=""quizForm"" action=""" & formAction & """>" _
                     & cp.Html.Indent(returnHtml) _
                     & vbCrLf & vbTab & "<input type=""hidden"" name=""quizID"" value=""" & quiz.id & """>" _
-                    & vbCrLf & vbTab & "<input type=""hidden"" name=""" & rnPageNumber & """ value=""" & response.currentPageNumber & """>" _
+                    & vbCrLf & vbTab & "<input type=""hidden"" name=""" & rnPageNumber & """ value=""" & response.lastPageNumber & """>" _
                     & vbCrLf & vbTab & "<input type=""hidden"" name=""qNumbers"" value=""" & CStr(answerCnt) & """>" _
                     & vbCrLf & vbTab & "<input type=""hidden"" name=""quizName"" value=""" & quiz.name & """>" _
                     & vbCrLf & vbTab & "<input type=""hidden"" name=""responseId"" value=""" & response.id & """>" _
@@ -1102,7 +1102,7 @@ Namespace Contensive.Addons.OnlineQuiz
                         '
                         ' points-based quiz, check that all answers have a point value
                         '
-                        Dim Sql As String = "select a.name,a.id" _
+                        Dim Sql As String = "select q.copy as questionCopy, a.copy as answerCopy, a.name,a.id,q.id as questionId" _
                             & " from ((quizzes z" _
                             & " left join quizQuestions q on q.quizId=z.id)" _
                             & " left join quizAnswers a on a.questionid=q.id)" _
@@ -1112,12 +1112,13 @@ Namespace Contensive.Addons.OnlineQuiz
                         Do While cs.OK()
                             Dim answerId As Integer = cs.GetInteger("id")
                             If (answerId <> 0) Then
-                                Dim answerName As String = cs.GetText("name")
+                                Dim answerName As String = "Answer: " & cs.GetText("answerCopy") & "<br>&nbsp;from question: " & cs.GetText("questionCopy")
                                 If answerName = "" Then
                                     answerName = "Answer #" & answerId
                                 End If
                                 Dim link3 As String = distanceLearningPortalLink & DistanceLearning.constants.portalFeatureQuizOverviewQuestionDetails _
                                     & "&answerId=" & answerId _
+                                    & "&questionId=" & cs.GetInteger("questionId") _
                                     & "&quizId=" & quiz.id
                                 itemList &= cr & cp.Html.li("<a href=""" & link3 & """>" & answerName & "</a>")
                                 'itemList &= cr & cp.Html.li("<a href=""" & adminUrl & "?af=4&cid=" & answersCid & "&id=" & answerId & """>" & answerName & "</a>")
