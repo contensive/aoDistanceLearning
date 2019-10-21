@@ -64,7 +64,7 @@ namespace Contensive.Addons.DistanceLearning
 
                 //
                 // -- create the upper part of the page, the list of scoring
-                adminFramework.reportListClass gradingForm = new adminFramework.reportListClass(cp);
+                adminFramework.ReportListClass gradingForm = new adminFramework.ReportListClass(cp);
                 gradingForm.title = "Grading";
                 gradingForm.isOuterContainer = false;
                 gradingForm.includeBodyColor = false;

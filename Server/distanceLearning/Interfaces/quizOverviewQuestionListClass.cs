@@ -49,7 +49,7 @@ namespace Contensive.Addons.DistanceLearning
                 {
                     return "";
                 }
-                adminFramework.reportListClass reportList = new adminFramework.reportListClass(cp);
+                adminFramework.ReportListClass reportList = new adminFramework.ReportListClass(cp);
                 reportList.isOuterContainer = false;
                 //reportList.title = "Distance Learning";
                 reportList.addColumn();
@@ -131,7 +131,7 @@ namespace Contensive.Addons.DistanceLearning
         {
             cp.Site.ErrorReport(ex, "error in addonTemplateCs2005.blankClass.getForm");
         }
-        private void addQuestionToList(CPBaseClass cp, QuizQuestionModel question, QuizSubjectModel subject,  adminFramework.reportListClass reportList)
+        private void addQuestionToList(CPBaseClass cp, QuizQuestionModel question, QuizSubjectModel subject,  adminFramework.ReportListClass reportList)
         {
             List<QuizResponseModel> responseList = QuizResponseModel.GetResponseList(cp, question.id);
             reportList.addRow();

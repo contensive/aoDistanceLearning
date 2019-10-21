@@ -71,9 +71,9 @@ Namespace Model.viewModels
                 ' wrap it in a form for the javascript to use during submit
                 '
                 body = layout.GetHtml()
-                body &= cp.Html.Hidden(rnAppId, application.id)
+                body &= cp.Html5.Hidden(rnAppId, application.id)
                 body &= cp.Html.Hidden(rnSrcFormId, dstFormId.ToString)
-                returnHtml = cp.Html.Form(body, , , "mfaForm2", rqs)
+                returnHtml = cp.Html.Form(body, "", "", "mfaForm2", rqs)
             Catch ex As Exception
                 errorReport(ex, cp, "getForm")
             End Try

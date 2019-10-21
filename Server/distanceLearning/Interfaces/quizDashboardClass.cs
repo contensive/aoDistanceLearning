@@ -16,7 +16,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
         {
           
             string result = "";
-            adminFramework.reportListClass reportList = new adminFramework.reportListClass(cp);
+            adminFramework.ReportListClass reportList = new adminFramework.ReportListClass(cp);
             try
             {
                 string inputForm;

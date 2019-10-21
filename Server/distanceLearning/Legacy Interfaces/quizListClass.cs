@@ -58,7 +58,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
             {
                 CPBlockBaseClass layout = cp.BlockNew();
                 CPCSBaseClass cs = cp.CSNew();
-                adminFramework.reportListClass reportList = new adminFramework.reportListClass(cp);
+                adminFramework.ReportListClass reportList = new adminFramework.ReportListClass(cp);
                 string sql = "";
                 string qs;
                 string qsBase;

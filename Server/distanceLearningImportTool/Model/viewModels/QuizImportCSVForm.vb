@@ -24,7 +24,7 @@ Namespace Model.viewModels
                 '
                 '
                 Call CP.Doc.AddHeadJavascript("var " & jsMultiformAjaxVbFrameRqs & "='" & rqs & "';")
-                returnHtml = CP.Html.div(body, , , divMultiFormAjaxFrameDiv)
+                returnHtml = CP.Html.div(body, "", "", divMultiFormAjaxFrameDiv)
             Catch ex As Exception
                 CP.Site.ErrorReport(ex, "error in QuizImportCSVForm.execute")
             End Try
