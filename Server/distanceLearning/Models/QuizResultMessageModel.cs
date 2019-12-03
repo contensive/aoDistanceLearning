@@ -24,7 +24,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         // -- instance properties
         public int id;
         public string name;
-        public string guid;
+        public string ccguid;
         public int QuizID;
         public int pointThreshold;
         public string copy;
@@ -37,8 +37,8 @@ namespace Contensive.Addons.DistanceLearning.Models
         //public int ModifiedBy;
         //
         // -- publics not exposed to the UI (test/internal data)
-        [JsonIgnore()]
-        public int createKey;
+        //[JsonIgnore()]
+        //public int createKey;
         //
         //====================================================================================================
         /// <summary>
@@ -140,8 +140,8 @@ namespace Contensive.Addons.DistanceLearning.Models
                     // -- populate result model
                     result.id = cs.GetInteger("id");
                     result.name = cs.GetText("name");
-                    result.guid = cs.GetText("ccGuid");
-                    result.createKey = cs.GetInteger("createKey");
+                    result.ccguid = cs.GetText("ccGuid");
+                    //result.createKey = cs.GetInteger("createKey");
                     result.QuizID = cs.GetInteger("QuizID");
                     result.pointThreshold = cs.GetInteger("pointThreshold");
                     result.copy = cs.GetText("copy");
@@ -189,8 +189,8 @@ namespace Contensive.Addons.DistanceLearning.Models
                 {
                     id = cs.GetInteger("id");
                     cs.SetField("name", name);
-                    cs.SetField("ccGuid", guid);
-                    cs.SetField("createKey", createKey.ToString());
+                    cs.SetField("ccGuid", ccguid);
+                    //cs.SetField("createKey", createKey.ToString());
                     cs.SetField("pointThreshold", QuizID.ToString());
                     cs.SetField("createKey", pointThreshold.ToString());
                     cs.SetField("copy", copy.ToString());

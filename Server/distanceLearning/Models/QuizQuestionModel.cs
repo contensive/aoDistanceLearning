@@ -25,7 +25,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         // -- instance properties
         public int id{get;set;}
         public string name{get;set;}
-        public string guid{get;set;}
+        public string ccguid{get;set;}
         public int SubjectID{get;set;}
         public int quizId{get;set;}
         public int points{get;set;}
@@ -52,7 +52,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         {
             copy = "";
             name = "";
-            guid = "";
+            ccguid = "";
             instructions = "";
             SortOrder = "";           
         }
@@ -133,7 +133,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     //result.id = cs.GetInteger("id");
                     //result.name = cs.GetText("name");
                     //result.copy = cs.GetText("copy");
-                    //result.guid = cs.GetText("ccGuid");
+                    //result.ccguid = cs.GetText("ccGuid");
                     //result.createKey = cs.GetInteger("createKey");
                     //result.quizId = cs.GetInteger("QuizID");
                     //result.SubjectID = cs.GetInteger("SubjectID");

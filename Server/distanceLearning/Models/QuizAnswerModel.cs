@@ -25,7 +25,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         public int id { get; set; }
         public string name { get; set; }
         public string copy { get; set; }
-        public string guid { get; set; }
+        public string ccguid { get; set; }
         public bool Correct { get; set; }
         public int QuestionID { get; set; }
         public string SortOrder { get; set; }
@@ -118,7 +118,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     // -- populate result model
                     result.id = cs.GetInteger("id");
                     result.copy = cs.GetText("copy");
-                    result.guid = cs.GetText("ccGuid");
+                    result.ccguid = cs.GetText("ccGuid");
                     result.Correct = cs.GetBoolean("Correct");
                     result.createKey = cs.GetInteger("createKey");
                     result.QuestionID = cs.GetInteger("QuestionID");
@@ -174,7 +174,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     if (name.Length > 255) name = name.Substring(0, 255);
                     cs.SetField("copy", copy);
                     cs.SetField("name", name);
-                    cs.SetField("ccGuid", guid);
+                    cs.SetField("ccGuid", ccguid);
                     cs.SetField("createKey", createKey.ToString());
                     cs.SetField("Correct", Correct.ToString());
                     cs.SetField("QuestionID", QuestionID.ToString());

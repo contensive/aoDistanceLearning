@@ -24,7 +24,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         // -- instance properties
         public int id;
         public string name;
-        public string guid;
+        public string ccguid;
         public int responseId;
         public int questionId;
         public int answerId;
@@ -141,7 +141,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     // -- populate result model
                     result.id = cs.GetInteger("id");
                     result.name = cs.GetText("name");
-                    result.guid = cs.GetText("ccGuid");
+                    result.ccguid = cs.GetText("ccGuid");
                     result.createKey = cs.GetInteger("createKey");
                     result.responseId = cs.GetInteger("responseId");
                     result.questionId = cs.GetInteger("questionId");
@@ -192,7 +192,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                 {
                     id = cs.GetInteger("id");
                     cs.SetField("name", name);
-                    cs.SetField("ccGuid", guid);
+                    cs.SetField("ccGuid", ccguid);
                     cs.SetField("createKey", createKey.ToString());
                     cs.SetField(constants.rnResponseId, responseId.ToString());
                     cs.SetField("questionId", questionId.ToString());

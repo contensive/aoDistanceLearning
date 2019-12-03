@@ -704,7 +704,11 @@ Namespace Contensive.Addons.OnlineQuiz
         '
         Private Function getOnlineQuizForm(cp As CPBaseClass, quiz As DistanceLearning.Models.QuizModel, response As DistanceLearning.Models.QuizResponseModel, ByRef adminHint As String, ByRef userMessages As List(Of String)) As String
             Dim returnHtml As String = ""
+            Dim hint As Integer = 0
             Try
+                '
+                cp.Utils.AppendLog("onlineQuic, getOnlineQuizForm, response.id [" & response.id & "]")
+                '
                 Dim buttonList As String = ""
                 Dim htmlRadio As String
                 Dim answerCnt As Integer
@@ -720,14 +724,17 @@ Namespace Contensive.Addons.OnlineQuiz
                 'Dim questionSubjectId As Integer
                 'Dim subjectName As String = ""
                 Dim quizProgressText As String = ""
-                '
                 If (DistanceLearning.Controllers.genericController.isDateEmpty(response.dateStarted)) Then
                     response.dateStarted = Now
                     response.saveObject(cp)
                 End If
+                hint = 10
                 '
                 ' -- progress bar for all but first page
                 Dim responseDetailList As List(Of DistanceLearning.Models.QuizResponseDetailModel) = DistanceLearning.Models.QuizResponseDetailModel.getObjectListForQuizDisplay(cp, response.id)
+                '
+                cp.Utils.AppendLog("onlineQuic, getOnlineQuizForm, responseDetailList.count [" & responseDetailList.Count & "]")
+                '
                 quizProgress = 0
                 If responseDetailList.Count > 0 Then
                     Dim answeredCount As Integer = 0
@@ -746,10 +753,12 @@ Namespace Contensive.Addons.OnlineQuiz
                     jsHead = "$(document).ready(function(){$(""#progressbar"").progressbar({value:" & quizProgressText & "});});"
                     cp.Doc.AddHeadJavascript(jsHead)
                 End If
+                hint = 10
                 '
                 If cp.User.IsEditingAnything Then
                     'returnHtml &= "<div class=""quizName"">" & quizEditIcon & "Edit this quiz (" & cs.GetText("name") & ")</div>"
                 End If
+                hint = 30
                 '
                 If quiz.allowCustomButtonCopy Then
                     buttonCopy = quiz.customButtonCopy
@@ -758,6 +767,7 @@ Namespace Contensive.Addons.OnlineQuiz
                 Else
                     buttonCopy = defaultButtonCopy
                 End If
+                hint = 40
                 '
                 Dim questionCnt As Integer = 0
                 Dim lastSubjectId As Integer = -1
@@ -771,6 +781,7 @@ Namespace Contensive.Addons.OnlineQuiz
                         answerCnt = 0
                         answerCnt += 1
                         q = ""
+                        hint = 50
                         '
                         ' -- add subject header if required
                         If (subject.id > 0) And (subject.id <> lastSubjectId) And (Not String.IsNullOrEmpty(subject.name)) Then
@@ -782,6 +793,7 @@ Namespace Contensive.Addons.OnlineQuiz
                                 'q &= cr & "<div class=""questionChoice"">" & quizEditIcon & "&nbsp;Edit the subject for this question, " & subjectName & ".</div>"
                             End If
                         End If
+                        hint = 60
                         '
                         '
                         ' -- Add Question
@@ -789,6 +801,7 @@ Namespace Contensive.Addons.OnlineQuiz
                             'quizEditIcon = cs2.GetEditLink(False) & "&nbsp;&nbsp;&nbsp;&nbsp;"
                         End If
                         q = q & vbCrLf & vbTab & "<div class=""questionText"">" & quizEditIcon & question.copy & "</div>"
+                        hint = 70
                         '
                         ' Add Choices
                         '
@@ -823,6 +836,7 @@ Namespace Contensive.Addons.OnlineQuiz
                                 answerCnt = answerCnt + 1
                             Next
                         End If
+                        hint = 80
                         If cp.User.IsEditingAnything Then
                             'quizEditIcon = CS3.GetAddLink("questionId=" & questionId)
                             'If answerCnt > 0 Then
@@ -839,6 +853,7 @@ Namespace Contensive.Addons.OnlineQuiz
                 If questionCnt = 0 Then
                     adminHint &= "<p>No Quiz Questions can be found for this quiz.</p>"
                 End If
+                hint = 90
 
                 If cp.User.IsEditingAnything Then
                     'quizEditIcon = cs2.GetAddLink("quizid=" & quizId & ",pageOrder=" & dstPageOrder)
@@ -850,8 +865,11 @@ Namespace Contensive.Addons.OnlineQuiz
                 End If
                 '
                 ' -- Add hiddens and button
-                Dim isFirstPage As Boolean = (response.lastPageNumber = 1)
-                Dim isLastPage As Boolean = (response.lastPageNumber >= responseDetailList(responseDetailList.Count - 1).pageNumber)
+                Dim isFirstPage As Boolean = (response.lastPageNumber < 2)
+                Dim isLastPage As Boolean = True
+                If (responseDetailList.Count > 0) Then
+                    isLastPage = (response.lastPageNumber >= responseDetailList(responseDetailList.Count - 1).pageNumber)
+                End If
                 buttonList = ""
                 If ((Not isFirstPage) Or quiz.includeStudyPage) Then
                     '
@@ -863,6 +881,7 @@ Namespace Contensive.Addons.OnlineQuiz
                     ' -- authenticated, allow save
                     buttonList &= vbCrLf & vbTab & cp.Html.Button(rnButton, buttonSave, "quizButtonSave", "quizButtonSave").Replace(">", " onClick=""return verifyAnswers();"">")
                 End If
+                hint = 100
                 'If (response.currentPageNumber > 1) Or (response.currentPageNumber = responseDetailList(responseDetailList.Count - 1).pageNumber) Then
                 'End If
                 If Not isLastPage Then
@@ -881,6 +900,7 @@ Namespace Contensive.Addons.OnlineQuiz
                         & cp.Html.Indent(buttonList) _
                         & vbCrLf & vbTab & "</div>" _
                         & progressBarHtml
+                hint = 110
                 '
                 ' Add form wrapper
                 '
@@ -889,6 +909,7 @@ Namespace Contensive.Addons.OnlineQuiz
                 For Each msg As String In userMessages
                     returnHtml &= cp.Html.div(msg)
                 Next
+                hint = 120
                 returnHtml = "" _
                     & cp.Html.Indent(topCopy) _
                     & vbCrLf & vbTab & "<form method=""post"" name=""quizForm"" action=""" & formAction & """>" _
@@ -899,8 +920,9 @@ Namespace Contensive.Addons.OnlineQuiz
                     & vbCrLf & vbTab & "<input type=""hidden"" name=""quizName"" value=""" & quiz.name & """>" _
                     & vbCrLf & vbTab & "<input type=""hidden"" name=""responseId"" value=""" & response.id & """>" _
                     & vbCrLf & vbTab & "</form>"
+                hint = 999
             Catch ex As Exception
-                cp.Site.ErrorReport(ex)
+                cp.Site.ErrorReport(ex, "hint [" & hint & "]")
             End Try
             Return returnHtml
         End Function
