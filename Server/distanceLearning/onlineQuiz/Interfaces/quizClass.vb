@@ -96,6 +96,13 @@ Namespace Contensive.Addons.OnlineQuiz
                         Dim responseDetailsList As New List(Of DistanceLearning.Models.QuizResponseDetailModel)
                         response = DistanceLearning.Models.QuizResponseModel.createLastForThisUser(CP, quiz.id, CP.User.Id)
                         If response Is Nothing Then
+                            '
+                            ' -- this user has no response for this quiz yet. Save creates the data needed for display
+                            response = New DistanceLearning.Models.QuizResponseModel
+                            saveResponseDetails(CP, quiz, response)
+                        End If
+
+                        If response Is Nothing Then
                             response = New DistanceLearning.Models.QuizResponseModel
                         Else
                             responseDetailsList = DistanceLearning.Models.QuizResponseDetailModel.getObjectListForQuizDisplay(CP, response.id)
@@ -786,7 +793,7 @@ Namespace Contensive.Addons.OnlineQuiz
                         ' -- add subject header if required
                         If (subject.id > 0) And (subject.id <> lastSubjectId) And (Not String.IsNullOrEmpty(subject.name)) Then
                             lastSubjectId = subject.id
-                            returnHtml &= vbCrLf & vbTab & "<div class=""subject"">" & cp.Html.Indent(subject.name) & vbCrLf & vbTab & "</div>"
+                            returnHtml &= vbCrLf & vbTab & "<h2 class=""subject"">" & cp.Html.Indent(subject.name) & vbCrLf & vbTab & "</h2>"
                             '
                             If cp.User.IsEditingAnything Then
                                 'quizEditIcon = cp.Content.GetEditLink("quiz subjects", subject.id.ToString(), False, subjectName, True) & "&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -874,12 +881,12 @@ Namespace Contensive.Addons.OnlineQuiz
                 If ((Not isFirstPage) Or quiz.includeStudyPage) Then
                     '
                     ' -- previous
-                    buttonList &= vbCrLf & vbTab & cp.Html.Button(rnButton, buttonPrevious, "quizButtonPrevious", "quizButtonPrevious").Replace(">", " onClick=""return verifyAnswers();"">")
+                    buttonList &= vbCrLf & vbTab & cp.Html.Button(rnButton, buttonPrevious, "quizButtonPrevious btn btn-primary", "quizButtonPrevious").Replace(">", " onClick=""return verifyAnswers();"">")
                 End If
                 If cp.User.IsAuthenticated Then
                     '
                     ' -- authenticated, allow save
-                    buttonList &= vbCrLf & vbTab & cp.Html.Button(rnButton, buttonSave, "quizButtonSave", "quizButtonSave").Replace(">", " onClick=""return verifyAnswers();"">")
+                    buttonList &= vbCrLf & vbTab & cp.Html.Button(rnButton, buttonSave, "quizButtonSave btn btn-primary", "quizButtonSave").Replace(">", " onClick=""return verifyAnswers();"">")
                 End If
                 hint = 100
                 'If (response.currentPageNumber > 1) Or (response.currentPageNumber = responseDetailList(responseDetailList.Count - 1).pageNumber) Then
@@ -887,11 +894,11 @@ Namespace Contensive.Addons.OnlineQuiz
                 If Not isLastPage Then
                     '
                     ' -- continue, not last page
-                    buttonList &= vbCrLf & vbTab & cp.Html.Button(rnButton, buttonContinue, "quizButtonContinue", "quizButtonContinue").Replace(">", " onClick=""return verifyAnswers();"">")
+                    buttonList &= vbCrLf & vbTab & cp.Html.Button(rnButton, buttonContinue, "quizButtonContinue btn btn-primary", "quizButtonContinue").Replace(">", " onClick=""return verifyAnswers();"">")
                 Else
                     '
                     ' -- submit, last page
-                    buttonList &= vbCrLf & vbTab & cp.Html.Button(rnButton, buttonSubmit, "quizButtonSubmit", "quizButtonSubmit").Replace(">", " onClick=""return verifyAnswers();"">")
+                    buttonList &= vbCrLf & vbTab & cp.Html.Button(rnButton, buttonSubmit, "quizButtonSubmit btn btn-primary", "quizButtonSubmit").Replace(">", " onClick=""return verifyAnswers();"">")
                 End If
                 returnHtml = "" _
                         & cp.Html.Indent(returnHtml) _
@@ -963,7 +970,7 @@ Namespace Contensive.Addons.OnlineQuiz
                 End If
                 If quiz.allowRetake Then
                     buttonCopy = cr & "<p>You may retake this quiz. To begin, click Retake.</p>"
-                    buttonList = cr & cp.Html.Button(rnButton, buttonRetakeQuiz)
+                    buttonList = cr & cp.Html.Button(rnButton, buttonRetakeQuiz, " btn btn-primary")
                     returnHtml = "" _
                             & cp.Html.Indent(returnHtml) _
                             & cp.Html.Indent(buttonCopy) _
@@ -1029,11 +1036,11 @@ Namespace Contensive.Addons.OnlineQuiz
                 If (DistanceLearning.Controllers.genericController.isDateEmpty(response.dateStarted)) Then
                     '
                     ' -- start Quiz
-                    layout.SetOuter("#js-quizStartButton", cp.Html.Form(cp.Html.Button(rnButton, buttonStartQuiz), "startbuttonform"))
+                    layout.SetOuter("#js-quizStartButton", cp.Html.Form(cp.Html.Button(rnButton, buttonStartQuiz, " btn btn-primary"), "startbuttonform"))
                 Else
                     '
                     ' -- resume Quiz
-                    layout.SetOuter("#js-quizStartButton", cp.Html.Form(cp.Html.Button(rnButton, buttonResumeQuiz), "startbuttonform"))
+                    layout.SetOuter("#js-quizStartButton", cp.Html.Form(cp.Html.Button(rnButton, buttonResumeQuiz, " btn btn-primary"), "startbuttonform"))
                 End If
                 returnHtml = layout.GetHtml
             Catch ex As Exception

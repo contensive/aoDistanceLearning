@@ -71,7 +71,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
 
                     inputForm = "<div class=\"afwTextAlignRight\">"
                         + cp.Html.InputText("QuizName", "", "", "", false, "", "js-quizname")
-                        + cp.Html.Button("button", constants.rnbuttonInputNewQuiz, "addQuizClass", "js-addQuizButtonId")
+                        + cp.Html.Button("button", constants.rnbuttonInputNewQuiz, "addQuizClass btn btn-primary", "js-addQuizButtonId")
                         + "</div></br>";
 
                     reportList.columnCellClass = "afwTextAlignRight";

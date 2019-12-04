@@ -171,7 +171,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 filterForm = ""
                     + constants.cr + cp.Html.h2("Filters", "", "", "")
                     + constants.cr + cp.Html.div(filterForm, "", "", "")
-                    + constants.cr + cp.Html.div( cp.Html.Button("button", constants.rnbuttonApplyFilter, "", ""),"","","")
+                    + constants.cr + cp.Html.div( cp.Html.Button("button", constants.rnbuttonApplyFilter, " btn btn-primary", ""),"","","")
                     + "";
                 filterForm = cp.Html.Form(filterForm, "", "", "", "", "");
                 reportList.htmlAfterTable = filterForm;

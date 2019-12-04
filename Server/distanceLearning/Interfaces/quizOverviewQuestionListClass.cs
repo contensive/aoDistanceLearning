@@ -69,7 +69,7 @@ namespace Contensive.Addons.DistanceLearning
                 //
              QuizQuestionModel quizQuestions = QuizQuestionModel.create(cp, cp.Doc.GetInteger("ID"));
                 string addButtonForm="";
-                addButtonForm = cp.Html.Button("Button", "AddQuestion", "addQuestionClass", "js-addQuestionButtonId");
+                addButtonForm = cp.Html.Button("Button", "AddQuestion", "addQuestionClass btn btn-primary", "js-addQuestionButtonId");
                 addButtonForm += cp.Html.Hidden(constants.rnQuizId, quiz.id.ToString());
                 addButtonForm = cp.Html.Form(addButtonForm);
                 reportList.htmlAfterTable = addButtonForm;
@@ -150,8 +150,8 @@ namespace Contensive.Addons.DistanceLearning
             reportList.setCell(question.SortOrder.ToString());
             //
             string miniForm = "";
-            miniForm += cp.Html.Button("button", "Edit", "questionEdit", "js-questionEdit");
-            miniForm += cp.Html.Button("button", "Delete", "questionDelete", "js-questionDelete");
+            miniForm += cp.Html.Button("button", "Edit", "questionEdit btn btn-primary", "js-questionEdit");
+            miniForm += cp.Html.Button("button", "Delete", "questionDelete btn btn-primary", "js-questionDelete");
             miniForm += cp.Html.Hidden(constants.rnQuestionId, question.id.ToString());
             miniForm += cp.Html.Hidden(constants.rnQuizId, question.quizId.ToString());
             miniForm = cp.Html.Form(miniForm);
