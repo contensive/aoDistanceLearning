@@ -237,7 +237,7 @@ jQuery(document).ready(function(){
 		<JavascriptBodyEnd></JavascriptBodyEnd>
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
-		<Content>Yes</Content>
+		<Content>No</Content>
 		<Template>No</Template>
 		<Email>No</Email>
 		<Admin>Yes</Admin>
@@ -340,7 +340,7 @@ jQuery(document).ready(function(){
 		<JavascriptBodyEnd></JavascriptBodyEnd>
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
-		<Content>Yes</Content>
+		<Content>No</Content>
 		<Template>Yes</Template>
 		<Email>No</Email>
 		<Admin>No</Admin>
@@ -462,7 +462,7 @@ margin-left:400px;
 		<JavascriptBodyEnd></JavascriptBodyEnd>
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
-		<Content>Yes</Content>
+		<Content>No</Content>
 		<Template>Yes</Template>
 		<Email>No</Email>
 		<Admin>No</Admin>
@@ -498,7 +498,7 @@ margin-left:400px;
 		<JavascriptBodyEnd></JavascriptBodyEnd>
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
-		<Content>Yes</Content>
+		<Content>No</Content>
 		<Template>Yes</Template>
 		<Email>No</Email>
 		<Admin>No</Admin>
@@ -607,7 +607,7 @@ margin-left:400px;
 		<JavascriptBodyEnd></JavascriptBodyEnd>
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
-		<Content>Yes</Content>
+		<Content>No</Content>
 		<Template>Yes</Template>
 		<Email>No</Email>
 		<Admin>No</Admin>
@@ -643,7 +643,7 @@ margin-left:400px;
 		<JavascriptBodyEnd></JavascriptBodyEnd>
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
-		<Content>Yes</Content>
+		<Content>No</Content>
 		<Template>Yes</Template>
 		<Email>No</Email>
 		<Admin>No</Admin>
@@ -679,7 +679,7 @@ margin-left:400px;
 		<JavascriptBodyEnd></JavascriptBodyEnd>
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
-		<Content>Yes</Content>
+		<Content>No</Content>
 		<Template>Yes</Template>
 		<Email>No</Email>
 		<Admin>No</Admin>
@@ -755,7 +755,7 @@ end function]]></Code>
 		<JavascriptBodyEnd></JavascriptBodyEnd>
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
-		<Content>Yes</Content>
+		<Content>No</Content>
 		<Template>Yes</Template>
 		<Email>No</Email>
 		<Admin>Yes</Admin>
@@ -792,7 +792,7 @@ end function]]></Code>
 		<JavascriptBodyEnd></JavascriptBodyEnd>
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
-		<Content>Yes</Content>
+		<Content>No</Content>
 		<Template>Yes</Template>
 		<Email>No</Email>
 		<Admin>Yes</Admin>
