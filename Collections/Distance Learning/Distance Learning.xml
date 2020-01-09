@@ -72,6 +72,7 @@ color:green;
 		<Template>Yes</Template>
 		<Email>No</Email>
 		<Admin>Yes</Admin>
+		<Category>Applications.Education</Category>
 		<OnPageEndEvent>No</OnPageEndEvent>
 		<OnPageStartEvent>No</OnPageStartEvent>
 		<OnBodyStart>No</OnBodyStart>
