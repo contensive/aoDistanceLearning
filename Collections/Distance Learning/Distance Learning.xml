@@ -342,7 +342,7 @@ jQuery(document).ready(function(){
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
 		<Content>No</Content>
-		<Template>Yes</Template>
+		<Template>No</Template>
 		<Email>No</Email>
 		<Admin>No</Admin>
 		<OnPageEndEvent>No</OnPageEndEvent>
@@ -427,8 +427,8 @@ margin-left:400px;
 		<JavascriptBodyEnd></JavascriptBodyEnd>
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
-		<Content>Yes</Content>
-		<Template>Yes</Template>
+		<Content>No</Content>
+		<Template>No</Template>
 		<Email>No</Email>
 		<Admin>No</Admin>
 		<OnPageEndEvent>No</OnPageEndEvent>
@@ -464,7 +464,7 @@ margin-left:400px;
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
 		<Content>No</Content>
-		<Template>Yes</Template>
+		<Template>No</Template>
 		<Email>No</Email>
 		<Admin>No</Admin>
 		<OnPageEndEvent>No</OnPageEndEvent>
@@ -500,7 +500,7 @@ margin-left:400px;
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
 		<Content>No</Content>
-		<Template>Yes</Template>
+		<Template>No</Template>
 		<Email>No</Email>
 		<Admin>No</Admin>
 		<OnPageEndEvent>No</OnPageEndEvent>
@@ -609,7 +609,7 @@ margin-left:400px;
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
 		<Content>No</Content>
-		<Template>Yes</Template>
+		<Template>No</Template>
 		<Email>No</Email>
 		<Admin>No</Admin>
 		<OnPageEndEvent>No</OnPageEndEvent>
@@ -645,7 +645,7 @@ margin-left:400px;
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
 		<Content>No</Content>
-		<Template>Yes</Template>
+		<Template>No</Template>
 		<Email>No</Email>
 		<Admin>No</Admin>
 		<OnPageEndEvent>No</OnPageEndEvent>
@@ -681,7 +681,7 @@ margin-left:400px;
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
 		<Content>No</Content>
-		<Template>Yes</Template>
+		<Template>No</Template>
 		<Email>No</Email>
 		<Admin>No</Admin>
 		<OnPageEndEvent>No</OnPageEndEvent>
@@ -757,7 +757,7 @@ end function]]></Code>
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
 		<Content>No</Content>
-		<Template>Yes</Template>
+		<Template>No</Template>
 		<Email>No</Email>
 		<Admin>Yes</Admin>
 		<OnPageEndEvent>No</OnPageEndEvent>
@@ -794,7 +794,7 @@ end function]]></Code>
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
 		<Content>No</Content>
-		<Template>Yes</Template>
+		<Template>No</Template>
 		<Email>No</Email>
 		<Admin>Yes</Admin>
 		<OnPageEndEvent>No</OnPageEndEvent>
