@@ -79,7 +79,6 @@
     <Compile Include="Interfaces\Remotes\ProcessForgetPassword.vb" />
     <Compile Include="Interfaces\Remotes\ProcessLogin.vb" />
     <Compile Include="Interfaces\Remotes\ProcessSignUp.vb" />
-    <Compile Include="Interfaces\Remotes\ProcessUrl.vb" />
     <Compile Include="Model\architectureModels\errorClass.vb" />
     <Compile Include="Model\architectureModels\remoteResponseObject.vb" />
     <Compile Include="Model\dbModels\BasicRecord.vb" />
