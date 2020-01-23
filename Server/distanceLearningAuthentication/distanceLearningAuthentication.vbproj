@@ -57,6 +57,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -71,12 +72,14 @@
     <Import Include="System.Data" />
     <Import Include="System.Diagnostics" />
     <Import Include="System.Linq" />
+    <Import Include="System.Web" />
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\Remotes\ProcessForgetPassword.vb" />
     <Compile Include="Interfaces\Remotes\ProcessLogin.vb" />
     <Compile Include="Interfaces\Remotes\ProcessSignUp.vb" />
+    <Compile Include="Interfaces\Remotes\ProcessUrl.vb" />
     <Compile Include="Model\architectureModels\errorClass.vb" />
     <Compile Include="Model\architectureModels\remoteResponseObject.vb" />
     <Compile Include="Model\dbModels\BasicRecord.vb" />
