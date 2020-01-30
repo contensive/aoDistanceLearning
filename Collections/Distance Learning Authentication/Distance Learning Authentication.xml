@@ -540,6 +540,10 @@ font-weight: normal;}
 		<Styles></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
+	
+
+	
+	
 	<Addon name="Distance Learning Authentication Setting" guid="{5f2fa20e-da71-4868-b5c8-a215357f4cf1}" type="Setting">
 		<Copy></Copy>
 		<CopyText></CopyText>
