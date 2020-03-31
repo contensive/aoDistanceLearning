@@ -5,6 +5,7 @@ Option Explicit On
 Imports System
 Imports System.Collections.Generic
 Imports System.Text
+Imports Contensive.Addons.DistanceLearning.Models
 Imports Contensive.BaseClasses
 
 Namespace Contensive.Addons.OnlineQuiz
@@ -43,8 +44,8 @@ Namespace Contensive.Addons.OnlineQuiz
                 Dim userMessageList As New List(Of String)
                 Dim loadHint As String = ""
                 '
-                Dim quiz As DistanceLearning.Models.QuizModel = Nothing
-                If True Then
+                Dim quiz As DistanceLearning.Models.QuizModel = QuizModel.create(CP, CP.Doc.GetText("instanceId"))
+                If (quiz Is Nothing) Then
                     Dim quizName As String
                     Dim quizId As Integer = CP.Doc.GetInteger("quiz")
                     If (quizId = 0) Then
