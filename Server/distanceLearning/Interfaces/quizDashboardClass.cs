@@ -26,8 +26,8 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 {
                     CPBlockBaseClass layout = cp.BlockNew();
                     CPCSBaseClass cs = cp.CSNew();
-                    DateTime filterDateFrom = cp.Utils.EncodeDate(cp.Doc.get_Var(constants.rnFilterDateFrom));
-                    DateTime filterDateTo = cp.Utils.EncodeDate(cp.Doc.get_Var(constants.rnFilterDateTo));
+                    DateTime filterDateFrom = cp.Utils.EncodeDate(cp.Doc.get_Var(Constants.rnFilterDateFrom));
+                    DateTime filterDateTo = cp.Utils.EncodeDate(cp.Doc.get_Var(Constants.rnFilterDateTo));
                     DateTime tmpDate;
                     //
                     if ((filterDateTo != DateTime.MinValue) & (filterDateTo < filterDateFrom))
@@ -60,7 +60,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                         List<QuizResponseModel> responseList = QuizResponseModel.GetResponseList(cp, quiz.id);
                         reportList.addRow();
                         qs = cp.Doc.RefreshQueryString;
-                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeaturesQuizOverviewDetails, true);
+                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeaturesQuizOverviewDetails, true);
                         qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
                         reportList.setCell("<a href=\"?" + qs + "\">" + quiz.name + "</a>");
                         reportList.columnCellClass = "afwTextAlignCenter";
@@ -71,7 +71,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
 
                     inputForm = "<div class=\"afwTextAlignRight\">"
                         + cp.Html.InputText("QuizName", "", "", "", false, "", "js-quizname")
-                        + cp.Html.Button("button", constants.rnbuttonInputNewQuiz, "addQuizClass btn btn-primary", "js-addQuizButtonId")
+                        + cp.Html.Button("button", Constants.rnbuttonInputNewQuiz, "addQuizClass btn btn-primary", "js-addQuizButtonId")
                         + "</div></br>";
 
                     reportList.columnCellClass = "afwTextAlignRight";
@@ -83,7 +83,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 else
                 {
                     qs = cp.Doc.RefreshQueryString;
-                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeaturesQuizOverviewDetails, true);
+                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeaturesQuizOverviewDetails, true);
                     qs = cp.Utils.ModifyQueryString(qs, "QuizId", "");
                     qs = cp.Utils.ModifyQueryString(qs, "quizName", quizname);
                     cp.Response.Redirect("?" + qs);
@@ -94,7 +94,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
 
             catch (Exception ex)
             {
-                errorReport(cp, ex, "execute");
+                cp.Site.ErrorReport( ex, "execute");
             }
             return result;
         }

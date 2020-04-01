@@ -194,7 +194,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("name", name);
                     cs.SetField("ccGuid", ccguid);
                     cs.SetField("createKey", createKey.ToString());
-                    cs.SetField(constants.rnResponseId, responseId.ToString());
+                    cs.SetField(Constants.rnResponseId, responseId.ToString());
                     cs.SetField("questionId", questionId.ToString());
                     cs.SetField("answerId", answerId.ToString());
                     cs.SetField("pageNumber", pageNumber.ToString());

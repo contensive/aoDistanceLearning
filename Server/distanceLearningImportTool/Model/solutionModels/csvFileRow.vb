@@ -75,7 +75,7 @@ Namespace Model.solutionModels
                 oCsvFileRow.OptionG = OptionG
                 '
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in csvFileRow.GetRow")
+                cp.Site.ErrorReport(ex, "Unexpected error in csvFileRow.GetRow")
             End Try
             '
             Return oCsvFileRow

@@ -69,14 +69,14 @@ namespace Contensive.Addons.DistanceLearning
                 form.addRow();
                 form.rowName = "Questions";
                 qs = cp.Doc.RefreshQueryString;
-                qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewSetting, true);
+                qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeatureQuizOverviewSetting, true);
                 qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
                 //form.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/myDistanceLearning/NavRecord.gif\" display:inline;></a>" + quiz.questionPresentation + " ; Using Subjects; " + quiz.includeSubject + "User can retake quiz:  " + quiz.allowRetake + "; Max " + quiz.maxNumberQuest + " Questions </div>");
                 form.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/myDistanceLearning/NavRecord.gif\" display:inline;></a>User can retake quiz:  " + quiz.allowRetake + "; Max " + quiz.maxNumberQuest + " Questions </div>");
                 form.addRow();
                 form.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/myDistanceLearning/NavRecord.gif\" display:inline;></a>" + quiz.maxNumberQuest + " total Questions in Quiz (or in each subject area if subjects used.)</div>");
                 qs = cp.Doc.RefreshQueryString;
-                qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewScoring,true);
+                qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeatureQuizOverviewScoring,true);
                 qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
                 form.addRow();
 
@@ -91,7 +91,7 @@ namespace Contensive.Addons.DistanceLearning
             }
             catch (Exception ex)
             {
-                errorReport(cp, ex, "execute");
+                cp.Site.ErrorReport( ex, "execute");
             }
             return result;
             

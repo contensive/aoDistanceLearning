@@ -23,18 +23,18 @@ namespace Contensive.Addons.DistanceLearning
             {
                 case "Edit":
                     string qs = cp.Doc.RefreshQueryString;
-                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewQuestionDetails);
-                        qs = cp.Utils.ModifyQueryString(qs, constants.rnQuizId, cp.Doc.GetInteger(constants.rnQuizId).ToString());
-                        qs = cp.Utils.ModifyQueryString(qs, constants.rnQuestionId, cp.Doc.GetInteger(constants.rnQuestionId).ToString());
+                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeatureQuizOverviewQuestionDetails);
+                        qs = cp.Utils.ModifyQueryString(qs, Constants.rnQuizId, cp.Doc.GetInteger(Constants.rnQuizId).ToString());
+                        qs = cp.Utils.ModifyQueryString(qs, Constants.rnQuestionId, cp.Doc.GetInteger(Constants.rnQuestionId).ToString());
                     cp.Response.Redirect("?" + qs);
                     break;
                 case "Delete":
-                    QuizQuestionModel.delete(cp, cp.Doc.GetInteger(constants.rnQuestionId));
+                    QuizQuestionModel.delete(cp, cp.Doc.GetInteger(Constants.rnQuestionId));
                     break;
                 case "AddQuestion":
                     qs = cp.Doc.RefreshQueryString;
-                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewQuestionDetails);
-                    qs = cp.Utils.ModifyQueryString(qs, constants.rnQuizId, cp.Doc.GetInteger(constants.rnQuizId).ToString());
+                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeatureQuizOverviewQuestionDetails);
+                    qs = cp.Utils.ModifyQueryString(qs, Constants.rnQuizId, cp.Doc.GetInteger(Constants.rnQuizId).ToString());
                         cp.Response.Redirect("?" + qs);
                        // qs = cp.Utils.ModifyQueryString(qs, constants.rnQuestionId, " ");
                         
@@ -70,7 +70,7 @@ namespace Contensive.Addons.DistanceLearning
              QuizQuestionModel quizQuestions = QuizQuestionModel.create(cp, cp.Doc.GetInteger("ID"));
                 string addButtonForm="";
                 addButtonForm = cp.Html.Button("Button", "AddQuestion", "addQuestionClass btn btn-primary", "js-addQuestionButtonId");
-                addButtonForm += cp.Html.Hidden(constants.rnQuizId, quiz.id.ToString());
+                addButtonForm += cp.Html.Hidden(Constants.rnQuizId, quiz.id.ToString());
                 addButtonForm = cp.Html.Form(addButtonForm);
                 reportList.htmlAfterTable = addButtonForm;
                 //addButtonForm
@@ -116,7 +116,7 @@ namespace Contensive.Addons.DistanceLearning
             }
             catch (Exception ex)
             {
-                errorReport(cp, ex, "execute");
+                cp.Site.ErrorReport( ex, "execute");
             }
             return result;
 
@@ -152,8 +152,8 @@ namespace Contensive.Addons.DistanceLearning
             string miniForm = "";
             miniForm += cp.Html.Button("button", "Edit", "questionEdit btn btn-primary", "js-questionEdit");
             miniForm += cp.Html.Button("button", "Delete", "questionDelete btn btn-primary", "js-questionDelete");
-            miniForm += cp.Html.Hidden(constants.rnQuestionId, question.id.ToString());
-            miniForm += cp.Html.Hidden(constants.rnQuizId, question.quizId.ToString());
+            miniForm += cp.Html.Hidden(Constants.rnQuestionId, question.id.ToString());
+            miniForm += cp.Html.Hidden(Constants.rnQuizId, question.quizId.ToString());
             miniForm = cp.Html.Form(miniForm);
             reportList.columnCellClass = "afwTextAlignLeft";
             reportList.setCell(miniForm);

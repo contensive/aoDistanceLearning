@@ -17,11 +17,11 @@ namespace Contensive.Addons.DistanceLearning
             {
                 string innerBody = "";
                 //
-                QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger(constants.rnQuizId));
+                QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger(Constants.rnQuizId));
                 if (quiz == null)
                 {
                     string qs = cp.Doc.RefreshQueryString;
-                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureDashboard, true);
+                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeatureDashboard, true);
                     cp.Response.Redirect("?" + qs);
                     return "";
                 }
@@ -38,15 +38,15 @@ namespace Contensive.Addons.DistanceLearning
                         break;
                     case "Cancel":
                         string qs = cp.Doc.RefreshQueryString;
-                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeaturesQuizOverviewDetails, true);
-                        qs = cp.Utils.ModifyQueryString(qs, constants.rnQuizId, quiz.id.ToString(), true);
+                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeaturesQuizOverviewDetails, true);
+                        qs = cp.Utils.ModifyQueryString(qs, Constants.rnQuizId, quiz.id.ToString(), true);
                         cp.Response.Redirect("?" + qs);
                         break;
                 }
                 //
                 adminFramework.formNameValueRowsClass form = new adminFramework.formNameValueRowsClass();                         
                 form.isOuterContainer = false;             
-                form.addFormHidden(constants.rnQuizId, quiz.id.ToString());
+                form.addFormHidden(Constants.rnQuizId, quiz.id.ToString());
                 form.body = innerBody;
                 form.addFormButton("Save", "button");
                 form.addFormButton("Cancel", "button");
@@ -74,7 +74,7 @@ namespace Contensive.Addons.DistanceLearning
             }
             catch (Exception ex)
             {
-                errorReport(cp, ex, "execute");
+                cp.Site.ErrorReport( ex, "execute");
             }
             return result;
         }

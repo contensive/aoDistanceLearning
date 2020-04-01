@@ -21,28 +21,28 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
             int nextFormId = srcFormId;
             try
             {
-                string button = cp.Doc.GetProperty(constants.rnButton, "");
+                string button = cp.Doc.GetProperty(Constants.rnButton, "");
                 CPCSBaseClass cs = cp.CSNew();
                 //
                 if (button != "")
                 {
-                    genericController.checkRequiredFieldText(cp, constants.rnSampleField, "Sample Field");
+                    genericController.checkRequiredFieldText(cp, Constants.rnSampleField, "Sample Field");
                     //
                     if (cp.UserError.OK())
                     {
-                        if (!cs.Open(constants.cnApps, "id=" + appId, "", true, "", 1, 1))
+                        if (!cs.Open(Constants.cnApps, "id=" + appId, "", true, "", 1, 1))
                         {
                             cs.Close();
-                            cs.Insert(constants.cnApps);
+                            cs.Insert(Constants.cnApps);
                         }
-                        cs.SetField("sampleField", cp.Doc.GetProperty(constants.rnSampleField, ""));
+                        cs.SetField("sampleField", cp.Doc.GetProperty(Constants.rnSampleField, ""));
                         cs.Close();
                     }
                 }
             }
             catch (Exception ex)
             {
-                errorReport(cp, ex, "processForm");
+                cp.Site.ErrorReport( ex, "processForm");
             }
             return nextFormId;
         }
@@ -65,8 +65,8 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 //
                 layout.OpenLayout("layout");
                 form = layout.GetInner("#fbForm");
-                form += cp.Html.Hidden(constants.rnSrcFormId, dstFormId.ToString(), "", "");
-                form += cp.Html.Hidden(constants.rnAppId, appId.ToString(), "", "");
+                form += cp.Html.Hidden(Constants.rnSrcFormId, dstFormId.ToString(), "", "");
+                form += cp.Html.Hidden(Constants.rnAppId, appId.ToString(), "", "");
                 if (!cp.UserError.OK())
                 {
                     form = cp.Html.div(cp.UserError.GetList(), "", "", "") + form;
@@ -78,13 +78,13 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 // attempt to open the application record. It is created in the process so this may fail.
                 //      if not cs.OK(), the getFormField will return blank.
                 //
-                cs.Open(constants.cnApps, "id=" + appId.ToString(), "", true, "", 1, 1);
+                cs.Open(Constants.cnApps, "id=" + appId.ToString(), "", true, "", 1, 1);
                 if (true)
                 {
                     //
                     // either server-side
                     //
-                    layout.SetInner("#fbSampleFile .rowValue", cp.Html.InputText("fbSampleField", genericController.getFormField(cp, cs, constants.rnSampleField), "", "", false, "", ""));
+                    layout.SetInner("#fbSampleFile .rowValue", cp.Html.InputText("fbSampleField", genericController.getFormField(cp, cs, Constants.rnSampleField), "", "", false, "", ""));
                 }
                 else
                 {
@@ -99,7 +99,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 //
                 if (js != "")
                 {
-                    cp.Doc.AddHeadJavascript("jQuery(document).ready(function(){" + js + constants.cr + "});");
+                    cp.Doc.AddHeadJavascript("jQuery(document).ready(function(){" + js + Constants.cr + "});");
                 }
                 //
                 // return converted layout
@@ -108,7 +108,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
             }
             catch (Exception ex)
             {
-                errorReport(cp, ex, "getForm");
+                cp.Site.ErrorReport( ex, "getForm");
             }
             return s;
         }

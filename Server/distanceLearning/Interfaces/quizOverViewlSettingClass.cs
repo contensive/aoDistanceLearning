@@ -45,10 +45,10 @@ namespace Contensive.Addons.DistanceLearning
                         quiz.questionPresentation = cp.Doc.GetInteger("questionPresentation");
                         quiz.maxNumberQuest = cp.Doc.GetInteger("maxNumberQuest");
                         quiz.customButtonCopy = cp.Doc.GetText(nameof(quiz.customButtonCopy));
-                        string subjectNameEditList = cp.Doc.GetText(constants.rnSubjectNameEditList);
+                        string subjectNameEditList = cp.Doc.GetText(Constants.rnSubjectNameEditList);
                         if (true)
                         {
-                            string subjectIdEditList = cp.Doc.GetText(constants.rnSubjectIdEditList);
+                            string subjectIdEditList = cp.Doc.GetText(Constants.rnSubjectIdEditList);
                             List<string> subjectNameList = new List<string>();
                             if(!string.IsNullOrEmpty(subjectNameEditList))
                             {
@@ -108,7 +108,7 @@ namespace Contensive.Addons.DistanceLearning
                         break;
                     case "Cancel":
                         qs = cp.Doc.RefreshQueryString;
-                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeaturesQuizOverviewDetails, true);
+                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeaturesQuizOverviewDetails, true);
                         qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
                         cp.Response.Redirect("?" + qs);
                         break;
@@ -156,7 +156,7 @@ namespace Contensive.Addons.DistanceLearning
                     subjectIdCommaList += idDelimiter + subject.id;
                     idDelimiter = ",";
                 }
-                form.rowValue = cp.Html.InputTextExpandable(constants.rnSubjectNameEditList, subjectNameTextList, 5) + cp.Html.Hidden(constants.rnSubjectIdEditList, subjectIdCommaList);
+                form.rowValue = cp.Html.InputTextExpandable(Constants.rnSubjectNameEditList, subjectNameTextList, 5) + cp.Html.Hidden(Constants.rnSubjectIdEditList, subjectIdCommaList);
                 form.rowHelp = "If you wish to organize your questions by subject, enter the subject section in the text box one subject per line. If this quiz has no sections leave blank</p>";
                 //
                 form.addRow();
@@ -169,7 +169,7 @@ namespace Contensive.Addons.DistanceLearning
             }
             catch (Exception ex)
             {
-                errorReport(cp, ex, "execute");
+                cp.Site.ErrorReport( ex, "execute");
             }
             return result;
         }

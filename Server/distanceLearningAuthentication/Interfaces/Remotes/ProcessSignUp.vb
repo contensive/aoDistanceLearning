@@ -24,7 +24,7 @@ Namespace Interfaces.Remotes
                 End If
                 '
             Catch ex As Exception
-                errorReport(CP, ex, "execute")
+                cp.Site.ErrorReport( ex, "execute")
                 remoteResponse = New Model.architectureModels.remoteResponseObject With {.data = New Object, .errors = New List(Of Model.architectureModels.errorClass) From {New Model.architectureModels.errorClass With {.number = 1, .userMsg = "Internal Error"}}}
                 ' http error
                 CP.Response.SetStatus("500")
@@ -48,7 +48,7 @@ Namespace Interfaces.Remotes
                 SignUpObject = jsonSerializer.Deserialize(Of Model.solutionModels.SignUp)(value)
 
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "error in deserializeUserObject")
+                cp.Site.ErrorReport(ex, "error in deserializeUserObject")
             End Try
             '
             Return SignUpObject

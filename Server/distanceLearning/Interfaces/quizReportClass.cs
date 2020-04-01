@@ -34,9 +34,9 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 // rightNow - the date and time when the page is hit. Set once and passed as argument to
                 //      enable a test-mode where the time can be hard-coded.
                 //
-                int srcFormId = cp.Utils.EncodeInteger(cp.Doc.GetProperty(constants.rnSrcFormId, ""));
-                int dstFormId = cp.Utils.EncodeInteger(cp.Doc.GetProperty(constants.rnDstFormId, ""));
-                int appId = cp.Utils.EncodeInteger(cp.Doc.GetProperty(constants.rnAppId, ""));
+                int srcFormId = cp.Utils.EncodeInteger(cp.Doc.GetProperty(Constants.rnSrcFormId, ""));
+                int dstFormId = cp.Utils.EncodeInteger(cp.Doc.GetProperty(Constants.rnDstFormId, ""));
+                int appId = cp.Utils.EncodeInteger(cp.Doc.GetProperty(Constants.rnAppId, ""));
                 string rqs = cp.Doc.RefreshQueryString;
                 DateTime rightNow = DateTime.Now;
                 CPCSBaseClass cs = cp.CSNew();
@@ -55,13 +55,13 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                     switch (srcFormId)
                     {
 
-                        case constants.formIdQuizList:
+                        case Constants.formIdQuizList:
                             dstFormId = quizList.processForm(cp, srcFormId, rqs, rightNow, ref appId);
                             break;
-                        case constants.formIdQuizDetails:
+                        case Constants.formIdQuizDetails:
                             dstFormId = quizDetails.processForm(cp, srcFormId, rqs, rightNow, ref appId);
                             break;
-                        case constants.formIdBlank:
+                        case Constants.formIdBlank:
                             dstFormId = blank.processForm(cp, srcFormId, rqs, rightNow, ref appId);
                             break;
                     }
@@ -76,10 +76,10 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 //
                 switch (dstFormId)
                 {
-                    case (constants.formIdQuizDetails):
+                    case (Constants.formIdQuizDetails):
                         page.body = quizDetails.getForm(cp, dstFormId, rqs, rightNow, ref appId);
                         break;
-                    case (constants.formIdBlank):
+                    case (Constants.formIdBlank):
                         page.body = blank.getForm(cp, dstFormId, rqs, rightNow, ref appId);
                         break;
                     default:
@@ -91,7 +91,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
             }
             catch (Exception ex)
             {
-                errorReport(cp, ex, "execute");
+                cp.Site.ErrorReport( ex, "execute");
             }
             return s;
         }

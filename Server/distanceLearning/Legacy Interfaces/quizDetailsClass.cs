@@ -21,28 +21,28 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
             int nextFormId = srcFormId;
             try
             {
-                string button = cp.Doc.GetProperty(constants.rnButton, "");
+                string button = cp.Doc.GetProperty(Constants.rnButton, "");
                 CPCSBaseClass cs = cp.CSNew();
                 //
                 if (button != "")
                 {
-                    genericController.checkRequiredFieldText(cp, constants.rnSampleField, "Sample Field");
+                    genericController.checkRequiredFieldText(cp, Constants.rnSampleField, "Sample Field");
                     //
                     if (cp.UserError.OK())
                     {
-                        if (!cs.Open(constants.cnApps, "id=" + appId, "", true, "", 1, 1))
+                        if (!cs.Open(Constants.cnApps, "id=" + appId, "", true, "", 1, 1))
                         {
                             cs.Close();
-                            cs.Insert(constants.cnApps);
+                            cs.Insert(Constants.cnApps);
                         }
-                        cs.SetField("sampleField", cp.Doc.GetProperty(constants.rnSampleField, ""));
+                        cs.SetField("sampleField", cp.Doc.GetProperty(Constants.rnSampleField, ""));
                         cs.Close();
                     }
                 }
             }
             catch (Exception ex)
             {
-                errorReport(cp, ex, "processForm");
+                cp.Site.ErrorReport( ex, "processForm");
             }
             return nextFormId;
         }
@@ -68,20 +68,20 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 //
                 form.title = "Quiz Details";
                 qs = rqs;
-                qs = cp.Utils.ModifyQueryString(qs, constants.rnDstFormId, constants.formIdQuizList.ToString(), true);
+                qs = cp.Utils.ModifyQueryString(qs, Constants.rnDstFormId, Constants.formIdQuizList.ToString(), true);
                 //
                 cp.Doc.set_Var("id", responseId.ToString());
                 form.body = ""
-                    + constants.cr + "<div class=\"\">return to <a href=\"?" + qs + "\">Quiz List</a></div>"
-                    + constants.cr2 + "<div class=\"onlineQuiz\">"
-                    + cp.Utils.ExecuteAddon(constants.scoreCardAddon )
-                    + constants.cr2 + "</div>"
+                    + Constants.cr + "<div class=\"\">return to <a href=\"?" + qs + "\">Quiz List</a></div>"
+                    + Constants.cr2 + "<div class=\"onlineQuiz\">"
+                    + cp.Utils.ExecuteAddon(Constants.scoreCardAddon )
+                    + Constants.cr2 + "</div>"
                     + "";
                 s = form.getHtml(cp);
             }
             catch (Exception ex)
             {
-                errorReport(cp, ex, "getForm");
+                cp.Site.ErrorReport( ex, "getForm");
             }
             return s;
         }

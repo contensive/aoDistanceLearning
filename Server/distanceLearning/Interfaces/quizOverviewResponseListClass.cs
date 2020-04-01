@@ -16,14 +16,14 @@ namespace Contensive.Addons.DistanceLearning
             string qs = "";
             try
             {
-                QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger(constants.rnQuizId));
-                QuizResponseModel Myquizresponse = QuizResponseModel.create(cp, cp.Doc.GetInteger(constants.rnQuizId));
+                QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger(Constants.rnQuizId));
+                QuizResponseModel Myquizresponse = QuizResponseModel.create(cp, cp.Doc.GetInteger(Constants.rnQuizId));
                 if (quiz == null)
                 {
                     //
                     // -- no quiz provided, go back to quiz list
                     qs = cp.Doc.RefreshQueryString;
-                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureDashboard, true);
+                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeatureDashboard, true);
                     cp.Response.Redirect("?" + qs);
                     return "";
                 }
@@ -32,7 +32,7 @@ namespace Contensive.Addons.DistanceLearning
                 {
                     case "Cancel":
                         qs = cp.Doc.RefreshQueryString;
-                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeaturesQuizOverviewDetails, true);
+                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeaturesQuizOverviewDetails, true);
                         qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
                         cp.Response.Redirect("?" + qs);
                         break;
@@ -47,13 +47,13 @@ namespace Contensive.Addons.DistanceLearning
                
                 //
                 // -- load filters
-                DateTime filterFromDate = cp.Doc.GetDate(constants.rnFilterDateFrom);
-                DateTime filterToDate = cp.Doc.GetDate(constants.rnFilterDateTo);
+                DateTime filterFromDate = cp.Doc.GetDate(Constants.rnFilterDateFrom);
+                DateTime filterToDate = cp.Doc.GetDate(Constants.rnFilterDateTo);
                 //
                 adminFramework.ReportListClass form = new adminFramework.ReportListClass(cp);
-                form.addFormHidden(constants.rnQuizId, quiz.id.ToString());
-                form.addFormButton(constants.buttonCancel);
-                form.addFormButton(constants.buttonRefresh);
+                form.addFormHidden(Constants.rnQuizId, quiz.id.ToString());
+                form.addFormButton(Constants.buttonCancel);
+                form.addFormButton(Constants.buttonRefresh);
                 form.title = "Results";
                 form.description = "";
                 //quizUserDetailsForm.addColumn();
@@ -91,13 +91,13 @@ namespace Contensive.Addons.DistanceLearning
                 List<QuizResponseModel.quizResponseReportModel> quizResponseList = QuizResponseModel.GetQuizOverviewResponseList(cp, quiz.id, filterFromDate, filterToDate);
                 foreach (QuizResponseModel.quizResponseReportModel quizResponse in quizResponseList)
                 {
-                    MemberModel member = MemberModel.create(cp, cp.Doc.GetInteger(constants.rnMemberId));
+                    MemberModel member = MemberModel.create(cp, cp.Doc.GetInteger(Constants.rnMemberId));
                     
                     form.addRow();
                     //quizUserDetailsForm.setCell(quizResponse.quizName); 
                     qs = cp.Doc.RefreshQueryString;
-                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewResultsDetails, true);
-                    qs = cp.Utils.ModifyQueryString(qs, constants.rnResponseId, quizResponse.id.ToString(), true);
+                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeatureQuizOverviewResultsDetails, true);
+                    qs = cp.Utils.ModifyQueryString(qs, Constants.rnResponseId, quizResponse.id.ToString(), true);
                     qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
                     string name = quizResponse.userFirstName + " " + quizResponse.userLastName;
                     if (string.IsNullOrEmpty(name.Trim())) name = quizResponse.userName;
@@ -110,10 +110,10 @@ namespace Contensive.Addons.DistanceLearning
                     //form.setCell(quizResponse.totalPoints.ToString());
                 };
                 form.htmlLeftOfTable = ""
-                    + constants.cr + "<h3 class=\"afwFilterHead\">filters</h3>"
-                    + constants.cr + "<h4 class=\"afwFilterCaption\">Date</h4>"
-                    + constants.cr + "<div class=\"afwFilterRow\"><label for=fromfilter>from</label><input type=\"date\" name=\"" + constants.rnFilterDateFrom + "\" value=\"" + Controllers.genericController.getDateForHtmlInput( filterFromDate ) + "\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
-                    + constants.cr + "<div class=\"afwFilterRow\"><label for=tofilter>to</label><input type=\"date\" name=\"" + constants.rnFilterDateTo + "\" value=\"" + Controllers.genericController.getDateForHtmlInput( filterToDate ) + "\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
+                    + Constants.cr + "<h3 class=\"afwFilterHead\">filters</h3>"
+                    + Constants.cr + "<h4 class=\"afwFilterCaption\">Date</h4>"
+                    + Constants.cr + "<div class=\"afwFilterRow\"><label for=fromfilter>from</label><input type=\"date\" name=\"" + Constants.rnFilterDateFrom + "\" value=\"" + Controllers.genericController.getDateForHtmlInput( filterFromDate ) + "\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
+                    + Constants.cr + "<div class=\"afwFilterRow\"><label for=tofilter>to</label><input type=\"date\" name=\"" + Constants.rnFilterDateTo + "\" value=\"" + Controllers.genericController.getDateForHtmlInput( filterToDate ) + "\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
                     + "";
                 //cp.Doc.AddHeadJavascript(""
                 //    + constants.cr + "jQuery(document).ready(function(){"
@@ -128,7 +128,7 @@ namespace Contensive.Addons.DistanceLearning
             }
             catch (Exception ex)
             {
-                errorReport(cp, ex, "execute");
+                cp.Site.ErrorReport( ex, "execute");
             }
             return result;
         }

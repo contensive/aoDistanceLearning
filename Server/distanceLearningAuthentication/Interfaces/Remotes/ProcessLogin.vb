@@ -23,7 +23,7 @@ Namespace Interfaces.Remotes
                 
 
             Catch ex As Exception
-                errorReport(CP, ex, "execute")
+                cp.Site.ErrorReport( ex, "execute")
                 remoteResponse = New Model.architectureModels.remoteResponseObject With {.data = New Object, .errors = New List(Of Model.architectureModels.errorClass) From {New Model.architectureModels.errorClass With {.number = 1, .userMsg = "Internal Error"}}}
                 ' http error
                 CP.Response.SetStatus("500")
@@ -48,7 +48,7 @@ Namespace Interfaces.Remotes
 
             Catch ex As Exception
                 Try
-                    CP.Site.ErrorReport(ex, "error in deserializeLoginObject")
+                    cp.Site.ErrorReport(ex, "error in deserializeLoginObject")
                 Catch errObj As Exception
                 End Try
             End Try

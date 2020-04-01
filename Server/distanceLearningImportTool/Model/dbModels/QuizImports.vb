@@ -7,90 +7,65 @@ Namespace Model.dbModels
         '
         '
         '
-        Public Shared Function ExistCsvFilename(ByVal CP As CPBaseClass, recordId As Integer) As Boolean
-            Dim result As Boolean = False
+        Public Shared Function existCsvFilename(ByVal CP As CPBaseClass, recordId As Integer) As Boolean
             Try
-                Dim cs As CPCSBaseClass = CP.CSNew()
-                If cs.Open(cnQuizCSVImports,"id=" & recordId) Then
-                    '
-                    'CP.Utils.AppendLog("ExistCsvFilename.log","Open record: " & recordId)
-
-                    '
-                    If Not String.IsNullOrEmpty(cs.GetText("csvFilename")) Then
-
-                        dim filepath = CP.Site.PhysicalFilePath & cs.GetFilename("csvFilename").Replace("/","\")
-
-                        If CP.File.fileExists(filepath) Then
-                            result = True
+                Using cs As CPCSBaseClass = CP.CSNew()
+                    If cs.Open(cnQuizCSVImports, "id=" & recordId) Then
+                        If Not String.IsNullOrEmpty(cs.GetText("csvFilename")) Then
+                            Return CP.CdnFiles.FileExists(cs.GetFilename("csvFilename").Replace("/", "\"))
                         End If
-
-                    Else
-                        'CP.Utils.AppendLog("ExistCsvFilename.log","csvFilename is empty")
                     End If
-                    '
-                End If
-                Call cs.Close()
-                '
+                    Return False
+                End Using
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in QuizImports.ExistCsvFilename")
+                cp.Site.ErrorReport(ex, "Unexpected error in QuizImports.ExistCsvFilename")
+                Return False
             End Try
-            Return result
         End Function
         '
         '
         '
-        Public Shared Function GetCsvFilename(ByVal CP As CPBaseClass, recordId As Integer) As String
-            Dim result As String = ""
+        Public Shared Function getCsvFilename(ByVal CP As CPBaseClass, recordId As Integer) As String
             Try
-                Dim cs As CPCSBaseClass = CP.CSNew()
-                If cs.Open(cnQuizCSVImports,"id=" & recordId) Then
-                    '
-                    result = CP.Site.PhysicalFilePath & cs.GetFilename("csvFilename").Replace("/","\")
-                    '
-                End If
-                Call cs.Close()
-                '
+                Using cs As CPCSBaseClass = CP.CSNew()
+                    If cs.Open(cnQuizCSVImports, "id=" & recordId) Then
+                        Return CP.CdnFiles.PhysicalFilePath & cs.GetFilename("csvFilename").Replace("/", "\")
+                    End If
+                    Return ""
+                End Using
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in QuizImports.GetCsvFilename")
+                cp.Site.ErrorReport(ex, "Unexpected error in QuizImports.GetCsvFilename")
+                Return ""
             End Try
-            Return result
         End Function
         '
         '
         '
-        Public Shared Function SetProcessError(ByVal CP As CPBaseClass, RecordId As Integer, ByRef errorList As List(Of Model.architectureModels.errorClass)) As Boolean
-            Dim Result As Boolean =  False
+        Public Shared Sub setProcessError(ByVal CP As CPBaseClass, RecordId As Integer, ByRef errorList As List(Of Model.architectureModels.errorClass))
             Try
-                '
-                Dim cs As CPCSBaseClass = CP.CSNew()
-                Dim errorStr As String = "Process detect the follow errors:" & vbCrLf
-                '
-                For each oneError in errorList
-                    errorStr &=  oneError.userMsg & vbCrLf
-                Next
-                '
-                If cs.Open(cnQuizCSVImports,"id=" & recordId) Then
-                    '
-                    cs.SetField("importErrors", errorStr)
-                    '
-                End If
-                Call cs.Close()
-                '
+                Using cs As CPCSBaseClass = CP.CSNew()
+                    Dim errorStr As String = "Process detect the follow errors:" & vbCrLf
+                    For Each oneError In errorList
+                        errorStr &= oneError.userMsg & vbCrLf
+                    Next
+                    If cs.Open(cnQuizCSVImports, "id=" & RecordId) Then
+                        cs.SetField("importErrors", errorStr)
+                    End If
+                End Using
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in QuizImports.SetProcessError")
+                cp.Site.ErrorReport(ex, "Unexpected error in QuizImports.SetProcessError")
             End Try
-            Return Result
-        End Function
+        End Sub
         '
         '
         '
-        Public Shared Function SetEndProcess(ByVal CP As CPBaseClass, RecordId As Integer) As Boolean
-            Dim Result As Boolean =  False
+        Public Shared Function setEndProcess(ByVal CP As CPBaseClass, RecordId As Integer) As Boolean
+            Dim Result As Boolean = False
             Try
                 '
                 Dim cs As CPCSBaseClass = CP.CSNew()
                 '
-                If cs.Open(cnQuizCSVImports,"id=" & recordId) Then
+                If cs.Open(cnQuizCSVImports, "id=" & RecordId) Then
                     '
                     cs.SetField("dateimportcompleted", Now.ToString())
                     '
@@ -98,7 +73,7 @@ Namespace Model.dbModels
                 Call cs.Close()
                 '
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in QuizImports.SetEndProcess")
+                cp.Site.ErrorReport(ex, "Unexpected error in QuizImports.SetEndProcess")
             End Try
             Return Result
         End Function
@@ -130,7 +105,7 @@ Namespace Model.dbModels
 
                 '
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in QuizImports.SetEndProcess")
+                cp.Site.ErrorReport(ex, "Unexpected error in QuizImports.SetEndProcess")
             End Try
             Return Result
         End Function
@@ -159,7 +134,7 @@ Namespace Model.dbModels
                 End If
                 '
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in Model.dbModels.Patient.SetPatientFile")
+                cp.Site.ErrorReport(ex, "Unexpected error in Model.dbModels.Patient.SetPatientFile")
                 Dim oneError As New Model.architectureModels.errorClass
                 oneError.number = 300
                 oneError.userMsg = "Error in Set CSV File."

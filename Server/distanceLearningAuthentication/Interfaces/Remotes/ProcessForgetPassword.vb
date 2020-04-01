@@ -30,7 +30,7 @@ Namespace Interfaces.Remotes
                 End If
                 '
             Catch ex As Exception
-                errorReport(CP, ex, "execute")
+                cp.Site.ErrorReport( ex, "execute")
                 remoteResponse = New Model.architectureModels.remoteResponseObject With {.data = New Object, .errors = New List(Of Model.architectureModels.errorClass) From {New Model.architectureModels.errorClass With {.number = 1, .userMsg = "Internal Error"}}}
                 ' http error
                 CP.Response.SetStatus("500")

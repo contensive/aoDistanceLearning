@@ -41,7 +41,7 @@ Namespace Model.dbModels
                     result= True
                 End If
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in Member.VerifyActualUsername")
+                cp.Site.ErrorReport(ex, "Unexpected error in Member.VerifyActualUsername")
             End Try
             Return result
         End Function
@@ -55,7 +55,7 @@ Namespace Model.dbModels
                 Call setFieldWithValue(CP, userId, "password", newPassword)
                 '
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in Member.GenerateUserNewPassword")
+                cp.Site.ErrorReport(ex, "Unexpected error in Member.GenerateUserNewPassword")
             End Try
             Return newPassword
         End Function
@@ -73,7 +73,7 @@ Namespace Model.dbModels
                 End If
                 Call cs.Close()
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in Member.verifyUsernameAlreadyExist")
+                cp.Site.ErrorReport(ex, "Unexpected error in Member.verifyUsernameAlreadyExist")
             End Try
             Return result
         End Function
@@ -85,7 +85,7 @@ Namespace Model.dbModels
                 result = cs.Open(cnPeople,"username=" &  CP.Db.EncodeSQLText(username))
                 Call cs.Close()
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in Member.verifyUsernameAlreadyExist")
+                cp.Site.ErrorReport(ex, "Unexpected error in Member.verifyUsernameAlreadyExist")
             End Try
             Return result
         End Function
@@ -161,7 +161,7 @@ Namespace Model.dbModels
                 End If                     
                 '
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in User.CreateUser - errorStep:" & errorStep)
+                cp.Site.ErrorReport(ex, "Unexpected error in User.CreateUser - errorStep:" & errorStep)
             End Try
 
             '
@@ -179,7 +179,7 @@ Namespace Model.dbModels
                 Call cs.Close()
                 '
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in Member.getRecordFromEmail")
+                cp.Site.ErrorReport(ex, "Unexpected error in Member.getRecordFromEmail")
             End Try
             Return oMember
         End Function
@@ -206,7 +206,7 @@ Namespace Model.dbModels
                 Call cs.Close()
                 '
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in User.getUser")
+                cp.Site.ErrorReport(ex, "Unexpected error in User.getUser")
             End Try
             '
             Return oUser
@@ -225,7 +225,7 @@ Namespace Model.dbModels
                 Call cs.Close()
                 '
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in User.ActualUserIsInGroup")
+                cp.Site.ErrorReport(ex, "Unexpected error in User.ActualUserIsInGroup")
             End Try
             Return result
         End Function
@@ -252,7 +252,7 @@ Namespace Model.dbModels
                     End If
                 End If
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in User.AddUserToGroup")
+                cp.Site.ErrorReport(ex, "Unexpected error in User.AddUserToGroup")
             End Try
             Return result
         End Function
@@ -282,7 +282,7 @@ Namespace Model.dbModels
                 End If
 
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in User.getAccountId")
+                cp.Site.ErrorReport(ex, "Unexpected error in User.getAccountId")
             End Try
             Return accountId
         End Function

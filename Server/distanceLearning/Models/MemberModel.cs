@@ -104,13 +104,12 @@ namespace Contensive.Addons.DistanceLearning.Models
                 CPCSBaseClass cs = cpCore.CSNew();
                 if (cs.Open(primaryContentName, sqlCriteria))
                 {
-                    result = new MemberModel();
-                    //
-                    // -- populate result model
-                    result.id = cs.GetInteger("id");
-                    result.name = cs.GetText("name");
-                    result.ccguid = cs.GetText("ccGuid");
-                    result.createKey = cs.GetInteger("createKey");
+                    result = new MemberModel {
+                        id = cs.GetInteger("id"),
+                        name = cs.GetText("name"),
+                        ccguid = cs.GetText("ccGuid"),
+                        createKey = cs.GetInteger("createKey")
+                    };
                 }
                 cs.Close();
             }
@@ -180,7 +179,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             {
                 if ((recordId > 0))
                 {
-                    cp.Db.ExecuteSQL("delete from " + cp.Content.GetTable(primaryContentName) + " where (id=" + recordId.ToString() + ")");
+                    cp.Db.ExecuteNonQuery("delete from " + cp.Content.GetTable(primaryContentName) + " where (id=" + recordId.ToString() + ")");
                 }
             }
             catch (Exception ex)
@@ -202,7 +201,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             {
                 if ((!string.IsNullOrEmpty(guid)))
                 {
-                    cp.Db.ExecuteSQL("delete from " + cp.Content.GetTable(primaryContentName) + " where (ccguid=" + cp.Db.EncodeSQLText(guid) + ")");
+                    cp.Db.ExecuteNonQuery("delete from " + cp.Content.GetTable(primaryContentName) + " where (ccguid=" + cp.Db.EncodeSQLText(guid) + ")");
                 }
             }
             catch (Exception ex)

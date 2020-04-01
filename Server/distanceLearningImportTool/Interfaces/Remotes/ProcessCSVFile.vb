@@ -20,8 +20,8 @@ Namespace Interfaces.Remotes
                 If recordId<>0 Then
                     '
 
-                    If Model.dbModels.QuizImports.ExistCsvFilename(CP, recordId) Then
-                        Dim filename= Model.dbModels.QuizImports.GetCsvFilename(CP, recordId)
+                    If Model.dbModels.QuizImports.existCsvFilename(CP, recordId) Then
+                        Dim filename= Model.dbModels.QuizImports.getCsvFilename(CP, recordId)
 
                         Dim csvObjectList = Model.solutionModels.csvFile.GetCsvFileObjectList(CP, filename, remoteResponse.errors)
                         '
@@ -29,7 +29,7 @@ Namespace Interfaces.Remotes
                         '
 
                         If remoteResponse.errors.Count > 0 Then
-                            Call Model.dbModels.QuizImports.SetProcessError(CP, recordId, remoteResponse.errors)
+                            Call Model.dbModels.QuizImports.setProcessError(CP, recordId, remoteResponse.errors)
                         Else
                             ' 
                             ' Process / Create database records
@@ -39,7 +39,7 @@ Namespace Interfaces.Remotes
                             'remoteResponse.data = QuizObject
                         End If
                         '
-                        Call Model.dbModels.QuizImports.SetEndProcess(CP, recordId)
+                        Call Model.dbModels.QuizImports.setEndProcess(CP, recordId)
                         '
                         Call Model.dbModels.QuizImports.SendNotificationEmail(CP, recordId)
                         '
@@ -59,7 +59,7 @@ Namespace Interfaces.Remotes
                 
 
             Catch ex As Exception
-                errorReport(CP, ex, "execute")
+                cp.Site.ErrorReport( ex, "execute")
                 remoteResponse = New Model.architectureModels.remoteResponseObject With {.data = New Object, .errors = New List(Of Model.architectureModels.errorClass) From {New Model.architectureModels.errorClass With {.number = 1, .userMsg = "Internal Error"}}}
                 ' http error
                 CP.Response.SetStatus("500")

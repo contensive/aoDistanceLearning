@@ -15,17 +15,17 @@ namespace Contensive.Addons.DistanceLearning
             string result = "";
             try
             {
-                int responseId = cp.Doc.GetInteger(constants.rnResponseId);
+                int responseId = cp.Doc.GetInteger(Constants.rnResponseId);
                 Models.QuizResponseModel response = Models.QuizResponseModel.create(cp, responseId);
                 Models.QuizModel quiz = Models.QuizModel.create(cp, response.QuizID);
                 Models.MemberModel member = MemberModel.create(cp, response.MemberID);
                 if (member==null) { member = new MemberModel() { name = "Unknown" }; }
-                if (cp.Doc.GetText(constants.rnButton) == constants.buttonCancel)
+                if (cp.Doc.GetText(Constants.rnButton) == Constants.buttonCancel)
                 {
                     // -- go back to response
                     string qs = cp.Doc.RefreshQueryString;
-                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureQuizOverviewResults, true);
-                    qs = cp.Utils.ModifyQueryString(qs,  constants.rnQuizId, quiz.id.ToString() , true);
+                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeatureQuizOverviewResults, true);
+                    qs = cp.Utils.ModifyQueryString(qs,  Constants.rnQuizId, quiz.id.ToString() , true);
                     cp.Response.Redirect("?" + qs);
                     return "";
                 }
@@ -36,16 +36,16 @@ namespace Contensive.Addons.DistanceLearning
                     + cp.Html.div("Participant: " + member.name)
                     + "";
                 cp.Doc.SetProperty("id", responseId.ToString());
-                form.body = cp.Html.div(cp.Utils.ExecuteAddon(constants.scoreCardAddon), "", "onlineQuiz"); ;
-                form.addFormButton(constants.buttonCancel);
-                form.addFormHidden(constants.rnQuizId, quiz.id.ToString());
-                form.addFormHidden(constants.rnResponseId, response.id.ToString());
+                form.body = cp.Html.div(cp.Utils.ExecuteAddon(Constants.scoreCardAddon), "", "onlineQuiz"); ;
+                form.addFormButton(Constants.buttonCancel);
+                form.addFormHidden(Constants.rnQuizId, quiz.id.ToString());
+                form.addFormHidden(Constants.rnResponseId, response.id.ToString());
                 result = form.getHtml(cp);
                 result = genericController.getTabWrapper(cp, result, "Results", quiz);
             }
             catch (Exception ex)
                 {
-                    errorReport(cp, ex, "execute");
+                    cp.Site.ErrorReport( ex, "execute");
                 }
                 return result;
 

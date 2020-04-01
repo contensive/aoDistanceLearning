@@ -23,7 +23,7 @@ Namespace Model.dbModels
                 End If
                 '
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in Quizzes.createRecord")
+                cp.Site.ErrorReport(ex, "Unexpected error in Quizzes.createRecord")
             End Try
             Return recordId
         End Function

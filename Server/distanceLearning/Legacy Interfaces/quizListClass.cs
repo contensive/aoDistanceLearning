@@ -21,28 +21,28 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
             int nextFormId = srcFormId;
             try
             {
-                string button = cp.Doc.GetProperty(constants.rnButton, "");
+                string button = cp.Doc.GetProperty(Constants.rnButton, "");
                 CPCSBaseClass cs = cp.CSNew();
                 //
                 if (button != "")
                 {
-                    genericController.checkRequiredFieldText(cp, constants.rnSampleField, "Sample Field");
+                    genericController.checkRequiredFieldText(cp, Constants.rnSampleField, "Sample Field");
                     //
                     if (cp.UserError.OK())
                     {
-                        if (!cs.Open(constants.cnApps, "id=" + appId, "", true, "", 1, 1))
+                        if (!cs.Open(Constants.cnApps, "id=" + appId, "", true, "", 1, 1))
                         {
                             cs.Close();
-                            cs.Insert(constants.cnApps);
+                            cs.Insert(Constants.cnApps);
                         }
-                        cs.SetField("sampleField", cp.Doc.GetProperty(constants.rnSampleField, ""));
+                        cs.SetField("sampleField", cp.Doc.GetProperty(Constants.rnSampleField, ""));
                         cs.Close();
                     }
                 }
             }
             catch (Exception ex)
             {
-                errorReport(cp, ex, "processForm");
+                cp.Site.ErrorReport( ex, "processForm");
             }
             return nextFormId;
         }
@@ -64,8 +64,8 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 string qsBase;
                 string userName = "";
                 string filterForm;
-                DateTime filterDateFrom = cp.Utils.EncodeDate(cp.Doc.get_Var(constants.rnFilterDateFrom));
-                DateTime filterDateTo =  cp.Utils.EncodeDate( cp.Doc.get_Var(constants.rnFilterDateTo));
+                DateTime filterDateFrom = cp.Utils.EncodeDate(cp.Doc.get_Var(Constants.rnFilterDateFrom));
+                DateTime filterDateTo =  cp.Utils.EncodeDate( cp.Doc.get_Var(Constants.rnFilterDateTo));
                 DateTime tmpDate;
                 string sqlWhere = "";
                 //
@@ -143,14 +143,14 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 }
                 else
                 {
-                    qsBase = cp.Utils.ModifyQueryString(rqs, constants.rnDstFormId, constants.formIdQuizDetails.ToString(), true);
+                    qsBase = cp.Utils.ModifyQueryString(rqs, Constants.rnDstFormId, Constants.formIdQuizDetails.ToString(), true);
                     while (cs.OK())
                     {
                         //
                         userName = cs.GetText("userName");
                         if (userName.ToLower() == "guest") { userName += " #" + cs.GetInteger("userId"); }
                         reportList.addRow();
-                        qs = cp.Utils.ModifyQueryString(qsBase, "id", cs.GetInteger(constants.rnResponseId).ToString(), true);
+                        qs = cp.Utils.ModifyQueryString(qsBase, "id", cs.GetInteger(Constants.rnResponseId).ToString(), true);
                         reportList.setCell("<a href=\"?" + qs + "\">" + cs.GetText("quizName") + "</a>");
                         reportList.setCell(userName );
                         reportList.setCell(genericController.getShortDateString(cs.GetDate("dateSubmitted")));
@@ -165,13 +165,13 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 // add filter under chart
                 //
                 filterForm = "Only show quizzes submitted:"
-                    + cp.Html.div("from " + cp.Html.InputDate(constants.rnFilterDateFrom, genericController.getShortDateString(filterDateFrom), "", "", ""), "", "dlFilterRow", "")
-                    + cp.Html.div("to " + cp.Html.InputDate(constants.rnFilterDateTo, genericController.getShortDateString(filterDateTo), "", "", ""), "", "dlFilterRow", "")
+                    + cp.Html.div("from " + cp.Html.InputDate(Constants.rnFilterDateFrom, genericController.getShortDateString(filterDateFrom), "", "", ""), "", "dlFilterRow", "")
+                    + cp.Html.div("to " + cp.Html.InputDate(Constants.rnFilterDateTo, genericController.getShortDateString(filterDateTo), "", "", ""), "", "dlFilterRow", "")
                     + "";
                 filterForm = ""
-                    + constants.cr + cp.Html.h2("Filters", "", "", "")
-                    + constants.cr + cp.Html.div(filterForm, "", "", "")
-                    + constants.cr + cp.Html.div( cp.Html.Button("button", constants.rnbuttonApplyFilter, " btn btn-primary", ""),"","","")
+                    + Constants.cr + cp.Html.h2("Filters", "", "", "")
+                    + Constants.cr + cp.Html.div(filterForm, "", "", "")
+                    + Constants.cr + cp.Html.div( cp.Html.Button("button", Constants.rnbuttonApplyFilter, " btn btn-primary", ""),"","","")
                     + "";
                 filterForm = cp.Html.Form(filterForm, "", "", "", "", "");
                 reportList.htmlAfterTable = filterForm;
@@ -183,7 +183,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
             }
             catch (Exception ex)
             {
-                errorReport(cp, ex, "getForm");
+                cp.Site.ErrorReport( ex, "getForm");
             }
             return s;
         }

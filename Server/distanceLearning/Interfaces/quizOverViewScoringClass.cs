@@ -17,27 +17,27 @@ namespace Contensive.Addons.DistanceLearning
             string result = "";
             try
             {
-                QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger(constants.rnQuizId));
+                QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger(Constants.rnQuizId));
                 string qs;
                 if (quiz == null)
                 {
                     //
                     // -- no quiz provided, go back to quiz list
                     qs = cp.Doc.RefreshQueryString;
-                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeatureDashboard, true);
+                    qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeatureDashboard, true);
                     cp.Response.Redirect("?" + qs);
                     return "";
                 }
                 string button = cp.Doc.GetText("button");
                 switch (button)
                 {
-                    case constants.buttonCancel:
+                    case Constants.buttonCancel:
                         qs = cp.Doc.RefreshQueryString;
-                        qs = cp.Utils.ModifyQueryString(qs, constants.rnQuizId, quiz.id.ToString());
-                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", constants.portalFeaturesQuizOverviewDetails);
+                        qs = cp.Utils.ModifyQueryString(qs, Constants.rnQuizId, quiz.id.ToString());
+                        qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeaturesQuizOverviewDetails);
                         cp.Response.Redirect("?" + qs);
                         break;
-                    case constants.buttonSave:
+                    case Constants.buttonSave:
                         quiz.ACaption = cp.Doc.GetText("aCaption");
                         quiz.APercentile = cp.Doc.GetNumber("APercentile");
                         quiz.APassingGrade = cp.Doc.GetBoolean("aPassingGrade");
@@ -54,7 +54,7 @@ namespace Contensive.Addons.DistanceLearning
                         quiz.FPercentile = cp.Doc.GetNumber("FPercentile");
                         quiz.FPassingGrade = cp.Doc.GetBoolean("FPassingGrade");
                         quiz.certificateTypeId = cp.Doc.GetInteger("certificateTypeId");
-                        quiz.certificationTypeId = cp.Doc.GetInteger(constants.rnCertificationTypeId);
+                        quiz.certificationTypeId = cp.Doc.GetInteger(Constants.rnCertificationTypeId);
                         quiz.certificationCECs = cp.Doc.GetNumber("certificationCECs");
                         quiz.addSuccessCopy = cp.Doc.GetBoolean("addSuccessCopy");
                         quiz.successCopy = cp.Doc.GetText("successCopy");
@@ -131,27 +131,27 @@ namespace Contensive.Addons.DistanceLearning
                 certificationForm.addRow();
                 certificationForm.rowName = "Add CECs";
                 certificationForm.rowValue = "&nbsp;If passing grade, add CECs to user's account"
-                    + cp.Html.div( cp.Html.InputText(constants.rnCertificationCECs, quiz.certificationCECs.ToString(),"","",false, "afwRowTextInput afwInput") + " CECs towards Certification Type " + cp.Html.SelectContent(constants.rnCertificationTypeId, quiz.certificationTypeId.ToString(), constants.cnCertificationTypes, "", "No Certification Types", "afwInput"),"", "afwRowValueHelpBox")
+                    + cp.Html.div( cp.Html.InputText(Constants.rnCertificationCECs, quiz.certificationCECs.ToString(),"","",false, "afwRowTextInput afwInput") + " CECs towards Certification Type " + cp.Html.SelectContent(Constants.rnCertificationTypeId, quiz.certificationTypeId.ToString(), Constants.cnCertificationTypes, "", "No Certification Types", "afwInput"),"", "afwRowValueHelpBox")
                     + "";
                 certificationForm.rowHelp = "";
                 // 
                 certificationForm.addRow();
                 certificationForm.rowName = "Add Certificate";
                 certificationForm.rowValue = "&nbsp;If passing grade, add Certificate record to user's account"
-                    + cp.Html.div(cp.Html.SelectContent(constants.rnCertificateTypeId, quiz.certificateTypeId.ToString(), constants.cnCertificateTypes, "", "No Certificate", "afwInput"), "", "afwRowValueHelpBox")
+                    + cp.Html.div(cp.Html.SelectContent(Constants.rnCertificateTypeId, quiz.certificateTypeId.ToString(), Constants.cnCertificateTypes, "", "No Certificate", "afwInput"), "", "afwRowValueHelpBox")
                     + "";
                 certificationForm.rowHelp = "";
                 // 
                 certificationForm.addRow();
                 certificationForm.rowName = "Success Message";
-                certificationForm.rowValue = cp.Html.CheckBox(constants.rnAddSuccessCopy, quiz.addSuccessCopy, "afwInput")
+                certificationForm.rowValue = cp.Html.CheckBox(Constants.rnAddSuccessCopy, quiz.addSuccessCopy, "afwInput")
                     + "If passing grade, add text to results page"
-                    + cp.Html.div(cp.Html.InputWysiwyg(constants.rnSuccessCopy, quiz.successCopy,CPHtmlBaseClass.EditorUserScope.CurrentUser,CPHtmlBaseClass.EditorContentScope.Page,"","","afwInput"), "", "afwRowValueHelpBox");
+                    + cp.Html.div(cp.Html.InputWysiwyg(Constants.rnSuccessCopy, quiz.successCopy,CPHtmlBaseClass.EditorUserScope.CurrentUser,CPHtmlBaseClass.EditorContentScope.Page,"","","afwInput"), "", "afwRowValueHelpBox");
                 //
                 adminFramework.formSimpleClass outerForm = new adminFramework.formSimpleClass();
-                outerForm.addFormButton(constants.buttonSave);
-                outerForm.addFormButton(constants.buttonCancel);
-                outerForm.addFormHidden(constants.rnQuizId, quiz.id.ToString());
+                outerForm.addFormButton(Constants.buttonSave);
+                outerForm.addFormButton(Constants.buttonCancel);
+                outerForm.addFormHidden(Constants.rnQuizId, quiz.id.ToString());
                 outerForm.body = gradingForm.getHtml(cp) + certificationForm.getHtml(cp);
                 //
                 // -- wrap in tabs and output finished form
@@ -161,7 +161,7 @@ namespace Contensive.Addons.DistanceLearning
             }
             catch (Exception ex)
             {
-                errorReport(cp, ex, "execute");
+                cp.Site.ErrorReport( ex, "execute");
             }
             return result;
         }

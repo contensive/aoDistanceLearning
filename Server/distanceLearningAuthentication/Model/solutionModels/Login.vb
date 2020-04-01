@@ -56,7 +56,7 @@ Namespace Model.solutionModels
                 End If
 
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in ProcessLogin - step: " & errorStep)
+                cp.Site.ErrorReport(ex, "Unexpected error in ProcessLogin - step: " & errorStep)
             End Try
             Return result
         End Function
@@ -94,7 +94,7 @@ Namespace Model.solutionModels
                 End If
                 '
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "Unexpected error in ForgetPassword")
+                cp.Site.ErrorReport(ex, "Unexpected error in ForgetPassword")
             End Try
             Return Result
         End Function

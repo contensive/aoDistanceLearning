@@ -84,7 +84,7 @@ Namespace Model.viewModels
                 '
                 returnHtml = body
             Catch ex As Exception
-                CP.Site.ErrorReport(ex, "error in formHandlerClass.execute")
+                cp.Site.ErrorReport(ex, "error in formHandlerClass.execute")
             End Try
             Return returnHtml
         End Function
