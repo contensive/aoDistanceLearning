@@ -9,7 +9,7 @@ using Contensive.Addons.DistanceLearning.Controllers;
 
 namespace Contensive.Addons.DistanceLearning.Interfaces
 {
-    public class quizDashboardClass : Contensive.BaseClasses.AddonBaseClass
+    public class QuizDashboardClass : Contensive.BaseClasses.AddonBaseClass
     {
         public override object Execute(CPBaseClass cp)
 

@@ -31,8 +31,11 @@ namespace Contensive.Addons.DistanceLearning {
                 //
                 // -- get settings
                 string loadHint = "";
-                QuizModel quiz = QuizModel.create(cp, cp.Doc.GetText("instanceId"));
+                string requestQuizGuid = cp.Doc.GetText("instanceId");
+                QuizModel quiz = QuizModel.create(cp, requestQuizGuid);
                 if ((quiz == null)) {
+                    //
+                    // -- attempt legacy quiz methods
                     int quizId = cp.Doc.GetInteger("quiz");
                     if ((quizId == 0)) {
                         loadHint += "Addon argument quizId (Quiz in features tab) was not found in addon instance. Use advanded edit on this page to set it. ";
@@ -48,43 +51,44 @@ namespace Contensive.Addons.DistanceLearning {
                     }
                     quiz = QuizModel.create(cp, quizId);
                 }
+                if ((quiz == null) && (!string.IsNullOrEmpty(requestQuizGuid))) {
+                    //
+                    // -- no quiz but valid guid, create a new quiz
+                    quiz = QuizModel.add(cp);
+                    quiz.ccguid = requestQuizGuid;
+                    quiz.name = "Quiz " + quiz.id.ToString();
+                    quiz.saveObject(cp);
+                }
                 string adminHint = "";
                 if ((quiz == null)) {
                     // 
-                    // 
+                    // -- quiz could not be selected or created - possibly legacy method without a selection
                     adminHint += "<p>The quiz you selected cannot be found. " + loadHint + "</p>";
                     returnHtml = "<p>This quiz is not currently available.</p>";
-                } else
+                } else if (quiz.requireAuthentication & (!cp.User.IsAuthenticated)) {
                     // 
-                    // -- verify authentiation
-                    if (quiz.requireAuthentication & (!cp.User.IsAuthenticated))
-                    // 
-                    // require authentication
-                    // 
+                    // -- require authentication
                     returnHtml = ""
-                    + "<p>Before beginning, you must log in.</p>"
-                    + cp.Html.Indent(cp.Addon.Execute(Constants.guidLogin))
-                    + "";
-                else {
+                        + "<p>Before beginning, you must log in.</p>"
+                        + cp.Html.Indent(cp.Addon.Execute(Constants.guidLogin))
+                        + "";
+                } else {
                     // 
                     // -- get the response (like an application)
-                    Contensive.Addons.DistanceLearning.Models.QuizResponseModel response = null/* TODO Change to default(_) if this is not a reference type */;
-                    List<DistanceLearning.Models.QuizResponseDetailModel> responseDetailsList = new List<DistanceLearning.Models.QuizResponseDetailModel>();
-                    response = QuizResponseModel.createLastForThisUser(cp, quiz.id, cp.User.Id);
+                    List<QuizResponseDetailModel> responseDetailsList = new List<QuizResponseDetailModel>();
+                    QuizResponseModel response = QuizResponseModel.createLastForThisUser(cp, quiz.id, cp.User.Id);
                     if (response == null) {
                         // 
                         // -- this user has no response for this quiz yet. Save creates the data needed for display
                         response = new QuizResponseModel();
                         saveResponseDetails(cp, ref quiz, ref response);
                     }
-
-                    if (response == null)
-                        response = new DistanceLearning.Models.QuizResponseModel();
-                    else
-                        responseDetailsList = DistanceLearning.Models.QuizResponseDetailModel.getObjectListForQuizDisplay(cp, response.id);
+                    responseDetailsList = QuizResponseDetailModel.getObjectListForQuizDisplay(cp, response.id);
                     List<string> userMessageList = new List<string>();
                     // 
                     if ((!string.IsNullOrEmpty(cp.Doc.GetText(Constants.rnButton)))) {
+                        //
+                        // -- button pressed, process input
                         if ((!DistanceLearning.Controllers.genericController.isDateEmpty(response.dateSubmitted)))
                             // 
                             // -- process the score card
@@ -118,7 +122,7 @@ namespace Contensive.Addons.DistanceLearning {
                 // 
                 returnHtml = "" + "" + "" + "<div class=\"onlineQuiz\">" + cp.Html.Indent(returnHtml) + cp.Html.Indent(adminHintWrapper(cp, adminHint)) + "" + "" + "</div>";
             } catch (Exception ex) {
-                cp.Site.ErrorReport( ex, "execute");
+                cp.Site.ErrorReport(ex, "execute");
             }
             return returnHtml;
         }
@@ -153,14 +157,14 @@ namespace Contensive.Addons.DistanceLearning {
                 int SubjectID;
                 subjectsStruc[] subjects = null;
                 int questionId;
-                int subjectCnt=0;
+                int subjectCnt = 0;
                 int subjectPtr;
                 string GradeCaption = "";
                 string[] SubjectCaptions;
                 int[] subjectScores;
                 string quizName;
                 int userId;
-                int quizId=0;
+                int quizId = 0;
                 int quizTypeId;
                 int answerPoints;
                 int quizPoints = 0;
@@ -334,7 +338,7 @@ namespace Contensive.Addons.DistanceLearning {
                     }
                 }
             } catch (Exception ex) {
-                cp.Site.ErrorReport( ex, "scoreResponse");
+                cp.Site.ErrorReport(ex, "scoreResponse");
             }
         }
         // 
@@ -349,7 +353,7 @@ namespace Contensive.Addons.DistanceLearning {
                     returnHtml = cp.Content.GetCopy("Quiz Already Taken", QuizAlreadyTakenDefault);
                 }
             } catch (Exception ex) {
-                cp.Site.ErrorReport( ex, "GetQuizTakenCopy");
+                cp.Site.ErrorReport(ex, "GetQuizTakenCopy");
             }
             return returnHtml;
         }
@@ -383,7 +387,7 @@ namespace Contensive.Addons.DistanceLearning {
                 // 
                 returnHtml = "" + "" + "" + "<div class=\"quizChart\">" + cp.Html.Indent(returnHtml) + "" + "" + "<p>Click on the column to see your score</p>" + "" + "" + "</div>";
             } catch (Exception ex) {
-                cp.Site.ErrorReport( ex, "GetChart");
+                cp.Site.ErrorReport(ex, "GetChart");
             }
             return returnHtml;
         }
@@ -430,7 +434,7 @@ namespace Contensive.Addons.DistanceLearning {
                 }
                 cs.Close();
             } catch (Exception ex) {
-                cp.Site.ErrorReport( ex, "SetSubjectArgs");
+                cp.Site.ErrorReport(ex, "SetSubjectArgs");
             }
         }
         // 
@@ -454,7 +458,7 @@ namespace Contensive.Addons.DistanceLearning {
                     }
                 }
             } catch (Exception ex) {
-                cp.Site.ErrorReport( ex, "saveResponseDetails");
+                cp.Site.ErrorReport(ex, "saveResponseDetails");
             }
         }
         // 
@@ -470,7 +474,7 @@ namespace Contensive.Addons.DistanceLearning {
                     returnShort = cs.GetInteger("answerId");
                 cs.Close();
             } catch (Exception ex) {
-                cp.Site.ErrorReport( ex, "getResponseAnswerId");
+                cp.Site.ErrorReport(ex, "getResponseAnswerId");
             }
             return returnShort;
         }
@@ -699,7 +703,7 @@ namespace Contensive.Addons.DistanceLearning {
                 // 
                 string buttonList = "";
                 string htmlRadio;
-                int answerCnt=0;
+                int answerCnt = 0;
                 string q;
                 string quizEditIcon = "";
                 string topCopy = "";
@@ -884,7 +888,7 @@ namespace Contensive.Addons.DistanceLearning {
             string returnHtml = "";
             try {
                 string buttonList = "";
-                int answerCnt=0;
+                int answerCnt = 0;
                 string quizEditIcon = "";
                 string topCopy = "";
                 string buttonCopy = "";
@@ -1003,7 +1007,7 @@ namespace Contensive.Addons.DistanceLearning {
                 CPCSBaseClass cs = cp.CSNew();
                 string itemList = "";
                 string adminUrl = cp.Site.GetText("adminUrl");
-                int warningMsgPoints=0;
+                int warningMsgPoints = 0;
                 string distanceLearningPortalLink;
                 // 
                 distanceLearningPortalLink = cp.Site.GetText("adminUrl")

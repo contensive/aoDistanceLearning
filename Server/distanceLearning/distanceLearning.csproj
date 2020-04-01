@@ -82,14 +82,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\genericController.cs" />
-    <Compile Include="Interfaces\ScoreCardClass.cs" />
-    <Compile Include="Interfaces\QuizClass.cs" />
-    <Compile Include="Legacy Interfaces\quizDetailsClass.cs" />
-    <Compile Include="Interfaces\quizDashboardClass.cs" />
-    <Compile Include="Legacy Interfaces\quizListClass.cs" />
-    <Compile Include="Interfaces\quizOverViewScoringClass.cs" />
-    <Compile Include="Interfaces\quizReportClass.cs" />
-    <Compile Include="Interfaces\blankFormClass.cs" />
+    <Compile Include="Views\ScoreCardClass.cs" />
+    <Compile Include="Views\QuizClass.cs" />
+    <Compile Include="Views\quizDetailsClass.cs" />
+    <Compile Include="Views\QuizDashboardClass.cs" />
+    <Compile Include="Views\quizListClass.cs" />
+    <Compile Include="Views\quizOverViewScoringClass.cs" />
+    <Compile Include="Views\quizReportClass.cs" />
+    <Compile Include="Views\blankFormClass.cs" />
     <Compile Include="Models\QuizModel.cs" />
     <Compile Include="Models\QuizSubjectModel.cs" />
     <Compile Include="Models\QuizResultMessageModel.cs" />
@@ -102,13 +102,13 @@
     <Compile Include="Models\MemberModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="constants.cs" />
-    <Compile Include="Interfaces\quizOverviewDetailsClass.cs" />
-    <Compile Include="Interfaces\quizOverViewlSettingClass.cs" />
-    <Compile Include="Interfaces\quizOverviewResponseListClass.cs" />
-    <Compile Include="Interfaces\quizoverviewStudyPageClass.cs" />
-    <Compile Include="Interfaces\quizOverviewQuestionListClass.cs" />
-    <Compile Include="Interfaces\quizOverViewQuestionDetailsClass.cs" />
-    <Compile Include="Interfaces\quizOverviewResponseDetailsClass.cs" />
+    <Compile Include="Views\quizOverviewDetailsClass.cs" />
+    <Compile Include="Views\quizOverViewlSettingClass.cs" />
+    <Compile Include="Views\quizOverviewResponseListClass.cs" />
+    <Compile Include="Views\quizoverviewStudyPageClass.cs" />
+    <Compile Include="Views\quizOverviewQuestionListClass.cs" />
+    <Compile Include="Views\quizOverViewQuestionDetailsClass.cs" />
+    <Compile Include="Views\quizOverviewResponseDetailsClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -132,9 +132,7 @@
     <None Include="key1.snk" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Models\xModelFields.txt" />
   </ItemGroup>
@@ -152,7 +150,7 @@
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

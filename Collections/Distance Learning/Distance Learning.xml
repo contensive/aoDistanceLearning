@@ -6,7 +6,7 @@
 		<Copy></Copy>
 		<CopyText></CopyText>
 		<ActiveXProgramID></ActiveXProgramID>
-		<DotNetClass><![CDATA[Contensive.Addons.OnlineQuiz.scoreCardClass]]></DotNetClass>
+		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.scoreCardClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
 		<Filter>No</Filter>
@@ -36,22 +36,21 @@
 		<PageTitle></PageTitle>
 		<RemoteAssetLink></RemoteAssetLink>
 		<Styles><![CDATA[
-
-.instructionText
-{
-color:green;
-}
-.instructionText
-{
-color:green;
-}]]></Styles>
+			.instructionText
+			{
+			color:green;
+			}
+			.instructionText
+			{
+			color:green;
+			}]]></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
 	<Addon name="Online Quiz" guid="{4A5EBAD7-27ED-4AB4-BEF0-D42E01598FC5}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
 		<ActiveXProgramID></ActiveXProgramID>
-		<DotNetClass><![CDATA[Contensive.Addons.OnlineQuiz.quizClass]]></DotNetClass>
+		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.quizClass]]></DotNetClass>
 		<ArgumentList><![CDATA[Quiz=[ListId(Quizzes)]]]></ArgumentList>
 		<AsAjax>No</AsAjax>
 		<Filter>No</Filter>
@@ -83,9 +82,9 @@ color:green;
 		<PageTitle></PageTitle>
 		<RemoteAssetLink></RemoteAssetLink>
 		<Styles><![CDATA[.questionRaioInput{
-float: left;
-}
-.quizanswerClass{margin-left: 21px;}]]></Styles>
+			float: left;
+			}
+			.quizanswerClass{margin-left: 21px;}]]></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
 	<Addon name="Online Quiz Includes" guid="{596B237C-F206-4324-B0A4-5F66C8AEF966}" type="Add-on">
@@ -105,30 +104,30 @@ float: left;
 		<IsInline>No</IsInline>
 		<JavascriptOnLoad></JavascriptOnLoad>
 		<JavascriptInHead><![CDATA[function verifyAnswers() {
-return true;
-}
-jQuery(document).ready(function(){
-    this.afwFormChange = false;
-    jQuery('.afwInput').on( 'change', function(){
-        this.afwFormChange = true;
-        //alert('this.afwFormChange=' + this.afwFormChange);
-    })
-    jQuery('.afwButton').on( 'click', function(){
-        this.afwFormChange = false;
-        //alert('this.afwFormChange=' + this.afwFormChange);
-    })
-    jQuery(window).on('hashchange', function(e){
-        alert('this.afwFormChange=' + this.afwFormChange);
-    });
-    jQuery(window).bind('beforeunload', function() {
-        alert('this.afwFormChange=' + this.afwFormChange);
-        if (this.afwFormChange==true) {
-            return 'You may have changes on this page. Are you sure?';
-        }
-        // do something, preferably ajax request etc
-        //return 'are you sure?';
-    });
-})]]></JavascriptInHead>
+			return true;
+			}
+			jQuery(document).ready(function(){
+				this.afwFormChange = false;
+				jQuery('.afwInput').on( 'change', function(){
+					this.afwFormChange = true;
+					//alert('this.afwFormChange=' + this.afwFormChange);
+				})
+				jQuery('.afwButton').on( 'click', function(){
+					this.afwFormChange = false;
+					//alert('this.afwFormChange=' + this.afwFormChange);
+				})
+				jQuery(window).on('hashchange', function(e){
+					alert('this.afwFormChange=' + this.afwFormChange);
+				});
+				jQuery(window).bind('beforeunload', function() {
+					alert('this.afwFormChange=' + this.afwFormChange);
+					if (this.afwFormChange==true) {
+						return 'You may have changes on this page. Are you sure?';
+					}
+					// do something, preferably ajax request etc
+					//return 'are you sure?';
+				});
+			})]]></JavascriptInHead>
 		<JavascriptBodyEnd></JavascriptBodyEnd>
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
@@ -147,72 +146,68 @@ jQuery(document).ready(function(){
 		<RemoteAssetLink></RemoteAssetLink>
 		<Styles><![CDATA[
 
+			#afw .afwFormRowValue .afwRowValueHelpBox {padding: 5px 0 0 20px;}
+			#afw .afwFormRowValue input[type="text"].afwRowTextInput {width:50px;}
 
+			.onlineQuiz{
+				padding:10px;
+				background-color:white;
+				boarder:1px solid #777;
+			}
+			.onlineQuiz .score {
+				margin-top:10px;
+			}
+			.onlineQuiz .summary {
+				margin-top:10px;
+			}
+			.onlineQuiz .summary .errorMsg {
+				margin-top:10px;
+				color:red;
+			}
+			.onlineQuiz .subject {
+				font-weight: bold;
+				margin:20px 0 10px 0;
+			}
+			.onlineQuiz .question {
+				margin:10px 0 0 20px;
+			}
+			.onlineQuiz .question .questionText {
+				font-weight: bold;
+			}
+			.onlineQuiz .question .questionTextWrong {
+				font-weight: bold;
+				color:red;
+			}
+			.onlineQuiz .question .questionChoice {
+				margin-left:40px;
+			}
+			.onlineQuiz .question .questionChoiceWrong {
+				margin-left:40px;
+				color:red;
+			}
+					
+			.onlineQuiz .button {
+				margin-top:10px;
+			}
+			.onlineQuiz .progressbarCon {
+				margin:20px 0 0 0;
+			}
 
+			.onlineQuiz .quizChart{
+				margin:10px auto 0 auto;
+				height:300px;
+				width:400px;
+			}
+					
+			.onlineQuiz .totalScore{
+			}
 
-#afw .afwFormRowValue .afwRowValueHelpBox {padding: 5px 0 0 20px;}
-#afw .afwFormRowValue input[type="text"].afwRowTextInput {width:50px;}
+			.onlineQuiz .subjectScore ul{
+				margin-left:0;
+			}
 
-.onlineQuiz{
-	padding:10px;
-	background-color:white;
-	boarder:1px solid #777;
-}
-.onlineQuiz .score {
-	margin-top:10px;
-}
-.onlineQuiz .summary {
-	margin-top:10px;
-}
-.onlineQuiz .summary .errorMsg {
-	margin-top:10px;
-	color:red;
-}
-.onlineQuiz .subject {
-	font-weight: bold;
-	margin:20px 0 10px 0;
-}
-.onlineQuiz .question {
-	margin:10px 0 0 20px;
-}
-.onlineQuiz .question .questionText {
-	font-weight: bold;
-}
-.onlineQuiz .question .questionTextWrong {
-	font-weight: bold;
-	color:red;
-}
-.onlineQuiz .question .questionChoice {
-	margin-left:40px;
-}
-.onlineQuiz .question .questionChoiceWrong {
-	margin-left:40px;
-	color:red;
-}
-		
-.onlineQuiz .button {
-	margin-top:10px;
-}
-.onlineQuiz .progressbarCon {
-	margin:20px 0 0 0;
-}
-
-.onlineQuiz .quizChart{
-	margin:10px auto 0 auto;
-	height:300px;
-	width:400px;
-}
-		
-.onlineQuiz .totalScore{
-}
-
-.onlineQuiz .subjectScore ul{
-	margin-left:0;
-}
-
-.onlineQuiz .subjectScoreList{
-}
-
+			.onlineQuiz .subjectScoreList{
+			}
 
 		]]></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
@@ -253,20 +248,10 @@ jQuery(document).ready(function(){
 		<RemoteAssetLink></RemoteAssetLink>
 		<Styles><![CDATA[
 
-
-
-
-
-
-
-
-
-
-
-.dlFilterRow {
-    width: 300px;
-    text-align: right;
-}]]></Styles>
+			.dlFilterRow {
+				width: 300px;
+				text-align: right;
+			}]]></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
 	<Addon name="Quiz Settings" guid="{E6F2607A-C9CE-4B29-B8FE-B02CFA1429EA}" type="Setting">
@@ -289,7 +274,7 @@ jQuery(document).ready(function(){
 			<Tab name="General" heading="General Settings" description="Settings that affect the function of the Distance Learning Add-on">
 				<SiteProperty caption="Allow re-take" name="distanceLearningRetake" ReadOnly="0" Type="Boolean" Selector="" Description="Allow users to take the quiz multiple times">False</SiteProperty>
 			</Tab>
-</Form>]]></FormXML>
+			</Form>]]></FormXML>
 		<IsInline>No</IsInline>
 		<JavascriptOnLoad></JavascriptOnLoad>
 		<JavascriptInHead></JavascriptInHead>
@@ -330,14 +315,14 @@ jQuery(document).ready(function(){
 		<IsInline>No</IsInline>
 		<JavascriptOnLoad></JavascriptOnLoad>
 		<JavascriptInHead><![CDATA[//jQuery( document ).ready(function() {  
-  //  jQuery( "#js-addQuizButtonId" ).click(function( event ) {
-    //var quizName  = document.getElementById('js-quizname').value;
-    //var queryString = 'quizName='+ quizName  ;
-   // window.location.href = 'http://appquiz/dstFormId=4&id=0&' + queryString;
-     //});	
-//});
+			//  jQuery( "#js-addQuizButtonId" ).click(function( event ) {
+				//var quizName  = document.getElementById('js-quizname').value;
+				//var queryString = 'quizName='+ quizName  ;
+			// window.location.href = 'http://appquiz/dstFormId=4&id=0&' + queryString;
+				//});	
+			//});
 
-]]></JavascriptInHead>
+			]]></JavascriptInHead>
 		<JavascriptBodyEnd></JavascriptBodyEnd>
 		<MetaDescription></MetaDescription>
 		<OtherHeadTags></OtherHeadTags>
@@ -356,55 +341,46 @@ jQuery(document).ready(function(){
 		<RemoteAssetLink></RemoteAssetLink>
 		<Styles><![CDATA[
 
-
-
-
-
-
-
-
-
-
-.dlFilterRow {
-    width: 300px;
-    text-align: right;
-}
-.questionEditClass{
-margin-left:300px;
-}
-.questionDeleteClass{
-margin-left:400px;
-}
-.dlFilterRow {
-    width: 300px;
-    text-align: right;
-}
-.questionEditClass{
-margin-left:300px;
-}
-.questionDeleteClass{
-margin-left:400px;
-}
-.dlFilterRow {
-    width: 300px;
-    text-align: right;
-}
-.questionEditClass{
-margin-left:300px;
-}
-.questionDeleteClass{
-margin-left:400px;
-}
-.dlFilterRow {
-    width: 300px;
-    text-align: right;
-}
-.questionEditClass{
-margin-left:300px;
-}
-.questionDeleteClass{
-margin-left:400px;
-}]]></Styles>
+				.dlFilterRow {
+					width: 300px;
+					text-align: right;
+				}
+				.questionEditClass{
+				margin-left:300px;
+				}
+				.questionDeleteClass{
+				margin-left:400px;
+				}
+				.dlFilterRow {
+					width: 300px;
+					text-align: right;
+				}
+				.questionEditClass{
+				margin-left:300px;
+				}
+				.questionDeleteClass{
+				margin-left:400px;
+				}
+				.dlFilterRow {
+					width: 300px;
+					text-align: right;
+				}
+				.questionEditClass{
+				margin-left:300px;
+				}
+				.questionDeleteClass{
+				margin-left:400px;
+				}
+				.dlFilterRow {
+					width: 300px;
+					text-align: right;
+				}
+				.questionEditClass{
+				margin-left:300px;
+				}
+				.questionDeleteClass{
+				margin-left:400px;
+				}]]></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
 	<Addon name="Quiz Overview Details" guid="{fd30f314-f37d-40e9-ac56-841e74de84fd}" type="Add-on">
@@ -732,15 +708,15 @@ margin-left:400px;
 		<Styles></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000">
 			<Code><![CDATA[function f
-call cp.response.redirect( "?addonGuid={A1BCA00C-2657-42A1-8F98-BED1E5A42025}&setPortalGuid={771bfee5-1fa7-4edf-8b6c-1406ab7bacf9} " )
-end function]]></Code>
+				call cp.response.redirect( "?addonGuid={A1BCA00C-2657-42A1-8F98-BED1E5A42025}&setPortalGuid={771bfee5-1fa7-4edf-8b6c-1406ab7bacf9} " )
+				end function]]></Code>
 		</Scripting>
 	</Addon>
 	<Addon name="Online Quiz Landing" guid="{ad6871dc-7bcf-4140-96eb-2af70599997d}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
 		<ActiveXProgramID></ActiveXProgramID>
-		<DotNetClass><![CDATA[Contensive.Addons.OnlineQuiz.QuizLandingPageClass]]></DotNetClass>
+		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.QuizLandingPageClass]]></DotNetClass>
 		<ArgumentList><![CDATA[Quiz=[ListId(quizzes)]]]></ArgumentList>
 		<AsAjax>No</AsAjax>
 		<Filter>No</Filter>
