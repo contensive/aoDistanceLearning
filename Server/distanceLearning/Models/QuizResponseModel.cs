@@ -484,7 +484,7 @@ namespace Contensive.Addons.DistanceLearning.Models
             instance.QuizID = quizId;
             instance.MemberID = cp.User.Id;
             //instance.dateStarted = DateTime.Now;
-            instance.SortOrder = genericController.getSortOrderFromInteger(instance.id);
+            instance.SortOrder = GenericController.getSortOrderFromInteger(instance.id);
             return instance;
         }
     }

@@ -26,7 +26,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 //
                 if (button != "")
                 {
-                    genericController.checkRequiredFieldText(cp, Constants.rnSampleField, "Sample Field");
+                    GenericController.checkRequiredFieldText(cp, Constants.rnSampleField, "Sample Field");
                     //
                     if (cp.UserError.OK())
                     {

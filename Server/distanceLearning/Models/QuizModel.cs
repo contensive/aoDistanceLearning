@@ -67,6 +67,21 @@ namespace Contensive.Addons.DistanceLearning.Models
         public int typeId;
         public bool requireAuthentication;
         public bool allowCustomTopCopy;
+
+        //Design block instance properties:
+        public string description;
+        public string headline;
+        public string backgroundImageFilename { get; set; }
+        public int fontStyleId { get; set; }
+        public int themeStyleId { get; set; }
+        public bool padTop { get; set; }
+        public bool padBottom { get; set; }
+        public bool padRight { get; set; }
+        public bool padLeft { get; set; }
+        public string styleheight { get; set; }
+        public bool asFullBleed { get; set; }
+        public string btnStyleSelector { get; set; }
+
         //public bool Active;
         //public string SortOrder;
         //public int CreatedBy;

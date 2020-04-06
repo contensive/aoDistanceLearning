@@ -164,7 +164,7 @@ namespace Contensive.Addons.DistanceLearning
                 form.rowValue = cp.Html.InputTextExpandable("customButtonCopy", quiz.customButtonCopy, 5);
                 form.rowHelp = "If included, this copy is added at the bottom of the page on each oneline quiz page.";
                 //
-                result = genericController.getTabWrapper(cp, form.getHtml(cp), "Settings", quiz);
+                result = GenericController.getTabWrapper(cp, form.getHtml(cp), "Settings", quiz);
                 cp.Doc.AddHeadStyle(form.styleSheet);
             }
             catch (Exception ex)

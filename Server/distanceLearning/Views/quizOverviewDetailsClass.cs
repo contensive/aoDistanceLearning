@@ -86,7 +86,7 @@ namespace Contensive.Addons.DistanceLearning
                     + quiz.DPercentile + "+ </br> &nbsp;&nbsp;&nbsp;&nbsp; " + quiz.FCaption + " &nbsp;&nbsp;&nbsp;&nbsp; Successful completion adds  "
                     + quiz.certificationCECs + " CECs to user accredidation </br></div>");
                  // -- wrap in tabs and output finished form
-                 result = genericController.getTabWrapper(cp, form.getHtml(cp), "Details",quiz);
+                 result = GenericController.getTabWrapper(cp, form.getHtml(cp), "Details",quiz);
                 cp.Doc.AddHeadStyle(form.styleSheet);
             }
             catch (Exception ex)

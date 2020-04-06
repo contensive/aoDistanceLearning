@@ -102,7 +102,7 @@ namespace Contensive.Addons.DistanceLearning
                     string name = quizResponse.userFirstName + " " + quizResponse.userLastName;
                     if (string.IsNullOrEmpty(name.Trim())) name = quizResponse.userName;
                     form.setCell("<div><a href=\"?" + qs + "\"> " + name  + " </ a></div>");
-                    form.setCell( genericController.getShortDateString(  quizResponse.dateSubmitted));
+                    form.setCell( GenericController.getShortDateString(  quizResponse.dateSubmitted));
                     form.setCell(quizResponse.attemptNumber.ToString());
                     form.setCell( Convert.ToInt32( 0.5 + quizResponse.score).ToString() + "%");
                     //form.setCell(quizResponse.totalQuestions.ToString());
@@ -112,8 +112,8 @@ namespace Contensive.Addons.DistanceLearning
                 form.htmlLeftOfTable = ""
                     + Constants.cr + "<h3 class=\"afwFilterHead\">filters</h3>"
                     + Constants.cr + "<h4 class=\"afwFilterCaption\">Date</h4>"
-                    + Constants.cr + "<div class=\"afwFilterRow\"><label for=fromfilter>from</label><input type=\"date\" name=\"" + Constants.rnFilterDateFrom + "\" value=\"" + Controllers.genericController.getDateForHtmlInput( filterFromDate ) + "\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
-                    + Constants.cr + "<div class=\"afwFilterRow\"><label for=tofilter>to</label><input type=\"date\" name=\"" + Constants.rnFilterDateTo + "\" value=\"" + Controllers.genericController.getDateForHtmlInput( filterToDate ) + "\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
+                    + Constants.cr + "<div class=\"afwFilterRow\"><label for=fromfilter>from</label><input type=\"date\" name=\"" + Constants.rnFilterDateFrom + "\" value=\"" + Controllers.GenericController.getDateForHtmlInput( filterFromDate ) + "\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
+                    + Constants.cr + "<div class=\"afwFilterRow\"><label for=tofilter>to</label><input type=\"date\" name=\"" + Constants.rnFilterDateTo + "\" value=\"" + Controllers.GenericController.getDateForHtmlInput( filterToDate ) + "\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
                     + "";
                 //cp.Doc.AddHeadJavascript(""
                 //    + constants.cr + "jQuery(document).ready(function(){"
@@ -124,7 +124,7 @@ namespace Contensive.Addons.DistanceLearning
                 //    + constants.cr + "})"
                 //    + "");
                 result = form.getHtml(cp);
-                result = genericController.getTabWrapper(cp, result, "Results", quiz);
+                result = GenericController.getTabWrapper(cp, result, "Results", quiz);
             }
             catch (Exception ex)
             {

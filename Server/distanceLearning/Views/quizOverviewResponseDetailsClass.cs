@@ -41,7 +41,7 @@ namespace Contensive.Addons.DistanceLearning
                 form.addFormHidden(Constants.rnQuizId, quiz.id.ToString());
                 form.addFormHidden(Constants.rnResponseId, response.id.ToString());
                 result = form.getHtml(cp);
-                result = genericController.getTabWrapper(cp, result, "Results", quiz);
+                result = GenericController.getTabWrapper(cp, result, "Results", quiz);
             }
             catch (Exception ex)
                 {

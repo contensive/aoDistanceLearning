@@ -31,6 +31,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         public string SortOrder { get; set; }
         public int points { get; set; }
         public int createKey { get; set; }
+
         //
         //public bool Active;
         //public DateTime DateAdded;
@@ -280,7 +281,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         public static QuizAnswerModel add(CPBaseClass cp)
         {
             QuizAnswerModel answer = create(cp, cp.Content.AddRecord(primaryContentName));
-            answer.SortOrder = genericController.getSortOrderFromInteger( answer.id) ;
+            answer.SortOrder = GenericController.getSortOrderFromInteger( answer.id) ;
             return answer;
         }
     }

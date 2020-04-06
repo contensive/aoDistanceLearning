@@ -110,6 +110,17 @@ namespace Contensive.Addons.DistanceLearning.Models
             }
             return result;
         }
+        /// <summary>
+        /// Add record method
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <returns></returns>
+        //
+
+        public static QuizQuestionModel add(CPBaseClass cp)
+        {
+            return create(cp, cp.Content.AddRecord(primaryContentName));
+        }
         //
         //====================================================================================================
         /// <summary>

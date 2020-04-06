@@ -26,7 +26,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 //
                 if (button != "")
                 {
-                    genericController.checkRequiredFieldText(cp, Constants.rnSampleField, "Sample Field");
+                    GenericController.checkRequiredFieldText(cp, Constants.rnSampleField, "Sample Field");
                     //
                     if (cp.UserError.OK())
                     {
@@ -100,11 +100,11 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 reportList.columnCaptionClass = "afwTextAlignCenter afwWidth100px";
                 //
                 sqlWhere = "(dateSubmitted is not null)";
-                if (!genericController.isDateEmpty( filterDateFrom ) )
+                if (!GenericController.isDateEmpty( filterDateFrom ) )
                 {
                     sqlWhere += "and(dateSubmitted>=" + cp.Db.EncodeSQLDate(filterDateFrom) + ")";
                 }
-                if (!genericController.isDateEmpty(filterDateTo ))
+                if (!GenericController.isDateEmpty(filterDateTo ))
                 {
                     if (filterDateTo == filterDateTo.Date )
                     {
@@ -153,7 +153,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                         qs = cp.Utils.ModifyQueryString(qsBase, "id", cs.GetInteger(Constants.rnResponseId).ToString(), true);
                         reportList.setCell("<a href=\"?" + qs + "\">" + cs.GetText("quizName") + "</a>");
                         reportList.setCell(userName );
-                        reportList.setCell(genericController.getShortDateString(cs.GetDate("dateSubmitted")));
+                        reportList.setCell(GenericController.getShortDateString(cs.GetDate("dateSubmitted")));
                         //
                         reportList.columnCellClass = "afwTextAlignCenter";
                         reportList.setCell(cs.GetText("attemptNumber"));
@@ -165,8 +165,8 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 // add filter under chart
                 //
                 filterForm = "Only show quizzes submitted:"
-                    + cp.Html.div("from " + cp.Html.InputDate(Constants.rnFilterDateFrom, genericController.getShortDateString(filterDateFrom), "", "", ""), "", "dlFilterRow", "")
-                    + cp.Html.div("to " + cp.Html.InputDate(Constants.rnFilterDateTo, genericController.getShortDateString(filterDateTo), "", "", ""), "", "dlFilterRow", "")
+                    + cp.Html.div("from " + cp.Html.InputDate(Constants.rnFilterDateFrom, GenericController.getShortDateString(filterDateFrom), "", "", ""), "", "dlFilterRow", "")
+                    + cp.Html.div("to " + cp.Html.InputDate(Constants.rnFilterDateTo, GenericController.getShortDateString(filterDateTo), "", "", ""), "", "dlFilterRow", "")
                     + "";
                 filterForm = ""
                     + Constants.cr + cp.Html.h2("Filters", "", "", "")

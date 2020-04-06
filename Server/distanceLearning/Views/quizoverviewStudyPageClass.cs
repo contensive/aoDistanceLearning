@@ -68,7 +68,7 @@ namespace Contensive.Addons.DistanceLearning
                 form.rowValue = quiz.courseMaterial.getHtmlInput();
                 form.rowHelp = "When included, a file can be uploaded on the study page.";
 
-                result =  genericController.getTabWrapper(cp, form.getHtml(cp), "Study", quiz);
+                result =  GenericController.getTabWrapper(cp, form.getHtml(cp), "Study", quiz);
 
                 cp.Doc.AddHeadStyle(form.styleSheet);
             }

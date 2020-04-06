@@ -156,7 +156,7 @@ namespace Contensive.Addons.DistanceLearning
                 //
                 // -- wrap in tabs and output finished form
                 result = outerForm.getHtml(cp);
-                result = genericController.getTabWrapper(cp, result, "Scoring", quiz);
+                result = GenericController.getTabWrapper(cp, result, "Scoring", quiz);
                 cp.Doc.AddHeadStyle(gradingForm.styleSheet);
             }
             catch (Exception ex)
