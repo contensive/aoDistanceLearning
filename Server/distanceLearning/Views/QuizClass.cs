@@ -6,6 +6,8 @@ using Contensive.BaseClasses;
 using Contensive.Addons.DistanceLearning.Models;
 using static Contensive.Addons.DistanceLearning.Constants;
 using Contensive.Addons.DistanceLearning.Controllers;
+using Models.View;
+using Contensive.Models.Db;
 
 namespace Contensive.Addons.DistanceLearning {
     // 
@@ -27,6 +29,8 @@ namespace Contensive.Addons.DistanceLearning {
         // 
         public override object Execute(CPBaseClass cp) {
             string returnHtml = "";
+            bool isQuizForm = false;
+
             try {
                 //
                 // -- get settings
@@ -54,11 +58,76 @@ namespace Contensive.Addons.DistanceLearning {
                 if ((quiz == null) && (!string.IsNullOrEmpty(requestQuizGuid))) {
                     //
                     // -- no quiz but valid guid, create a new quiz
+                    //
+                    // -- no quiz but valid guid, create a new quiz
                     quiz = QuizModel.add(cp);
                     quiz.ccguid = requestQuizGuid;
                     quiz.name = "Quiz " + quiz.id.ToString();
+                    quiz.allowRetake = true;
+                    // CREATE A NEW LAYOUT RECORD FROM RESOURCE, SET GUID TO THE CONST LAYOUT GUID
+                    // +========================================================================================================================
+                    // +========================================================================================================================
+                    LayoutModel layout = DbBaseModel.create<LayoutModel>(cp, defaultQuizLayoutGUID);
+                    quiz.layoutId = layout.id;
                     quiz.saveObject(cp);
+
+                    QuizQuestionModel question1 = QuizQuestionModel.add(cp);
+                    question1.name = "Question " + question1.id.ToString();
+                    question1.quizId = quiz.id;
+                    question1.QOrder = 1;
+                    question1.copy = "What is 1 + 1?";
+                    question1.saveObject(cp);
+
+                    QuizAnswerModel answer1 = QuizAnswerModel.add(cp);
+                    answer1.name = "Answer " + answer1.id;
+                    answer1.QuestionID = question1.id;
+                    answer1.copy = "2";
+                    answer1.Correct = true;
+                    answer1.saveObject(cp);
+
+                    QuizAnswerModel answer2 = QuizAnswerModel.add(cp);
+                    answer2.name = "Answer " + answer1.id;
+                    answer2.QuestionID = question1.id;
+                    answer2.copy = "5";
+                    answer2.Correct = false;
+                    answer2.saveObject(cp);
+
+                    QuizAnswerModel answer3 = QuizAnswerModel.add(cp);
+                    answer3.name = "Answer " + answer1.id;
+                    answer3.QuestionID = question1.id;
+                    answer3.copy = "4";
+                    answer3.Correct = false;
+                    answer3.saveObject(cp);
+
+                    QuizQuestionModel question2 = QuizQuestionModel.add(cp);
+                    question2.name = "Question " + question1.id.ToString();
+                    question2.quizId = quiz.id;
+                    question2.QOrder = 2;
+                    question2.copy = "What is 2 * 2?";
+                    question2.saveObject(cp);
+
+                    QuizAnswerModel answer4 = QuizAnswerModel.add(cp);
+                    answer4.name = "Answer " + answer1.id;
+                    answer4.QuestionID = question2.id;
+                    answer4.copy = "2";
+                    answer4.Correct = false;
+                    answer4.saveObject(cp);
+
+                    QuizAnswerModel answer5 = QuizAnswerModel.add(cp);
+                    answer5.name = "Answer " + answer1.id;
+                    answer5.QuestionID = question2.id;
+                    answer5.copy = "4";
+                    answer5.Correct = true;
+                    answer5.saveObject(cp);
+
+                    QuizAnswerModel answer6 = QuizAnswerModel.add(cp);
+                    answer6.name = "Answer " + answer1.id;
+                    answer6.QuestionID = question2.id;
+                    answer6.copy = "7";
+                    answer6.Correct = false;
+                    answer6.saveObject(cp);
                 }
+
                 string adminHint = "";
                 if ((quiz == null)) {
                     // 
@@ -89,7 +158,7 @@ namespace Contensive.Addons.DistanceLearning {
                     if ((!string.IsNullOrEmpty(cp.Doc.GetText(Constants.rnButton)))) {
                         //
                         // -- button pressed, process input
-                        if ((!DistanceLearning.Controllers.genericController.isDateEmpty(response.dateSubmitted)))
+                        if ((!Controllers.GenericController.isDateEmpty(response.dateSubmitted)))
                             // 
                             // -- process the score card
                             processScoreCardForm(cp, quiz, ref response, ref userMessageList);
@@ -104,23 +173,36 @@ namespace Contensive.Addons.DistanceLearning {
                     }
                     adminHint = getAdminHints(cp, quiz, response);
                     // 
-                    if ((!DistanceLearning.Controllers.genericController.isDateEmpty(response.dateSubmitted)))
+                    if (!DistanceLearning.Controllers.GenericController.isDateEmpty(response.dateSubmitted)) {
                         // 
                         // -- score card
                         returnHtml = getScoreCardform(cp, quiz, response, ref adminHint, ref userMessageList);
-                    else if ((response.lastPageNumber == 0))
+                    } else if ((response.lastPageNumber == 0)) {
                         // 
                         // -- study page
                         returnHtml = getStudyPageForm(cp, quiz, response, ref adminHint, ref userMessageList);
-                    else
+                    } else {
                         // 
                         // -- online quiz
-                        returnHtml = getOnlineQuizForm(cp, quiz, response, ref adminHint, ref userMessageList);
+                        // returnHtml = getOnlineQuizForm(cp, quiz, response, ref adminHint, ref userMessageList);
+                        isQuizForm = true;
+
+                        QuizViewModel viewModel = QuizViewModel.create(cp, quiz, response);
+
+                        CPCSBaseClass cs = cp.CSNew();
+                        cs.OpenRecord("Layouts", quiz.layoutId);
+
+                        returnHtml = Nustache.Core.Render.StringToString(cs.GetText("layout"), viewModel);
+
+                        cs.Close();
+                    }
                 }
                 // 
                 // Add wrapper
                 // 
-                returnHtml = "" + "" + "" + "<div class=\"onlineQuiz\">" + cp.Html.Indent(returnHtml) + cp.Html.Indent(adminHintWrapper(cp, adminHint)) + "" + "" + "</div>";
+                if (!isQuizForm) {
+                    returnHtml = "" + "" + "" + "<div class=\"onlineQuiz\">" + cp.Html.Indent(returnHtml) + cp.Html.Indent(adminHintWrapper(cp, adminHint)) + "" + "" + "</div>";
+                }
             } catch (Exception ex) {
                 cp.Site.ErrorReport(ex, "execute");
             }
@@ -604,8 +686,8 @@ namespace Contensive.Addons.DistanceLearning {
                 string button = cp.Doc.GetText(rnButton);
                 if ((!string.IsNullOrEmpty(button))) {
                     if ((response.id == 0))
-                        response = genericController.createNewQuizResponse(cp, quiz);
-                    if ((DistanceLearning.Controllers.genericController.isDateEmpty(response.dateStarted)))
+                        response = GenericController.createNewQuizResponse(cp, quiz);
+                    if ((DistanceLearning.Controllers.GenericController.isDateEmpty(response.dateStarted)))
                         response.dateStarted = DateTime.Now;
                     response.MemberID = cp.User.Id;
                     response.lastPageNumber = 1;
@@ -685,7 +767,7 @@ namespace Contensive.Addons.DistanceLearning {
                     // 
                     // start a retake - create a response and set dstPageOrder, isStudyPage
                     // 
-                    response = genericController.createNewQuizResponse(cp, quiz);
+                    response = GenericController.createNewQuizResponse(cp, quiz);
             } catch (Exception ex) {
                 cp.Site.ErrorReport(ex);
             }
@@ -716,7 +798,7 @@ namespace Contensive.Addons.DistanceLearning {
                 // Dim questionSubjectId As Integer
                 // Dim subjectName As String = ""
                 string quizProgressText = "";
-                if ((DistanceLearning.Controllers.genericController.isDateEmpty(response.dateStarted))) {
+                if ((DistanceLearning.Controllers.GenericController.isDateEmpty(response.dateStarted))) {
                     response.dateStarted = DateTime.Now;
                     response.saveObject(cp);
                 }
@@ -977,7 +1059,7 @@ namespace Contensive.Addons.DistanceLearning {
                     layout.SetOuter("#js-quizVideo", "");
                 else
                     layout.SetInner("#js-quizVideo", quiz.videoEmbedCode);
-                if ((DistanceLearning.Controllers.genericController.isDateEmpty(response.dateStarted)))
+                if ((DistanceLearning.Controllers.GenericController.isDateEmpty(response.dateStarted)))
                     // 
                     // -- start Quiz
                     layout.SetOuter("#js-quizStartButton", cp.Html.Form(cp.Html.Button(rnButton, buttonStartQuiz, " btn btn-primary"), "startbuttonform"));

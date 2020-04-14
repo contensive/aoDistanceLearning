@@ -68,9 +68,9 @@ namespace Contensive.Addons.DistanceLearning.Models
         public bool requireAuthentication;
         public bool allowCustomTopCopy;
 
-        //Design block instance properties:
-        public string description;
-        public string headline;
+        // Design block instance properties:
+        public string description { get; set; }
+        public string headline { get; set; }
         public string backgroundImageFilename { get; set; }
         public int fontStyleId { get; set; }
         public int themeStyleId { get; set; }
@@ -81,7 +81,7 @@ namespace Contensive.Addons.DistanceLearning.Models
         public string styleheight { get; set; }
         public bool asFullBleed { get; set; }
         public string btnStyleSelector { get; set; }
-
+        public int layoutId { get; set; }
         //public bool Active;
         //public string SortOrder;
         //public int CreatedBy;
@@ -210,6 +210,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     result.requireAuthentication = cs.GetBoolean("requireAuthentication");
                     result.allowCustomTopCopy = cs.GetBoolean("allowCustomTopCopy");
                     result.videoEmbedCode = cs.GetText("videoEmbedCode");
+                    result.layoutId = cs.GetInteger("layoutId");
                 }
                 cs.Close();
             }
@@ -291,6 +292,7 @@ namespace Contensive.Addons.DistanceLearning.Models
                     cs.SetField("requireAuthentication", requireAuthentication.ToString());
                     cs.SetField("allowCustomTopCopy", allowCustomTopCopy.ToString());
                     cs.SetField("videoEmbedCode", videoEmbedCode.ToString());
+                    cs.SetField("layoutid", layoutId);
                 }
                 cs.Close();
             }

@@ -11,8 +11,7 @@ namespace Models.View {
         // 
         public string headline { get; set; }
         public string description { get; set; }
-        public List<string> questions { get; set; }
-        public List<AnswerViewModel> answers { get; set; }
+        public List<QuestionViewModel> questions { get; set; }
         public List<string> subjects { get; set; }
         public string progressText { get; set; }
         public bool displaySubmitButton { get; set; }
@@ -27,7 +26,7 @@ namespace Models.View {
         ///         ''' <param name="cp"></param>
         ///         ''' <param name="settings"></param>
         ///         ''' <returns></returns>
-        public static QuizViewModel create(CPBaseClass cp, QuizModel quiz, QuizResponseModel response, ref string adminHint, ref List<string> userMessages) {
+        public static QuizViewModel create(CPBaseClass cp, QuizModel quiz, QuizResponseModel response) {
             try {
                 // 
                 // -- base fields
@@ -35,16 +34,15 @@ namespace Models.View {
                 // 
                 // -- custom
                 // 
-                result.headline = quiz.headline;
-                result.description = quiz.description;
-                result.questions = new List<string>();
-                result.answers = new List<AnswerViewModel>();
+                //result.headline = quiz.headline;
+                //result.description = quiz.description;
+                result.questions = new List<QuestionViewModel>();
 
                 try {
-                    int answerCnt = 0;
                     string q;
                     string buttonCopy = "";
                     double quizProgress;
+                    string quizProgressText;
                     string jsHead;
                     // Dim questionSubjectId As Integer
                     // Dim subjectName As String = ""
@@ -64,7 +62,12 @@ namespace Models.View {
                                 answeredCount += 1;
                         }
                         quizProgress = answeredCount / (double)responseDetailList.Count;
-                        result.progressText = System.Convert.ToString(Conversion.Int(quizProgress * 100));
+                        quizProgressText = System.Convert.ToString(Conversion.Int(quizProgress * 100));
+                        result.progressText = ""
+                            + cr + "<div class=\"progressbarCon\">"
+                            + cr + "<div class=\"progressbarTitle\">Your Progress " + quizProgressText + "%</div>"
+                            + cr + "<div id=\"progressbar\"></div>"
+                            + cr + "</div>";
                         jsHead = "$(document).ready(function(){$(\"#progressbar\").progressbar({value:" + result.progressText + "});});";
                         cp.Doc.AddHeadJavascript(jsHead);
                     }
@@ -80,13 +83,15 @@ namespace Models.View {
                     int lastSubjectId = -1;
 
                     foreach (QuizResponseDetailModel responseDetail in responseDetailList) {
+
+                        QuestionViewModel questionModel = new QuestionViewModel();
+                        questionModel.answers = new List<AnswerViewModel>();
+
                         if (responseDetail.pageNumber == response.lastPageNumber) {
                             QuizQuestionModel question = QuizQuestionModel.create(cp, responseDetail.questionId);
                             QuizSubjectModel subject = QuizSubjectModel.create(cp, question.SubjectID);
                             if (subject == null)
                                 subject = new QuizSubjectModel();
-                            answerCnt = 0;
-                            answerCnt += 1;
 
                             // -- add subject header if required
                             if ((subject.id > 0) & (subject.id != lastSubjectId) & (!string.IsNullOrEmpty(subject.name))) {
@@ -100,7 +105,7 @@ namespace Models.View {
                                 q = GenericController.addEditWrapper(cp, q, question.id, question.name, "Quiz Questions");
                             }
 
-                            result.questions.Add(q);
+                            questionModel.questionText = q;
 
                             List<QuizAnswerModel> answerList = QuizAnswerModel.getAnswersForQuestionList(cp, question.id);
 
@@ -115,21 +120,22 @@ namespace Models.View {
                                 if (cp.User.IsEditingAnything) {
                                     answerCopy = GenericController.addEditWrapper(cp, answerCopy, answer.id, answer.name, "Quiz Answers");
                                 }
-                                result.answers.Add(new AnswerViewModel { answerText = answerCopy, isChecked = isChecked });
-                                answerCnt = answerCnt + 1;
+                                questionModel.answers.Add(new AnswerViewModel { answerText = answerCopy, isChecked = isChecked, isAnswerLink = false });
                             }
 
                             if (cp.User.IsEditingAnything) {
-                                result.answers.Add(new AnswerViewModel { answerText = cp.Content.GetAddLink("Quiz Answers", "questionid=" + question.id),
-                                    isChecked = false });
+                                questionModel.answers.Add(new AnswerViewModel { answerText = cp.Content.GetAddLink("Quiz Answers", "questionid=" + question.id),
+                                    isChecked = false, isAnswerLink = true });
                             }
 
                             questionCnt = questionCnt + 1;
                         }
+
+                        result.questions.Add(questionModel);
                     }
 
                     if (cp.User.IsEditingAnything) {
-                        result.questions.Add(cp.Content.GetAddLink("Quiz Questions", "quizid=" + quiz.id + ", pageOrder=" + rnDstPageOrder));
+                        result.questions.Add(new QuestionViewModel { questionText = cp.Content.GetAddLink("Quiz Questions", "quizid=" + quiz.id + ", pageOrder=" + rnDstPageOrder), answers = null, isQuestionLink = true } );
                     }
 
                     bool isFirstPage = (response.lastPageNumber < 2);
@@ -159,22 +165,28 @@ namespace Models.View {
                         result.displayContinueButton = false;
                     }
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     cp.Site.ErrorReport(ex);
                 }
+
                 return result;
-            }
-            catch (Exception ex)
-            {
+
+            } catch (Exception ex) {
                 cp.Site.ErrorReport(ex);
                 return null;
             }
         }
 
+        public class QuestionViewModel {
+            public string questionText;
+            public List<AnswerViewModel> answers;
+            public bool isQuestionLink;
+        }
+
         public class AnswerViewModel {
             public string answerText { get; set; }
             public bool isChecked { get; set; }
+            public bool isAnswerLink;
         }
     }
 }

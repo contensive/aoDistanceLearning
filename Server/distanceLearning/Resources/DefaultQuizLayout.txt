@@ -1,0 +1,23 @@
+<div class="designBlockContainer  {{outerContainerClass}}" style="{{styleHeight}}{{styleBackgroundImage}}">
+	<div class="{{contentContainerClass}}">
+	{{#questions}}
+	<div>
+	{{#isQuestionLink}}
+		{{{questionText}}}
+	{{/isQuestionLink}}
+	{{^isQuestionLink}}
+		{{{questionText}}}
+		{{#answers}}
+			{{#isAnswerLink}}
+				{{{answerText}}}
+			{{/isAnswerLink}}
+			{{^isAnswerLink}}
+				{{{answerText}}}
+			{{/isAnswerLink}}
+		{{/answers}}
+	{{/isQuestionLink}}
+	</div>
+	{{/questions}}
+       {{{progressText}}}
+	</div>
+</div>
