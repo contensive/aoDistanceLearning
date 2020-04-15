@@ -18,6 +18,12 @@ namespace Models.View {
         public bool displaySaveButton { get; set; }
         public bool displayContinueButton { get; set; }
         public bool displayPreviousButton { get; set; }
+        public string formAction { get; set; }
+        public string responseId { get; set; }
+        public string answerCount { get; set; }
+        public string lastPageNumber { get; set; }
+        public string quizId { get; set; }
+        public string quizName { get; set; }
         // 
         // ====================================================================================================
         /// <summary>
@@ -37,6 +43,7 @@ namespace Models.View {
                 //result.headline = quiz.headline;
                 //result.description = quiz.description;
                 result.questions = new List<QuestionViewModel>();
+                int answerCnt = 0;
 
                 try {
                     string q;
@@ -44,6 +51,7 @@ namespace Models.View {
                     double quizProgress;
                     string quizProgressText;
                     string jsHead;
+
                     // Dim questionSubjectId As Integer
                     // Dim subjectName As String = ""
                     if (GenericController.isDateEmpty(response.dateStarted)) {
@@ -62,12 +70,7 @@ namespace Models.View {
                                 answeredCount += 1;
                         }
                         quizProgress = answeredCount / (double)responseDetailList.Count;
-                        quizProgressText = System.Convert.ToString(Conversion.Int(quizProgress * 100));
-                        result.progressText = ""
-                            + cr + "<div class=\"progressbarCon\">"
-                            + cr + "<div class=\"progressbarTitle\">Your Progress " + quizProgressText + "%</div>"
-                            + cr + "<div id=\"progressbar\"></div>"
-                            + cr + "</div>";
+                        result.progressText = System.Convert.ToString(Conversion.Int(quizProgress * 100));
                         jsHead = "$(document).ready(function(){$(\"#progressbar\").progressbar({value:" + result.progressText + "});});";
                         cp.Doc.AddHeadJavascript(jsHead);
                     }
@@ -93,6 +96,8 @@ namespace Models.View {
                             if (subject == null)
                                 subject = new QuizSubjectModel();
 
+                            answerCnt = 0;
+                            answerCnt += 1;
                             // -- add subject header if required
                             if ((subject.id > 0) & (subject.id != lastSubjectId) & (!string.IsNullOrEmpty(subject.name))) {
                                 lastSubjectId = subject.id;
@@ -120,7 +125,9 @@ namespace Models.View {
                                 if (cp.User.IsEditingAnything) {
                                     answerCopy = GenericController.addEditWrapper(cp, answerCopy, answer.id, answer.name, "Quiz Answers");
                                 }
-                                questionModel.answers.Add(new AnswerViewModel { answerText = answerCopy, isChecked = isChecked, isAnswerLink = false });
+                                questionModel.answers.Add(new AnswerViewModel { answerText = answerCopy, isChecked = isChecked, isAnswerLink = false, answerId = answer.id.ToString(), answerName = "q" + question.id.ToString() + "a" });
+
+                                answerCnt = answerCnt + 1;
                             }
 
                             if (cp.User.IsEditingAnything) {
@@ -169,6 +176,13 @@ namespace Models.View {
                     cp.Site.ErrorReport(ex);
                 }
 
+                result.quizId = quiz.id.ToString();
+                result.quizName = quiz.name;
+                result.responseId = response.id.ToString();
+                result.answerCount = answerCnt.ToString();
+                string qs = cp.Doc.RefreshQueryString;
+                result.formAction = "?" + qs;
+
                 return result;
 
             } catch (Exception ex) {
@@ -185,6 +199,8 @@ namespace Models.View {
 
         public class AnswerViewModel {
             public string answerText { get; set; }
+            public string answerId;
+            public string answerName;
             public bool isChecked { get; set; }
             public bool isAnswerLink;
         }
