@@ -58,16 +58,20 @@ namespace Contensive.Addons.DistanceLearning {
                 if ((quiz == null) && (!string.IsNullOrEmpty(requestQuizGuid))) {
                     //
                     // -- no quiz but valid guid, create a new quiz
-                    //
-                    // -- no quiz but valid guid, create a new quiz
                     quiz = QuizModel.add(cp);
                     quiz.ccguid = requestQuizGuid;
                     quiz.name = "Quiz " + quiz.id.ToString();
                     quiz.allowRetake = true;
-                    // CREATE A NEW LAYOUT RECORD FROM RESOURCE, SET GUID TO THE CONST LAYOUT GUID
-                    // +========================================================================================================================
-                    // +========================================================================================================================
+
                     LayoutModel layout = DbBaseModel.create<LayoutModel>(cp, defaultQuizLayoutGUID);
+                    if(layout == null) {
+                        layout = DbBaseModel.addDefault<LayoutModel>(cp);
+                        layout.ccguid = defaultQuizLayoutGUID;
+                        layout.name = "Default Online Quiz Layout";
+                        layout.layout.content = Properties.Resources.DefaultQuizLayout;
+                        layout.save(cp);
+                    }
+
                     quiz.layoutId = layout.id;
                     quiz.saveObject(cp);
 
