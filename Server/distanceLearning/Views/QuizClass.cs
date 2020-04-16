@@ -994,12 +994,17 @@ namespace Contensive.Addons.DistanceLearning {
                         returnHtml = "<p>Thank you. The quiz is complete.</p>";
                     else
                         returnHtml = resultMessage.copy;
-                } else {
+                } else if(quiz.typeId == quizTypeIdGraded) {
                     // 
                     // graded quiz, show scorecard
                     // 
+                    // todo this should be call to view.getScoreCard()
                     cp.Doc.SetProperty("id", response.id.ToString());
                     returnHtml = cp.Utils.ExecuteAddon(scoreCardAddon);
+                } else {
+                    //
+                    // -- survey type, display ratios for each question
+                    returnHtml = SurveyResultsClass.getSurveyResults(cp,response.id);
                 }
                 if (quiz.allowRetake) {
                     buttonCopy = cr + "<p>You may retake this quiz. To begin, click Retake.</p>";

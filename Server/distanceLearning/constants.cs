@@ -112,9 +112,10 @@ namespace Contensive.Addons.DistanceLearning {
             public double Score;
             public int points;
         }
-        // 
+        // todo - make enum
         public const int quizTypeIdGraded = 1;
         public const int quizTypeIdPoints = 2;
+        public const int quizTypeIdSurvey = 3;
         // 
         // site properties
         // 
