@@ -57,6 +57,10 @@ namespace Contensive.Addons.DistanceLearning {
                 }
                 if ((quiz == null) && (!string.IsNullOrEmpty(requestQuizGuid))) {
                     //
+                    //
+                    // todo - this should be moved to the view model in createOrAdd...
+                    //
+                    //
                     // -- no quiz but valid guid, create a new quiz
                     quiz = QuizModel.add(cp);
                     quiz.ccguid = requestQuizGuid;
