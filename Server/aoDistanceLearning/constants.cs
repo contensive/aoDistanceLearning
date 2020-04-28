@@ -38,6 +38,7 @@ namespace Contensive.Addons.DistanceLearning {
         public const string rnSubjectNameEditList = "subjectNameEditList";
         public const string rnSubjectIdEditList = "subjectIdEditList";
         //
+        public const string buttonAdd = " Add ";
         public const string buttonSaveAndClose = "Save and Close";
         public const string buttonSaveAndContinue = "Save and Continue";
         public const string buttonLogin = "Login";

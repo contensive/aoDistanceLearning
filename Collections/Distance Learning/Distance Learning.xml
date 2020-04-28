@@ -1078,14 +1078,16 @@
 						<li>Id odio modus iudico ius</li>
 						<li>Te singulis dissentiunt neglegentur qui</li>		
 					</ol>
-				</div>					
-				<div id="js-quizVideo">
-				<video width="320" height="240" controls>
-					<source src="movie.mp4" type="video/mp4">
-					<source src="movie.ogg" type="video/ogg">
-					Your browser does not support the video tag.
-				</video>
-				</div>
+				</div>	
+				<div class="container">
+					<div class="row">
+						<div class="col"></div>
+						<div class="col">
+							<div id="js-quizVideo"><iframe src="https://drive.google.com/file/d/1I5jLekO1-HKA_rgYZ_Rf_B3AlilZsLnm/preview" width="640" height="480"></iframe></div>
+						</div>
+						<div class="col"></div>
+					</div>
+    			</div>
 				<p id="js-quizCourseMaterial">You can access additional course materials associated to this certificate <a href="">here</a></p>
 				<div id="js-quizStartButton">
 				<input type="button" class="startTestClass" value="start The test"></input>

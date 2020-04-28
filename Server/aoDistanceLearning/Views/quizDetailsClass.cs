@@ -61,7 +61,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 CPCSBaseClass cs = cp.CSNew();
                 adminFramework.formSimpleClass form = new adminFramework.formSimpleClass();
                 string qs = "";
-                int responseId = cp.Utils.EncodeInteger(cp.Doc.get_Var("id"));
+                int responseId = cp.Utils.EncodeInteger(cp.Doc.GetText("id"));
                 //
                 //
                 // return converted layout

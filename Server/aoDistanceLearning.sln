@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7605AF34-16BD-4CDF-AFD5-21D348733938}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "distanceLearning", "distanceLearning\distanceLearning.csproj", "{224C723B-78B5-48AC-99DE-CF11073A64F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aoDistanceLearning", "aoDistanceLearning\aoDistanceLearning.csproj", "{224C723B-78B5-48AC-99DE-CF11073A64F0}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "distanceLearningImportTool", "distanceLearningImportTool\distanceLearningImportTool.vbproj", "{5F3F1342-66F1-45A1-9710-A240DD738019}"
 EndProject

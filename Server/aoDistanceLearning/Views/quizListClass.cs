@@ -64,8 +64,8 @@ namespace Contensive.Addons.DistanceLearning.Interfaces
                 string qsBase;
                 string userName = "";
                 string filterForm;
-                DateTime filterDateFrom = cp.Utils.EncodeDate(cp.Doc.get_Var(Constants.rnFilterDateFrom));
-                DateTime filterDateTo =  cp.Utils.EncodeDate( cp.Doc.get_Var(Constants.rnFilterDateTo));
+                DateTime filterDateFrom = cp.Utils.EncodeDate(cp.Doc.GetText(Constants.rnFilterDateFrom));
+                DateTime filterDateTo =  cp.Utils.EncodeDate( cp.Doc.GetText(Constants.rnFilterDateTo));
                 DateTime tmpDate;
                 string sqlWhere = "";
                 //

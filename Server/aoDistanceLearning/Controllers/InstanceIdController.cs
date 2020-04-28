@@ -13,10 +13,8 @@ using Microsoft.VisualBasic;
 using Contensive.BaseClasses;
 
 
-namespace Controllers
-{
-    public class InstanceIdController
-    {
+namespace Controllers {
+    public class InstanceIdController {
         // 
         // ====================================================================================================
         /// <summary>
@@ -30,8 +28,7 @@ namespace Controllers
         ///         ''' <param name="designBlockName">A name of the design block. This must be unqiue for each type of design block (i.e. text, tile, etc)</param>
         ///         ''' <param name="returnHtmlMessage"></param>
         ///         ''' <returns>If blank is returned, </returns>
-        public static string getSettingsGuid(CPBaseClass cp, string designBlockName, ref string returnHtmlMessage)
-        {
+        public static string getSettingsGuid(CPBaseClass cp, string designBlockName, ref string returnHtmlMessage) {
             // 
             // -- check arguments
             if ((string.IsNullOrWhiteSpace(designBlockName)))
@@ -48,13 +45,11 @@ namespace Controllers
                 return result;
             // 
             // -- if there is no instanceId added to the rendering context, try the page Id
-            if ((cp.Doc.PageId > 0))
-            {
+            if ((cp.Doc.PageId > 0)) {
                 // 
                 // -- no instance Id, create a unquie string for this page, but display error is already used on this page
                 result = "DesignBlockUsedWithoutInstanceId-[" + designBlockName + "]-PageId-" + cp.Doc.PageId.ToString();
-                if ((!string.IsNullOrEmpty(cp.Doc.GetText(result))))
-                {
+                if ((!string.IsNullOrEmpty(cp.Doc.GetText(result)))) {
                     // 
                     // -- no instance Id, second occurance, display error
                     returnHtmlMessage += "<p>Error, this design block is used twice on this page. This is only allowed if it was added with the drag-drop tool, or includes a unique instance id.</p>";
@@ -66,13 +61,11 @@ namespace Controllers
             }
             // 
             // -- if this is the admin site, make one up
-            if ((cp.Request.PathPage == cp.Site.GetText("adminurl")))
-            {
+            if ((cp.Request.PathPage == cp.Site.GetText("adminurl"))) {
                 // 
                 // -- addon run on admin site
                 result = "DesignBlockUsedOnAdminSite-[" + designBlockName + "]";
-                if ((!string.IsNullOrEmpty(cp.Doc.GetText(result))))
-                {
+                if ((!string.IsNullOrEmpty(cp.Doc.GetText(result)))) {
                     // 
                     // -- admin site, second occurance, display error
                     returnHtmlMessage += "<p>Error, this design block is used twice on the admin site. This is only allowed if it was added with the drag-drop tool, or includes a unique instance id.</p>";
