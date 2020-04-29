@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Contensive.BaseClasses;
 using Contensive.Addons.DistanceLearning.Models;
-using Contensive.Addons.DistanceLearning.Interfaces;
+using Contensive.Addons.DistanceLearning.Views;
 using Contensive.Addons.DistanceLearning.Controllers;
+using Contensive.Models.Db;
 
 namespace Contensive.Addons.DistanceLearning
 {
@@ -17,7 +18,7 @@ namespace Contensive.Addons.DistanceLearning
             {
                 string innerBody = "";
                 //
-                QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger(Constants.rnQuizId));
+                QuizModel quiz = DbBaseModel.create<QuizModel>(cp, cp.Doc.GetInteger(Constants.rnQuizId));
                 if (quiz == null)
                 {
                     string qs = cp.Doc.RefreshQueryString;
@@ -34,7 +35,7 @@ namespace Contensive.Addons.DistanceLearning
                         quiz.courseMaterial.processRequest(nameof(quiz.courseMaterial));
                         quiz.studyCopy=cp.Doc.GetText(nameof(quiz.studyCopy));
 
-                        quiz.saveObject(cp);
+                        quiz.save(cp);
                         break;
                     case "Cancel":
                         string qs = cp.Doc.RefreshQueryString;

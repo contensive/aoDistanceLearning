@@ -1,7 +1,8 @@
-﻿namespace Models.Db
+﻿
+
+namespace Contensive.Addons.DistanceLearning.Models
 {
-    public class DesignBlockFontModel : Contensive.Models.Db.DbBaseModel
-    {
+    public class DesignBlockFontModel : DesignBlockBaseModel {
         // 
         // ====================================================================================================
         // -- const

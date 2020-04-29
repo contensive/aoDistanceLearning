@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Contensive.BaseClasses;
 using Contensive.Addons.DistanceLearning.Models;
-using Contensive.Addons.DistanceLearning.Interfaces;
+using Contensive.Addons.DistanceLearning.Views;
 using Contensive.Addons.DistanceLearning.Controllers;
+using Contensive.Models.Db;
 
 namespace Contensive.Addons.DistanceLearning
 {
@@ -16,9 +17,9 @@ namespace Contensive.Addons.DistanceLearning
             try
             {
                 int responseId = cp.Doc.GetInteger(Constants.rnResponseId);
-                Models.QuizResponseModel response = Models.QuizResponseModel.create(cp, responseId);
-                Models.QuizModel quiz = Models.QuizModel.create(cp, response.QuizID);
-                Models.MemberModel member = MemberModel.create(cp, response.MemberID);
+                QuizResponseModel response = QuizResponseModel.create(cp, responseId);
+                QuizModel quiz = DbBaseModel.create<QuizModel>(cp, response.QuizID);
+                MemberModel member = MemberModel.create(cp, response.MemberID);
                 if (member==null) { member = new MemberModel() { name = "Unknown" }; }
                 if (cp.Doc.GetText(Constants.rnButton) == Constants.buttonCancel)
                 {

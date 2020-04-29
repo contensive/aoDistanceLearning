@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Contensive.BaseClasses;
 using Contensive.Addons.DistanceLearning.Models;
-using Contensive.Addons.DistanceLearning.Interfaces;
+using Contensive.Addons.DistanceLearning.Views;
 using Contensive.Addons.DistanceLearning.Controllers;
+using Contensive.Models.Db;
 
 namespace Contensive.Addons.DistanceLearning
 {
@@ -16,7 +17,7 @@ namespace Contensive.Addons.DistanceLearning
             try
             {
                 CPCSBaseClass cs = cp.CSNew();
-                QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger("QuizId"));
+                QuizModel quiz = DbBaseModel.create<QuizModel>(cp, cp.Doc.GetInteger("QuizId"));
                 QuizQuestionModel quizQuestion = QuizQuestionModel.create(cp, cp.Doc.GetInteger("ID"));
                 string button = cp.Doc.GetText("button");
             switch (button)

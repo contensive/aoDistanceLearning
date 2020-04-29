@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Contensive.BaseClasses;
 using Contensive.Addons.DistanceLearning.Models;
-using Contensive.Addons.DistanceLearning.Interfaces;
+using Contensive.Addons.DistanceLearning.Views;
 using Contensive.Addons.DistanceLearning.Controllers;
+using Contensive.Models.Db;
 
 namespace Contensive.Addons.DistanceLearning
 {
@@ -24,7 +25,7 @@ namespace Contensive.Addons.DistanceLearning
                 if (question == null)
                 {
                     int quizId = cp.Doc.GetInteger(Constants.rnQuizId);
-                    quiz = QuizModel.create(cp, quizId );
+                    quiz =  DbBaseModel.create<QuizModel>(cp, quizId );
                     if (quiz == null)
                     {
                         qs = cp.Doc.RefreshQueryString;
@@ -37,7 +38,7 @@ namespace Contensive.Addons.DistanceLearning
                         question.quizId = quiz.id;
                     }
                 }
-                if (quiz == null) quiz = QuizModel.create(cp, question.quizId);
+                if (quiz == null) quiz = DbBaseModel.create<QuizModel>(cp, question.quizId);
                 //string innerBody = "";
                 string button = cp.Doc.GetText("button");
                 switch (button)
@@ -50,13 +51,13 @@ namespace Contensive.Addons.DistanceLearning
                         question.quizId = cp.Doc.GetInteger("quizId");
                         question.SubjectID = cp.Doc.GetInteger("SubjectId");
                         question.SortOrder = cp.Doc.GetText("SortOrder");
-                        question.saveObject(cp);
+                        question.save(cp);
                         List<QuizAnswerModel> quizAnswersList = QuizAnswerModel.getAnswersForQuestionList(cp, question.id);
                         foreach (QuizAnswerModel quizAnswer in quizAnswersList)
                         {
                             quizAnswer.copy = cp.Doc.GetText(Constants.rnAnswerCopy + quizAnswer.id);
                             quizAnswer.Correct = cp.Doc.GetBoolean("Correct" + quizAnswer.id);
-                            quizAnswer.saveObject(cp);
+                            quizAnswer.save(cp);
                             qs = cp.Doc.RefreshQueryString;
                             qs = cp.Utils.ModifyQueryString(qs, Constants.rnQuizId, question.quizId.ToString());
                             qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeatureQuizOverviewQuestionList);
@@ -72,7 +73,7 @@ namespace Contensive.Addons.DistanceLearning
                                 newAnswer.copy = answerCopy;
                                 newAnswer.Correct = cp.Doc.GetBoolean(Constants.rnCorrectBlank + ptr.ToString());
                                 newAnswer.QuestionID = question.id;
-                                newAnswer.saveObject(cp);
+                                newAnswer.save(cp);
                             }
                         }
                         qs = cp.Doc.RefreshQueryString;

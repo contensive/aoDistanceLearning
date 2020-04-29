@@ -88,36 +88,39 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\GenericController.cs" />
-    <Compile Include="Controllers\InstanceIdController.cs" />
+    <Compile Include="Controllers\DesignBlockController.cs" />
     <Compile Include="Models\Db\DesignBlockBaseModel.cs" />
     <Compile Include="Models\Db\DesignBlockFontModel.cs" />
     <Compile Include="Models\Db\DesignBlockThemeModel.cs" />
+    <Compile Include="Models\View\DesignBlockViewBaseModel.cs" />
+    <Compile Include="Models\View\LegacyQuizViewModel.cs" />
+    <Compile Include="Models\View\SampleViewModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Db\QuizViewModel.cs" />
-    <Compile Include="Views\Db\ViewBaseModel.cs" />
+    <Compile Include="Models\View\QuizViewModel.cs" />
+    <Compile Include="Models\View\ViewBaseModel.cs" />
+    <Compile Include="Views\QuizClass.cs" />
     <Compile Include="Views\SurveyResultsClass.cs" />
     <Compile Include="Views\ScoreCardClass.cs" />
-    <Compile Include="Views\QuizClass.cs" />
+    <Compile Include="Views\QuizLegacyClass.cs" />
     <Compile Include="Views\quizDetailsClass.cs" />
     <Compile Include="Views\QuizDashboardClass.cs" />
     <Compile Include="Views\quizListClass.cs" />
     <Compile Include="Views\quizOverViewScoringClass.cs" />
     <Compile Include="Views\quizReportClass.cs" />
     <Compile Include="Views\blankFormClass.cs" />
-    <Compile Include="Models\QuizModel.cs" />
-    <Compile Include="Models\QuizSubjectModel.cs" />
-    <Compile Include="Models\QuizResultMessageModel.cs" />
-    <Compile Include="Models\QuizResponseModel.cs" />
-    <Compile Include="Models\QuizResponseScoreModel.cs" />
-    <Compile Include="Models\QuizResponseDetailModel.cs" />
-    <Compile Include="Models\QuizQuestionModel.cs" />
-    <Compile Include="Models\QuizAnswerModel.cs" />
-    <Compile Include="Models\_blankModel.cs" />
-    <Compile Include="Models\MemberModel.cs" />
+    <Compile Include="Models\Db\QuizModel.cs" />
+    <Compile Include="Models\Db\QuizSubjectModel.cs" />
+    <Compile Include="Models\Db\QuizResultMessageModel.cs" />
+    <Compile Include="Models\Db\QuizResponseModel.cs" />
+    <Compile Include="Models\Db\QuizResponseScoreModel.cs" />
+    <Compile Include="Models\Db\QuizResponseDetailModel.cs" />
+    <Compile Include="Models\Db\QuizQuestionModel.cs" />
+    <Compile Include="Models\Db\QuizAnswerModel.cs" />
+    <Compile Include="Models\Db\MemberModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="constants.cs" />
     <Compile Include="Views\quizOverviewDetailsClass.cs" />
@@ -158,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Models\xModelFields.txt" />
+    <Content Include="Resources\DesignBlockLayout.txt" />
     <None Include="Resources\DefaultQuizLayout.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -174,7 +178,7 @@
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

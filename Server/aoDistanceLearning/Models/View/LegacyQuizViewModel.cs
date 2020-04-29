@@ -7,7 +7,7 @@ using Contensive.Addons.DistanceLearning.Controllers;
 using static Contensive.Addons.DistanceLearning.Constants;
 
 namespace Models.View {
-    public class QuizViewModel : ViewBaseModel {
+    public class LegacyQuizViewModel {
         // 
         public string headline { get; set; }
         public string description { get; set; }
@@ -27,21 +27,22 @@ namespace Models.View {
         // 
         // ====================================================================================================
         /// <summary>
-        ///         ''' Populate the view model from the entity model
-        ///         ''' </summary>
-        ///         ''' <param name="cp"></param>
-        ///         ''' <param name="settings"></param>
-        ///         ''' <returns></returns>
-        public static QuizViewModel create(CPBaseClass cp, QuizModel quiz, QuizResponseModel response) {
+        /// Populate the view model from the entity model
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <param name="quiz"></param>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        public static LegacyQuizViewModel create(CPBaseClass cp, QuizModel quiz, QuizResponseModel response) {
             try {
                 // 
                 // -- base fields
-                var result = ViewBaseModel.create<QuizViewModel>(cp, quiz);
+                var result = new LegacyQuizViewModel();
+                result.headline = "";
+                result.description = "";
                 // 
                 // -- custom
                 // 
-                //result.headline = quiz.headline;
-                //result.description = quiz.description;
                 result.questions = new List<QuestionViewModel>();
                 int answerCnt = 0;
 
@@ -56,7 +57,7 @@ namespace Models.View {
                     // Dim subjectName As String = ""
                     if (GenericController.isDateEmpty(response.dateStarted)) {
                         response.dateStarted = DateTime.Now;
-                        response.saveObject(cp);
+                        response.save(cp);
                     }
 
                     // 

@@ -5,10 +5,11 @@ using System.Text;
 using Contensive.BaseClasses;
 using Contensive.Addons.DistanceLearning;
 using Contensive.Addons.DistanceLearning.Models;
-using Contensive.Addons.DistanceLearning.Interfaces;
+using Contensive.Addons.DistanceLearning.Views;
 using Contensive.Addons.DistanceLearning.Controllers;
+using Contensive.Models.Db;
 
-namespace Contensive.Addons.DistanceLearning.Interfaces {
+namespace Contensive.Addons.DistanceLearning.Views {
     public class QuizDashboardClass : Contensive.BaseClasses.AddonBaseClass {
         public override object Execute(CPBaseClass cp) {
 
@@ -45,10 +46,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces {
                     listReport.columnCaption = "Date Created";
                     listReport.columnCaptionClass = "afwTextAlignRight afwWidth100px";
                     //
-
-                    List<QuizModel> quizList = QuizModel.getQuizList(cp);
-                    //qsBase = cp.Utils.ModifyQueryString(cp.Doc.RefreshQueryString, constants.rnAddonId, constants.portalAddonId, true);
-                    //qsBase = cp.Utils.ModifyQueryString(qsBase, "setPortalId", "1", true);
+                    List<QuizModel> quizList = DbBaseModel.createList<QuizModel>(cp);
                     int rowPtr = 0;
                     foreach (QuizModel quiz in quizList) {
                         List<QuizResponseModel> responseList = QuizResponseModel.GetResponseList(cp, quiz.id);
@@ -60,7 +58,7 @@ namespace Contensive.Addons.DistanceLearning.Interfaces {
                         listReport.columnCellClass = "afwTextAlignCenter";
                         listReport.setCell(responseList.Count.ToString());
                         listReport.columnCellClass = "afwTextAlignRight";
-                        listReport.setCell(quiz.DateAdded.ToShortDateString());
+                        listReport.setCell((quiz.dateAdded==null) ? "" : cp.Utils.EncodeDate( quiz.dateAdded).ToShortDateString());
                         rowPtr++;
                     }
                     //inputForm = "<div class=\"afwTextAlignRight\">"

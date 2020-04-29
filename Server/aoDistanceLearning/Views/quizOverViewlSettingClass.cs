@@ -3,42 +3,35 @@ using System.Collections.Generic;
 using System.Text;
 using Contensive.BaseClasses;
 using Contensive.Addons.DistanceLearning.Models;
-using Contensive.Addons.DistanceLearning.Interfaces;
+using Contensive.Addons.DistanceLearning.Views;
 using Contensive.Addons.DistanceLearning.Controllers;
+using Contensive.Models.Db;
 
-namespace Contensive.Addons.DistanceLearning
-{
-    public class quizOverViewSettingClass : Contensive.BaseClasses.AddonBaseClass
-    {
-        public override object Execute(CPBaseClass cp)
-        {
+namespace Contensive.Addons.DistanceLearning {
+    public class QuizOverViewSettingClass : AddonBaseClass {
+        public override object Execute(CPBaseClass cp) {
             string result = "";
             string innerBody = "";
             string qs = "";
             int setportalId = cp.Doc.GetInteger("setPortalId");
-            
-            try
-            {
+
+            try {
                 QuizModel quiz;
                 string quizName = cp.Doc.GetText("quizName");
-                if (quizName != String.Empty)
-                {
-                    quiz = QuizModel.add(cp );
+                if (quizName != String.Empty) {
+                    quiz = DbBaseModel.addDefault<QuizModel>(cp);
                     quiz.name = quizName;
-                    quiz.saveObject(cp);
+                    quiz.save(cp);
+                } else {
+                    int quizId = cp.Doc.GetInteger("QuizId");
+                    quiz = DbBaseModel.create<QuizModel>(cp, quizId);
                 }
-                else
-                {
-                    quiz = QuizModel.create(cp, cp.Doc.GetInteger("QuizId"));
-                }
-                if (quiz == null)
-                {
+                if (quiz == null) {
                     return "";
                 }
 
                 string button = cp.Doc.GetText("button");
-                switch (button)
-                {
+                switch (button) {
                     case "Save":
                         quiz.name = cp.Doc.GetText("name");
                         quiz.allowRetake = cp.Doc.GetBoolean("allowRetake");
@@ -46,65 +39,50 @@ namespace Contensive.Addons.DistanceLearning
                         quiz.maxNumberQuest = cp.Doc.GetInteger("maxNumberQuest");
                         quiz.customButtonCopy = cp.Doc.GetText(nameof(quiz.customButtonCopy));
                         string subjectNameEditList = cp.Doc.GetText(Constants.rnSubjectNameEditList);
-                        if (true)
-                        {
+                        if (true) {
                             string subjectIdEditList = cp.Doc.GetText(Constants.rnSubjectIdEditList);
                             List<string> subjectNameList = new List<string>();
-                            if(!string.IsNullOrEmpty(subjectNameEditList))
-                            {
+                            if (!string.IsNullOrEmpty(subjectNameEditList)) {
                                 subjectNameList.AddRange(subjectNameEditList.Split(new string[] { Environment.NewLine }, StringSplitOptions.None));
                             }
                             List<string> subjectIdList = new List<string>();
-                            if (!string.IsNullOrEmpty(subjectIdEditList))
-                            {
+                            if (!string.IsNullOrEmpty(subjectIdEditList)) {
                                 subjectIdList.AddRange(subjectIdEditList.Split(new string[] { "," }, StringSplitOptions.None));
                             }
-                            for (int ptr=0; ptr<subjectIdList.Count; ptr++)
-                            {
-                                int subjectId=0;
-                                if (int.TryParse(subjectIdList[ptr],out subjectId))
-                                {
-                                    if (ptr >= subjectNameList.Count)
-                                    {
+                            for (int ptr = 0; ptr < subjectIdList.Count; ptr++) {
+                                int subjectId = 0;
+                                if (int.TryParse(subjectIdList[ptr], out subjectId)) {
+                                    if (ptr >= subjectNameList.Count) {
                                         // -- past the end of the list of names, delete this id
                                         Models.QuizSubjectModel.delete(cp, subjectId);
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         Models.QuizSubjectModel subject = Models.QuizSubjectModel.create(cp, subjectId);
-                                        if (subject != null)
-                                        {
-                                            if (string.IsNullOrEmpty(subjectNameList[ptr].Trim()))
-                                            {
+                                        if (subject != null) {
+                                            if (string.IsNullOrEmpty(subjectNameList[ptr].Trim())) {
                                                 // -- name is a blank line, delete the subject
                                                 Models.QuizSubjectModel.delete(cp, subjectId);
-                                            }
-                                            else
-                                            {
+                                            } else {
                                                 // -- update the subject name 
-                                                if (subject.name != subjectNameList[ptr])
-                                                {
+                                                if (subject.name != subjectNameList[ptr]) {
                                                     subject.name = subjectNameList[ptr];
-                                                    subject.saveObject(cp);
+                                                    subject.save(cp);
                                                 }
                                             }
                                         }
                                     }
                                 }
                             }
-                            if (subjectNameList.Count > subjectIdList.Count )
-                            {
+                            if (subjectNameList.Count > subjectIdList.Count) {
                                 // -- they added more to the names, insert them as new subject
-                                for (int ptr = subjectIdList.Count; ptr < subjectNameList.Count; ptr++)
-                                {
+                                for (int ptr = subjectIdList.Count; ptr < subjectNameList.Count; ptr++) {
                                     Models.QuizSubjectModel subject = Models.QuizSubjectModel.add(cp);
                                     subject.name = subjectNameList[ptr];
                                     subject.quizId = quiz.id;
-                                    subject.saveObject(cp);
+                                    subject.save(cp);
                                 }
                             }
                         }
-                        quiz.saveObject(cp);
+                        quiz.save(cp);
                         break;
                     case "Cancel":
                         qs = cp.Doc.RefreshQueryString;
@@ -166,10 +144,8 @@ namespace Contensive.Addons.DistanceLearning
                 //
                 result = GenericController.getTabWrapper(cp, form.getHtml(cp), "Settings", quiz);
                 cp.Doc.AddHeadStyle(form.styleSheet);
-            }
-            catch (Exception ex)
-            {
-                cp.Site.ErrorReport( ex, "execute");
+            } catch (Exception ex) {
+                cp.Site.ErrorReport(ex, "execute");
             }
             return result;
         }
@@ -178,8 +154,7 @@ namespace Contensive.Addons.DistanceLearning
         // handle errors for this class
         // ===============================================================================
         //
-        private void errorReport(CPBaseClass cp, Exception ex, string method)
-        {
+        private void errorReport(CPBaseClass cp, Exception ex, string method) {
             cp.Site.ErrorReport(ex, "error in addonTemplateCs2005.blankClass.getForm");
         }
     }

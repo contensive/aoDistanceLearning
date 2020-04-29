@@ -1,7 +1,7 @@
-﻿namespace Models.Db
-{
-    public class DesignBlockThemeModel : Contensive.Models.Db.DbBaseModel
-    {
+﻿
+
+namespace Contensive.Addons.DistanceLearning.Models {
+    public class DesignBlockThemeModel : DesignBlockBaseModel {
         // 
         // ====================================================================================================
         // -- const
@@ -10,3 +10,4 @@
         private new const string contentDataSource = "default";
     }
 }
+

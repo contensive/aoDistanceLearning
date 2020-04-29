@@ -4,18 +4,51 @@ using System.Collections.Generic;
 using System.Text;
 using Contensive.BaseClasses;
 using Contensive.Addons.DistanceLearning.Models;
-using Contensive.Addons.DistanceLearning.Interfaces;
+using Contensive.Addons.DistanceLearning.Views;
 using Contensive.Addons.DistanceLearning.Controllers;
 using System.Globalization;
 using Microsoft.VisualBasic;
+using System.Linq;
 
 namespace Contensive.Addons.DistanceLearning.Controllers {
-    public static class GenericController
-    {
+    public static class GenericController {
+        //
+        //====================================================================================================
+        /// <summary>
+        /// true if argument is numeric
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool isNumeric(string value) {
+            return value.All(char.IsNumber);
+        }
+        // 
+        // ====================================================================================================
+        /// <summary>
+        /// buffer an url to include protocol
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static string verifyProtocol(string url) {
+            // 
+            // -- allow empty
+            if ((string.IsNullOrWhiteSpace(url)))
+                return string.Empty;
+            // 
+            // -- allow /myPage
+            if ((url.Substring(0, 1) == "/"))
+                return url;
+            // 
+            // -- allow if it includes ://
+            if ((!url.IndexOf("://").Equals(-1)))
+                return url;
+            // 
+            // -- add http://
+            return "http://" + url;
+        }
         //
         // create main form tab container
-        public static string getTabWrapper(CPBaseClass cp, string innerBody, string activeTabCaption, QuizModel quiz)
-        {
+        public static string getTabWrapper(CPBaseClass cp, string innerBody, string activeTabCaption, QuizModel quiz) {
             //adminFramework.formSimpleClass formOuter = new adminFramework.formSimpleClass();
             //formOuter.isOuterContainer = false;
             // formOuter.title = "Settings";
@@ -29,12 +62,9 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
             qs = cp.Utils.ModifyQueryString(qs, "quizId", quiz.id.ToString());
             //
             adminFramework.contentWithTabsClass tabForm = new adminFramework.contentWithTabsClass();
-            if (!string.IsNullOrEmpty(quiz.name))
-            {
+            if (!string.IsNullOrEmpty(quiz.name)) {
                 tabForm.title = quiz.name;
-            }
-            else
-            {
+            } else {
                 tabForm.title = "Quiz " + quiz.id;
             }
             tabForm.isOuterContainer = true;
@@ -84,17 +114,12 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
         //  create user error if requestName field is not in doc properties
         //=========================================================================
         //
-        public static void checkRequiredFieldText(CPBaseClass cp, string requestName, string fieldCaption)
-        {
-            try
-            {
-                if (cp.Doc.GetProperty(requestName, "") == "")
-                {
+        public static void checkRequiredFieldText(CPBaseClass cp, string requestName, string fieldCaption) {
+            try {
+                if (cp.Doc.GetProperty(requestName, "") == "") {
                     cp.UserError.Add("The field " + fieldCaption + " is required.");
                 }
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 cp.Site.ErrorReport(ex, "Unexpected Error in checkRequiredFieldText");
             }
         }
@@ -103,22 +128,15 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
         //  get the field value, from cs if ok, else from stream
         //=========================================================================
         //
-        public static string getFormField(CPBaseClass cp, CPCSBaseClass cs, string fieldName, string requestName)
-        {
+        public static string getFormField(CPBaseClass cp, CPCSBaseClass cs, string fieldName, string requestName) {
             string returnValue = "";
-            try
-            {
-                if (cp.Doc.IsProperty(requestName))
-                {
+            try {
+                if (cp.Doc.IsProperty(requestName)) {
                     returnValue = cp.Doc.GetText(requestName, "");
-                }
-                else if (cs.OK())
-                {
+                } else if (cs.OK()) {
                     returnValue = cs.GetText(fieldName);
                 }
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 cp.Site.ErrorReport(ex, "Unexpected Error in getFormField");
             }
             return returnValue;
@@ -128,8 +146,7 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
         //  getFormField, variation
         //=========================================================================
         //
-        public static string getFormField(CPBaseClass cp, CPCSBaseClass cs, string fieldName)
-        {
+        public static string getFormField(CPBaseClass cp, CPCSBaseClass cs, string fieldName) {
             return getFormField(cp, cs, fieldName, fieldName);
         }
         //
@@ -137,38 +154,29 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
         //  if valid date, return the short date, else return blank string 
         //=========================================================================
         //
-        public static DateTime encodeMinDate(DateTime src)
-        {
+        public static DateTime encodeMinDate(DateTime src) {
             return src;
         }
         //
-        public static string getShortDateString(DateTime srcDate)
-        {
+        public static string getShortDateString(DateTime srcDate) {
             string returnString = "";
             DateTime workingDate = encodeMinDate(srcDate);
-            if (!isDateEmpty(srcDate))
-            {
+            if (!isDateEmpty(srcDate)) {
                 returnString = workingDate.ToShortDateString();
             }
             return returnString;
         }
         //
-        public static bool isDateEmpty(DateTime srcDate)
-        {
+        public static bool isDateEmpty(DateTime srcDate) {
             return (srcDate < new DateTime(1900, 1, 1));
         }
-        public static string getSortOrderFromInteger(int id)
-        {
+        public static string getSortOrderFromInteger(int id) {
             return id.ToString().PadLeft(7, '0');
         }
-        public static string getDateForHtmlInput(DateTime source)
-        {
-            if (isDateEmpty(source))
-            {
+        public static string getDateForHtmlInput(DateTime source) {
+            if (isDateEmpty(source)) {
                 return "";
-            }
-            else
-            {
+            } else {
                 return source.Year + "-" + source.Month.ToString().PadLeft(2, '0') + "-" + source.Day.ToString().PadLeft(2, '0');
             }
         }
@@ -179,8 +187,7 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
         ///         ''' </summary>
         ///         ''' <param name="styleheight"></param>
         ///         ''' <returns></returns>
-        public static string encodeStyleHeight(string styleheight)
-        {
+        public static string encodeStyleHeight(string styleheight) {
             return string.IsNullOrWhiteSpace(styleheight) ? string.Empty : "overflow:hidden;height:" + styleheight + (Information.IsNumeric(styleheight) ? "px" : string.Empty + ";");
         }
         // 
@@ -190,28 +197,22 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
         ///         ''' </summary>
         ///         ''' <param name="backgroundImage"></param>
         ///         ''' <returns></returns>
-        public static string encodeStyleBackgroundImage(CPBaseClass cp, string backgroundImage)
-        {
+        public static string encodeStyleBackgroundImage(CPBaseClass cp, string backgroundImage) {
             return string.IsNullOrWhiteSpace(backgroundImage) ? string.Empty : "background-image: url(" + cp.Site.FilePath + backgroundImage + ");";
         }
 
         // 
-        public static DistanceLearning.Models.QuizResponseModel createNewQuizResponse(CPBaseClass cp, DistanceLearning.Models.QuizModel quiz)
-        {
+        public static DistanceLearning.Models.QuizResponseModel createNewQuizResponse(CPBaseClass cp, DistanceLearning.Models.QuizModel quiz) {
             DistanceLearning.Models.QuizResponseModel response = null/* TODO Change to default(_) if this is not a reference type */;
-            try
-            {
+            try {
                 List<DistanceLearning.Models.QuizResponseModel> previousResponses = DistanceLearning.Models.QuizResponseModel.GetResponseList(cp, quiz.id, cp.User.Id);
                 // 
                 // -- all previous responses must be complete
-                if (previousResponses.Count > 0)
-                {
-                    foreach (var responsex in previousResponses)
-                    {
-                        if ((!DistanceLearning.Controllers.GenericController.isDateEmpty(responsex.dateSubmitted)))
-                        {
+                if (previousResponses.Count > 0) {
+                    foreach (var responsex in previousResponses) {
+                        if ((!DistanceLearning.Controllers.GenericController.isDateEmpty(responsex.dateSubmitted))) {
                             responsex.dateSubmitted = DateTime.Now;
-                            responsex.saveObject(cp);
+                            responsex.save(cp);
                         }
                     }
                 }
@@ -220,66 +221,54 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
                 cp.Db.ExecuteSQL("update quizquestions set subjectid=null where id in (select q.id from quizquestions q left join quizsubjects s on s.id=q.subjectid where s.id is null)");
                 // 
                 // -- add a new response, and create all the response details (with no answer selected)
-                response = DistanceLearning.Models.QuizResponseModel.add(cp, quiz.id);
+                response = DistanceLearning.Models.QuizResponseModel.addDefault(p, quiz.id);
                 response.name = cp.User.Name + ", " + DateTime.Now.ToShortDateString() + ", " + quiz.name;
                 response.MemberID = cp.User.Id;
                 response.attemptNumber = previousResponses.Count + 1;
-                response.saveObject(cp);
+                response.save(cp);
                 // 
                 List<DistanceLearning.Models.QuizSubjectModel> quizSubjectList = DistanceLearning.Models.QuizSubjectModel.getObjectList(cp, quiz.id);
                 List<DistanceLearning.Models.QuizQuestionModel> quizQuestionList = new List<DistanceLearning.Models.QuizQuestionModel>();
                 List<DistanceLearning.Models.QuizQuestionModel> quizQuestionFullList = DistanceLearning.Models.QuizQuestionModel.getQuestionsForQuizList(cp, quiz.id);
-                if ((quiz.maxNumberQuest == 0) | (quiz.maxNumberQuest >= quizQuestionFullList.Count))
-                {
+                if ((quiz.maxNumberQuest == 0) | (quiz.maxNumberQuest >= quizQuestionFullList.Count)) {
                     // 
                     // -- include all questions that have subjects, ordered by subject order
-                    foreach (DistanceLearning.Models.QuizSubjectModel subject in quizSubjectList)
-                    {
-                        foreach (DistanceLearning.Models.QuizQuestionModel quizQuestion in quizQuestionFullList)
-                        {
+                    foreach (DistanceLearning.Models.QuizSubjectModel subject in quizSubjectList) {
+                        foreach (DistanceLearning.Models.QuizQuestionModel quizQuestion in quizQuestionFullList) {
                             if ((quizQuestion.SubjectID == subject.id))
                                 quizQuestionList.Add(quizQuestion);
                         }
                     }
                     // 
                     // -- include all questions with no subjects
-                    foreach (DistanceLearning.Models.QuizQuestionModel quizQuestion in quizQuestionFullList)
-                    {
+                    foreach (DistanceLearning.Models.QuizQuestionModel quizQuestion in quizQuestionFullList) {
                         if ((quizQuestion.SubjectID == 0))
                             quizQuestionList.Add(quizQuestion);
                     }
-                }
-                else
-                {
+                } else {
                     // 
                     // -- include a random set of questions
                     Random random = new Random();
-                    if ((quizSubjectList.Count > 0))
-                    {
+                    if ((quizSubjectList.Count > 0)) {
                         // 
                         // -- subjects included, add maxNumberQuest to each subject
-                        foreach (DistanceLearning.Models.QuizSubjectModel subject in quizSubjectList)
-                        {
+                        foreach (DistanceLearning.Models.QuizSubjectModel subject in quizSubjectList) {
                             // 
                             // -- create list of all questions in the subject
                             List<DistanceLearning.Models.QuizQuestionModel> subjectQuestionList = new List<DistanceLearning.Models.QuizQuestionModel>();
-                            foreach (DistanceLearning.Models.QuizQuestionModel question in quizQuestionFullList)
-                            {
+                            foreach (DistanceLearning.Models.QuizQuestionModel question in quizQuestionFullList) {
                                 if (question.SubjectID == subject.id)
                                     subjectQuestionList.Add(question);
                             }
                             // 
                             // -- add random maxNumberQuest to quizquestionList
-                            if ((subjectQuestionList.Count > 0))
-                            {
-                                for (int questionPtr = 0; questionPtr <= quiz.maxNumberQuest - 1; questionPtr++)
-                                {
+                            if ((subjectQuestionList.Count > 0)) {
+                                for (int questionPtr = 0; questionPtr <= quiz.maxNumberQuest - 1; questionPtr++) {
                                     if ((subjectQuestionList.Count == 0))
                                         // 
                                         // -- no more questions in this subject
                                         break;
-                                    else
-                                    {
+                                    else {
 
                                         int indexTest = random.Next(0, subjectQuestionList.Count);
                                         DistanceLearning.Models.QuizQuestionModel question = subjectQuestionList[indexTest];
@@ -289,12 +278,10 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
                                 }
                             }
                         }
-                    }
-                    else
+                    } else
                         // 
                         // -- no subjects, add maxNumberQuest questions to quiz
-                        for (int questionPtr = 0; questionPtr <= quiz.maxNumberQuest - 1; questionPtr++)
-                        {
+                        for (int questionPtr = 0; questionPtr <= quiz.maxNumberQuest - 1; questionPtr++) {
                             int indexTest = random.Next(0, quizQuestionFullList.Count);
                             DistanceLearning.Models.QuizQuestionModel question = quizQuestionFullList[indexTest];
                             quizQuestionList.Add(question);
@@ -305,19 +292,16 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
                 // -- first create quiz pages that have subjects
                 int pageNumber = 1;
                 int detailSortOrder = 0;
-                foreach (DistanceLearning.Models.QuizSubjectModel quizSubject in quizSubjectList)
-                {
+                foreach (DistanceLearning.Models.QuizSubjectModel quizSubject in quizSubjectList) {
                     int subjectQuestionCount = 0;
-                    foreach (DistanceLearning.Models.QuizQuestionModel quizQuestion in quizQuestionList)
-                    {
-                        if (quizQuestion.SubjectID == quizSubject.id)
-                        {
-                            DistanceLearning.Models.QuizResponseDetailModel detail = DistanceLearning.Models.QuizResponseDetailModel.add(cp);
+                    foreach (DistanceLearning.Models.QuizQuestionModel quizQuestion in quizQuestionList) {
+                        if (quizQuestion.SubjectID == quizSubject.id) {
+                            DistanceLearning.Models.QuizResponseDetailModel detail = DistanceLearning.Models.QuizResponseDetailModel.addDefault(p);
                             detail.questionId = quizQuestion.id;
                             detail.responseId = response.id;
                             detail.pageNumber = pageNumber;
                             detail.SortOrder = quizSubject.name + quizQuestion.SortOrder; // detailSortOrder.ToString.PadLeft(7, "0"c)
-                            detail.saveObject(cp);
+                            detail.save(cp);
                             if ((quiz.questionPresentation == (int)DistanceLearning.Models.QuizModel.questionPresentationEnum.OneQuestionPerPage))
                                 pageNumber += 1;
                             subjectQuestionCount += 1;
@@ -329,36 +313,30 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
                 }
                 // 
                 // -- then add pages for questions with no subjects
-                foreach (DistanceLearning.Models.QuizQuestionModel quizQuestion in quizQuestionList)
-                {
+                foreach (DistanceLearning.Models.QuizQuestionModel quizQuestion in quizQuestionList) {
                     bool addDetail = true;
-                    if (quizQuestion.SubjectID > 0)
-                    {
+                    if (quizQuestion.SubjectID > 0) {
                         bool subjectFound = false;
-                        foreach (DistanceLearning.Models.QuizSubjectModel quizSubject in quizSubjectList)
-                        {
+                        foreach (DistanceLearning.Models.QuizSubjectModel quizSubject in quizSubjectList) {
                             subjectFound = Equals(quizQuestion.SubjectID, quizSubject.id);
                             if ((subjectFound))
                                 break;
                         }
                         addDetail = !subjectFound;
                     }
-                    if (addDetail)
-                    {
-                        DistanceLearning.Models.QuizResponseDetailModel detail = DistanceLearning.Models.QuizResponseDetailModel.add(cp);
+                    if (addDetail) {
+                        DistanceLearning.Models.QuizResponseDetailModel detail = DistanceLearning.Models.QuizResponseDetailModel.addDefault(p);
                         detail.questionId = quizQuestion.id;
                         detail.responseId = response.id;
                         detail.pageNumber = pageNumber;
                         detail.SortOrder = detailSortOrder.ToString().PadLeft(7, '0');
-                        detail.saveObject(cp);
+                        detail.save(cp);
                         if ((quiz.questionPresentation == (int)DistanceLearning.Models.QuizModel.questionPresentationEnum.OneQuestionPerPage))
                             pageNumber += 1;
                         detailSortOrder += 1;
                     }
                 }
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 cp.Site.ErrorReport(ex);
             }
             return response;
@@ -437,16 +415,14 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
         // 
         // 
         // 
-        internal static string encodeBlankCurrency(double source)
-        {
+        internal static string encodeBlankCurrency(double source) {
             string returnValue = "";
             if (source != 0)
                 returnValue = source.ToString("C", CultureInfo.CurrentCulture);
             return returnValue;
         }
 
-        public static string addEditWrapper(CPBaseClass cp, string innerHtml, int recordId, string recordName, string contentName)
-        {
+        public static string addEditWrapper(CPBaseClass cp, string innerHtml, int recordId, string recordName, string contentName) {
             if (!cp.User.IsEditingAnything) {
                 return innerHtml;
             }

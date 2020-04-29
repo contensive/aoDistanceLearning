@@ -6,6 +6,10 @@ using Contensive.BaseClasses;
 
 namespace Contensive.Addons.DistanceLearning {
     public static class Constants {
+        // 
+        public const int studyPageFormId = 1;
+        public const int onineQuizFormId = 2;
+        public const int scoreCardFormId = 3;
         public static string cr = "\n\t";
         public static string cr2 = "\n\t\t";
         public static string cr3 = "\n\t\t\t";

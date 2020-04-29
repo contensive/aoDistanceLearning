@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using Contensive.BaseClasses;
 using Contensive.Addons.DistanceLearning.Models;
-using Contensive.Addons.DistanceLearning.Interfaces;
+using Contensive.Addons.DistanceLearning.Views;
 using Contensive.Addons.DistanceLearning.Controllers;
-
+using Contensive.Models.Db;
 
 namespace Contensive.Addons.DistanceLearning
 {
@@ -17,7 +17,7 @@ namespace Contensive.Addons.DistanceLearning
             string result = "";
             try
             {
-                QuizModel quiz = QuizModel.create(cp, cp.Doc.GetInteger(Constants.rnQuizId));
+                QuizModel quiz = DbBaseModel.create<QuizModel>(cp, cp.Doc.GetInteger(Constants.rnQuizId));
                 string qs;
                 if (quiz == null)
                 {
@@ -58,10 +58,9 @@ namespace Contensive.Addons.DistanceLearning
                         quiz.certificationCECs = cp.Doc.GetNumber("certificationCECs");
                         quiz.addSuccessCopy = cp.Doc.GetBoolean("addSuccessCopy");
                         quiz.successCopy = cp.Doc.GetText("successCopy");
-                        quiz.saveObject(cp);
+                        quiz.save(cp);
                         break;
                 }
-
                 //
                 // -- create the upper part of the page, the list of scoring
                 adminFramework.ReportListClass gradingForm = new adminFramework.ReportListClass(cp);

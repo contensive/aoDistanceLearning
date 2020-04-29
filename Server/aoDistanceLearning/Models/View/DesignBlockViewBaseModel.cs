@@ -1,11 +1,11 @@
 ﻿
 using System;
-using Contensive.Addons.SampleCollection.Controllers;
-using Contensive.Addons.SampleCollection.Models.Db;
+using Contensive.Addons.DistanceLearning.Controllers;
 using Contensive.BaseClasses;
+using Contensive.Models;
 using Contensive.Models.Db;
 
-namespace Contensive.Addons.SampleCollection {
+namespace Contensive.Addons.DistanceLearning {
     namespace Models.View {
         public class DesignBlockViewBaseModel {
             public string styleBackgroundImage { get; set; }
@@ -20,7 +20,7 @@ namespace Contensive.Addons.SampleCollection {
             ///         ''' <param name="cp"></param>
             ///         ''' <param name="settings"></param>
             ///         ''' <returns></returns>
-            public static T create<T>(CPBaseClass cp, Models.Db.DesignBlockBaseModel settings) where T : DesignBlockViewBaseModel {
+            public static T create<T>(CPBaseClass cp, Models.DesignBlockBaseModel settings) where T : DesignBlockViewBaseModel {
                 T result = null;
                 try {
                     Type instanceType = typeof(T);

@@ -14,7 +14,71 @@ using Contensive.BaseClasses;
 
 
 namespace Controllers {
-    public class InstanceIdController {
+    public class DesignBlockController {
+        // 
+        // ====================================================================================================
+        /// <summary>
+        ///         ''' return the style for each aspectRatioId. if empty, it is not managed
+        ///         ''' </summary>
+        ///         ''' <param name="imageAspectRatioId"></param>
+        ///         ''' <returns></returns>
+        public static string getAspectRationStyle(int imageAspectRatioId) {
+            switch (imageAspectRatioId) {
+                case 2: {
+                        // 
+                        // -- 1:1
+                        return "designBlockImageAspect-1-1";
+                    }
+
+                case 3: {
+                        // 
+                        // -- 3:2
+                        return "designBlockImageAspect-3-2";
+                    }
+
+                case 4: {
+                        // 
+                        // -- 4:3
+                        return "designBlockImageAspect-4-3";
+                    }
+
+                case 5: {
+                        // 
+                        // -- 16:9
+                        return "designBlockImageAspect-16-9";
+                    }
+
+                case 6: {
+                        // 
+                        // -- 2:1
+                        return "designBlockImageAspect-2-1";
+                    }
+
+                case 7: {
+                        // 
+                        // -- 3:1
+                        return "designBlockImageAspect-3-1";
+                    }
+
+                case 8: {
+                        // 
+                        // -- 4:1
+                        return "designBlockImageAspect-4-1";
+                    }
+
+                case 9: {
+                        // 
+                        // -- 5:1
+                        return "designBlockImageAspect-5-1";
+                    }
+
+                default: {
+                        // 
+                        // -- as-is or unknown
+                        return string.Empty;
+                    }
+            }
+        }
         // 
         // ====================================================================================================
         /// <summary>

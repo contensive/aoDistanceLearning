@@ -19,7 +19,7 @@ namespace Contensive.Addons.DistanceLearning.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -61,11 +61,36 @@ namespace Contensive.Addons.DistanceLearning.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to &lt;div class=&quot;designBlockContainer  {{outerContainerClass}}&quot; style=&quot;{{styleHeight}}{{styleBackgroundImage}}&quot;&gt;
+        ///	&lt;div class=&quot;{{contentContainerClass}}&quot;&gt;
+        ///	&lt;form method=&quot;post&quot; name=&quot;quizForm&quot; action=&quot;{{formAction}}&quot;&gt;
+        ///		&lt;div class=&quot;ProgressbarCon&quot;&gt;&lt;div class=&quot;progressbarTitle&quot;&gt;Your Progress: {{progressText}}%&lt;/div&gt;&lt;div id=&quot;progressbar&quot;&gt;&lt;/div&gt;&lt;br&gt;&lt;/div&gt;
+        ///		{{#questions}}
+        ///		&lt;div&gt;
+        ///		{{#isQuestionLink}}
+        ///			&lt;div class=&quot;questionText&quot;&gt;{{{questionText}}}&lt;/div&gt;
+        ///		{{/isQuestionLink}}
+        ///		{{^isQuestionLink}}
+        ///			{{{que [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DefaultQuizLayout {
             get {
                 return ResourceManager.GetString("DefaultQuizLayout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;div class=&quot;designBlockContainer blockOneColumn {{outerContainerClass}}&quot; style=&quot;{{styleHeight}}{{styleBackgroundImage}}&quot;&gt;
+        ///	&lt;div class=&quot;{{contentContainerClass}}&quot;&gt;
+        ///		&lt;div class=&quot;row&quot;&gt;
+        ///			&lt;div class=&quot;col-lg-12&quot;&gt;{{{legacyQuiz}}}&lt;/div&gt;
+        ///		&lt;/div&gt;
+        ///	&lt;/div&gt;
+        ///&lt;/div&gt;.
+        /// </summary>
+        internal static string DesignBlockLayout {
+            get {
+                return ResourceManager.GetString("DesignBlockLayout", resourceCulture);
             }
         }
     }

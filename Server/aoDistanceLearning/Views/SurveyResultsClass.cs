@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Microsoft.VisualBasic;
 using Contensive.BaseClasses;
 using static Contensive.Addons.DistanceLearning.Constants;
+using Contensive.Addons.DistanceLearning.Models;
+using Contensive.Models.Db;
 
 namespace Contensive.Addons.DistanceLearning {
     public class SurveyResultsClass : AddonBaseClass {
@@ -82,7 +84,7 @@ namespace Contensive.Addons.DistanceLearning {
                     returnHtml = "<p>The requested response could not be found.</p>";
                 else {
                     List<DistanceLearning.Models.QuizResponseDetailModel> responseDetailList = DistanceLearning.Models.QuizResponseDetailModel.getObjectListForQuizDisplay(cp, response.id);
-                    DistanceLearning.Models.QuizModel quiz = DistanceLearning.Models.QuizModel.create(cp, response.QuizID);
+                    DistanceLearning.Models.QuizModel quiz = DbBaseModel.create<QuizModel>(cp, response.QuizID);
                     if ((quiz == null))
                         // 
                         // -- quiz not valid
@@ -219,7 +221,7 @@ namespace Contensive.Addons.DistanceLearning {
                         response.Score = 0;
                         if ((response.totalQuestions > 0))
                             response.Score = (System.Convert.ToDouble(response.totalCorrect) * 100) / System.Convert.ToDouble(response.totalQuestions);
-                        response.saveObject(cp);
+                        response.save(cp);
                         // 
                         hint = 60;
                         if (totalQuestionsIncorrect == 0)
