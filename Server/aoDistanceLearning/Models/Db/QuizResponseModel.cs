@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Contensive.BaseClasses;
 using Contensive.Addons.DistanceLearning.Controllers;
 using Contensive.Models.Db;
+using System.Linq;
 
 namespace Contensive.Addons.DistanceLearning.Models {
     public class QuizResponseModel : DbBaseModel {
@@ -176,6 +177,24 @@ namespace Contensive.Addons.DistanceLearning.Models {
                 throw;
             }
             return result;
+        }
+
+        //
+        //====================================================================================================
+        /// <summary>
+        /// open the newest response that matches the criteria 
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <param name="sqlCriteria"></param>
+        private static QuizResponseModel loadLastObject(CPBaseClass cp, string sqlCriteria) {
+            try {
+                List<QuizResponseModel> ListOfOne = createList<QuizResponseModel>(cp, "", "id desc", 1, 1);
+                if(ListOfOne.Count.Equals(0)) { return null; }
+                return ListOfOne.First();
+            } catch (Exception ex) {
+                cp.Site.ErrorReport(ex);
+                throw;
+            }
         }
 
     }
