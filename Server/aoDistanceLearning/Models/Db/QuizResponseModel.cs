@@ -157,6 +157,27 @@ namespace Contensive.Addons.DistanceLearning.Models {
             instance.SortOrder = GenericController.getSortOrderFromInteger(instance.id);
             return instance;
         }
+        /// <summary>
+        /// create a response model for a quiz and a user that might be be completed yet.
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <param name="quizId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public static QuizResponseModel createLastForThisUser(CPBaseClass cp, int quizId, int userId) {
+            QuizResponseModel result = null;
+            try {
+                if ((result == null)) {
+                    result = loadLastObject(cp, "(memberId=" + userId.ToString() + ")and(quizId=" + quizId.ToString() + ")");
+                    //result = loadObject(cp, "(memberId=" + userId.ToString() + ")and(dateSubmitted is null)and(quizId=" + quizId.ToString() + ")");
+                }
+            } catch (Exception ex) {
+                cp.Site.ErrorReport(ex);
+                throw;
+            }
+            return result;
+        }
+
     }
 }
 
