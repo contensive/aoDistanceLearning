@@ -14,10 +14,10 @@
 						{{{questionText}}}
 						{{#answers}}
 							{{#isAnswerLink}}
-								<div class="questionChoice"><input type="radio" class="questionRadioInput" name="{{answerName}}" value="{{answerId}}" {{#isChecked}}checked{{/isChecked}}>&nbsp &nbsp{{{answerText}}}</input></div>
+								<div class="ml-4 questionChoice"><input type="radio" class="questionRadioInput mr-2" name="{{answerName}}" value="{{answerId}}" {{#isChecked}}checked{{/isChecked}}>{{{answerText}}}</div>
 							{{/isAnswerLink}}
 							{{^isAnswerLink}}
-								<div class="questionChoice"><input type="radio" class="questionRadioInput" name="{{answerName}}" value="{{answerId}}" {{#isChecked}}checked{{/isChecked}}>&nbsp &nbsp{{{answerText}}}</input></div>
+								<div class="ml-4 questionChoice"><input type="radio" class="questionRadioInput mr-2" name="{{answerName}}" value="{{answerId}}" {{#isChecked}}checked{{/isChecked}}>{{{answerText}}}</div>
 							{{/isAnswerLink}}
 						{{/answers}}
 					{{/isQuestionLink}}

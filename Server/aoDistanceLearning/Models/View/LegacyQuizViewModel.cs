@@ -26,6 +26,20 @@ namespace Models.View {
         public string quizId { get; set; }
         public string quizName { get; set; }
         public string adminHint { get; set; }
+
+        public class QuestionViewModel {
+            public string questionText;
+            public List<AnswerViewModel> answers;
+            public bool isQuestionLink;
+        }
+
+        public class AnswerViewModel {
+            public string answerText { get; set; }
+            public string answerId;
+            public string answerName;
+            public bool isChecked { get; set; }
+            public bool isAnswerLink;
+        }
         // 
         // ====================================================================================================
         /// <summary>
@@ -194,20 +208,6 @@ namespace Models.View {
                 cp.Site.ErrorReport(ex);
                 return null;
             }
-        }
-
-        public class QuestionViewModel {
-            public string questionText;
-            public List<AnswerViewModel> answers;
-            public bool isQuestionLink;
-        }
-
-        public class AnswerViewModel {
-            public string answerText { get; set; }
-            public string answerId;
-            public string answerName;
-            public bool isChecked { get; set; }
-            public bool isAnswerLink;
         }
     }
 }
