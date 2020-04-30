@@ -123,7 +123,7 @@ namespace Contensive.Addons.DistanceLearning {
             // ===============================================================================
             //
             private void addQuestionToList(CPBaseClass cp, QuizQuestionModel question, QuizSubjectModel subject, adminFramework.ReportListClass reportList) {
-                List<QuizResponseModel> responseList = QuizResponseModel.GetResponseList(cp, question.id);
+                List<QuizResponseModel> responseList = QuizResponseModel.getResponseList(cp, question.id);
                 reportList.addRow();
                 reportList.columnCellClass = "afwTextAlignLeft";
                 if (subject == null) {

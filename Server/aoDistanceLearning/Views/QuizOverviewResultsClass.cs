@@ -83,8 +83,8 @@ namespace Contensive.Addons.DistanceLearning {
                     //form.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
                     //form.columnCellClass = "afwTextAlignRight";
                     //
-                    List<QuizResponseModel.quizResponseReportModel> quizResponseList = QuizResponseModel.GetQuizOverviewResponseList(cp, quiz.id, filterFromDate, filterToDate);
-                    foreach (QuizResponseModel.quizResponseReportModel quizResponse in quizResponseList) {
+                    List<QuizResponseReportModel> quizResponseList = QuizResponseReportModel.getQuizOverviewResponseList(cp, quiz.id, filterFromDate, filterToDate);
+                    foreach (QuizResponseReportModel quizResponse in quizResponseList) {
                         var member = DbBaseModel.create<PersonModel>(cp, cp.Doc.GetInteger(Constants.rnMemberId));
 
                         form.addRow();

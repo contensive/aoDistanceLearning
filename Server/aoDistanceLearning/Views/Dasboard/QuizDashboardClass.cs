@@ -72,7 +72,7 @@ namespace Contensive.Addons.DistanceLearning {
                                 quiz.name = "Quiz " + quiz.id;
                                 quiz.save(cp);
                             }
-                            List<QuizResponseModel> responseList = QuizResponseModel.GetResponseList(cp, quiz.id);
+                            List<QuizResponseModel> responseList = QuizResponseModel.getResponseList(cp, quiz.id);
                             listReport.addRow();
                             string qs = cp.Doc.RefreshQueryString;
                             qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeaturesQuizOverviewDetails, true);

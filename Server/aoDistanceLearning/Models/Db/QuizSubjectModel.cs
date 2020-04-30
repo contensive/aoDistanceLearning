@@ -8,7 +8,7 @@ namespace Contensive.Addons.DistanceLearning.Models {
     public class QuizSubjectModel : DbBaseModel {
         //
         public static DbBaseTableMetadataModel tableMetadata { get; } = new DbBaseTableMetadataModel("Quiz Result Messages", "quizResultMessages", "default", false);
-        public int quizId;
+        public int quizId { get; set; }
 
     }
 }

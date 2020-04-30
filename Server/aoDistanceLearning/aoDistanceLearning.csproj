@@ -87,11 +87,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\QuizController.cs" />
     <Compile Include="Controllers\GenericController.cs" />
     <Compile Include="Controllers\DesignBlockController.cs" />
     <Compile Include="Models\Db\DesignBlockBaseModel.cs" />
     <Compile Include="Models\Db\DesignBlockFontModel.cs" />
     <Compile Include="Models\Db\DesignBlockThemeModel.cs" />
+    <Compile Include="Models\Domain\QuizResponseReportModel.cs" />
     <Compile Include="Models\View\DesignBlockViewBaseModel.cs" />
     <Compile Include="Models\View\LegacyQuizViewModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

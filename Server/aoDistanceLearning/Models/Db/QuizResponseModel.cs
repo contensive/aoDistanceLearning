@@ -7,20 +7,24 @@ using Contensive.Models.Db;
 using System.Linq;
 
 namespace Contensive.Addons.DistanceLearning.Models {
+    /// <summary>
+    /// A response is a set of answers from one user to one quiz. The answer to each question is a ResponseDetailModel. 
+    /// Quiz processing is based on having a complete set of response defaults, even if they do not have answers yet.
+    /// </summary>
     public class QuizResponseModel : DbBaseModel {
         //
         public static  DbBaseTableMetadataModel tableMetadata { get; } = new DbBaseTableMetadataModel("Quiz Responses", "quizResponses", "default", false);
         //
-        public int memberID;
-        public int quizID;
-        public int attemptNumber;
-        public DateTime dateSubmitted;
-        public int totalQuestions;
-        public int totalCorrect;
-        public int totalPoints;
-        public double score;
-        public DateTime dateStarted;
-        public int lastPageNumber;
+        public  int memberID { get; set; }
+        public int quizID { get; set; }
+        public int attemptNumber { get; set; }
+        public DateTime dateSubmitted { get; set; }
+        public int totalQuestions { get; set; }
+        public int totalCorrect { get; set; }
+        public int totalPoints { get; set; }
+        public double score { get; set; }
+        public DateTime dateStarted { get; set; }
+        public int lastPageNumber { get; set; }
         //
         //====================================================================================================
         /// <summary>
@@ -29,7 +33,7 @@ namespace Contensive.Addons.DistanceLearning.Models {
         /// <param name="cp"></param>
         /// <param name="QuizId"></param>
         /// <returns></returns>
-        public static List<QuizResponseModel> GetResponseList(CPBaseClass cp, int QuizId) {
+        public static List<QuizResponseModel> getResponseList(CPBaseClass cp, int QuizId) {
             List<QuizResponseModel> modelList = new List<QuizResponseModel>();
             try {
                 CPCSBaseClass cs = cp.CSNew();
@@ -57,7 +61,7 @@ namespace Contensive.Addons.DistanceLearning.Models {
         /// <param name="cp"></param>
         /// <param name="QuizId"></param>
         /// <returns></returns>
-        public static List<QuizResponseModel> GetResponseList(CPBaseClass cp, int QuizId, int userId) {
+        public static List<QuizResponseModel> getResponseList(CPBaseClass cp, int QuizId, int userId) {
             List<QuizResponseModel> modelList = new List<QuizResponseModel>();
             try {
                 CPCSBaseClass cs = cp.CSNew();
@@ -77,85 +81,6 @@ namespace Contensive.Addons.DistanceLearning.Models {
             }
             return modelList;
         }
-        public class quizResponseReportModel {
-            public string quizName;
-            public string userName;
-            public string userFirstName;
-            public string userLastName;
-            public DateTime dateSubmitted;
-            public int attemptNumber;
-            public double score;
-            public int totalQuestions;
-            public int totalCorrect;
-            public int totalPoints;
-            public int id;
-        }
-        //
-        //====================================================================================================
-        /// <summary>
-        /// get the list of responses for the quiz overview reporting tab
-        /// </summary>
-        /// <param name="cp"></param>
-        /// <param name="QuizId"></param>
-        /// <returns></returns>
-        public static List<quizResponseReportModel> GetQuizOverviewResponseList(CPBaseClass cp, int QuizId, DateTime fromDate, DateTime toDate) {
-            List<quizResponseReportModel> modelList = new List<quizResponseReportModel>();
-            try {
-                string sql = "select q.name as quizName, u.firstName as userFirstName, u.lastName as userLastName, u.name as userName, r.id as responseId,r.dateSubmitted, r.attemptNumber, r.score, r.totalQuestions, r.totalCorrect, r.totalPoints"
-                    + " from ((quizResponses r"
-                    + " left join quizzes q on q.id=r.quizId)"
-                    + " left join ccMembers u on u.id=r.memberId)"
-                    + " where (r.QuizId=" + QuizId + ")and(q.active>0)and(u.active>0)and(r.dateSubmitted is not null)";
-                if (fromDate > DateTime.MinValue) {
-                    string sqlFromDate = cp.Db.EncodeSQLDate(fromDate.Date);
-                    string sqlFromNextDate = cp.Db.EncodeSQLDate(fromDate.AddDays(1).Date);
-                    sql += "and(r.dateSubmitted>=" + sqlFromDate + ")";
-                }
-                if (toDate > DateTime.MinValue) {
-                    string sqlToDate = cp.Db.EncodeSQLDate(toDate.Date);
-                    string sqlToNextDate = cp.Db.EncodeSQLDate(toDate.AddDays(1).Date);
-                    sql += "and(r.dateSubmitted<" + sqlToNextDate + ")";
-                }
-                CPCSBaseClass cs = cp.CSNew();
-                if (cs.OpenSQL(sql)) {
-                    quizResponseReportModel instance = null;
-                    do {
-                        instance = new quizResponseReportModel();
-                        instance.id = cs.GetInteger("responseId");
-                        instance.attemptNumber = cs.GetInteger("attemptNumber");
-                        instance.dateSubmitted = cs.GetDate("dateSubmitted");
-                        instance.quizName = cs.GetText("quizName");
-                        instance.userName = cs.GetText("userName");
-                        instance.userFirstName = cs.GetText("userFirstName");
-                        instance.userLastName = cs.GetText("userLastName");
-                        instance.score = cs.GetNumber("score");
-                        instance.totalQuestions = cs.GetInteger("totalQuestions");
-                        instance.totalCorrect = cs.GetInteger("totalCorrect");
-                        instance.totalPoints = cs.GetInteger("totalPoints");
-                        modelList.Add(instance);
-                        cs.GoNext();
-                    } while (cs.OK());
-                }
-                cs.Close();
-            } catch (Exception ex) {
-                cp.Site.ErrorReport(ex);
-            }
-            return modelList;
-        }
-        /// <summary>
-        /// Add record method
-        /// </summary>
-        /// <param name="cp"></param>
-        /// <returns></returns>
-        //
-
-        public static QuizResponseModel add(CPBaseClass cp, int quizId) {
-            QuizResponseModel instance = DbBaseModel.create<QuizResponseModel>(cp, cp.Content.AddRecord(tableMetadata.contentName));
-            instance.quizID = quizId;
-            instance.memberID = cp.User.Id;
-            instance.sortOrder = GenericController.getSortOrderFromInteger(instance.id);
-            return instance;
-        }
         /// <summary>
         /// create a response model for a quiz and a user that might be be completed yet.
         /// </summary>
@@ -168,7 +93,6 @@ namespace Contensive.Addons.DistanceLearning.Models {
             try {
                 if ((result == null)) {
                     result = loadLastObject(cp, "(memberId=" + userId.ToString() + ")and(quizId=" + quizId.ToString() + ")");
-                    //result = loadObject(cp, "(memberId=" + userId.ToString() + ")and(dateSubmitted is null)and(quizId=" + quizId.ToString() + ")");
                 }
             } catch (Exception ex) {
                 cp.Site.ErrorReport(ex);

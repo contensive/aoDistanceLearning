@@ -8,6 +8,8 @@ using static Contensive.Addons.DistanceLearning.Constants;
 using Contensive.Addons.DistanceLearning.Controllers;
 using Models.View;
 using Contensive.Models.Db;
+using Controllers;
+using static Models.View.LegacyQuizViewModel;
 
 namespace Contensive.Addons.DistanceLearning {
     namespace Views {
@@ -20,12 +22,9 @@ namespace Contensive.Addons.DistanceLearning {
                 try {
                     //
                     // -- get settings
-                    string loadHint = "";
-                    string adminHint = "";
                     if ((quiz == null)) {
                         // 
                         // -- quiz could not be selected or created - possibly legacy method without a selection
-                        adminHint += "<p>The quiz you selected cannot be found. " + loadHint + "</p>";
                         returnHtml = "<p>This quiz is not currently available.</p>";
                     } else if (quiz.requireAuthentication & (!cp.User.IsAuthenticated)) {
                         // 
@@ -36,39 +35,36 @@ namespace Contensive.Addons.DistanceLearning {
                             + "";
                     } else {
                         // 
-                        // -- get the response (like an application)
-                        List<QuizResponseDetailModel> responseDetailsList = new List<QuizResponseDetailModel>();
-                        QuizResponseModel response = QuizResponseModel.createLastForThisUser(cp, quiz.id, cp.User.Id);
+                        // -- Setup the response object (holds the responses for this user for this quiz, must be a complete object to process the quiz)
+                        QuizResponseModel response = QuizController.verifyQuizResponse(cp, quiz);
                         if (response == null) {
-                            // 
-                            // -- this user has no response for this quiz yet. Save creates the data needed for display
-                            response = new QuizResponseModel();
-                            saveResponseDetails(cp, ref quiz, ref response);
+                            throw new ApplicationException("The quiz response could not be initialized, user [" + cp.User.Id + "], quiz [" + quiz.id + "].");
                         }
-                        responseDetailsList = QuizResponseDetailModel.getObjectListForQuizDisplay(cp, response.id);
-                        List<string> userMessageList = new List<string>();
                         // 
+                        // -- Process the View being submitted
+                        List<string> userMessageList = new List<string>();
                         if ((!string.IsNullOrEmpty(cp.Doc.GetText(Constants.rnButton)))) {
                             //
                             // -- button pressed, process input
-                            if ((!Controllers.GenericController.isDateEmpty(response.dateSubmitted)))
+                            if ((!Controllers.GenericController.isDateEmpty(response.dateSubmitted))) {
                                 // 
                                 // -- process the score card
                                 processScoreCardForm(cp, quiz, ref response, ref userMessageList);
-                            else if ((response.lastPageNumber == 0))
+                            } else if ((response.lastPageNumber == 0)) {
                                 // 
                                 // -- process study page form
-                                processStudyForm(cp, quiz, ref response, ref userMessageList);
-                            else
+                                processStudyForm(cp, quiz, response);
+                            } else {
                                 // 
                                 // -- process the online quiz
+                                List<QuizResponseDetailModel> responseDetailsList = QuizResponseDetailModel.getObjectListForQuizDisplay(cp, response.id);
                                 processOnlineQuizForm(cp, quiz, response, responseDetailsList, ref userMessageList);
+                            }
                         }
                         //
-                        // -- create the credt edit panel
-                        adminHint = adminHintWrapper(cp, getAdminHints(cp, quiz, response));
-                        // 
-                        if (!DistanceLearning.Controllers.GenericController.isDateEmpty(response.dateSubmitted)) {
+                        // -- Create the next View
+                        string adminHint = adminHintWrapper(cp, getAdminHints(cp, quiz, response));
+                        if (!GenericController.isDateEmpty(response.dateSubmitted)) {
                             // 
                             // -- score card
                             returnHtml = getScoreCardform(cp, quiz, response, ref adminHint, ref userMessageList);
@@ -82,13 +78,13 @@ namespace Contensive.Addons.DistanceLearning {
                             // 
                             // -- online quiz
                             LegacyQuizViewModel legacyQuizViewModel = LegacyQuizViewModel.create(cp, quiz, response, adminHint);
-                            string layout = "";
-                            using (CPCSBaseClass cs = cp.CSNew()) {
-                                if (cs.OpenRecord("Layouts", quiz.layoutId, "layout")) {
-                                    layout = cs.GetText("layout");
-                                }
+                            LayoutModel layout = DesignBlockController.getLayout(cp, quiz.layoutId);
+                            if (layout == null) {
+                                layout = DesignBlockController.getLayout(cp, "{d0896afb-cd43-4aee-b86d-25cd59aeb60e}", Properties.Resources.DefaultQuizLayout, "Quiz Layout Default");
+                                quiz.layoutId = layout.id;
+                                quiz.save(cp);
                             }
-                            returnHtml = Nustache.Core.Render.StringToString(layout, legacyQuizViewModel);
+                            returnHtml = Nustache.Core.Render.StringToString(layout.layout.content, legacyQuizViewModel);
                         }
                     }
                 } catch (Exception ex) {
@@ -412,22 +408,36 @@ namespace Contensive.Addons.DistanceLearning {
             // 
             private static void saveResponseDetails(CPBaseClass cp, ref DistanceLearning.Models.QuizModel quiz, ref DistanceLearning.Models.QuizResponseModel response) {
                 try {
-                    List<DistanceLearning.Models.QuizQuestionModel> questionList = DistanceLearning.Models.QuizQuestionModel.getQuestionsForQuizList(cp, quiz.id);
-                    foreach (QuizQuestionModel question in questionList) {
 
-                        int SelectedAnswerID = cp.Doc.GetInteger(getRadioAnswerRequestName(question.id));
-                        if (SelectedAnswerID != 0) {
-                            QuizResponseDetailModel responseDetails = DbBaseModel.create<QuizResponseDetailModel>(cp, response.id);
-                            if ((responseDetails == null)) {
-                                responseDetails = DbBaseModel.addDefault<QuizResponseDetailModel>(cp);
-                                responseDetails.name = response.name + ", question: " + question.name;
-                                responseDetails.responseId = response.id;
-                                responseDetails.questionId = question.id;
+                    List<QuizResponseDetailModel> responseDetailList = QuizResponseDetailModel.getObjectListForQuizDisplay(cp, response.id);
+                    foreach (QuizResponseDetailModel responseDetail in responseDetailList) {
+                        if (responseDetail.pageNumber == response.lastPageNumber) {
+                            var question = DbBaseModel.create<QuizQuestionModel>(cp, responseDetail.questionId);
+                            if ( question != null) {
+                                int SelectedAnswerID = cp.Doc.GetInteger(getRadioAnswerRequestName(question.id));
+                                if (SelectedAnswerID != 0) {
+                                    responseDetail.answerId = SelectedAnswerID;
+                                    responseDetail.save(cp);
+                                }
                             }
-                            responseDetails.answerId = SelectedAnswerID;
-                            responseDetails.save(cp);
                         }
                     }
+                    //        List<DistanceLearning.Models.QuizQuestionModel> questionList = DistanceLearning.Models.QuizQuestionModel.getQuestionsForQuizList(cp, quiz.id);
+                    //foreach (QuizQuestionModel question in questionList) {
+
+                    //    int SelectedAnswerID = cp.Doc.GetInteger(getRadioAnswerRequestName(question.id));
+                    //    if (SelectedAnswerID != 0) {
+                    //        QuizResponseDetailModel responseDetails = DbBaseModel.create<QuizResponseDetailModel>(cp, response.id);
+                    //        if ((responseDetails == null)) {
+                    //            responseDetails = DbBaseModel.addDefault<QuizResponseDetailModel>(cp);
+                    //            responseDetails.name = response.name + ", question: " + question.name;
+                    //            responseDetails.responseId = response.id;
+                    //            responseDetails.questionId = question.id;
+                    //        }
+                    //        responseDetails.answerId = SelectedAnswerID;
+                    //        responseDetails.save(cp);
+                    //    }
+                    //}
                 } catch (Exception ex) {
                     cp.Site.ErrorReport(ex, "saveResponseDetails");
                 }
@@ -449,43 +459,6 @@ namespace Contensive.Addons.DistanceLearning {
                 }
                 return returnShort;
             }
-            // '
-            // '====================================================================================================
-            // '
-            // Private Sub verifyQuizResponse(ByVal cp As CPBaseClass, ByRef responseId As Integer, ByVal userId As Integer, ByVal quizId As Integer)
-            // Try
-            // '
-            // Dim cs As CPCSBaseClass = cp.CSNew()
-            // Dim userName As String
-            // Dim quizName As String
-            // Dim attemptNumber As Integer
-            // '
-            // ' verify response record
-            // '
-            // Call cs.Open("quiz responses", "id=" & responseId)
-            // If Not cs.OK() Then
-            // Call cs.Close()
-            // attemptNumber = 1
-            // Call cs.OpenSQL("select count(*) as cnt from quizResponses where (memberid=" & userId & ")and(quizid=" & quizId & ")and(dateSubmitted is not null)")
-            // If cs.OK() Then
-            // attemptNumber = cs.GetInteger("cnt") + 1
-            // End If
-            // Call cs.Close()
-
-            // userName = cp.Content.GetRecordName("people", userId)
-            // quizName = cp.Content.GetRecordName("quizzes", quizId)
-            // Call cs.Insert("quiz responses")
-            // responseId = cs.GetInteger("id")
-            // Call cs.SetField("name", userName & ", quiz:" & quizName)
-            // Call cs.SetField("memberid", userId.ToString())
-            // Call cs.SetField("quizid", quizId.ToString())
-            // Call cs.SetField("attemptNumber", attemptNumber.ToString())
-            // End If
-            // Call cs.Close()
-            // Catch ex As Exception
-            // cp.Site.ErrorReport( ex, "verifyQuizResponse")
-            // End Try
-            // End Sub
             // 
             // ====================================================================================================
             // 
@@ -504,81 +477,20 @@ namespace Contensive.Addons.DistanceLearning {
                         + "";
                 return returnHtml;
             }
-            // '
-            // '====================================================================================================
-            // ' pageOrder = getNextpageOrder( cp, quizId, pageOrder )
-            // '
-            // Private Function getNextPageOrder(ByVal cp As CPBaseClass, ByVal quizId As Integer, ByVal pageOrder As Integer, ByVal isStudyPage As Boolean) As Integer
-            // Dim returnInt As Integer = pageOrder
-            // Try
-            // Dim sqlCriteria As String = "(quizId=" & quizId & ")and(pageOrder>" & pageOrder & ")"
-            // Dim cs As CPCSBaseClass = cp.CSNew()
-            // '
-            // If isStudyPage Then
-            // returnInt = getFirstPageOrder(cp, quizId)
-            // Else
-            // If cs.Open("quiz questions", sqlCriteria, "pageOrder,id", , "pageOrder") Then
-            // returnInt = cs.GetInteger("pageOrder")
-            // End If
-            // Call cs.Close()
-            // End If
-            // Catch ex As Exception
-            // Call cp.Site.ErrorReport( ex, "getNextpageOrder")
-            // End Try
-            // Return returnInt
-            // End Function
-            // '
-            // '====================================================================================================
-            // ' pageOrder = getFirstpageOrder( cp, quizId )
-            // '
-            // Private Function getFirstPageOrder(ByVal cp As CPBaseClass, ByVal quizId As Integer) As Integer
-            // Dim returnInt As Integer = 0
-            // Try
-            // Dim sqlCriteria As String = "(quizId=" & quizId & ")"
-            // Dim cs As CPCSBaseClass = cp.CSNew()
-            // If cs.Open("quiz questions", sqlCriteria, "pageOrder,id", , "pageOrder") Then
-            // returnInt = cs.GetInteger("pageOrder")
-            // End If
-            // Call cs.Close()
-            // Catch ex As Exception
-            // Call cp.Site.ErrorReport( ex, "getFirstPageOrder")
-            // End Try
-            // Return returnInt
-            // End Function
-            // '
-            // '====================================================================================================
-            // ' pageOrder = getPreviouspageOrder( cp, quizId, pageOrder )
-            // '
-            // Private Function getPreviousPageOrder(ByVal cp As CPBaseClass, ByVal quizId As Integer, ByVal pageOrder As Integer, ByRef isStudyPage As Boolean) As Integer
-            // Dim returnInt As Integer = pageOrder
-            // Try
-            // Dim sqlCriteria As String = "(quizId=" & quizId & ")"
-            // Dim cs As CPCSBaseClass = cp.CSNew()
-            // '
-            // If Not isStudyPage Then
-            // sqlCriteria &= "and((pageorder is null)or(pageOrder<" & pageOrder & "))"
-            // End If
-            // If cs.Open("quiz questions", sqlCriteria, "pageOrder desc", , "pageOrder") Then
-            // returnInt = cs.GetInteger("pageOrder")
-            // End If
-            // Call cs.Close()
-            // Catch ex As Exception
-            // Call cp.Site.ErrorReport( ex, "getPreviousPageOrder")
-            // End Try
-            // Return returnInt
-            // End Function
             // 
             // ====================================================================================================
-            // 
-            private static void processStudyForm(CPBaseClass cp, DistanceLearning.Models.QuizModel quiz, ref Addons.DistanceLearning.Models.QuizResponseModel response, ref List<string> userMessages) {
+            /// <summary>
+            /// on button click, move lastPageNumber to 1 -- Study page is page=0
+            /// </summary>
+            /// <param name="cp"></param>
+            /// <param name="quiz"></param>
+            /// <param name="response"></param>
+            /// <param name="userMessages"></param>
+            private static void processStudyForm(CPBaseClass cp, QuizModel quiz, QuizResponseModel response) {
                 try {
                     string button = cp.Doc.GetText(rnButton);
                     if ((!string.IsNullOrEmpty(button))) {
-                        if ((response.id == 0))
-                            response = GenericController.createNewQuizResponse(cp, quiz);
-                        if ((DistanceLearning.Controllers.GenericController.isDateEmpty(response.dateStarted)))
-                            response.dateStarted = DateTime.Now;
-                        response.memberID = cp.User.Id;
+                        if ((GenericController.isDateEmpty(response.dateStarted))) { response.dateStarted = DateTime.Now; }
                         response.lastPageNumber = 1;
                         response.save(cp);
                     }
@@ -587,9 +499,9 @@ namespace Contensive.Addons.DistanceLearning {
                 }
             }
             // 
+            // ====================================================================================================
             // 
-            // 
-            private static int processOnlineQuizForm(CPBaseClass cp, DistanceLearning.Models.QuizModel quiz, Addons.DistanceLearning.Models.QuizResponseModel response, List<DistanceLearning.Models.QuizResponseDetailModel> responseDetailsList, ref List<string> userMessages) {
+            private static int processOnlineQuizForm(CPBaseClass cp, QuizModel quiz, QuizResponseModel response, List<QuizResponseDetailModel> responseDetailsList, ref List<string> userMessages) {
                 int result = 0;
                 try {
                     switch (cp.Doc.GetText(rnButton)) {
@@ -658,7 +570,7 @@ namespace Contensive.Addons.DistanceLearning {
                         // 
                         // start a retake - create a response and set dstPageOrder, isStudyPage
                         // 
-                        response = GenericController.createNewQuizResponse(cp, quiz);
+                        response = QuizController.createNewQuizResponse(cp, quiz);
                 } catch (Exception ex) {
                     cp.Site.ErrorReport(ex);
                 }
@@ -937,41 +849,34 @@ namespace Contensive.Addons.DistanceLearning {
             private static string getStudyPageForm(CPBaseClass cp, DistanceLearning.Models.QuizModel quiz, DistanceLearning.Models.QuizResponseModel response, ref string adminHint, ref List<string> userMessages) {
                 string returnHtml = "getStudyPageForm";
                 try {
-                    var layout = DbBaseModel.create<LayoutModel>(cp, "{59b2a83a-3940-4eca-a883-d078da723d57}");
-                    if (layout == null) {
-                        layout = DbBaseModel.addDefault<LayoutModel>(cp);
-                        layout.name = "Quiz landing Page";
-                        layout.ccguid = "{59b2a83a-3940-4eca-a883-d078da723d57}";
-                        layout.layout.content = Properties.Resources.DefaultLandingPageLayout;
-                        layout.save(cp);
-                    }
-                    CPBlockBaseClass landingPage = cp.BlockNew();
+                    LayoutModel layout = DesignBlockController.getLayout(cp, "{59b2a83a-3940-4eca-a883-d078da723d57}", Properties.Resources.DefaultLandingPageLayout, "Quiz Landing Page Default");
+                    CPBlockBaseClass layoutBlock = cp.BlockNew();
                     // 
-                    landingPage.Load(layout.layout.content);
-                    landingPage.SetInner("#js-quizTitle", quiz.name);
-                    landingPage.SetInner("#js-quizStudyCopy", quiz.studyCopy.content);
+                    layoutBlock.Load(layout.layout.content);
+                    layoutBlock.SetInner("#js-quizTitle", quiz.name);
+                    layoutBlock.SetInner("#js-quizStudyCopy", quiz.studyCopy.content);
                     // todo -- needs to be removed from template
-                    landingPage.SetOuter("#js-quizStCustomText", "");
+                    layoutBlock.SetOuter("#js-quizStCustomText", "");
 
                     // 
                     if ((string.IsNullOrEmpty(quiz.courseMaterial)))
-                        landingPage.SetInner("#js-quizCourseMaterial", "");
+                        layoutBlock.SetInner("#js-quizCourseMaterial", "");
                     else
-                        landingPage.SetOuter("#js-quizCourseMaterial", "<br><div id=\"js-quizCourseMaterial\">" + cp.Content.GetCopy("courseMaterial") + " <a href=\"" + cp.Site.FilePath + quiz.courseMaterial + "\"  target=\"_blank\">Click here</a></div><br>");
+                        layoutBlock.SetOuter("#js-quizCourseMaterial", "<br><div id=\"js-quizCourseMaterial\">" + cp.Content.GetCopy("courseMaterial") + " <a href=\"" + cp.Site.FilePath + quiz.courseMaterial + "\"  target=\"_blank\">Click here</a></div><br>");
                     // 
                     if ((string.IsNullOrEmpty(quiz.videoEmbedCode)))
-                        landingPage.SetOuter("#js-quizVideo", "");
+                        layoutBlock.SetOuter("#js-quizVideo", "");
                     else
-                        landingPage.SetInner("#js-quizVideo", quiz.videoEmbedCode);
+                        layoutBlock.SetInner("#js-quizVideo", quiz.videoEmbedCode);
                     if ((DistanceLearning.Controllers.GenericController.isDateEmpty(response.dateStarted)))
                         // 
                         // -- start Quiz
-                        landingPage.SetOuter("#js-quizStartButton", cp.Html.Form(cp.Html.Button(rnButton, buttonStartQuiz, " btn btn-primary"), "startbuttonform"));
+                        layoutBlock.SetOuter("#js-quizStartButton", cp.Html.Form(cp.Html.Button(rnButton, buttonStartQuiz, " btn btn-primary"), "startbuttonform"));
                     else
                         // 
                         // -- resume Quiz
-                        landingPage.SetOuter("#js-quizStartButton", cp.Html.Form(cp.Html.Button(rnButton, buttonResumeQuiz, " btn btn-primary"), "startbuttonform"));
-                    returnHtml = landingPage.GetHtml();
+                        layoutBlock.SetOuter("#js-quizStartButton", cp.Html.Form(cp.Html.Button(rnButton, buttonResumeQuiz, " btn btn-primary"), "startbuttonform"));
+                    returnHtml = layoutBlock.GetHtml();
                 } catch (Exception ex) {
                     cp.Site.ErrorReport(ex);
                 }

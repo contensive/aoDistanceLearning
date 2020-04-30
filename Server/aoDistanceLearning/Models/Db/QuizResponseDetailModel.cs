@@ -10,10 +10,10 @@ namespace Contensive.Addons.DistanceLearning.Models {
         public static  DbBaseTableMetadataModel tableMetadata { get; } = new DbBaseTableMetadataModel("Quiz Response Details", "quizResponseDetails", "default", false);
         //
         // -- instance properties
-        public int responseId;
-        public int questionId;
-        public int answerId;
-        public int pageNumber;
+        public int responseId { get; set; }
+        public int questionId { get; set; }
+        public int answerId { get; set; }
+        public int pageNumber { get; set; }
         //
         //====================================================================================================
         /// <summary>

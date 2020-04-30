@@ -1,20 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualBasic;
+﻿
+using System;
 using Contensive.BaseClasses;
-
+using Contensive.Models.Db;
 
 namespace Controllers {
     public class DesignBlockController {
+        // 
+        // ====================================================================================================
+        /// <summary>
+        /// request a layout by guid. If not found it is created with the default values and returned
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <param name="layoutGuid"></param>
+        /// <param name="DefaultLayoutContent"></param>
+        /// <param name="DefaultLayoutName"></param>
+        /// <returns></returns>
+        public static LayoutModel getLayout(CPBaseClass cp, string layoutGuid, string DefaultLayoutContent, string DefaultLayoutName) {
+            var layout = DbBaseModel.create<LayoutModel>(cp, layoutGuid);
+            if (layout == null) {
+                layout = DbBaseModel.addDefault<LayoutModel>(cp);
+                layout.name = DefaultLayoutName;
+                layout.ccguid = layoutGuid;
+                layout.layout.content = DefaultLayoutContent;
+                layout.save(cp);
+            }
+            return layout;
+        }
+        // 
+        // ====================================================================================================
+        /// <summary>
+        /// request a layout by id. if not found it returns null and the calling method must use the guid method then update the id of the source for this call.
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <param name="layoutId"></param>
+        /// <param name="defaultLayoutGuid"></param>
+        /// <param name="DefaultLayoutContent"></param>
+        /// <param name="DefaultLayoutName"></param>
+        /// <returns></returns>
+        public static LayoutModel getLayout(CPBaseClass cp, int layoutId) {
+            return DbBaseModel.create<LayoutModel>(cp, layoutId);
+        }
         // 
         // ====================================================================================================
         /// <summary>

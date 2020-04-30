@@ -11,9 +11,9 @@ namespace Contensive.Addons.DistanceLearning.Models {
         public static  DbBaseTableMetadataModel tableMetadata { get; } = new DbBaseTableMetadataModel("Quiz Result Messages", "quizResultMessages", "default", false);
         //
         // -- instance properties
-        public int quizID;
-        public int pointThreshold;
-        public string copy;
+        public int quizID { get; set; }
+        public int pointThreshold { get; set; }
+        public string copy { get; set; }
         //
         //====================================================================================================
         /// <summary>
