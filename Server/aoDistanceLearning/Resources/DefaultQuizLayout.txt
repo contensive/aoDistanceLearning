@@ -1,48 +1,45 @@
-<div class="designBlockContainer  {{outerContainerClass}}" style="{{styleHeight}}{{styleBackgroundImage}}">
-	<div class="{{contentContainerClass}}">
-	<form method="post" name="quizForm" action="{{formAction}}">
-		<div class="ProgressbarCon"><div class="progressbarTitle">Your Progress: {{progressText}}%</div><div id="progressbar"></div><br></div>
-		{{#questions}}
-		<div>
-		{{#isQuestionLink}}
-			<div class="questionText">{{{questionText}}}</div>
-		{{/isQuestionLink}}
-		{{^isQuestionLink}}
-			{{{questionText}}}
-			{{#answers}}
-				{{#isAnswerLink}}
-					<div class="questionChoice"><input type="radio" class="questionRadioInput" name="{{answerName}}" value="{{answerId}}" {{#isChecked}}checked{{/isChecked}}>&nbsp &nbsp{{{answerText}}}</input></div>
-				{{/isAnswerLink}}
-				{{^isAnswerLink}}
-					<div class="questionChoice"><input type="radio" class="questionRadioInput" name="{{answerName}}" value="{{answerId}}" {{#isChecked}}checked{{/isChecked}}>&nbsp &nbsp{{{answerText}}}</input></div>
-				{{/isAnswerLink}}
-			{{/answers}}
-		{{/isQuestionLink}}
-		</div>
-		{{/questions}}
-		<br>
-		{{#displayPreviousButton}}
-		<button name="button" value="Previous" class="quizButtonPrevious btn btn-primary" id="quizButtonPrevious" onClick="return verifyAnswers();">Previous</button>
-		{{/displayPreviousButton}}
-		
-		{{#displaySaveButton}}
-		<button name="button" value="Save" class="quizButtonSave btn btn-primary" id="quizButtonSave" onClick="return verifyAnswers();">Save</button>
-		{{/displaySaveButton}}
-		
-		{{#displayContinueButton}}
-		<button name="button" value="Continue" class="quizButtonContinue btn btn-primary" id="quizButtonContinue" onClick="return verifyAnswers();">Continue</button>
-		{{/displayContinueButton}}
-		
-		{{#displaySubmitButton}}
-		<button name="button" value="Submit" class="quizButtonSubmit btn btn-primary" id="quizButtonSubmit" onClick="return verifyAnswers();">Submit</button>
-		{{/displaySubmitButton}}
-		
-		</div>
-                <br>
-		<input type="hidden" name="pageOrder" value="{{lastPageNumber}}">
-		<input type="hidden" name="quizID" value="{{quizId}}">
-		<input type="hidden" name="qNumbers" value="{{answerCount}}">
-		<input type="hidden" name="quizName" value="{{quizName}}">
-		<input type="hidden" name="responseId" value="{{responseId}}">
-	</form>
-</div>
+
+		<form method="post" name="quizForm" action="{{formAction}}">
+			<div class="ProgressbarCon">
+				<div class="progressbarTitle">Your Progress: {{progressText}}%</div>
+				<div id="progressbar"></div>
+				<br>
+			</div>
+			{{#questions}}
+				<div>
+					{{#isQuestionLink}}
+						<div class="questionText">{{{questionText}}}</div>
+					{{/isQuestionLink}}
+					{{^isQuestionLink}}
+						{{{questionText}}}
+						{{#answers}}
+							{{#isAnswerLink}}
+								<div class="questionChoice"><input type="radio" class="questionRadioInput" name="{{answerName}}" value="{{answerId}}" {{#isChecked}}checked{{/isChecked}}>&nbsp &nbsp{{{answerText}}}</input></div>
+							{{/isAnswerLink}}
+							{{^isAnswerLink}}
+								<div class="questionChoice"><input type="radio" class="questionRadioInput" name="{{answerName}}" value="{{answerId}}" {{#isChecked}}checked{{/isChecked}}>&nbsp &nbsp{{{answerText}}}</input></div>
+							{{/isAnswerLink}}
+						{{/answers}}
+					{{/isQuestionLink}}
+				</div>
+			{{/questions}}
+			<br>
+			{{#displayPreviousButton}}
+				<button name="button" value="Previous" class="quizButtonPrevious btn btn-primary" id="quizButtonPrevious" onClick="return verifyAnswers();">Previous</button>
+			{{/displayPreviousButton}}		
+			{{#displaySaveButton}}
+				<button name="button" value="Save" class="quizButtonSave btn btn-primary" id="quizButtonSave" onClick="return verifyAnswers();">Save</button>
+			{{/displaySaveButton}}
+			{{#displayContinueButton}}
+				<button name="button" value="Continue" class="quizButtonContinue btn btn-primary" id="quizButtonContinue" onClick="return verifyAnswers();">Continue</button>
+			{{/displayContinueButton}}
+			{{#displaySubmitButton}}
+				<button name="button" value="Submit" class="quizButtonSubmit btn btn-primary" id="quizButtonSubmit" onClick="return verifyAnswers();">Submit</button>
+			{{/displaySubmitButton}}
+			<input type="hidden" name="pageOrder" value="{{lastPageNumber}}">
+			<input type="hidden" name="quizID" value="{{quizId}}">
+			<input type="hidden" name="qNumbers" value="{{answerCount}}">
+			<input type="hidden" name="quizName" value="{{quizName}}">
+			<input type="hidden" name="responseId" value="{{responseId}}">
+		</form>
+		{{{adminHint}}}

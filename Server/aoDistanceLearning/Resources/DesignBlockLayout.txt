@@ -1,7 +1,7 @@
-﻿<div class="designBlockContainer blockOneColumn {{outerContainerClass}}" style="{{styleHeight}}{{styleBackgroundImage}}">
+﻿<div class="designBlockContainer blockQuiz {{outerContainerClass}}" style="{{styleHeight}}{{styleBackgroundImage}}">
 	<div class="{{contentContainerClass}}">
 		<div class="row">
-			<div class="col-lg-12">{{{legacyQuiz}}}</div>
+			<div class="col-lg-12">{{{legacyQuizHtml}}}</div>
 		</div>
 	</div>
 </div>

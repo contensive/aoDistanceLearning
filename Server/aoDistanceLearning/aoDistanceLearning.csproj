@@ -94,23 +94,21 @@
     <Compile Include="Models\Db\DesignBlockThemeModel.cs" />
     <Compile Include="Models\View\DesignBlockViewBaseModel.cs" />
     <Compile Include="Models\View\LegacyQuizViewModel.cs" />
-    <Compile Include="Models\View\SampleViewModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\View\QuizViewModel.cs" />
-    <Compile Include="Models\View\ViewBaseModel.cs" />
     <Compile Include="Views\QuizClass.cs" />
     <Compile Include="Views\SurveyResultsClass.cs" />
     <Compile Include="Views\ScoreCardClass.cs" />
     <Compile Include="Views\QuizLegacyClass.cs" />
-    <Compile Include="Views\quizDetailsClass.cs" />
-    <Compile Include="Views\QuizDashboardClass.cs" />
-    <Compile Include="Views\quizListClass.cs" />
-    <Compile Include="Views\quizOverViewScoringClass.cs" />
-    <Compile Include="Views\quizReportClass.cs" />
+    <Compile Include="Views\Dasboard\QuizDetailsClass.cs" />
+    <Compile Include="Views\Dasboard\QuizDashboardClass.cs" />
+    <Compile Include="Views\Dasboard\QuizListClass.cs" />
+    <Compile Include="Views\QuizOverViewScoringClass.cs" />
+    <Compile Include="Views\QuizReportClass.cs" />
     <Compile Include="Views\blankFormClass.cs" />
     <Compile Include="Models\Db\QuizModel.cs" />
     <Compile Include="Models\Db\QuizSubjectModel.cs" />
@@ -120,16 +118,15 @@
     <Compile Include="Models\Db\QuizResponseDetailModel.cs" />
     <Compile Include="Models\Db\QuizQuestionModel.cs" />
     <Compile Include="Models\Db\QuizAnswerModel.cs" />
-    <Compile Include="Models\Db\MemberModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="constants.cs" />
-    <Compile Include="Views\quizOverviewDetailsClass.cs" />
-    <Compile Include="Views\quizOverViewlSettingClass.cs" />
-    <Compile Include="Views\quizOverviewResponseListClass.cs" />
-    <Compile Include="Views\quizoverviewStudyPageClass.cs" />
-    <Compile Include="Views\quizOverviewQuestionListClass.cs" />
-    <Compile Include="Views\quizOverViewQuestionDetailsClass.cs" />
-    <Compile Include="Views\quizOverviewResponseDetailsClass.cs" />
+    <Compile Include="Views\QuizOverviewDetailsClass.cs" />
+    <Compile Include="Views\QuizOverViewSettingClass.cs" />
+    <Compile Include="Views\QuizOverviewResultsClass.cs" />
+    <Compile Include="Views\QuizOverviewStudyPageClass.cs" />
+    <Compile Include="Views\QuizOverviewQuestionListClass.cs" />
+    <Compile Include="Views\QuizOverViewQuestionsDetailsClass.cs" />
+    <Compile Include="Views\QuizOverviewResponseDetailsClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -161,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Models\xModelFields.txt" />
+    <Content Include="Resources\DefaultLandingPageLayout.txt" />
     <Content Include="Resources\DesignBlockLayout.txt" />
     <None Include="Resources\DefaultQuizLayout.txt" />
   </ItemGroup>

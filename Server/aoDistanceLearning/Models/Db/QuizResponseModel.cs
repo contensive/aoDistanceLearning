@@ -9,20 +9,18 @@ using System.Linq;
 namespace Contensive.Addons.DistanceLearning.Models {
     public class QuizResponseModel : DbBaseModel {
         //
-        public static readonly DbBaseTableMetadataModel tableMetadata = new DbBaseTableMetadataModel("Quiz Responses", "quizResponses", "default", false);
+        public static  DbBaseTableMetadataModel tableMetadata { get; } = new DbBaseTableMetadataModel("Quiz Responses", "quizResponses", "default", false);
         //
-        public int MemberID;
-        public int QuizID;
+        public int memberID;
+        public int quizID;
         public int attemptNumber;
         public DateTime dateSubmitted;
         public int totalQuestions;
         public int totalCorrect;
         public int totalPoints;
-        public double Score;
+        public double score;
         public DateTime dateStarted;
-        public string SortOrder;
         public int lastPageNumber;
-
         //
         //====================================================================================================
         /// <summary>
@@ -153,9 +151,9 @@ namespace Contensive.Addons.DistanceLearning.Models {
 
         public static QuizResponseModel add(CPBaseClass cp, int quizId) {
             QuizResponseModel instance = DbBaseModel.create<QuizResponseModel>(cp, cp.Content.AddRecord(tableMetadata.contentName));
-            instance.QuizID = quizId;
-            instance.MemberID = cp.User.Id;
-            instance.SortOrder = GenericController.getSortOrderFromInteger(instance.id);
+            instance.quizID = quizId;
+            instance.memberID = cp.User.Id;
+            instance.sortOrder = GenericController.getSortOrderFromInteger(instance.id);
             return instance;
         }
         /// <summary>

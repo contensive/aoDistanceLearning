@@ -13,7 +13,6 @@ namespace Contensive.Addons.DistanceLearning.Models {
         // -- instance properties
         // 
         public string backgroundImageFilename { get; set; }
-        public int fontStyleId { get; set; }
         public int themeStyleId { get; set; }
         public bool padTop { get; set; }
         public bool padBottom { get; set; }
@@ -21,6 +20,5 @@ namespace Contensive.Addons.DistanceLearning.Models {
         public bool padLeft { get; set; }
         public string styleheight { get; set; }
         public bool asFullBleed { get; set; }
-        public string btnStyleSelector { get; set; }
     }
 }

@@ -1,29 +1,19 @@
 ﻿
-using Microsoft.VisualBasic;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Text;
 using Contensive.BaseClasses;
-using Newtonsoft.Json;
-using Contensive.Addons.DistanceLearning.Models;
-using Contensive.Addons.DistanceLearning.Views;
-using Contensive.Addons.DistanceLearning.Controllers;
 using Contensive.Models.Db;
 
 namespace Contensive.Addons.DistanceLearning.Models {
     public class QuizResponseDetailModel : DbBaseModel {
         //
-        public static readonly DbBaseTableMetadataModel tableMetadata = new DbBaseTableMetadataModel("Quiz Response Details", "quizResponseDetails", "default", false);
+        public static  DbBaseTableMetadataModel tableMetadata { get; } = new DbBaseTableMetadataModel("Quiz Response Details", "quizResponseDetails", "default", false);
         //
         // -- instance properties
         public int responseId;
         public int questionId;
         public int answerId;
         public int pageNumber;
-        public string SortOrder;
         //
         //====================================================================================================
         /// <summary>

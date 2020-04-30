@@ -32,7 +32,6 @@ namespace Contensive.Addons.DistanceLearning {
                         + encodeStyleBackgroundImage(cp, settings.backgroundImageFilename)
                         + "";
                     result.outerContainerClass = ""
-                        + (settings.fontStyleId.Equals(0) ? string.Empty : " ") + DbBaseModel.getRecordName<DesignBlockFontModel>(cp, settings.fontStyleId)
                         + (settings.themeStyleId.Equals(0) ? string.Empty : " ") + DbBaseModel.getRecordName<DesignBlockThemeModel>(cp, settings.themeStyleId)
                         + "";
                     result.contentContainerClass = ""

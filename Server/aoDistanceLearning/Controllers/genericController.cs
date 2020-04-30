@@ -9,6 +9,7 @@ using Contensive.Addons.DistanceLearning.Controllers;
 using System.Globalization;
 using Microsoft.VisualBasic;
 using System.Linq;
+using Contensive.Models.Db;
 
 namespace Contensive.Addons.DistanceLearning.Controllers {
     public static class GenericController {
@@ -221,13 +222,14 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
                 cp.Db.ExecuteSQL("update quizquestions set subjectid=null where id in (select q.id from quizquestions q left join quizsubjects s on s.id=q.subjectid where s.id is null)");
                 // 
                 // -- add a new response, and create all the response details (with no answer selected)
-                response = DistanceLearning.Models.QuizResponseModel.addDefault(p, quiz.id);
+                response = DbBaseModel.addDefault<QuizResponseModel>(cp);
+                response.quizID = quiz.id;
                 response.name = cp.User.Name + ", " + DateTime.Now.ToShortDateString() + ", " + quiz.name;
-                response.MemberID = cp.User.Id;
+                response.memberID = cp.User.Id;
                 response.attemptNumber = previousResponses.Count + 1;
                 response.save(cp);
                 // 
-                List<DistanceLearning.Models.QuizSubjectModel> quizSubjectList = DistanceLearning.Models.QuizSubjectModel.getObjectList(cp, quiz.id);
+                List<DistanceLearning.Models.QuizSubjectModel> quizSubjectList = DbBaseModel.createList<QuizSubjectModel>(cp, "(quizId=" + quiz.id + ")");
                 List<DistanceLearning.Models.QuizQuestionModel> quizQuestionList = new List<DistanceLearning.Models.QuizQuestionModel>();
                 List<DistanceLearning.Models.QuizQuestionModel> quizQuestionFullList = DistanceLearning.Models.QuizQuestionModel.getQuestionsForQuizList(cp, quiz.id);
                 if ((quiz.maxNumberQuest == 0) | (quiz.maxNumberQuest >= quizQuestionFullList.Count)) {
@@ -235,14 +237,14 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
                     // -- include all questions that have subjects, ordered by subject order
                     foreach (DistanceLearning.Models.QuizSubjectModel subject in quizSubjectList) {
                         foreach (DistanceLearning.Models.QuizQuestionModel quizQuestion in quizQuestionFullList) {
-                            if ((quizQuestion.SubjectID == subject.id))
+                            if ((quizQuestion.subjectID == subject.id))
                                 quizQuestionList.Add(quizQuestion);
                         }
                     }
                     // 
                     // -- include all questions with no subjects
                     foreach (DistanceLearning.Models.QuizQuestionModel quizQuestion in quizQuestionFullList) {
-                        if ((quizQuestion.SubjectID == 0))
+                        if ((quizQuestion.subjectID == 0))
                             quizQuestionList.Add(quizQuestion);
                     }
                 } else {
@@ -257,7 +259,7 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
                             // -- create list of all questions in the subject
                             List<DistanceLearning.Models.QuizQuestionModel> subjectQuestionList = new List<DistanceLearning.Models.QuizQuestionModel>();
                             foreach (DistanceLearning.Models.QuizQuestionModel question in quizQuestionFullList) {
-                                if (question.SubjectID == subject.id)
+                                if (question.subjectID == subject.id)
                                     subjectQuestionList.Add(question);
                             }
                             // 
@@ -295,12 +297,12 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
                 foreach (DistanceLearning.Models.QuizSubjectModel quizSubject in quizSubjectList) {
                     int subjectQuestionCount = 0;
                     foreach (DistanceLearning.Models.QuizQuestionModel quizQuestion in quizQuestionList) {
-                        if (quizQuestion.SubjectID == quizSubject.id) {
-                            DistanceLearning.Models.QuizResponseDetailModel detail = DistanceLearning.Models.QuizResponseDetailModel.addDefault(p);
+                        if (quizQuestion.subjectID == quizSubject.id) {
+                            QuizResponseDetailModel detail = DbBaseModel.addDefault<QuizResponseDetailModel>(cp);
                             detail.questionId = quizQuestion.id;
                             detail.responseId = response.id;
                             detail.pageNumber = pageNumber;
-                            detail.SortOrder = quizSubject.name + quizQuestion.SortOrder; // detailSortOrder.ToString.PadLeft(7, "0"c)
+                            detail.sortOrder = quizSubject.name + quizQuestion.sortOrder; // detailSortOrder.ToString.PadLeft(7, "0"c)
                             detail.save(cp);
                             if ((quiz.questionPresentation == (int)DistanceLearning.Models.QuizModel.questionPresentationEnum.OneQuestionPerPage))
                                 pageNumber += 1;
@@ -315,21 +317,21 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
                 // -- then add pages for questions with no subjects
                 foreach (DistanceLearning.Models.QuizQuestionModel quizQuestion in quizQuestionList) {
                     bool addDetail = true;
-                    if (quizQuestion.SubjectID > 0) {
+                    if (quizQuestion.subjectID > 0) {
                         bool subjectFound = false;
                         foreach (DistanceLearning.Models.QuizSubjectModel quizSubject in quizSubjectList) {
-                            subjectFound = Equals(quizQuestion.SubjectID, quizSubject.id);
+                            subjectFound = Equals(quizQuestion.subjectID, quizSubject.id);
                             if ((subjectFound))
                                 break;
                         }
                         addDetail = !subjectFound;
                     }
                     if (addDetail) {
-                        DistanceLearning.Models.QuizResponseDetailModel detail = DistanceLearning.Models.QuizResponseDetailModel.addDefault(p);
+                        QuizResponseDetailModel detail = DbBaseModel.addDefault<QuizResponseDetailModel>(cp);
                         detail.questionId = quizQuestion.id;
                         detail.responseId = response.id;
                         detail.pageNumber = pageNumber;
-                        detail.SortOrder = detailSortOrder.ToString().PadLeft(7, '0');
+                        detail.sortOrder = detailSortOrder.ToString().PadLeft(7, '0');
                         detail.save(cp);
                         if ((quiz.questionPresentation == (int)DistanceLearning.Models.QuizModel.questionPresentationEnum.OneQuestionPerPage))
                             pageNumber += 1;

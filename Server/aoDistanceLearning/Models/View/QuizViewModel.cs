@@ -2,9 +2,10 @@
 using System;
 using Contensive.BaseClasses;
 using Contensive.Addons.DistanceLearning.Models;
+using Contensive.Addons.DistanceLearning.Models.View;
 
 namespace Models.View {
-    public class QuizViewModel : DesignBlockBaseModel {
+    public class QuizViewModel : DesignBlockViewBaseModel {
         // 
         public string legacyQuizHtml { get; set; }
         // 
@@ -20,7 +21,7 @@ namespace Models.View {
             try {
                 // 
                 // -- base fields
-                var result = DesignBlockBaseModel.create<QuizViewModel>(cp, quiz.id);
+                var result = DesignBlockViewBaseModel.create<QuizViewModel>(cp, quiz);
                 result.legacyQuizHtml = legacyQuizHtml;
                 return result;
             } catch (Exception ex) {

@@ -61,17 +61,42 @@ namespace Contensive.Addons.DistanceLearning.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;div class=&quot;designBlockContainer  {{outerContainerClass}}&quot; style=&quot;{{styleHeight}}{{styleBackgroundImage}}&quot;&gt;
-        ///	&lt;div class=&quot;{{contentContainerClass}}&quot;&gt;
-        ///	&lt;form method=&quot;post&quot; name=&quot;quizForm&quot; action=&quot;{{formAction}}&quot;&gt;
-        ///		&lt;div class=&quot;ProgressbarCon&quot;&gt;&lt;div class=&quot;progressbarTitle&quot;&gt;Your Progress: {{progressText}}%&lt;/div&gt;&lt;div id=&quot;progressbar&quot;&gt;&lt;/div&gt;&lt;br&gt;&lt;/div&gt;
-        ///		{{#questions}}
+        ///   Looks up a localized string similar to &lt;div class=&quot;quizlanding&quot; id=&quot;js-quizlanding&quot;&gt;
+        ///	&lt;div&gt;
         ///		&lt;div&gt;
-        ///		{{#isQuestionLink}}
-        ///			&lt;div class=&quot;questionText&quot;&gt;{{{questionText}}}&lt;/div&gt;
-        ///		{{/isQuestionLink}}
-        ///		{{^isQuestionLink}}
-        ///			{{{que [rest of string was truncated]&quot;;.
+        ///			&lt;h2 id=&quot;js-quizTitle&quot;&gt;MY Sample Quiz&lt;/h2&gt;
+        ///		&lt;/div&gt;
+        ///		&lt;div id=&quot;js-quizStudyCopy&quot;&gt;
+        ///			&lt;p&gt;&lt;b&gt;This is the start page text&lt;/b&gt;&lt;/p&gt;
+        ///		&lt;/div&gt;
+        ///		&lt;div id=&quot;js-quizStCustomText&quot;&gt;
+        ///			&lt;p&gt;Lorem ipsum dolor sit amet, vix dicta blandit ut. Id odio modus iudico ius, ea has timeam repudiare. Sea an imperdiet cotidieque, in libris diceret eam. 
+        ///			Verear perpetua ad his, ferri inermis minimum cum no. Te singulis dissentiunt neglegentur qui, an quodsi de [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string DefaultLandingPageLayout {
+            get {
+                return ResourceManager.GetString("DefaultLandingPageLayout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///		&lt;form method=&quot;post&quot; name=&quot;quizForm&quot; action=&quot;{{formAction}}&quot;&gt;
+        ///			&lt;div class=&quot;ProgressbarCon&quot;&gt;
+        ///				&lt;div class=&quot;progressbarTitle&quot;&gt;Your Progress: {{progressText}}%&lt;/div&gt;
+        ///				&lt;div id=&quot;progressbar&quot;&gt;&lt;/div&gt;
+        ///				&lt;br&gt;
+        ///			&lt;/div&gt;
+        ///			{{#questions}}
+        ///				&lt;div&gt;
+        ///					{{#isQuestionLink}}
+        ///						&lt;div class=&quot;questionText&quot;&gt;{{{questionText}}}&lt;/div&gt;
+        ///					{{/isQuestionLink}}
+        ///					{{^isQuestionLink}}
+        ///						{{{questionText}}}
+        ///						{{#answers}}
+        ///							{{#isAnswerLink}}
+        ///								&lt;div class=&quot;questionChoice&quot;&gt;&lt;input typ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DefaultQuizLayout {
             get {
@@ -80,10 +105,10 @@ namespace Contensive.Addons.DistanceLearning.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;div class=&quot;designBlockContainer blockOneColumn {{outerContainerClass}}&quot; style=&quot;{{styleHeight}}{{styleBackgroundImage}}&quot;&gt;
+        ///   Looks up a localized string similar to &lt;div class=&quot;designBlockContainer blockQuiz {{outerContainerClass}}&quot; style=&quot;{{styleHeight}}{{styleBackgroundImage}}&quot;&gt;
         ///	&lt;div class=&quot;{{contentContainerClass}}&quot;&gt;
         ///		&lt;div class=&quot;row&quot;&gt;
-        ///			&lt;div class=&quot;col-lg-12&quot;&gt;{{{legacyQuiz}}}&lt;/div&gt;
+        ///			&lt;div class=&quot;col-lg-12&quot;&gt;{{{legacyQuizHtml}}}&lt;/div&gt;
         ///		&lt;/div&gt;
         ///	&lt;/div&gt;
         ///&lt;/div&gt;.

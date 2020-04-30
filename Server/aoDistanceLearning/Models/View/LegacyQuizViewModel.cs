@@ -5,6 +5,7 @@ using Contensive.BaseClasses;
 using Contensive.Addons.DistanceLearning.Models;
 using Contensive.Addons.DistanceLearning.Controllers;
 using static Contensive.Addons.DistanceLearning.Constants;
+using Contensive.Models.Db;
 
 namespace Models.View {
     public class LegacyQuizViewModel {
@@ -24,6 +25,7 @@ namespace Models.View {
         public string lastPageNumber { get; set; }
         public string quizId { get; set; }
         public string quizName { get; set; }
+        public string adminHint { get; set; }
         // 
         // ====================================================================================================
         /// <summary>
@@ -33,13 +35,14 @@ namespace Models.View {
         /// <param name="quiz"></param>
         /// <param name="response"></param>
         /// <returns></returns>
-        public static LegacyQuizViewModel create(CPBaseClass cp, QuizModel quiz, QuizResponseModel response) {
+        public static LegacyQuizViewModel create(CPBaseClass cp, QuizModel quiz, QuizResponseModel response, string adminHint) {
             try {
                 // 
                 // -- base fields
                 var result = new LegacyQuizViewModel();
                 result.headline = "";
                 result.description = "";
+                result.adminHint = adminHint;
                 // 
                 // -- custom
                 // 
@@ -92,8 +95,8 @@ namespace Models.View {
                         questionModel.answers = new List<AnswerViewModel>();
 
                         if (responseDetail.pageNumber == response.lastPageNumber) {
-                            QuizQuestionModel question = QuizQuestionModel.create(cp, responseDetail.questionId);
-                            QuizSubjectModel subject = QuizSubjectModel.create(cp, question.SubjectID);
+                            QuizQuestionModel question = DbBaseModel.create<QuizQuestionModel>(cp, responseDetail.questionId);
+                            QuizSubjectModel subject = DbBaseModel.create<QuizSubjectModel>(cp, question.subjectID);
                             if (subject == null)
                                 subject = new QuizSubjectModel();
 
@@ -115,8 +118,7 @@ namespace Models.View {
 
                             List<QuizAnswerModel> answerList = QuizAnswerModel.getAnswersForQuestionList(cp, question.id);
 
-                            foreach (QuizAnswerModel answer in answerList)
-                            {
+                            foreach (QuizAnswerModel answer in answerList) {
                                 string answerCopy = answer.copy;
                                 bool isChecked = false;
                                 if (answer.id == responseDetail.answerId) {
@@ -132,8 +134,11 @@ namespace Models.View {
                             }
 
                             if (cp.User.IsEditingAnything) {
-                                questionModel.answers.Add(new AnswerViewModel { answerText = cp.Content.GetAddLink("Quiz Answers", "questionid=" + question.id),
-                                    isChecked = false, isAnswerLink = true });
+                                questionModel.answers.Add(new AnswerViewModel {
+                                    answerText = cp.Content.GetAddLink("Quiz Answers", "questionid=" + question.id),
+                                    isChecked = false,
+                                    isAnswerLink = true
+                                });
                             }
 
                             questionCnt = questionCnt + 1;
@@ -143,7 +148,7 @@ namespace Models.View {
                     }
 
                     if (cp.User.IsEditingAnything) {
-                        result.questions.Add(new QuestionViewModel { questionText = cp.Content.GetAddLink("Quiz Questions", "quizid=" + quiz.id + ", pageOrder=" + rnDstPageOrder), answers = null, isQuestionLink = true } );
+                        result.questions.Add(new QuestionViewModel { questionText = cp.Content.GetAddLink("Quiz Questions", "quizid=" + quiz.id + ", pageOrder=" + rnDstPageOrder), answers = null, isQuestionLink = true });
                     }
 
                     bool isFirstPage = (response.lastPageNumber < 2);
@@ -172,8 +177,7 @@ namespace Models.View {
                         result.displaySubmitButton = true;
                         result.displayContinueButton = false;
                     }
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     cp.Site.ErrorReport(ex);
                 }
 
