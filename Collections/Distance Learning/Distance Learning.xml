@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="windows-1252"?>
-<Collection name="Distance Learning" guid="{6A50A171-9B44-4E2E-87C7-59EC7BB0FB28}" system="No" updatable="Yes" blockNavigatorNode="No">
+<Collection name="Distance Learning" guid="{6A50A171-9B44-4E2E-87C7-59EC7BB0FB28}" system="No" updatable="Yes" blockNavigatorNode="No" onInstallAddonGuid="">
 	<HelpLink>http://wiki.kmacloud.net/index.php?title=Distance_Learning</HelpLink>
 <Help></Help>
 	<Addon name="Online Quiz" guid="{4A5EBAD7-27ED-4AB4-BEF0-D42E01598FC5}" type="Add-on">
