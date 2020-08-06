@@ -110,7 +110,7 @@ namespace Contensive.Addons.DistanceLearning.Models {
         /// <param name="sqlCriteria"></param>
         private static QuizResponseModel loadLastObject(CPBaseClass cp, string sqlCriteria) {
             try {
-                List<QuizResponseModel> ListOfOne = createList<QuizResponseModel>(cp, "", "id desc", 1, 1);
+                List<QuizResponseModel> ListOfOne = createList<QuizResponseModel>(cp, sqlCriteria, "id desc", 1, 1);
                 if(ListOfOne.Count.Equals(0)) { return null; }
                 return ListOfOne.First();
             } catch (Exception ex) {
