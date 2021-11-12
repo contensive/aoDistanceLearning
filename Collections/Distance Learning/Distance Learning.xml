@@ -6,7 +6,7 @@
     	<AliasList></AliasList>
 		<Content>Yes</Content>
 		<Template>Yes</Template>
-		<Admin>Yes</Admin>
+		<Admin>No</Admin>
 		<Category>Applications.Education</Category>
 		<instanceSettingPrimaryContentId><![CDATA[Quizzes]]></instanceSettingPrimaryContentId>
 		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.Views.QuizClass]]></DotNetClass>
@@ -745,7 +745,7 @@
 		<Content>No</Content>
 		<Template>No</Template>
 		<Email>No</Email>
-		<Admin>Yes</Admin>
+		<Admin>No</Admin>
 		<OnPageEndEvent>No</OnPageEndEvent>
 		<OnPageStartEvent>No</OnPageStartEvent>
 		<OnBodyStart>No</OnBodyStart>
@@ -782,7 +782,7 @@
 		<Content>No</Content>
 		<Template>No</Template>
 		<Email>No</Email>
-		<Admin>Yes</Admin>
+		<Admin>No</Admin>
 		<OnPageEndEvent>No</OnPageEndEvent>
 		<OnPageStartEvent>No</OnPageStartEvent>
 		<OnBodyStart>No</OnBodyStart>
