@@ -10,6 +10,7 @@ using System.Globalization;
 using Microsoft.VisualBasic;
 using System.Linq;
 using Contensive.Models.Db;
+using Contensive.Addons.PortalFramework;
 
 namespace Contensive.Addons.DistanceLearning.Controllers {
     public static class GenericController {
@@ -50,7 +51,7 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
         //
         // create main form tab container
         public static string getTabWrapper(CPBaseClass cp, string innerBody, string activeTabCaption, QuizModel quiz) {
-            //adminFramework.formSimpleClass formOuter = new adminFramework.formSimpleClass();
+            //PortalFramework.LayoutBuilderSimple formOuter = new PortalFramework.LayoutBuilderSimple();
             //formOuter.isOuterContainer = false;
             // formOuter.title = "Settings";
             //formOuter.title = "this is the title";
@@ -62,7 +63,7 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
             //formOuter.formActionQueryString = qs;
             qs = cp.Utils.ModifyQueryString(qs, "quizId", quiz.id.ToString());
             //
-            adminFramework.contentWithTabsClass tabForm = new adminFramework.contentWithTabsClass();
+            ContentWithTabsClass tabForm = new ContentWithTabsClass();
             if (!string.IsNullOrEmpty(quiz.name)) {
                 tabForm.title = quiz.name;
             } else {

@@ -49,7 +49,7 @@ namespace Contensive.Addons.DistanceLearning {
                             break;
                     }
                     //
-                    adminFramework.formNameValueRowsClass form = new adminFramework.formNameValueRowsClass();
+                    PortalFramework.FormNameValueRowsClass form = new PortalFramework.FormNameValueRowsClass();
                     form.isOuterContainer = false;
                     form.addFormHidden(Constants.rnQuizId, quiz.id.ToString());
                     form.body = innerBody;

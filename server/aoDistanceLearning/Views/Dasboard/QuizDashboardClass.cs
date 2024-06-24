@@ -1,13 +1,10 @@
 
+using Contensive.Addons.DistanceLearning.Models;
+using Contensive.Addons.PortalFramework;
+using Contensive.BaseClasses;
+using Contensive.Models.Db;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Contensive.BaseClasses;
-using Contensive.Addons.DistanceLearning;
-using Contensive.Addons.DistanceLearning.Models;
-using Contensive.Addons.DistanceLearning.Views;
-using Contensive.Addons.DistanceLearning.Controllers;
-using Contensive.Models.Db;
 
 namespace Contensive.Addons.DistanceLearning {
     namespace Views {
@@ -15,7 +12,7 @@ namespace Contensive.Addons.DistanceLearning {
             public override object Execute(CPBaseClass cp) {
 
                 string result = "";
-                adminFramework.ReportListClass listReport = new adminFramework.ReportListClass(cp);
+                ReportListClass listReport = new ReportListClass(cp);
                 try {
                     string button = cp.Doc.GetText("button");
                     switch (button) {

@@ -84,7 +84,7 @@ namespace Contensive.Addons.DistanceLearning {
                                 quiz.layoutId = layout.id;
                                 quiz.save(cp);
                             }
-                            returnHtml = Nustache.Core.Render.StringToString(layout.layout.content, legacyQuizViewModel);
+                            returnHtml = cp.Mustache.Render(layout.layout.content, legacyQuizViewModel);
                         }
                     }
                 } catch (Exception ex) {

@@ -45,7 +45,7 @@ namespace Contensive.Addons.DistanceLearning {
                     DateTime filterFromDate = cp.Doc.GetDate(Constants.rnFilterDateFrom);
                     DateTime filterToDate = cp.Doc.GetDate(Constants.rnFilterDateTo);
                     //
-                    adminFramework.ReportListClass form = new adminFramework.ReportListClass(cp);
+                    PortalFramework.ReportListClass form = new PortalFramework.ReportListClass();
                     form.addFormHidden(Constants.rnQuizId, quiz.id.ToString());
                     form.addFormButton(Constants.buttonCancel);
                     form.addFormButton(Constants.buttonRefresh);

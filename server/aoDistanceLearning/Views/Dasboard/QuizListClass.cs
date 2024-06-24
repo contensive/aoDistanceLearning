@@ -48,7 +48,7 @@ namespace Contensive.Addons.DistanceLearning {
                 try {
                     CPBlockBaseClass layout = cp.BlockNew();
                     CPCSBaseClass cs = cp.CSNew();
-                    adminFramework.ReportListClass reportList = new adminFramework.ReportListClass(cp);
+                    PortalFramework.ReportListClass reportList = new PortalFramework.ReportListClass(cp);
                     string sql = "";
                     string qs;
                     string qsBase;

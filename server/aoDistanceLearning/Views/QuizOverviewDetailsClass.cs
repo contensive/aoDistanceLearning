@@ -51,7 +51,7 @@ namespace Contensive.Addons.DistanceLearning {
                     }
                     //
                     // -- setup form
-                    adminFramework.formNameValueRowsClass form = new adminFramework.formNameValueRowsClass();
+                    PortalFramework.FormNameValueRowsClass form = new PortalFramework.FormNameValueRowsClass();
                     form.isOuterContainer = false;
                     form.body = innerBody;
                     form.addFormButton("Cancel", "button");

@@ -37,7 +37,7 @@ namespace Contensive.Addons.DistanceLearning {
                     var viewModel = QuizViewModel.create(cp, settings, legacyQuiz);
                     if ((viewModel == null))
                         throw new ApplicationException("Could not create design block view model.");
-                    result = Nustache.Core.Render.StringToString(Properties.Resources.DesignBlockLayout, viewModel);
+                    result = cp.Mustache.Render(Properties.Resources.DesignBlockLayout, viewModel);
                     // 
                     // -- if editing enabled, add the link and wrapperwrapper
                     return cp.Content.GetEditWrapper(result, QuizModel.tableMetadata.contentName, settings.id);

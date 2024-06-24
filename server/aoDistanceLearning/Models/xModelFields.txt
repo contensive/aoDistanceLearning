@@ -10170,7 +10170,7 @@ instance.SortOrder = GenericController.EncodeText(.fields("SortOrder").defaultVa
 instance.toPortalId = GenericController.EncodeInteger(.fields("toPortalId").defaultValue)
 
 ---------------------------------------------
-AdminFrameworkReportModel
+PortalFrameworkReportModel
 
 public ID as Integer
 public Active as Boolean
@@ -10244,7 +10244,7 @@ instance.SortOrder = GenericController.EncodeText(.fields("SortOrder").defaultVa
 instance.title = GenericController.EncodeText(.fields("title").defaultValue)
 
 ---------------------------------------------
-AdminFrameworkReportColumnModel
+PortalFrameworkReportColumnModel
 
 public ID as Integer
 public Active as Boolean

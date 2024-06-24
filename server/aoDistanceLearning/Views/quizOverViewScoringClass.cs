@@ -55,7 +55,7 @@ namespace Contensive.Addons.DistanceLearning {
                     }
                     //
                     // -- create the upper part of the page, the list of scoring
-                    adminFramework.ReportListClass gradingForm = new adminFramework.ReportListClass(cp);
+                    PortalFramework.ReportListClass gradingForm = new PortalFramework.ReportListClass();
                     gradingForm.title = "Grading";
                     gradingForm.isOuterContainer = false;
                     gradingForm.includeBodyColor = false;
@@ -113,7 +113,7 @@ namespace Contensive.Addons.DistanceLearning {
                     gradingForm.setCell(cp.Html.CheckBox("fPassingGrade", quiz.FPassingGrade, "afwInput"));
                     gradingForm.setCell(cp.Html.InputText("fCaption", quiz.FCaption, "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:left;\">"));
                     //
-                    adminFramework.formNameValueRowsClass certificationForm = new adminFramework.formNameValueRowsClass();
+                    PortalFramework.FormNameValueRowsClass certificationForm = new PortalFramework.FormNameValueRowsClass();
                     certificationForm.title = "Certifications";
                     certificationForm.isOuterContainer = false;
                     certificationForm.includeBodyColor = false;
@@ -139,7 +139,7 @@ namespace Contensive.Addons.DistanceLearning {
                         + "If passing grade, add text to results page"
                         + cp.Html.div(cp.Html.InputWysiwyg(Constants.rnSuccessCopy, quiz.successCopy, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page, "", "", "afwInput"), "", "afwRowValueHelpBox");
                     //
-                    adminFramework.formSimpleClass outerForm = new adminFramework.formSimpleClass();
+                    PortalFramework.LayoutBuilderSimple outerForm = new PortalFramework.LayoutBuilderSimple();
                     outerForm.addFormButton(Constants.buttonSave);
                     outerForm.addFormButton(Constants.buttonCancel);
                     outerForm.addFormHidden(Constants.rnQuizId, quiz.id.ToString());

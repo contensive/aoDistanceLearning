@@ -4,6 +4,7 @@ using Contensive.BaseClasses;
 using Contensive.Addons.DistanceLearning.Models;
 using Contensive.Addons.DistanceLearning.Controllers;
 using Contensive.Models.Db;
+using Contensive.Addons.PortalFramework;
 
 namespace Contensive.Addons.DistanceLearning {
     namespace Views {
@@ -45,7 +46,7 @@ namespace Contensive.Addons.DistanceLearning {
                     }
                     //
                     // -- create view
-                    adminFramework.ReportListClass reportList = new adminFramework.ReportListClass(cp);
+                    ReportListClass reportList = new ReportListClass();
                     reportList.isOuterContainer = false;
                     //
                     // -- add button as link
@@ -122,7 +123,7 @@ namespace Contensive.Addons.DistanceLearning {
             //
             // ===============================================================================
             //
-            private void addQuestionToList(CPBaseClass cp, QuizQuestionModel question, QuizSubjectModel subject, adminFramework.ReportListClass reportList) {
+            private void addQuestionToList(CPBaseClass cp, QuizQuestionModel question, QuizSubjectModel subject, ReportListClass reportList) {
                 List<QuizResponseModel> responseList = QuizResponseModel.getResponseList(cp, question.id);
                 reportList.addRow();
                 reportList.columnCellClass = "afwTextAlignLeft";

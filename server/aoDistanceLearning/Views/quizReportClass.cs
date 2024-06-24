@@ -37,7 +37,7 @@ namespace Contensive.Addons.DistanceLearning {
                     string rqs = cp.Doc.RefreshQueryString;
                     DateTime rightNow = DateTime.Now;
                     CPCSBaseClass cs = cp.CSNew();
-                    adminFramework.pageWithNavClass page = new adminFramework.pageWithNavClass();
+                    PortalFramework.FormNameValueRowsClass page = new PortalFramework.FormNameValueRowsClass();
                     //
                     blankClass blank = new blankClass();
                     QuizListClass quizList = new QuizListClass();

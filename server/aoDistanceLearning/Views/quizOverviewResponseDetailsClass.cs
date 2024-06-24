@@ -27,7 +27,7 @@ namespace Contensive.Addons.DistanceLearning {
                         cp.Response.Redirect("?" + qs);
                         return "";
                     }
-                    adminFramework.formSimpleClass form = new adminFramework.formSimpleClass();
+                    PortalFramework.LayoutBuilderSimple form = new PortalFramework.LayoutBuilderSimple();
                     form.title = "Quiz Response";
                     form.description = ""
                         + cp.Html.div("Date Completed: " + response.dateSubmitted.ToShortDateString())

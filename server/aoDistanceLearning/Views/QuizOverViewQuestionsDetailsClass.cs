@@ -77,7 +77,7 @@ namespace Contensive.Addons.DistanceLearning {
                     }
 
                     //
-                    adminFramework.formNameValueRowsClass questionForm = new adminFramework.formNameValueRowsClass();
+                    PortalFramework.FormNameValueRowsClass questionForm = new PortalFramework.FormNameValueRowsClass();
                     questionForm.isOuterContainer = false;
                     questionForm.addFormHidden("questionId", question.id.ToString());
                     questionForm.addFormHidden(Constants.rnQuizId, question.quizId.ToString());

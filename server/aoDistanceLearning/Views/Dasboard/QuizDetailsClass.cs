@@ -49,7 +49,7 @@ namespace Contensive.Addons.DistanceLearning {
                     CPBlockBaseClass layout = cp.BlockNew();
                     //string js = "";
                     CPCSBaseClass cs = cp.CSNew();
-                    adminFramework.formSimpleClass form = new adminFramework.formSimpleClass();
+                    PortalFramework.LayoutBuilderSimple form = new PortalFramework.LayoutBuilderSimple();
                     string qs = "";
                     int responseId = cp.Utils.EncodeInteger(cp.Doc.GetText("id"));
                     //
