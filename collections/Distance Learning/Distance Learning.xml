@@ -16,7 +16,6 @@
 
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<AsAjax>No</AsAjax>
 		<Filter>No</Filter>
 		<Help></Help>
@@ -56,7 +55,6 @@
 	<Addon name="Quiz Results Report" guid="{A7C29D61-C4A3-4F26-AFFF-B403A028B404}" type="Report">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.Views.QuizReportClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
@@ -98,7 +96,6 @@
 	<Addon name="Online Quiz Includes" guid="{596B237C-F206-4324-B0A4-5F66C8AEF966}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
@@ -223,7 +220,6 @@
 	<Addon name="getScoreCard" guid="{55E3F437-B362-45D1-B793-A201D4D5C2C6}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.Views.ScoreCardClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
@@ -267,7 +263,6 @@
 	<Addon name="Quiz Settings" guid="{E6F2607A-C9CE-4B29-B8FE-B02CFA1429EA}" type="Setting">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
@@ -310,7 +305,6 @@
 	<Addon name="Quiz Dashboard" guid="{061eafdb-147c-4f09-afb8-7e51aa5181f3}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.Views.QuizDashboardClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
@@ -396,7 +390,6 @@
 	<Addon name="Quiz Overview Details" guid="{fd30f314-f37d-40e9-ac56-841e74de84fd}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.Views.QuizOverviewDetailsClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
@@ -432,7 +425,6 @@
 	<Addon name="Quiz Overview Setting" guid="{caedb3af-884c-46c5-af52-1903dddb3a2d}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.Views.QuizOverViewSettingClass]]></DotNetClass>
 		<ArgumentList><![CDATA[one question per page, questions listed by subject, all question on a single page]]></ArgumentList>
 		<AsAjax>No</AsAjax>
@@ -468,7 +460,6 @@
 	<Addon name="Quiz Overview Responses" guid="{6969a1ad-49af-4b10-a76e-ee736f73772f}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.Views.QuizOverviewResultsClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
@@ -504,7 +495,6 @@
 	<Addon name="Quiz OverView Study Page" guid="{87f875ac-659e-40eb-9aca-1045120e6771}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.Views.QuizoverviewStudyPageClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
@@ -540,7 +530,6 @@
 	<Addon name="Quiz OverView Question List" guid="{a364f297-9e69-4b21-a92d-a6e6b4e16cb6}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.Views.QuizOverviewQuestionListClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
@@ -576,7 +565,6 @@
 	<Addon name="Quiz Overview Scoring" guid="{99758dd6-6df4-4260-98ef-f511a76458fa}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.Views.QuizOverViewScoringClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
@@ -613,7 +601,6 @@
 	<Addon name="Quiz Overview Question Details" guid="{71e8f8bd-a2f1-4f78-a036-506103877f75}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.Views.QuizOverViewQuestionsDetailsClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
@@ -649,7 +636,6 @@
 	<Addon name="Quiz OverView Select" guid="{dfafb5b3-7c68-40d7-b6ce-ef982aad3441}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.Views.QuizOverviewSelectClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
@@ -685,7 +671,6 @@
 	<Addon name="Distance Learning" guid="{bca4dc4a-a054-4e58-b5be-78e29c812aff}" type="Tool">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
@@ -725,7 +710,6 @@
 	<Addon name="Online Quiz Landing" guid="{ad6871dc-7bcf-4140-96eb-2af70599997d}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.Views.QuizLandingPageClass]]></DotNetClass>
 		<ArgumentList><![CDATA[Quiz=[ListId(quizzes)]]]></ArgumentList>
 		<AsAjax>No</AsAjax>
@@ -761,7 +745,6 @@
 	<Addon name="Quiz Overview Response Details" guid="{3f71750b-1b2d-4f4e-9753-097b5c4da496}" type="Add-on">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.Views.QuizOverviewResponseDetailsClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
