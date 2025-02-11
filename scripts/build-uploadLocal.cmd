@@ -1,7 +1,9 @@
 
 rem all paths are relative to the git scripts folder
 
-call Env.cmd
+
+rem -- the application on the local server where this collection will be installed
+set appName=lydiakidwell
 
 call build.cmd
 
@@ -10,3 +12,5 @@ c:
 cd %collectionPath%
 cc -a %appName% --installFile "%collectionName%.zip"
 cd ..\..\scripts
+
+pause

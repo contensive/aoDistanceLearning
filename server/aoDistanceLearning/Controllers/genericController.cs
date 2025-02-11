@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Contensive.BaseClasses;
 using Contensive.Addons.DistanceLearning.Models;
-using Contensive.Addons.DistanceLearning.Views;
+
 using Contensive.Addons.DistanceLearning.Controllers;
 using System.Globalization;
 using Microsoft.VisualBasic;

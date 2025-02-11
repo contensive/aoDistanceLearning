@@ -1,37 +1,26 @@
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Contensive.BaseClasses;
-using Contensive.Addons.DistanceLearning.Models;
-using Contensive.Addons.DistanceLearning.Views;
 using Contensive.Addons.DistanceLearning.Controllers;
+using Contensive.BaseClasses;
+using System;
 
-namespace Contensive.Addons.DistanceLearning.Views
-{
-    class blankClass
-    {
+namespace Contensive.Addons.DistanceLearning {
+    class blankClass {
         //
         // ===============================================================================
         // process Form
         // ===============================================================================
         //
-        public int processForm(CPBaseClass cp, int srcFormId, string rqs, DateTime rightNow, ref int appId)
-        {
+        public int processForm(CPBaseClass cp, int srcFormId, string rqs, DateTime rightNow, ref int appId) {
             int nextFormId = srcFormId;
-            try
-            {
+            try {
                 string button = cp.Doc.GetProperty(Constants.rnButton, "");
                 CPCSBaseClass cs = cp.CSNew();
                 //
-                if (button != "")
-                {
+                if (button != "") {
                     GenericController.checkRequiredFieldText(cp, Constants.rnSampleField, "Sample Field");
                     //
-                    if (cp.UserError.OK())
-                    {
-                        if (!cs.Open(Constants.cnApps, "id=" + appId, "", true, "", 1, 1))
-                        {
+                    if (cp.UserError.OK()) {
+                        if (!cs.Open(Constants.cnApps, "id=" + appId, "", true, "", 1, 1)) {
                             cs.Close();
                             cs.Insert(Constants.cnApps);
                         }
@@ -39,10 +28,8 @@ namespace Contensive.Addons.DistanceLearning.Views
                         cs.Close();
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                cp.Site.ErrorReport( ex, "processForm");
+            } catch (Exception ex) {
+                cp.Site.ErrorReport(ex, "processForm");
             }
             return nextFormId;
         }
@@ -51,11 +38,9 @@ namespace Contensive.Addons.DistanceLearning.Views
         // get Form
         // ===============================================================================
         //
-        public string getForm(CPBaseClass cp, int dstFormId, string rqs, DateTime rightNow, ref int appId)
-        {
+        public string getForm(CPBaseClass cp, int dstFormId, string rqs, DateTime rightNow, ref int appId) {
             string s = "";
-            try
-            {
+            try {
                 string form = "";
                 CPBlockBaseClass layout = cp.BlockNew();
                 string js = "";
@@ -67,8 +52,7 @@ namespace Contensive.Addons.DistanceLearning.Views
                 form = layout.GetInner("#fbForm");
                 form += cp.Html.Hidden(Constants.rnSrcFormId, dstFormId.ToString(), "", "");
                 form += cp.Html.Hidden(Constants.rnAppId, appId.ToString(), "", "");
-                if (!cp.UserError.OK())
-                {
+                if (!cp.UserError.OK()) {
                     form = cp.Html.div(cp.UserError.GetList(), "", "", "") + form;
                 }
                 form = cp.Html.Form(form, "", "", "", "", "");
@@ -79,15 +63,12 @@ namespace Contensive.Addons.DistanceLearning.Views
                 //      if not cs.OK(), the getFormField will return blank.
                 //
                 cs.Open(Constants.cnApps, "id=" + appId.ToString(), "", true, "", 1, 1);
-                if (true)
-                {
+                if (true) {
                     //
                     // either server-side
                     //
                     layout.SetInner("#fbSampleFile .rowValue", cp.Html.InputText("fbSampleField", GenericController.getFormField(cp, cs, Constants.rnSampleField), "", "", false, "", ""));
-                }
-                else
-                {
+                } else {
                     //
                     // or client-side
                     //
@@ -97,18 +78,15 @@ namespace Contensive.Addons.DistanceLearning.Views
                 //
                 // apply any javascript to doc
                 //
-                if (js != "")
-                {
+                if (js != "") {
                     cp.Doc.AddHeadJavascript("jQuery(document).ready(function(){" + js + Constants.cr + "});");
                 }
                 //
                 // return converted layout
                 //
                 s = layout.GetHtml();
-            }
-            catch (Exception ex)
-            {
-                cp.Site.ErrorReport( ex, "getForm");
+            } catch (Exception ex) {
+                cp.Site.ErrorReport(ex, "getForm");
             }
             return s;
         }
@@ -117,8 +95,7 @@ namespace Contensive.Addons.DistanceLearning.Views
         // handle errors for this class
         // ===============================================================================
         //
-        private void errorReport(CPBaseClass cp, Exception ex, string method)
-        {
+        private void errorReport(CPBaseClass cp, Exception ex, string method) {
             cp.Site.ErrorReport(ex, "error in addonTemplateCs2005.blankClass.getForm");
         }
     }

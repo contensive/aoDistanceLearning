@@ -9,7 +9,46 @@ rem
 rem Setup deployment folder
 rem
 
-call env.cmd
+
+rem all paths are relative to the git scripts folder
+rem
+rem GIT folder
+rem     -- aoSample
+rem			-- collection
+rem				-- Sample
+rem					unzipped collection files, must include one .xml file describing the collection
+rem			-- server 
+rem 			(all files related to server code)
+rem				-- aoSample (visual studio project folder)
+rem			-- ui 
+rem				(all files related to the ui
+rem			-- etc 
+rem				(all misc files)
+
+rem -- major version 5, minor does not matter set 1
+set majorVersion=5
+set minorVersion=1
+
+rem -- name of the collection on the site (should NOT include ao prefix). This is the name as it appears on the navigator
+set collectionName=Distance Learning
+
+rem -- name of the collection folder, (should NOT include ao prefix)
+set collectionPath=..\collections\Distance Learning\
+
+rem -- name of the solution. SHOULD include ao prefix
+set solutionName=aoDistanceLearning.sln
+
+rem -- name of the solution. SHOULD include ao prefix
+set binPath=..\server\aoDistanceLearning\bin\debug\
+
+rem -- name of the solution. SHOULD include ao prefix
+set msbuildLocation=C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\
+
+rem -- name of the solution. SHOULD include ao prefix
+set deploymentFolderRoot=C:\Deployments\aoDistanceLearning\Dev\
+
+
+
 set deploymentNumber=%1
 set year=%date:~12,4%
 set month=%date:~4,2%
