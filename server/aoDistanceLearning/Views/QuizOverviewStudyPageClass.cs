@@ -45,33 +45,33 @@ namespace Contensive.Addons.DistanceLearning {
                         break;
                 }
                 //
-                PortalFramework.FormNameValueRowsClass form = new PortalFramework.FormNameValueRowsClass();
-                form.isOuterContainer = false;
-                form.addFormHidden(Constants.rnQuizId, quiz.id.ToString());
-                form.body = innerBody;
-                form.addFormButton("Save", "button");
-                form.addFormButton("Cancel", "button");
-                form.isOuterContainer = false;
-                form.title = "<b>Study Page</b></br>";
+                BaseClasses.LayoutBuilder.LayoutBuilderNameValueBaseClass layout = cp.AdminUI.CreateLayoutBuilderNameValue();
+                layout.isOuterContainer = false;
+                layout.addFormHidden(Constants.rnQuizId, quiz.id.ToString());
+                layout.body = innerBody;
+                layout.addFormButton("Save", "button");
+                layout.addFormButton("Cancel", "button");
+                layout.isOuterContainer = false;
+                layout.title = "<b>Study Page</b></br>";
                 //
-                form.addRow();
-                form.rowName = "Video Embed Code";
-                form.rowValue = cp.Html.InputTextExpandable("videoEmbedCode", quiz.videoEmbedCode, 5);
-                form.rowHelp = "When included, a video can be presented on the study page.";
+                layout.addRow();
+                layout.rowName = "Video Embed Code";
+                layout.rowValue = cp.Html.InputTextExpandable("videoEmbedCode", quiz.videoEmbedCode, 5);
+                layout.rowHelp = "When included, a video can be presented on the study page.";
                 //
-                form.addRow();
-                form.rowName = "Study Page Text";
-                form.rowValue = cp.Html.InputWysiwyg("studyCopy", quiz.studyCopy.content, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page);
-                form.rowHelp = "This is the list of instructions that go on the study Page. You can describe the quiz, it's purpose, how to take it, etc.";
+                layout.addRow();
+                layout.rowName = "Study Page Text";
+                layout.rowValue = cp.Html.InputWysiwyg("studyCopy", quiz.studyCopy.content, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page);
+                layout.rowHelp = "This is the list of instructions that go on the study Page. You can describe the quiz, it's purpose, how to take it, etc.";
                 //
-                form.addRow();
-                form.rowName = "Course Materials";
-                form.rowValue = cp.AdminUI.GetFileEditor("courseMaterial");
-                form.rowHelp = "When included, a file can be uploaded on the study page.";
+                layout.addRow();
+                layout.rowName = "Course Materials";
+                layout.rowValue = cp.AdminUI.GetFileEditor("courseMaterial");
+                layout.rowHelp = "When included, a file can be uploaded on the study page.";
 
-                result = GenericController.getTabWrapper(cp, form.getHtml(cp), "Study", quiz);
+                result = GenericController.getTabWrapper(cp, layout.getHtml(), "Study", quiz);
 
-                cp.Doc.AddHeadStyle(form.styleSheet);
+                cp.Doc.AddHeadStyle(layout.styleSheet);
             } catch (Exception ex) {
                 cp.Site.ErrorReport(ex, "execute");
             }

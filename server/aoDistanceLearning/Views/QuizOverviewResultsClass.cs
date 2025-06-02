@@ -44,31 +44,31 @@ namespace Contensive.Addons.DistanceLearning {
                 DateTime filterFromDate = cp.Doc.GetDate(Constants.rnFilterDateFrom);
                 DateTime filterToDate = cp.Doc.GetDate(Constants.rnFilterDateTo);
                 //
-                PortalFramework.ReportListClass form = new PortalFramework.ReportListClass();
-                form.addFormHidden(Constants.rnQuizId, quiz.id.ToString());
-                form.addFormButton(Constants.buttonCancel);
-                form.addFormButton(Constants.buttonRefresh);
-                form.title = "Results";
-                form.description = "";
+                BaseClasses.LayoutBuilder.LayoutBuilderListBaseClass layout = cp.AdminUI.CreateLayoutBuilderList();
+                layout.addFormHidden(Constants.rnQuizId, quiz.id.ToString());
+                layout.addFormButton(Constants.buttonCancel);
+                layout.addFormButton(Constants.buttonRefresh);
+                layout.title = "Results";
+                layout.description = "";
                 //quizUserDetailsForm.addColumn();
                 //quizUserDetailsForm.columnCaption = "Quiz";
                 //quizUserDetailsForm.columnCaptionClass = "afwTextAlignLeft";
-                form.addColumn();
-                form.columnCaption = "User";
-                form.columnCaptionClass = "afwTextAlignCenter";
-                form.columnCellClass = "afwTextAlignLeft";
-                form.addColumn();
-                form.columnCaption = "Submitted";
-                form.columnCaptionClass = "afwTextAlignCenter afwWidth100px";
-                form.columnCellClass = "afwTextAlignRight";
-                form.addColumn();
-                form.columnCaption = "Attempt";
-                form.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
-                form.columnCellClass = "afwTextAlignRight";
-                form.addColumn();
-                form.columnCaption = "Score";
-                form.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
-                form.columnCellClass = "afwTextAlignRight";
+                layout.addColumn();
+                layout.columnCaption = "User";
+                layout.columnCaptionClass = "afwTextAlignCenter";
+                layout.columnCellClass = "afwTextAlignLeft";
+                layout.addColumn();
+                layout.columnCaption = "Submitted";
+                layout.columnCaptionClass = "afwTextAlignCenter afwWidth100px";
+                layout.columnCellClass = "afwTextAlignRight";
+                layout.addColumn();
+                layout.columnCaption = "Attempt";
+                layout.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
+                layout.columnCellClass = "afwTextAlignRight";
+                layout.addColumn();
+                layout.columnCaption = "Score";
+                layout.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
+                layout.columnCellClass = "afwTextAlignRight";
                 //form.addColumn();
                 //form.columnCaption = "Questions";
                 //form.columnCaptionClass = "afwTextAlignCenter afwWidth50px";
@@ -86,22 +86,22 @@ namespace Contensive.Addons.DistanceLearning {
                 foreach (QuizResponseReportModel quizResponse in quizResponseList) {
                     var member = DbBaseModel.create<PersonModel>(cp, cp.Doc.GetInteger(Constants.rnMemberId));
 
-                    form.addRow();
+                    layout.addRow();
                     qs = cp.Doc.RefreshQueryString;
                     qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeatureQuizOverviewResultsDetails, true);
                     qs = cp.Utils.ModifyQueryString(qs, Constants.rnResponseId, quizResponse.id.ToString(), true);
                     qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
                     string name = quizResponse.userFirstName + " " + quizResponse.userLastName;
                     if (string.IsNullOrEmpty(name.Trim())) name = quizResponse.userName;
-                    form.setCell("<div><a href=\"?" + qs + "\"> " + name + " </ a></div>");
-                    form.setCell(GenericController.getShortDateString(quizResponse.dateSubmitted));
-                    form.setCell(quizResponse.attemptNumber.ToString());
-                    form.setCell(Convert.ToInt32(0.5 + quizResponse.score).ToString() + "%");
+                    layout.setCell("<div><a href=\"?" + qs + "\"> " + name + " </ a></div>");
+                    layout.setCell(GenericController.getShortDateString(quizResponse.dateSubmitted));
+                    layout.setCell(quizResponse.attemptNumber.ToString());
+                    layout.setCell(Convert.ToInt32(0.5 + quizResponse.score).ToString() + "%");
                     //form.setCell(quizResponse.totalQuestions.ToString());
                     //form.setCell(quizResponse.totalCorrect.ToString());
                     //form.setCell(quizResponse.totalPoints.ToString());
                 };
-                form.htmlLeftOfTable = ""
+                layout.htmlLeftOfBody = ""
                     + Constants.cr + "<h3 class=\"afwFilterHead\">filters</h3>"
                     + Constants.cr + "<h4 class=\"afwFilterCaption\">Date</h4>"
                     + Constants.cr + "<div class=\"afwFilterRow\"><label for=fromfilter>from</label><input type=\"date\" name=\"" + Constants.rnFilterDateFrom + "\" value=\"" + Controllers.GenericController.getDateForHtmlInput(filterFromDate) + "\" class=\"afwFilterDate\" id=\"js-fromdate\" /></div>"
@@ -115,7 +115,7 @@ namespace Contensive.Addons.DistanceLearning {
                 //    + constants.cr2 + "});"
                 //    + constants.cr + "})"
                 //    + "");
-                result = form.getHtml(cp);
+                result = layout.getHtml(cp);
                 result = GenericController.getTabWrapper(cp, result, "Results", quiz);
             } catch (Exception ex) {
                 cp.Site.ErrorReport(ex, "execute");

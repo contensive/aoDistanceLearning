@@ -76,24 +76,24 @@ namespace Contensive.Addons.DistanceLearning {
                 }
 
                 //
-                PortalFramework.FormNameValueRowsClass questionForm = new PortalFramework.FormNameValueRowsClass();
-                questionForm.isOuterContainer = false;
-                questionForm.addFormHidden("questionId", question.id.ToString());
-                questionForm.addFormHidden(Constants.rnQuizId, question.quizId.ToString());
+                BaseClasses.LayoutBuilder.LayoutBuilderNameValueBaseClass layout = cp.AdminUI.CreateLayoutBuilderNameValue();
+                layout.isOuterContainer = false;
+                layout.addFormHidden("questionId", question.id.ToString());
+                layout.addFormHidden(Constants.rnQuizId, question.quizId.ToString());
                 //questionForm.body = innerBody;
-                questionForm.addFormButton(Constants.buttonSave);
-                questionForm.addFormButton(Constants.buttonCancel);
-                questionForm.isOuterContainer = false;
+                layout.addFormButton(Constants.buttonSave);
+                layout.addFormButton(Constants.buttonCancel);
+                layout.isOuterContainer = false;
                 //questionForm.addRow();
                 if (question.id == 0) {
-                    questionForm.title = "<b>New Question</b></br>";
+                    layout.title = "<b>New Question</b></br>";
                 } else {
-                    questionForm.title = "<b>Question " + question.id + "  </b></br>";
+                    layout.title = "<b>Question " + question.id + "  </b></br>";
                 }
-                questionForm.addRow();
-                questionForm.rowName = "Question </b>";
-                questionForm.rowValue = cp.Html.InputText(Constants.rnQuestionCopy, question.copy, "4", "", false, "qtext", "js-qText");
-                questionForm.rowHelp = "The question as it appears on the quiz.";
+                layout.addRow();
+                layout.rowName = "Question </b>";
+                layout.rowValue = cp.Html.InputText(Constants.rnQuestionCopy, question.copy, "4", "", false, "qtext", "js-qText");
+                layout.rowHelp = "The question as it appears on the quiz.";
                 //questionForm.addRow();
                 //questionForm.rowName = "Points* </b>";
                 //questionForm.rowValue = cp.Html.InputText("points", question.points.ToString());
@@ -104,9 +104,9 @@ namespace Contensive.Addons.DistanceLearning {
                 int cnt = Constants.maxQuestionAnswer;
                 foreach (QuizAnswerModel quizAnswer in quizAnswerList) {
                     descnt++;
-                    questionForm.addRow();
-                    questionForm.rowName = "Answer " + descnt;
-                    questionForm.rowValue = cp.Html.InputText(Constants.rnAnswerCopy + quizAnswer.id, quizAnswer.copy, "2", "", false, "answerOneClass", "js-answerOne")
+                    layout.addRow();
+                    layout.rowName = "Answer " + descnt;
+                    layout.rowValue = cp.Html.InputText(Constants.rnAnswerCopy + quizAnswer.id, quizAnswer.copy, "2", "", false, "answerOneClass", "js-answerOne")
                         + "<br>" + cp.Html.CheckBox("Correct" + quizAnswer.id, quizAnswer.correct) + " Correct Answer";
                     cnt--;
 
@@ -115,29 +115,29 @@ namespace Contensive.Addons.DistanceLearning {
                 if (cnt > 0) {
                     for (int ptr = 0; ptr < cnt; ptr++) {
                         descnt++;
-                        questionForm.addRow();
-                        questionForm.rowName = "Answer " + descnt;
-                        questionForm.rowValue = cp.Html.InputText(Constants.rnAnswerCopyBlank + ptr, "", "2", "", false, "answerOneClass", "js-answerOne")
+                        layout.addRow();
+                        layout.rowName = "Answer " + descnt;
+                        layout.rowValue = cp.Html.InputText(Constants.rnAnswerCopyBlank + ptr, "", "2", "", false, "answerOneClass", "js-answerOne")
                             + "<br>" + cp.Html.CheckBox(Constants.rnCorrectBlank + ptr, false) + " Correct Answer";
                     }
                 }
-                questionForm.rowHelp = "";
-                questionForm.addRow();
-                questionForm.rowName = "Subject</b>";
-                questionForm.rowValue = cp.Html.SelectContent(Constants.rnSubjectId, question.subjectID.ToString(), Constants.cnQuizSubjects, "(quizid=" + quiz.id.ToString() + ")", "Select Subject");
-                questionForm.rowHelp = "Add a subject for this question. to add subjects, use the quiz details form.";
-                questionForm.addRow();
-                questionForm.rowName = "Sort Order </b>";
-                questionForm.rowValue = cp.Html.InputText("SortOrder", question.sortOrder.ToString());
-                questionForm.rowHelp = "Use this alphanumeric text field to order your questions. ";
-                questionForm.addRow();
-                questionForm.rowName = "Answer Information</b>";
-                questionForm.rowValue = cp.Html.InputWysiwyg("instructions", question.instructions, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page);
-                questionForm.rowHelp = "<p>This is a list of instructions that go on the Start page. You can describe the quiz, its purpose, how you take it, etc. </p>";
+                layout.rowHelp = "";
+                layout.addRow();
+                layout.rowName = "Subject</b>";
+                layout.rowValue = cp.Html.SelectContent(Constants.rnSubjectId, question.subjectID.ToString(), Constants.cnQuizSubjects, "(quizid=" + quiz.id.ToString() + ")", "Select Subject");
+                layout.rowHelp = "Add a subject for this question. to add subjects, use the quiz details form.";
+                layout.addRow();
+                layout.rowName = "Sort Order </b>";
+                layout.rowValue = cp.Html.InputText("SortOrder", question.sortOrder.ToString());
+                layout.rowHelp = "Use this alphanumeric text field to order your questions. ";
+                layout.addRow();
+                layout.rowName = "Answer Information</b>";
+                layout.rowValue = cp.Html.InputWysiwyg("instructions", question.instructions, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page);
+                layout.rowHelp = "<p>This is a list of instructions that go on the Start page. You can describe the quiz, its purpose, how you take it, etc. </p>";
                 //
-                result = GenericController.getTabWrapper(cp, questionForm.getHtml(cp), "Questions", quiz);
+                result = GenericController.getTabWrapper(cp, layout.getHtml(), "Questions", quiz);
 
-                cp.Doc.AddHeadStyle(questionForm.styleSheet);
+                cp.Doc.AddHeadStyle(layout.styleSheet);
                 List<QuizQuestionModel> questionList = QuizQuestionModel.getQuestionsForQuizList(cp, question.id);
                 //
                 // 

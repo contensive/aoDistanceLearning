@@ -1,6 +1,5 @@
 ﻿using Contensive.Addons.DistanceLearning.Controllers;
 using Contensive.Addons.DistanceLearning.Models;
-using Contensive.Addons.PortalFramework;
 using Contensive.BaseClasses;
 using Contensive.Models.Db;
 using System;
@@ -45,7 +44,7 @@ namespace Contensive.Addons.DistanceLearning {
                 }
                 //
                 // -- create view
-                ReportListClass reportList = new ReportListClass();
+                BaseClasses.LayoutBuilder.LayoutBuilderListBaseClass reportList = cp.AdminUI.CreateLayoutBuilderList();
                 reportList.isOuterContainer = false;
                 //
                 // -- add button as link
@@ -75,7 +74,7 @@ namespace Contensive.Addons.DistanceLearning {
                 addButtonForm = cp.Html.Button("Button", "AddQuestion", "addQuestionClass btn btn-primary", "js-addQuestionButtonId");
                 addButtonForm += cp.Html.Hidden(Constants.rnQuizId, quiz.id.ToString());
                 addButtonForm = cp.Html.Form(addButtonForm);
-                reportList.htmlAfterTable = addButtonForm;
+                reportList.htmlAfterBody = addButtonForm;
                 //
                 List<Models.QuizSubjectModel> subjectList = DbBaseModel.createList<QuizSubjectModel>(cp);
                 //
@@ -103,9 +102,7 @@ namespace Contensive.Addons.DistanceLearning {
 
                 cp.Doc.AddRefreshQueryString("quizId", quiz.id.ToString());
                 //
-                result = GenericController.getTabWrapper(cp, reportList.getHtml(cp), "Questions", quiz);
-
-                cp.Doc.AddHeadStyle(reportList.styleSheet);
+                result = GenericController.getTabWrapper(cp, reportList.getHtml(), "Questions", quiz);
             } catch (Exception ex) {
                 cp.Site.ErrorReport(ex, "execute");
             }
@@ -122,7 +119,7 @@ namespace Contensive.Addons.DistanceLearning {
         //
         // ===============================================================================
         //
-        private void addQuestionToList(CPBaseClass cp, QuizQuestionModel question, QuizSubjectModel subject, ReportListClass reportList) {
+        private void addQuestionToList(CPBaseClass cp, QuizQuestionModel question, QuizSubjectModel subject, BaseClasses.LayoutBuilder.LayoutBuilderListBaseClass reportList) {
             List<QuizResponseModel> responseList = QuizResponseModel.getResponseList(cp, question.id);
             reportList.addRow();
             reportList.columnCellClass = "afwTextAlignLeft";

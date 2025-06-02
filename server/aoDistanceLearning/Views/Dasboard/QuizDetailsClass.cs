@@ -44,7 +44,7 @@ namespace Contensive.Addons.DistanceLearning {
                 CPBlockBaseClass layout = cp.BlockNew();
                 //string js = "";
                 CPCSBaseClass cs = cp.CSNew();
-                PortalFramework.LayoutBuilderSimple form = new PortalFramework.LayoutBuilderSimple();
+                BaseClasses.LayoutBuilder.LayoutBuilderBaseClass form = cp.AdminUI.CreateLayoutBuilder();
                 string qs = "";
                 int responseId = cp.Utils.EncodeInteger(cp.Doc.GetText("id"));
                 //
@@ -55,14 +55,14 @@ namespace Contensive.Addons.DistanceLearning {
                 qs = rqs;
                 qs = cp.Utils.ModifyQueryString(qs, Constants.rnDstFormId, Constants.formIdQuizList.ToString(), true);
                 //
-                cp.Doc.set_Var("id", responseId.ToString());
+                cp.Doc.SetProperty("id", responseId.ToString());
                 form.body = ""
                     + Constants.cr + "<div class=\"\">return to <a href=\"?" + qs + "\">Quiz List</a></div>"
                     + Constants.cr2 + "<div class=\"onlineQuiz\">"
-                    + cp.Utils.ExecuteAddon(Constants.scoreCardAddon)
+                    + cp.Addon.Execute(Constants.scoreCardAddon)
                     + Constants.cr2 + "</div>"
                     + "";
-                s = form.getHtml(cp);
+                s = form.getHtml();
             } catch (Exception ex) {
                 cp.Site.ErrorReport(ex, "getForm");
             }

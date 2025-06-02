@@ -1,16 +1,10 @@
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Contensive.BaseClasses;
 using Contensive.Addons.DistanceLearning.Models;
-
-using Contensive.Addons.DistanceLearning.Controllers;
-using System.Globalization;
+using Contensive.BaseClasses;
 using Microsoft.VisualBasic;
+using System;
+using System.Globalization;
 using System.Linq;
-using Contensive.Models.Db;
-using Contensive.Addons.PortalFramework;
 
 namespace Contensive.Addons.DistanceLearning.Controllers {
     public static class GenericController {
@@ -63,7 +57,7 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
             //formOuter.formActionQueryString = qs;
             qs = cp.Utils.ModifyQueryString(qs, "quizId", quiz.id.ToString());
             //
-            ContentWithTabsClass tabForm = new ContentWithTabsClass();
+            var tabForm = cp.AdminUI.CreateLayoutBuilderContentWithTabsBase();
             if (!string.IsNullOrEmpty(quiz.name)) {
                 tabForm.title = quiz.name;
             } else {

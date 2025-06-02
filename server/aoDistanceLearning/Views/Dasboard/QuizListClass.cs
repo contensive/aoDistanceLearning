@@ -41,9 +41,8 @@ namespace Contensive.Addons.DistanceLearning {
         public string getForm(CPBaseClass cp, int dstFormId, string rqs, DateTime rightNow, ref int appId) {
             string s = "";
             try {
-                CPBlockBaseClass layout = cp.BlockNew();
                 CPCSBaseClass cs = cp.CSNew();
-                PortalFramework.ReportListClass reportList = new PortalFramework.ReportListClass(cp);
+                BaseClasses.LayoutBuilder.LayoutBuilderListBaseClass layout = cp.AdminUI.CreateLayoutBuilderList();
                 string sql = "";
                 string qs;
                 string qsBase;
@@ -64,24 +63,24 @@ namespace Contensive.Addons.DistanceLearning {
                 // reportList.setCell("<p>test</p>");
 
                 //
-                reportList.title = "Submitted Quizzes";
-                reportList.description = "A list of all submitted responses to all online quizzes. Use filters to search for individual quizzes and time periods.";
+                layout.title = "Submitted Quizzes";
+                layout.description = "A list of all submitted responses to all online quizzes. Use filters to search for individual quizzes and time periods.";
                 //
-                reportList.addColumn();
-                reportList.columnCaption = "Quiz";
-                reportList.columnCaptionClass = "afwTextAlignLeft";
+                layout.addColumn();
+                layout.columnCaption = "Quiz";
+                layout.columnCaptionClass = "afwTextAlignLeft";
                 //
-                reportList.addColumn();
-                reportList.columnCaption = "User";
-                reportList.columnCaptionClass = "afwTextAlignLeft afwWidth200px";
+                layout.addColumn();
+                layout.columnCaption = "User";
+                layout.columnCaptionClass = "afwTextAlignLeft afwWidth200px";
                 //
-                reportList.addColumn();
-                reportList.columnCaption = "Date";
-                reportList.columnCaptionClass = "afwTextAlignLeft afwWidth200px";
+                layout.addColumn();
+                layout.columnCaption = "Date";
+                layout.columnCaptionClass = "afwTextAlignLeft afwWidth200px";
                 //
-                reportList.addColumn();
-                reportList.columnCaption = "Attempt";
-                reportList.columnCaptionClass = "afwTextAlignCenter afwWidth100px";
+                layout.addColumn();
+                layout.columnCaption = "Attempt";
+                layout.columnCaptionClass = "afwTextAlignCenter afwWidth100px";
                 //
                 sqlWhere = "(dateSubmitted is not null)";
                 if (!GenericController.isDateEmpty(filterDateFrom)) {
@@ -116,21 +115,21 @@ namespace Contensive.Addons.DistanceLearning {
                     + " r.quizId,u.name,u.id,r.attemptNumber"
                     + " "
                     + "";
-                if (!cs.OpenSQL2(sql, "", 100, 1)) {
+                if (!cs.OpenSQL(sql, "", 100, 1)) {
                 } else {
                     qsBase = cp.Utils.ModifyQueryString(rqs, Constants.rnDstFormId, Constants.formIdQuizDetails.ToString(), true);
                     while (cs.OK()) {
                         //
                         userName = cs.GetText("userName");
                         if (userName.ToLower() == "guest") { userName += " #" + cs.GetInteger("userId"); }
-                        reportList.addRow();
+                        layout.addRow();
                         qs = cp.Utils.ModifyQueryString(qsBase, "id", cs.GetInteger(Constants.rnResponseId).ToString(), true);
-                        reportList.setCell("<a href=\"?" + qs + "\">" + cs.GetText("quizName") + "</a>");
-                        reportList.setCell(userName);
-                        reportList.setCell(GenericController.getShortDateString(cs.GetDate("dateSubmitted")));
+                        layout.setCell("<a href=\"?" + qs + "\">" + cs.GetText("quizName") + "</a>");
+                        layout.setCell(userName);
+                        layout.setCell(GenericController.getShortDateString(cs.GetDate("dateSubmitted")));
                         //
-                        reportList.columnCellClass = "afwTextAlignCenter";
-                        reportList.setCell(cs.GetText("attemptNumber"));
+                        layout.columnCellClass = "afwTextAlignCenter";
+                        layout.setCell(cs.GetText("attemptNumber"));
                         cs.GoNext();
                     }
                 }
@@ -148,12 +147,12 @@ namespace Contensive.Addons.DistanceLearning {
                     + Constants.cr + cp.Html.div(cp.Html.Button("button", Constants.rnbuttonApplyFilter, " btn btn-primary", ""), "", "", "")
                     + "";
                 filterForm = cp.Html.Form(filterForm, "", "", "", "", "");
-                reportList.htmlAfterTable = filterForm;
+                layout.htmlAfterBody = filterForm;
                 //reportList.htmlBeforeTable = "hello world";
                 //
                 // return converted layout
                 //
-                s = reportList.getHtml(cp);
+                s = layout.getHtml();
             } catch (Exception ex) {
                 cp.Site.ErrorReport(ex, "getForm");
             }

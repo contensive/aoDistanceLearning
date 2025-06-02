@@ -31,7 +31,7 @@ namespace Contensive.Addons.DistanceLearning {
                 string rqs = cp.Doc.RefreshQueryString;
                 DateTime rightNow = DateTime.Now;
                 CPCSBaseClass cs = cp.CSNew();
-                PortalFramework.FormNameValueRowsClass page = new PortalFramework.FormNameValueRowsClass();
+                BaseClasses.LayoutBuilder.LayoutBuilderNameValueBaseClass layout = cp.AdminUI.CreateLayoutBuilderNameValue();
                 //
                 blankClass blank = new blankClass();
                 QuizListClass quizList = new QuizListClass();
@@ -60,22 +60,22 @@ namespace Contensive.Addons.DistanceLearning {
                 // get the next form
                 //------------------------------------------------------------------------
                 //
-                page.title = "Quiz Results";
-                page.description = "";
+                layout.title = "Quiz Results";
+                layout.description = "";
                 //
                 switch (dstFormId) {
                     case (Constants.formIdQuizDetails):
-                        page.body = quizDetails.getForm(cp, dstFormId, rqs, rightNow, ref appId);
+                        layout.body = quizDetails.getForm(cp, dstFormId, rqs, rightNow, ref appId);
                         break;
                     case (Constants.formIdBlank):
-                        page.body = blank.getForm(cp, dstFormId, rqs, rightNow, ref appId);
+                        layout.body = blank.getForm(cp, dstFormId, rqs, rightNow, ref appId);
                         break;
                     default:
-                        page.body = quizList.getForm(cp, dstFormId, rqs, rightNow, ref appId);
+                        layout.body = quizList.getForm(cp, dstFormId, rqs, rightNow, ref appId);
                         break;
                 }
-                s = page.getHtml(cp);
-                cp.Doc.AddHeadStyle(page.styleSheet);
+                s = layout.getHtml();
+                cp.Doc.AddHeadStyle(layout.styleSheet);
             } catch (Exception ex) {
                 cp.Site.ErrorReport(ex, "execute");
             }

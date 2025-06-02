@@ -48,37 +48,37 @@ namespace Contensive.Addons.DistanceLearning {
                 }
                 //
                 // -- setup form
-                PortalFramework.FormNameValueRowsClass form = new PortalFramework.FormNameValueRowsClass();
-                form.isOuterContainer = false;
-                form.body = innerBody;
-                form.addFormButton("Cancel", "button");
-                form.title = quiz.name;
+                BaseClasses.LayoutBuilder.LayoutBuilderNameValueBaseClass layout = cp.AdminUI.CreateLayoutBuilderNameValue();
+                layout.isOuterContainer = false;
+                layout.body = innerBody;
+                layout.addFormButton("Cancel", "button");
+                layout.title = quiz.name;
 
 
                 //
                 // -- add row
-                form.addRow();
-                form.rowName = "Questions";
+                layout.addRow();
+                layout.rowName = "Questions";
                 qs = cp.Doc.RefreshQueryString;
                 qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeatureQuizOverviewSetting, true);
                 qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
                 //form.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/myDistanceLearning/NavRecord.gif\" display:inline;></a>" + quiz.questionPresentation + " ; Using Subjects; " + quiz.includeSubject + "User can retake quiz:  " + quiz.allowRetake + "; Max " + quiz.maxNumberQuest + " Questions </div>");
-                form.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/myDistanceLearning/NavRecord.gif\" display:inline;></a>User can retake quiz:  " + quiz.allowRetake + "; Max " + quiz.maxNumberQuest + " Questions </div>");
-                form.addRow();
-                form.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/myDistanceLearning/NavRecord.gif\" display:inline;></a>" + quiz.maxNumberQuest + " total Questions in Quiz (or in each subject area if subjects used.)</div>");
+                layout.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/myDistanceLearning/NavRecord.gif\" display:inline;></a>User can retake quiz:  " + quiz.allowRetake + "; Max " + quiz.maxNumberQuest + " Questions </div>");
+                layout.addRow();
+                layout.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/myDistanceLearning/NavRecord.gif\" display:inline;></a>" + quiz.maxNumberQuest + " total Questions in Quiz (or in each subject area if subjects used.)</div>");
                 qs = cp.Doc.RefreshQueryString;
                 qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeatureQuizOverviewScoring, true);
                 qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
-                form.addRow();
+                layout.addRow();
 
-                form.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/myDistanceLearning/NavRecord.gif\" display:inline;></a>" + quiz.ACaption + "  " + quiz.APercentile + "+ </br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + quiz.BCaption + "  "
+                layout.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/myDistanceLearning/NavRecord.gif\" display:inline;></a>" + quiz.ACaption + "  " + quiz.APercentile + "+ </br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + quiz.BCaption + "  "
                     + quiz.BPercentile + "+ </br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + quiz.CCaption + "  "
                     + quiz.CPercentile + "+ </br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + quiz.DCaption + "  "
                     + quiz.DPercentile + "+ </br> &nbsp;&nbsp;&nbsp;&nbsp; " + quiz.FCaption + " &nbsp;&nbsp;&nbsp;&nbsp; Successful completion adds  "
                     + quiz.certificationCECs + " CECs to user accredidation </br></div>");
                 // -- wrap in tabs and output finished form
-                result = GenericController.getTabWrapper(cp, form.getHtml(cp), "Details", quiz);
-                cp.Doc.AddHeadStyle(form.styleSheet);
+                result = GenericController.getTabWrapper(cp, layout.getHtml(), "Details", quiz);
+                cp.Doc.AddHeadStyle(layout.styleSheet);
             } catch (Exception ex) {
                 cp.Site.ErrorReport(ex, "execute");
             }

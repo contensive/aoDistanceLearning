@@ -1385,11 +1385,5 @@
 		<Field Name="copy" active="True" AdminOnly="False" Authorable="True" Caption="Copy" DeveloperOnly="False" EditSortPriority="2000" FieldType="HTMLFile" HTMLContent="False" IndexColumn="" IndexSortDirection="" IndexSortOrder="" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
 		<Field Name="quizId" active="True" AdminOnly="False" Authorable="True" Caption="Quiz" DeveloperOnly="False" EditSortPriority="1100" FieldType="Lookup" HTMLContent="False" IndexColumn="" IndexSortDirection="" IndexSortOrder="" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="Quizzes" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
 	</CDef>
-<!--
-tmp to speed up dev
-	<ImportCollection name="Portal Framework">{87249F75-A065-4F2F-8DCD-FBBF2CA0DCCD}</ImportCollection>
-	<ImportCollection name="Ecommerce">{8DBE6B55-18DB-44EB-9A4A-5CBBA84DF35A}</ImportCollection>
--->
 	<Resource name="navrecord.gif" type="www" path="mydistancelearning" />
-	<Resource name="distancelearning.dll" type="executable" path="" />
 </Collection>

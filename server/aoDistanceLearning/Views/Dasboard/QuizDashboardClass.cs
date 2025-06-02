@@ -1,6 +1,5 @@
 
 using Contensive.Addons.DistanceLearning.Models;
-using Contensive.Addons.PortalFramework;
 using Contensive.BaseClasses;
 using Contensive.Models.Db;
 using System;
@@ -11,7 +10,7 @@ namespace Contensive.Addons.DistanceLearning {
         public override object Execute(CPBaseClass cp) {
 
             string result = "";
-            ReportListClass listReport = new ReportListClass(cp);
+            BaseClasses.LayoutBuilder.LayoutBuilderListBaseClass listReport = cp.AdminUI.CreateLayoutBuilderList();
             try {
                 string button = cp.Doc.GetText("button");
                 switch (button) {
@@ -28,7 +27,6 @@ namespace Contensive.Addons.DistanceLearning {
                 }
 
 
-                string inputForm;
                 string quizname = cp.Doc.GetText("QuizName");
                 if (string.IsNullOrEmpty(quizname)) {
                     CPBlockBaseClass layout = cp.BlockNew();
@@ -96,7 +94,7 @@ namespace Contensive.Addons.DistanceLearning {
                     //    + "</div></br>";
                     //listReport.columnCellClass = "afwTextAlignRight";
                     //listReport.htmlBeforeTable = inputForm;
-                    //listReport.htmlLeftOfTable = ""
+                    //listReport.htmlLeftOfBody = ""
                     //    + "<div>filters</div>"
                     //    + cp.Html.CheckBox("accountListAllowOpenOnly", accountListAllowOpenOnly, "", "accountListAllowOpenOnly") + "Open&nbsp;Only"
                     //    + "";
@@ -105,9 +103,8 @@ namespace Contensive.Addons.DistanceLearning {
                     listReport.addFormHidden("rowCnt", rowPtr.ToString());
                     string addButtonJs = "jQuery('.abQuizAddButton').click(function(){window.location='" + cp.GetAppConfig(cp.Site.Name).adminRoute + "?af=4&id=0&cid=" + cp.Content.GetID("quizzes") + "';return false;});";
                     cp.Doc.AddHeadJavascript("document.addEventListener('DOMContentLoaded', function(event) {" + addButtonJs + "});");
-                    cp.Doc.AddHeadStyle(listReport.styleSheet);
                     listReport.isOuterContainer = true;
-                    result = cp.Html.Form(listReport.getHtml(cp));
+                    result = cp.Html.Form(listReport.getHtml());
                 } else {
                     string qs = cp.Doc.RefreshQueryString;
                     qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeaturesQuizOverviewDetails, true);

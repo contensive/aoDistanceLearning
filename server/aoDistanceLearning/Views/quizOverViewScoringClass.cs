@@ -54,100 +54,99 @@ namespace Contensive.Addons.DistanceLearning {
                 }
                 //
                 // -- create the upper part of the page, the list of scoring
-                PortalFramework.ReportListClass gradingForm = new PortalFramework.ReportListClass();
-                gradingForm.title = "Grading";
-                gradingForm.isOuterContainer = false;
-                gradingForm.includeBodyColor = false;
-                gradingForm.includeBodyPadding = false;
+                BaseClasses.LayoutBuilder.LayoutBuilderListBaseClass layout = cp.AdminUI.CreateLayoutBuilderList();
+                layout.title = "Grading";
+                layout.isOuterContainer = false;
+                layout.includeBodyColor = false;
+                layout.includeBodyPadding = false;
                 //
-                gradingForm.addColumn();
-                gradingForm.columnCaption = "Percentile";
-                gradingForm.columnCaptionClass = "";
-                gradingForm.columnDownloadable = false;
-                gradingForm.columnVisible = true;
-                gradingForm.columnSortable = false;
-                gradingForm.columnCellClass = "afwTextAlignCenter afwWidth50px";
-                gradingForm.columnName = "quizGradingPercentile";
+                layout.addColumn();
+                layout.columnCaption = "Percentile";
+                layout.columnCaptionClass = "";
+                layout.columnDownloadable = false;
+                layout.columnVisible = true;
+                layout.columnSortable = false;
+                layout.columnCellClass = "afwTextAlignCenter afwWidth50px";
+                layout.columnName = "quizGradingPercentile";
                 //
-                gradingForm.addColumn();
-                gradingForm.columnCaption = "Pass";
-                gradingForm.columnCaptionClass = "";
-                gradingForm.columnDownloadable = false;
-                gradingForm.columnVisible = true;
-                gradingForm.columnSortable = false;
-                gradingForm.columnCellClass = "afwTextAlignCenter afwWidth50px";
-                gradingForm.columnName = "quizGradingSuccess";
+                layout.addColumn();
+                layout.columnCaption = "Pass";
+                layout.columnCaptionClass = "";
+                layout.columnDownloadable = false;
+                layout.columnVisible = true;
+                layout.columnSortable = false;
+                layout.columnCellClass = "afwTextAlignCenter afwWidth50px";
+                layout.columnName = "quizGradingSuccess";
                 //
-                gradingForm.addColumn();
-                gradingForm.columnCaption = "Caption";
-                gradingForm.columnCaptionClass = "";
-                gradingForm.columnDownloadable = false;
-                gradingForm.columnVisible = true;
-                gradingForm.columnSortable = false;
-                gradingForm.columnCellClass = "afwTextAlignLeft";
-                gradingForm.columnName = "quizGradingCaptions";
+                layout.addColumn();
+                layout.columnCaption = "Caption";
+                layout.columnCaptionClass = "";
+                layout.columnDownloadable = false;
+                layout.columnVisible = true;
+                layout.columnSortable = false;
+                layout.columnCellClass = "afwTextAlignLeft";
+                layout.columnName = "quizGradingCaptions";
                 //
-                gradingForm.addRow();
-                gradingForm.setCell(cp.Html.InputText("aPercentile", quiz.APercentile.ToString(), "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:right;\">"));
-                gradingForm.setCell(cp.Html.CheckBox("aPassingGrade", quiz.APassingGrade, "afwInput"));
-                gradingForm.setCell(cp.Html.InputText("aCaption", quiz.ACaption, "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:left;\">"));
+                layout.addRow();
+                layout.setCell(cp.Html.InputText("aPercentile", quiz.APercentile.ToString(), "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:right;\">"));
+                layout.setCell(cp.Html.CheckBox("aPassingGrade", quiz.APassingGrade, "afwInput"));
+                layout.setCell(cp.Html.InputText("aCaption", quiz.ACaption, "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:left;\">"));
                 //
-                gradingForm.addRow();
-                gradingForm.setCell(cp.Html.InputText("bPercentile", quiz.BPercentile.ToString(), "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:right;\">"));
-                gradingForm.setCell(cp.Html.CheckBox("bPassingGrade", quiz.BPassingGrade, "afwInput"));
-                gradingForm.setCell(cp.Html.InputText("bCaption", quiz.BCaption, "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:left;\">"));
+                layout.addRow();
+                layout.setCell(cp.Html.InputText("bPercentile", quiz.BPercentile.ToString(), "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:right;\">"));
+                layout.setCell(cp.Html.CheckBox("bPassingGrade", quiz.BPassingGrade, "afwInput"));
+                layout.setCell(cp.Html.InputText("bCaption", quiz.BCaption, "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:left;\">"));
                 //
-                gradingForm.addRow();
-                gradingForm.setCell(cp.Html.InputText("cPercentile", quiz.CPercentile.ToString(), "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:right;\">"));
-                gradingForm.setCell(cp.Html.CheckBox("cPassingGrade", quiz.CPassingGrade, "afwInput"));
-                gradingForm.setCell(cp.Html.InputText("cCaption", quiz.CCaption, "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:left;\">"));
+                layout.addRow();
+                layout.setCell(cp.Html.InputText("cPercentile", quiz.CPercentile.ToString(), "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:right;\">"));
+                layout.setCell(cp.Html.CheckBox("cPassingGrade", quiz.CPassingGrade, "afwInput"));
+                layout.setCell(cp.Html.InputText("cCaption", quiz.CCaption, "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:left;\">"));
                 //
-                gradingForm.addRow();
-                gradingForm.setCell(cp.Html.InputText("dPercentile", quiz.DPercentile.ToString(), "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:right;\">"));
-                gradingForm.setCell(cp.Html.CheckBox("dPassingGrade", quiz.DPassingGrade, "afwInput"));
-                gradingForm.setCell(cp.Html.InputText("dCaption", quiz.DCaption, "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:left;\">"));
+                layout.addRow();
+                layout.setCell(cp.Html.InputText("dPercentile", quiz.DPercentile.ToString(), "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:right;\">"));
+                layout.setCell(cp.Html.CheckBox("dPassingGrade", quiz.DPassingGrade, "afwInput"));
+                layout.setCell(cp.Html.InputText("dCaption", quiz.DCaption, "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:left;\">"));
                 //
-                gradingForm.addRow();
-                gradingForm.setCell("&nbsp;");
-                gradingForm.setCell(cp.Html.CheckBox("fPassingGrade", quiz.FPassingGrade, "afwInput"));
-                gradingForm.setCell(cp.Html.InputText("fCaption", quiz.FCaption, "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:left;\">"));
+                layout.addRow();
+                layout.setCell("&nbsp;");
+                layout.setCell(cp.Html.CheckBox("fPassingGrade", quiz.FPassingGrade, "afwInput"));
+                layout.setCell(cp.Html.InputText("fCaption", quiz.FCaption, "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:left;\">"));
                 //
-                PortalFramework.FormNameValueRowsClass certificationForm = new PortalFramework.FormNameValueRowsClass();
-                certificationForm.title = "Certifications";
-                certificationForm.isOuterContainer = false;
-                certificationForm.includeBodyColor = false;
-                certificationForm.includeBodyPadding = false;
+                BaseClasses.LayoutBuilder.LayoutBuilderNameValueBaseClass certLayout = cp.AdminUI.CreateLayoutBuilderNameValue();
+                certLayout.title = "Certifications";
+                certLayout.isOuterContainer = false;
+                certLayout.includeBodyColor = false;
+                certLayout.includeBodyPadding = false;
                 // 
-                certificationForm.addRow();
-                certificationForm.rowName = "Add CECs";
-                certificationForm.rowValue = "&nbsp;If passing grade, add CECs to user's account"
+                certLayout.addRow();
+                certLayout.rowName = "Add CECs";
+                certLayout.rowValue = "&nbsp;If passing grade, add CECs to user's account"
                     + cp.Html.div(cp.Html.InputText(Constants.rnCertificationCECs, quiz.certificationCECs.ToString(), "", "", false, "afwRowTextInput afwInput") + " CECs towards Certification Type " + cp.Html.SelectContent(Constants.rnCertificationTypeId, quiz.certificationTypeId.ToString(), Constants.cnCertificationTypes, "", "No Certification Types", "afwInput"), "", "afwRowValueHelpBox")
                     + "";
-                certificationForm.rowHelp = "";
+                certLayout.rowHelp = "";
                 // 
-                certificationForm.addRow();
-                certificationForm.rowName = "Add Certificate";
-                certificationForm.rowValue = "&nbsp;If passing grade, add Certificate record to user's account"
+                certLayout.addRow();
+                certLayout.rowName = "Add Certificate";
+                certLayout.rowValue = "&nbsp;If passing grade, add Certificate record to user's account"
                     + cp.Html.div(cp.Html.SelectContent(Constants.rnCertificateTypeId, quiz.certificateTypeId.ToString(), Constants.cnCertificateTypes, "", "No Certificate", "afwInput"), "", "afwRowValueHelpBox")
                     + "";
-                certificationForm.rowHelp = "";
+                certLayout.rowHelp = "";
                 // 
-                certificationForm.addRow();
-                certificationForm.rowName = "Success Message";
-                certificationForm.rowValue = cp.Html.CheckBox(Constants.rnAddSuccessCopy, quiz.addSuccessCopy, "afwInput")
+                certLayout.addRow();
+                certLayout.rowName = "Success Message";
+                certLayout.rowValue = cp.Html.CheckBox(Constants.rnAddSuccessCopy, quiz.addSuccessCopy, "afwInput")
                     + "If passing grade, add text to results page"
                     + cp.Html.div(cp.Html.InputWysiwyg(Constants.rnSuccessCopy, quiz.successCopy, CPHtmlBaseClass.EditorUserScope.CurrentUser, CPHtmlBaseClass.EditorContentScope.Page, "", "", "afwInput"), "", "afwRowValueHelpBox");
                 //
-                PortalFramework.LayoutBuilderSimple outerForm = new PortalFramework.LayoutBuilderSimple();
+                BaseClasses.LayoutBuilder.LayoutBuilderBaseClass outerForm = cp.AdminUI.CreateLayoutBuilder();
                 outerForm.addFormButton(Constants.buttonSave);
                 outerForm.addFormButton(Constants.buttonCancel);
                 outerForm.addFormHidden(Constants.rnQuizId, quiz.id.ToString());
-                outerForm.body = gradingForm.getHtml(cp) + certificationForm.getHtml(cp);
+                outerForm.body = layout.getHtml() + certLayout.getHtml();
                 //
                 // -- wrap in tabs and output finished form
-                result = outerForm.getHtml(cp);
+                result = outerForm.getHtml();
                 result = GenericController.getTabWrapper(cp, result, "Scoring", quiz);
-                cp.Doc.AddHeadStyle(gradingForm.styleSheet);
             } catch (Exception ex) {
                 cp.Site.ErrorReport(ex, "execute");
             }
