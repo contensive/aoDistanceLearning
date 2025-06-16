@@ -57,7 +57,7 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
             //formOuter.formActionQueryString = qs;
             qs = cp.Utils.ModifyQueryString(qs, "quizId", quiz.id.ToString());
             //
-            var tabForm = cp.AdminUI.create();
+            var tabForm = cp.AdminUI.CreateLayoutBuilderTabbedBody();
             if (!string.IsNullOrEmpty(quiz.name)) {
                 tabForm.title = quiz.name;
             } else {
