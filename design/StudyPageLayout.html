@@ -9,30 +9,34 @@
     </head>
   <body>
     
-    <div class="container my-5">
-        <div class="col-10 m-auto">
-            <div class="card rounded-3 shadow-sm">
-                <div class="card-body p-5"> 
-                  <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2>Quiz 2</h2>
-                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3"><i class="fa-solid fa-download"></i> Download </a>
+    {{#distanceLearning}}
+      <div class="container my-5">
+          <div class="col-10 m-auto">
+              <div class="card rounded-3 shadow-sm">
+                  <div class="card-body p-5"> 
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <h2>{{{quizTitle}}}</h2>
+                      {{#allowDownload}}
+                        <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3"><i class="fa-solid fa-download"></i> Download </a>
+                      {{/allowDownload}}
+                    </div>
+                    <div class="card-text mb-3">
+                      {{{quizDescription}}}
+                    </div>
+                    <div class="mb-3">
+                      {{#quizMedia}}
+                        {{{mediaUrl}}}
+                      {{/quizMedia}}
+                    </div>
+                  
                   </div>
-                  <div class="card-text mb-3">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  <div class="card-footer px-5 py-3">
+                      {{#quizNextStep}}<a href="{{{startQuizBtn}}}" class="btn btn-primary px-4">Start Quiz</a>{{/quizNextStep}}
                   </div>
-                  <div class="mb-3">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/93NnaKMDUSo?si=L3vEyZCq_WlgIXgd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                  </div>
-                 
-                </div>
-                <div class="card-footer px-5 py-3">
-                    <a href="#" class="btn btn-primary px-4">Start Quiz</a>
-                </div>
-            </div>
-        </div>
-    </div>
+              </div>
+          </div>
+      </div>
+    {{/distanceLearning}}
     
     <script data-delete src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script data-delete src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.min.js" integrity="sha384-RuyvpeZCxMJCqVUGFI0Do1mQrods/hhxYlcVfGPOfQtPJh0JCw12tUAZ/Mv10S7D" crossorigin="anonymous"></script>  </body>
