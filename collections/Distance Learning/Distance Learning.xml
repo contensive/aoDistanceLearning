@@ -784,6 +784,7 @@
 			<field name="SortOrder"></field>
 			<field name="defaultConfigJson"></field>
 			<field name="defaultFeatureId">{6b921555-04b2-4ec0-83e1-24ac6c3bcd62}</field>
+			<field Name="icon">dashboardIcons\distanceLearning.svg</field>
 		</record>
 		<record content="Portal Features" guid="{6b921555-04b2-4ec0-83e1-24ac6c3bcd62}" name="Quizzes">
 			<field name="Active">True</field>
