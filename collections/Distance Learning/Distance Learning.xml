@@ -1387,4 +1387,6 @@
 		<Field Name="quizId" active="True" AdminOnly="False" Authorable="True" Caption="Quiz" DeveloperOnly="False" EditSortPriority="1100" FieldType="Lookup" HTMLContent="False" IndexColumn="" IndexSortDirection="" IndexSortOrder="" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="Quizzes" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
 	</CDef>
 	<Resource name="navrecord.gif" type="www" path="mydistancelearning" />
+	<Resource name="uidistanceLearning.zip" type="files" path="DistanceLearning" />
+
 </Collection>
