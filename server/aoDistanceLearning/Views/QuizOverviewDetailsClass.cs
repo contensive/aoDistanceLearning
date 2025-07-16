@@ -62,16 +62,16 @@ namespace Contensive.Addons.DistanceLearning {
                 qs = cp.Doc.RefreshQueryString;
                 qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeatureQuizOverviewSetting, true);
                 qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
-                //form.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/myDistanceLearning/NavRecord.gif\" display:inline;></a>" + quiz.questionPresentation + " ; Using Subjects; " + quiz.includeSubject + "User can retake quiz:  " + quiz.allowRetake + "; Max " + quiz.maxNumberQuest + " Questions </div>");
-                layout.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/myDistanceLearning/NavRecord.gif\" display:inline;></a>User can retake quiz:  " + quiz.allowRetake + "; Max " + quiz.maxNumberQuest + " Questions </div>");
+                //form.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/distancelearning/NavRecord.gif\" display:inline;></a>" + quiz.questionPresentation + " ; Using Subjects; " + quiz.includeSubject + "User can retake quiz:  " + quiz.allowRetake + "; Max " + quiz.maxNumberQuest + " Questions </div>");
+                layout.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/distancelearning/NavRecord.gif\" display:inline;></a>User can retake quiz:  " + quiz.allowRetake + "; Max " + quiz.maxNumberQuest + " Questions </div>");
                 layout.addRow();
-                layout.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/myDistanceLearning/NavRecord.gif\" display:inline;></a>" + quiz.maxNumberQuest + " total Questions in Quiz (or in each subject area if subjects used.)</div>");
+                layout.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/distancelearning/NavRecord.gif\" display:inline;></a>" + quiz.maxNumberQuest + " total Questions in Quiz (or in each subject area if subjects used.)</div>");
                 qs = cp.Doc.RefreshQueryString;
                 qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeatureQuizOverviewScoring, true);
                 qs = cp.Utils.ModifyQueryString(qs, "QuizId", quiz.id.ToString(), true);
                 layout.addRow();
 
-                layout.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/myDistanceLearning/NavRecord.gif\" display:inline;></a>" + quiz.ACaption + "  " + quiz.APercentile + "+ </br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + quiz.BCaption + "  "
+                layout.rowValue = ("<div><a href=\"?" + qs + "\"><img src=\"/distancelearning/NavRecord.gif\" display:inline;></a>" + quiz.ACaption + "  " + quiz.APercentile + "+ </br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + quiz.BCaption + "  "
                     + quiz.BPercentile + "+ </br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + quiz.CCaption + "  "
                     + quiz.CPercentile + "+ </br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + quiz.DCaption + "  "
                     + quiz.DPercentile + "+ </br> &nbsp;&nbsp;&nbsp;&nbsp; " + quiz.FCaption + " &nbsp;&nbsp;&nbsp;&nbsp; Successful completion adds  "
