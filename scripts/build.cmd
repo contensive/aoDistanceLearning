@@ -25,9 +25,6 @@
 :			-- etc 
 :				(all misc files)
 
-: -- major version 5, minor does not matter set 1
-set majorVersion=5
-set minorVersion=1
 
 : -- name of the collection on the site (should NOT include ao prefix). This is the name as it appears on the navigator
 set collectionName=aoDistanceLearning
