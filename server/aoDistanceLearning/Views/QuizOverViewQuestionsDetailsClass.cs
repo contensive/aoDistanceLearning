@@ -25,6 +25,7 @@ namespace Contensive.Addons.DistanceLearning {
                         qs = cp.Doc.RefreshQueryString;
                         qs = cp.Utils.ModifyQueryString(qs, "dstFeatureGuid", Constants.portalFeatureDashboard);
                         cp.Response.Redirect("?" + qs);
+                        return result;
                     } else {
                         question = new QuizQuestionModel();
                         question.quizId = quiz.id;
@@ -77,13 +78,13 @@ namespace Contensive.Addons.DistanceLearning {
 
                 //
                 BaseClasses.LayoutBuilder.LayoutBuilderNameValueBaseClass layout = cp.AdminUI.CreateLayoutBuilderNameValue();
-                layout.isOuterContainer = false;
+                layout.isOuterContainer = true;
                 layout.addFormHidden("questionId", question.id.ToString());
                 layout.addFormHidden(Constants.rnQuizId, question.quizId.ToString());
                 //questionForm.body = innerBody;
                 layout.addFormButton(Constants.buttonSave);
                 layout.addFormButton(Constants.buttonCancel);
-                layout.isOuterContainer = false;
+                layout.isOuterContainer = true;
                 //questionForm.addRow();
                 if (question.id == 0) {
                     layout.title = "<b>New Question</b></br>";
@@ -92,7 +93,7 @@ namespace Contensive.Addons.DistanceLearning {
                 }
                 layout.addRow();
                 layout.rowName = "Question </b>";
-                layout.rowValue = cp.Html.InputText(Constants.rnQuestionCopy, question.copy, "4", "", false, "qtext", "js-qText");
+                layout.rowValue = cp.Html.InputText(Constants.rnQuestionCopy, question.copy, 255, "qtext", "js-qText");
                 layout.rowHelp = "The question as it appears on the quiz.";
                 //questionForm.addRow();
                 //questionForm.rowName = "Points* </b>";
@@ -106,7 +107,7 @@ namespace Contensive.Addons.DistanceLearning {
                     descnt++;
                     layout.addRow();
                     layout.rowName = "Answer " + descnt;
-                    layout.rowValue = cp.Html.InputText(Constants.rnAnswerCopy + quizAnswer.id, quizAnswer.copy, "2", "", false, "answerOneClass", "js-answerOne")
+                    layout.rowValue = cp.Html.InputText(Constants.rnAnswerCopy + quizAnswer.id, quizAnswer.copy, 255, "answerOneClass", "js-answerOne")
                         + "<br>" + cp.Html.CheckBox("Correct" + quizAnswer.id, quizAnswer.correct) + " Correct Answer";
                     cnt--;
 
@@ -117,7 +118,7 @@ namespace Contensive.Addons.DistanceLearning {
                         descnt++;
                         layout.addRow();
                         layout.rowName = "Answer " + descnt;
-                        layout.rowValue = cp.Html.InputText(Constants.rnAnswerCopyBlank + ptr, "", "2", "", false, "answerOneClass", "js-answerOne")
+                        layout.rowValue = cp.Html.InputText(Constants.rnAnswerCopyBlank + ptr, "", 255, "answerOneClass", "js-answerOne")
                             + "<br>" + cp.Html.CheckBox(Constants.rnCorrectBlank + ptr, false) + " Correct Answer";
                     }
                 }

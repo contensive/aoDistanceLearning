@@ -92,14 +92,14 @@ namespace Contensive.Addons.DistanceLearning {
                 }
                 //
                 BaseClasses.LayoutBuilder.LayoutBuilderNameValueBaseClass layout = cp.AdminUI.CreateLayoutBuilderNameValue();
-                layout.isOuterContainer = false;
+                layout.isOuterContainer = true;
                 layout.addFormHidden("QuizId", quiz.id.ToString());
                 layout.body = innerBody;
                 layout.addFormButton("Save", "button");
                 layout.addFormButton("Cancel", "button");
                 //
                 layout.title = "Settings";
-                layout.isOuterContainer = false;
+                layout.isOuterContainer = true;
                 layout.addRow();
                 layout.rowName = "Quiz Name";
                 layout.rowValue = cp.Html.InputText("name", quiz.name);

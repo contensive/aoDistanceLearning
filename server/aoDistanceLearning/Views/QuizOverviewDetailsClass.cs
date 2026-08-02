@@ -49,7 +49,7 @@ namespace Contensive.Addons.DistanceLearning {
                 //
                 // -- setup form
                 BaseClasses.LayoutBuilder.LayoutBuilderNameValueBaseClass layout = cp.AdminUI.CreateLayoutBuilderNameValue();
-                layout.isOuterContainer = false;
+                layout.isOuterContainer = true;
                 layout.body = innerBody;
                 layout.addFormButton("Cancel", "button");
                 layout.title = quiz.name;

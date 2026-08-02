@@ -79,7 +79,7 @@ namespace Contensive.Addons.DistanceLearning {
                     layout = DbBaseModel.addDefault<LayoutModel>(cp);
                     layout.ccguid = Constants.defaultQuizLayoutGUID;
                     layout.name = "Default Online Quiz Layout";
-                    layout.layout.content = Properties.Resources.DefaultQuizLayout;
+                    layout.layout.content = Controllers.GenericController.getEmbeddedResource("DefaultQuizLayout.txt");
                     layout.save(cp);
                 }
 

@@ -115,7 +115,7 @@ namespace Contensive.Addons.DistanceLearning {
                 //    + constants.cr2 + "});"
                 //    + constants.cr + "})"
                 //    + "");
-                result = layout.getHtml(cp);
+                result = layout.getHtml();
                 result = GenericController.getTabWrapper(cp, result, "Results", quiz);
             } catch (Exception ex) {
                 cp.Site.ErrorReport(ex, "execute");

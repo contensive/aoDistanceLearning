@@ -7,9 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aoDistanceLearning", "aoDistanceLearning\aoDistanceLearning.csproj", "{224C723B-78B5-48AC-99DE-CF11073A64F0}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "distanceLearningImportTool", "distanceLearningImportTool\distanceLearningImportTool.vbproj", "{5F3F1342-66F1-45A1-9710-A240DD738019}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "distanceLearningImportTool", "distanceLearningImportTool\distanceLearningImportTool.csproj", "{ED1B9229-AAA9-0A50-1548-683EBFE4B4B9}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "distanceLearningAuthentication", "distanceLearningAuthentication\distanceLearningAuthentication.vbproj", "{B061516F-08DE-4FA6-9C0D-4FAC2EF0007F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "distanceLearningAuthentication", "distanceLearningAuthentication\distanceLearningAuthentication.csproj", "{0245D004-C486-0057-1E55-85D24C6734DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,14 +21,14 @@ Global
 		{224C723B-78B5-48AC-99DE-CF11073A64F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{224C723B-78B5-48AC-99DE-CF11073A64F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{224C723B-78B5-48AC-99DE-CF11073A64F0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5F3F1342-66F1-45A1-9710-A240DD738019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5F3F1342-66F1-45A1-9710-A240DD738019}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5F3F1342-66F1-45A1-9710-A240DD738019}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5F3F1342-66F1-45A1-9710-A240DD738019}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B061516F-08DE-4FA6-9C0D-4FAC2EF0007F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B061516F-08DE-4FA6-9C0D-4FAC2EF0007F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B061516F-08DE-4FA6-9C0D-4FAC2EF0007F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B061516F-08DE-4FA6-9C0D-4FAC2EF0007F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED1B9229-AAA9-0A50-1548-683EBFE4B4B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED1B9229-AAA9-0A50-1548-683EBFE4B4B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED1B9229-AAA9-0A50-1548-683EBFE4B4B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED1B9229-AAA9-0A50-1548-683EBFE4B4B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0245D004-C486-0057-1E55-85D24C6734DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0245D004-C486-0057-1E55-85D24C6734DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0245D004-C486-0057-1E55-85D24C6734DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0245D004-C486-0057-1E55-85D24C6734DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

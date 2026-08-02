@@ -33,11 +33,11 @@ namespace Contensive.Addons.DistanceLearning {
                     + cp.Html.div("Participant: " + member.name)
                     + "";
                 cp.Doc.SetProperty("id", responseId.ToString());
-                form.body = cp.Html.div(cp.Utils.ExecuteAddon(Constants.scoreCardAddon), "", "onlineQuiz"); ;
+                form.body = cp.Html.div(cp.Addon.Execute(Constants.scoreCardAddon), "", "onlineQuiz"); ;
                 form.addFormButton(Constants.buttonCancel);
                 form.addFormHidden(Constants.rnQuizId, quiz.id.ToString());
                 form.addFormHidden(Constants.rnResponseId, response.id.ToString());
-                result = form.getHtml(cp);
+                result = form.getHtml();
                 result = GenericController.getTabWrapper(cp, result, "Results", quiz);
             } catch (Exception ex) {
                 cp.Site.ErrorReport(ex, "execute");

@@ -67,7 +67,7 @@ namespace Contensive.Addons.DistanceLearning {
                     //
                     // either server-side
                     //
-                    layout.SetInner("#fbSampleFile .rowValue", cp.Html.InputText("fbSampleField", GenericController.getFormField(cp, cs, Constants.rnSampleField), "", "", false, "", ""));
+                    layout.SetInner("#fbSampleFile .rowValue", cp.Html.InputText("fbSampleField", GenericController.getFormField(cp, cs, Constants.rnSampleField), 255, "", ""));
                 } else {
                     //
                     // or client-side

@@ -45,7 +45,7 @@ namespace Contensive.Addons.DistanceLearning {
                 //
                 // -- create view
                 BaseClasses.LayoutBuilder.LayoutBuilderListBaseClass reportList = cp.AdminUI.CreateLayoutBuilderList();
-                reportList.isOuterContainer = false;
+                reportList.isOuterContainer = true;
                 //
                 // -- add button as link
                 reportList.addFormButton(Constants.buttonAdd, Constants.rnButton, "", "abQuizQuestionAddButton");

@@ -67,7 +67,6 @@ namespace Models.View {
                     string q;
                     string buttonCopy = "";
                     double quizProgress;
-                    string quizProgressText;
                     string jsHead;
 
                     // Dim questionSubjectId As Integer
@@ -88,7 +87,7 @@ namespace Models.View {
                                 answeredCount += 1;
                         }
                         quizProgress = answeredCount / (double)responseDetailList.Count;
-                        result.progressText = System.Convert.ToString(Conversion.Int(quizProgress * 100));
+                        result.progressText = System.Convert.ToString(Math.Floor(quizProgress * 100));
                         jsHead = "$(document).ready(function(){$(\"#progressbar\").progressbar({value:" + result.progressText + "});});";
                         cp.Doc.AddHeadJavascript(jsHead);
                     }
@@ -124,7 +123,7 @@ namespace Models.View {
 
                             q = question.copy;
 
-                            if (cp.User.IsEditingAnything) {
+                            if (cp.User.IsEditing()) {
                                 q = GenericController.addEditWrapper(cp, q, question.id, question.name, "Quiz Questions");
                             }
 
@@ -139,7 +138,7 @@ namespace Models.View {
                                     isChecked = true;
                                 }
 
-                                if (cp.User.IsEditingAnything) {
+                                if (cp.User.IsEditing()) {
                                     answerCopy = GenericController.addEditWrapper(cp, answerCopy, answer.id, answer.name, "Quiz Answers");
                                 }
                                 questionModel.answers.Add(new AnswerViewModel { answerText = answerCopy, isChecked = isChecked, isAnswerLink = false, answerId = answer.id.ToString(), answerName = "q" + question.id.ToString() + "a" });
@@ -147,7 +146,7 @@ namespace Models.View {
                                 answerCnt = answerCnt + 1;
                             }
 
-                            if (cp.User.IsEditingAnything) {
+                            if (cp.User.IsEditing()) {
                                 questionModel.answers.Add(new AnswerViewModel {
                                     answerText = cp.Content.GetAddLink("Quiz Answers", "questionid=" + question.id),
                                     isChecked = false,
@@ -161,7 +160,7 @@ namespace Models.View {
                         result.questions.Add(questionModel);
                     }
 
-                    if (cp.User.IsEditingAnything) {
+                    if (cp.User.IsEditing()) {
                         result.questions.Add(new QuestionViewModel { questionText = cp.Content.GetAddLink("Quiz Questions", "quizid=" + quiz.id + ", pageOrder=" + rnDstPageOrder), answers = null, isQuestionLink = true });
                     }
 

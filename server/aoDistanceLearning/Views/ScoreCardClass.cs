@@ -35,19 +35,9 @@ namespace Contensive.Addons.DistanceLearning {
             try {
                 // 
                 string chart = "";
-                string responseSubject;
-                string responseName;
                 string scoreCaption;
                 string Choice;
                 string ScoreBox;
-                // Dim TotalCorrect As Integer
-                // Dim TotalQuestions As Integer
-                // Dim answerId As Integer
-                // Dim AnswerCorrect As Boolean
-                // Dim cs As CPCSBaseClass = cp.CSNew()
-                // Dim cs2 As CPCSBaseClass = cp.CSNew()
-                // Dim CS3 As CPCSBaseClass = cp.CSNew()
-                CPCSBaseClass cs4 = cp.CSNew();
                 int totalQuestions;
                 string SummaryBox = "";
                 string questionRow;
@@ -56,16 +46,12 @@ namespace Contensive.Addons.DistanceLearning {
                 int totalQuestionsIncorrect;
                 int totalQuestionsCorrect;
                 double Percentage;
-                bool Passed;
                 // Dim SubjectID As Integer
                 subjectsStruc[] subjects = null;
                 // Dim questionId As Integer
                 int subjectCnt = 0;
                 int subjectPtr;
                 string GradeCaption = "";
-                // Dim OverallCaption As String
-                string[] SubjectCaptions = null;
-                int[] subjectScores = null;
                 string headerCopy;
                 string footerCopy;
                 // Dim quizName As String = ""
@@ -184,7 +170,6 @@ namespace Contensive.Addons.DistanceLearning {
                                 questionRow = ""
                           + "" + "" + "<div class=\"questionTextWrong\">" + question.copy + "</div>"
                           + questionRow;
-                                Passed = false;
                                 totalQuestionsIncorrect = totalQuestionsIncorrect + 1;
                             }
                             // 
@@ -226,10 +211,7 @@ namespace Contensive.Addons.DistanceLearning {
                         response.save(cp);
                         // 
                         hint = 60;
-                        if (totalQuestionsIncorrect == 0)
-                            // 
-                            Passed = true;
-                        else
+                        if (totalQuestionsIncorrect != 0)
                             // 
                             SummaryBox = ""
                             + "" + "" + "<div class=\"errorMsg\">Questions with incorrect answers are highlighted in red.</div>"
@@ -314,7 +296,7 @@ namespace Contensive.Addons.DistanceLearning {
                             if (GradeCaption != "")
                                 scoreCaption += " Your grade for this quiz is <b>" + GradeCaption + "</b>, ";
                             else
-                                scoreCaption += " Your total score for this quiz is " + System.Convert.ToString(Conversion.Int(Percentage * 100)) + "%";
+                                scoreCaption += " Your total score for this quiz is " + System.Convert.ToString(Math.Floor(Percentage * 100)) + "%";
                             scoreCaption += " (" + System.Convert.ToString(response.totalCorrect) + " correct out of " + System.Convert.ToString(response.totalQuestions);
                             if (response.totalQuestions == 1)
                                 scoreCaption = scoreCaption + " question)";
@@ -331,29 +313,7 @@ namespace Contensive.Addons.DistanceLearning {
                         // 
                         // Call verifyQuizResponse(cp, responseId, response.MemberID, response.QuizID)
                         // 
-                        if (false) {
-                            // 
-                            // -- no longer score by subject
-                            if (subjectCnt > 0) {
-                                for (subjectPtr = 0; subjectPtr <= subjectCnt - 1; subjectPtr++) {
-                                    {
-                                        var withBlock = subjects[subjectPtr];
-                                        cs4.Insert("Quiz Response Scores");
-                                        if (cs4.OK()) {
-                                            responseName = cp.Content.GetRecordName("quiz responses", responseId);
-                                            responseSubject = cp.Content.GetRecordName("quiz subjects", withBlock.SubjectID);
-                                            // 
-                                            cs4.SetField("name", responseName + ", subject:" + responseSubject);
-                                            cs4.SetField("QuizResponseID", responseId);
-                                            cs4.SetField("QuizSubjectID", withBlock.SubjectID);
-                                            cs4.SetField("Score", withBlock.Score);
-                                        }
-                                        cs4.Close();
-                                    }
-                                }
-                            }
-                        }
-                        // 
+                        //
                         headerCopy = "<div class=\"aodlHeaderContainer\">" + cp.Content.GetCopy(quiz.name + " Summary Header Copy") + "</div>";
                         footerCopy = "<div class=\"aodlFooterContainer\">" + cp.Content.GetCopy(quiz.name + " Summary Footer Copy") + "</div>";
                         // 
@@ -422,7 +382,7 @@ namespace Contensive.Addons.DistanceLearning {
                 Return_SubjectCaption = "";
                 cs.Open("Quiz Subjects", "id=" + SubjectID);
                 if (cs.OK()) {
-                    Score = System.Convert.ToInt32(Conversion.Int(100 * ScorePercentile));
+                    Score = System.Convert.ToInt32(Math.Floor(100 * ScorePercentile));
                     Return_SubjectCaption = cs.GetText("Name");
                     if (Score >= cs.GetInteger("apercentile"))
                         // 
@@ -459,7 +419,7 @@ namespace Contensive.Addons.DistanceLearning {
         private void getQuizGradeCaption(CPBaseClass cp, DistanceLearning.Models.QuizModel quiz, double ScorePercentile, ref string Return_GradeCaption, ref bool Return_PassingGrade) {
             try {
                 Return_GradeCaption = "";
-                int Score = System.Convert.ToInt32(Conversion.Int(100 * ScorePercentile));
+                int Score = System.Convert.ToInt32(Math.Floor(100 * ScorePercentile));
                 if (Score >= quiz.APercentile) {
                     // 
                     // Got an A

@@ -26,7 +26,7 @@ namespace Contensive.Addons.DistanceLearning {
                         //
                         // todo -- need to use cp.db.CreateUploadFieldPath()
                         string courseMaterialFieldName = nameof(quiz.courseMaterial);
-                        string courseMaterialPathFilename = cp.Db.CreateUploadFieldPathFilename(QuizModel.tableMetadata.tableNameLower, courseMaterialFieldName, quiz.id, cp.Doc.GetText(courseMaterialFieldName), CPContentBaseClass.FieldTypeIdEnum.File);
+                        string courseMaterialPathFilename = cp.Db.CreateUploadFieldPathFilename(QuizModel.tableMetadata.tableNameLower, courseMaterialFieldName, quiz.id, cp.Doc.GetText(courseMaterialFieldName));
                         string courseMaterialPath = courseMaterialPathFilename.Replace(courseMaterialPathFilename, "");
                         cp.CdnFiles.SaveUpload(courseMaterialFieldName, courseMaterialPath, ref courseMaterialPathFilename);
                         quiz.courseMaterial = courseMaterialPathFilename;
@@ -46,12 +46,12 @@ namespace Contensive.Addons.DistanceLearning {
                 }
                 //
                 BaseClasses.LayoutBuilder.LayoutBuilderNameValueBaseClass layout = cp.AdminUI.CreateLayoutBuilderNameValue();
-                layout.isOuterContainer = false;
+                layout.isOuterContainer = true;
                 layout.addFormHidden(Constants.rnQuizId, quiz.id.ToString());
                 layout.body = innerBody;
                 layout.addFormButton("Save", "button");
                 layout.addFormButton("Cancel", "button");
-                layout.isOuterContainer = false;
+                layout.isOuterContainer = true;
                 layout.title = "<b>Study Page</b></br>";
                 //
                 layout.addRow();

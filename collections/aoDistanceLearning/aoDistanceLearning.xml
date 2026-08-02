@@ -674,7 +674,7 @@
 	<Addon name="Distance Learning" guid="{bca4dc4a-a054-4e58-b5be-78e29c812aff}" type="Tool">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<DotNetClass></DotNetClass>
+		<DotNetClass><![CDATA[Contensive.Addons.DistanceLearning.Addons.Legacy.DistanceLearningRedirectClass]]></DotNetClass>
 		<ArgumentList></ArgumentList>
 		<AsAjax>No</AsAjax>
 		<Filter>No</Filter>
@@ -704,11 +704,7 @@
 		<PageTitle></PageTitle>
 		<RemoteAssetLink></RemoteAssetLink>
 		<Styles></Styles>
-		<Scripting Language="" EntryPoint="" Timeout="5000">
-			<Code><![CDATA[function f
-				call cp.response.redirect( "?addonGuid={A1BCA00C-2657-42A1-8F98-BED1E5A42025}&setPortalGuid={771bfee5-1fa7-4edf-8b6c-1406ab7bacf9} " )
-				end function]]></Code>
-		</Scripting>
+		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
 	<Addon name="Online Quiz Landing" guid="{ad6871dc-7bcf-4140-96eb-2af70599997d}" type="Add-on">
 		<Copy></Copy>
@@ -805,7 +801,7 @@
 			<field name="portalId">{771bfee5-1fa7-4edf-8b6c-1406ab7bacf9}</field>
 			<field name="addonId">{caedb3af-884c-46c5-af52-1903dddb3a2d}</field>
 			<field name="Heading"><![CDATA[Quiz Settings]]></field>
-			<field name="parentFeatureId">{6b921555-04b2-4ec0-83e1-24ac6c3bcd62}</field>
+			<field name="parentFeatureId">{d4c3b2a1-7e6f-5d4c-8b9a-0e1f2d3c4b5a}</field>
 			<field name="dataContentId"></field>
 			<field name="addPadding">False</field>
 		</record>
@@ -815,6 +811,26 @@
 			<field name="portalId">{771bfee5-1fa7-4edf-8b6c-1406ab7bacf9}</field>
 			<field name="addonId"></field>
 			<field name="Heading"><![CDATA[Reports]]></field>
+			<field name="parentFeatureId"></field>
+			<field name="dataContentId"></field>
+			<field name="addPadding">False</field>
+		</record>
+		<record content="Portal Features" guid="{a3e2f1d0-8b4c-4a5e-9c7d-6f1e2b3a4c5d}" name="Tools">
+			<field name="Active">True</field>
+			<field name="SortOrder"><![CDATA[Tools]]></field>
+			<field name="portalId">{771bfee5-1fa7-4edf-8b6c-1406ab7bacf9}</field>
+			<field name="addonId"></field>
+			<field name="Heading"><![CDATA[Tools]]></field>
+			<field name="parentFeatureId"></field>
+			<field name="dataContentId"></field>
+			<field name="addPadding">False</field>
+		</record>
+		<record content="Portal Features" guid="{d4c3b2a1-7e6f-5d4c-8b9a-0e1f2d3c4b5a}" name="Settings">
+			<field name="Active">True</field>
+			<field name="SortOrder"><![CDATA[Settings]]></field>
+			<field name="portalId">{771bfee5-1fa7-4edf-8b6c-1406ab7bacf9}</field>
+			<field name="addonId"></field>
+			<field name="Heading"><![CDATA[Settings]]></field>
 			<field name="parentFeatureId"></field>
 			<field name="dataContentId"></field>
 			<field name="addPadding">False</field>
@@ -1060,16 +1076,16 @@
 		<Field Name="typeId" active="True" AdminOnly="False" Authorable="True" Caption="Type of Quiz" DeveloperOnly="False" EditSortPriority="200" FieldType="Lookup" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="1" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="Graded Quiz,Points-Based Quiz,Survey" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[Graded Quizzes have multiple choice answers with one answer marked correct. When the quiz taker is finished, the quiz will be scored. If subjects are included with each question, each subject is graded individually and results in a letter grade.With a Points-Based quiz, each answer includes a point value. When the quiz taker is finished, the quiz points are totaled and results page is created for them.]]></HelpDefault>
 		</Field>
-		<Field Name="layoutId" active="True" AdminOnly="False" Authorable="True" Caption="Quiz Layout" DeveloperOnly="False" EditSortPriority="200" FieldType="Lookup" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="1" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="Layouts" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+		<Field Name="layoutId" active="True" AdminOnly="False" Authorable="True" Caption="Quiz Layout" DeveloperOnly="False" EditSortPriority="200" FieldType="Lookup" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="1" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Layout" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="Layouts" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[Optional. Select the layout for the quiz. If blank, the online quiz will automatically select 'Default Online Quiz Layout'. ]]></HelpDefault>
 		</Field>
-		<Field Name="questionPresentation" active="True" AdminOnly="False" Authorable="True" Caption="Question Presentation" DeveloperOnly="False" EditSortPriority="211" FieldType="Lookup" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="All Questions on one page, One subject per page, One Question per page" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+		<Field Name="questionPresentation" active="True" AdminOnly="False" Authorable="True" Caption="Question Presentation" DeveloperOnly="False" EditSortPriority="211" FieldType="Lookup" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Layout" Scramble="False" LookupList="All Questions on one page, One subject per page, One Question per page" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[Select how the questions and pages are arranged. Leave blank and all questions will be on the same page.]]></HelpDefault>
 		</Field>
 		<Field Name="allowRetake" active="True" AdminOnly="False" Authorable="True" Caption="Allow users to retake quiz" DeveloperOnly="False" EditSortPriority="213" FieldType="Boolean" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="0" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[allows users to retake the quiz. Uncheck and when users return they will see the thank you page.]]></HelpDefault>
 		</Field>
-		<Field Name="maxNumberQuest" active="True" AdminOnly="False" Authorable="True" Caption="Max Number of questions Displayed" DeveloperOnly="False" EditSortPriority="215" FieldType="Integer" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
+		<Field Name="maxNumberQuest" active="True" AdminOnly="False" Authorable="True" Caption="Max Number of questions Displayed" DeveloperOnly="False" EditSortPriority="215" FieldType="Integer" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="Layoyt" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
 			<HelpDefault><![CDATA[Optional. Leave blank or 0 and all the questions will be asked. Set a limit and a random set of questions will be asked.]]></HelpDefault>
 		</Field>
 		<Field Name="requireAuthentication" active="True" AdminOnly="False" Authorable="True" Caption="Requires Login" DeveloperOnly="False" EditSortPriority="400" FieldType="Boolean" HTMLContent="False" IndexColumn="0" IndexSortDirection="" IndexSortOrder="0" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="0" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="0" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="False" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" >
@@ -1389,8 +1405,6 @@
 		<Field Name="copy" active="True" AdminOnly="False" Authorable="True" Caption="Copy" DeveloperOnly="False" EditSortPriority="2000" FieldType="HTMLFile" HTMLContent="False" IndexColumn="" IndexSortDirection="" IndexSortOrder="" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
 		<Field Name="quizId" active="True" AdminOnly="False" Authorable="True" Caption="Quiz" DeveloperOnly="False" EditSortPriority="1100" FieldType="Lookup" HTMLContent="False" IndexColumn="" IndexSortDirection="" IndexSortOrder="" IndexWidth="" RedirectID="" RedirectPath="" Required="False" TextBuffered="False" UniqueName="False" DefaultValue="" RSSTitle="False" RSSDescription="False" MemberSelectGroupID="" EditTab="" Scramble="False" LookupList="" NotEditable="False" Password="False" ReadOnly="False" ManyToManyRulePrimaryField="" ManyToManyRuleSecondaryField="" IsModified="True" IsBaseField="False" LookupContent="Quizzes" RedirectContent="" ManyToManyContent="" ManyToManyRuleContent="" ></Field>
 	</CDef>
-	<Resource name="NavRecord.gif" type="www" path="distancelearning" />
-	<Resource name="uiDistanceLearning.zip" type="www" path="distancelearning" />
-	<Resource name="uiDistanceLearning.zip" type="files" path="distancelearning" />
+	<Resource name="wwwFiles.zip" type="wwwFiles" />
 
 </Collection>

@@ -64,7 +64,7 @@ namespace Contensive.Addons.DistanceLearning {
             ///         ''' <param name="backgroundImage"></param>
             ///         ''' <returns></returns>
             public static string encodeStyleBackgroundImage(CPBaseClass cp, string backgroundImage) {
-                return string.IsNullOrWhiteSpace(backgroundImage) ? string.Empty : "background-image: url('" + cp.Site.FilePath + backgroundImage + "');";
+                return string.IsNullOrWhiteSpace(backgroundImage) ? string.Empty : "background-image: url('" + cp.Http.CdnFilePathPrefix + backgroundImage + "');";
             }
         }
     }

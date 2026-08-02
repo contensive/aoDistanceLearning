@@ -78,7 +78,7 @@ namespace Contensive.Addons.DistanceLearning {
                         LegacyQuizViewModel legacyQuizViewModel = LegacyQuizViewModel.create(cp, quiz, response, adminHint);
                         LayoutModel layout = DesignBlockController.getLayout(cp, quiz.layoutId);
                         if (layout == null) {
-                            layout = DesignBlockController.getLayout(cp, "{d0896afb-cd43-4aee-b86d-25cd59aeb60e}", Properties.Resources.DefaultQuizLayout, "Quiz Layout Default");
+                            layout = DesignBlockController.getLayout(cp, "{d0896afb-cd43-4aee-b86d-25cd59aeb60e}", Controllers.GenericController.getEmbeddedResource("DefaultQuizLayout.txt"), "Quiz Layout Default");
                             quiz.layoutId = layout.id;
                             quiz.save(cp);
                         }
@@ -102,7 +102,6 @@ namespace Contensive.Addons.DistanceLearning {
                 // 
                 string responseSubject;
                 string responseName;
-                string ScoreBox;
                 int TotalCorrect;
                 int TotalQuestions;
                 int answerId;
@@ -112,12 +111,10 @@ namespace Contensive.Addons.DistanceLearning {
                 CPCSBaseClass CS3 = cp.CSNew();
                 CPCSBaseClass cs4 = cp.CSNew();
                 int Counter;
-                string q;
                 int SelectedAnswerID;
                 bool Correct;
                 int NumIncorrect;
                 int NumCorrect;
-                bool Passed;
                 int SubjectID;
                 subjectsStruc[] subjects = null;
                 int questionId;
@@ -188,7 +185,6 @@ namespace Contensive.Addons.DistanceLearning {
                         // 
                         // determine if they got the question right
                         // 
-                        q = "";
                         answerId = 0;
                         answerPoints = 0;
                         Correct = false;
@@ -226,20 +222,16 @@ namespace Contensive.Addons.DistanceLearning {
                             NumCorrect = NumCorrect + 1;
                             subjects[subjectPtr].CorrectAnswers = subjects[subjectPtr].CorrectAnswers + 1;
                         } else {
-                            Passed = false;
                             NumIncorrect = NumIncorrect + 1;
                         }
                         cs2.GoNext();
                     }
-                    if (NumIncorrect == 0)
-                        Passed = true;
                     cs2.Close();
                 }
                 cs.Close();
                 // 
                 // Build ScoreBox
-                // 
-                ScoreBox = "";
+                //
                 TotalCorrect = 0;
                 TotalQuestions = 0;
                 SubjectCaptions = new string[subjectCnt + 1];
@@ -368,7 +360,7 @@ namespace Contensive.Addons.DistanceLearning {
                 Return_SubjectCaption = "";
                 cs.Open("Quiz Subjects", "id=" + SubjectID);
                 if (cs.OK()) {
-                    Score = System.Convert.ToInt32(Conversion.Int(100 * ScorePercentile));
+                    Score = System.Convert.ToInt32(Math.Floor(100 * ScorePercentile));
                     Return_SubjectCaption = cs.GetText("Name");
                     if (Score >= cs.GetInteger("apercentile"))
                         // 
@@ -463,7 +455,7 @@ namespace Contensive.Addons.DistanceLearning {
         private static string adminHintWrapper(CPBaseClass cp, string hint) {
             string returnHtml = "";
             // 
-            if (cp.User.IsEditingAnything | cp.User.IsAdmin)
+            if (cp.User.IsEditing() | cp.User.IsAdmin)
                 returnHtml = ""
                     + "<table border=0 width=\"100%\" cellspacing=0 cellpadding=0><tr><td class=\"ccHintWrapper\">"
                     + "<table border=0 width=\"100%\" cellspacing=0 cellpadding=0><tr><td class=\"ccHintWrapperContent\">"
@@ -618,7 +610,7 @@ namespace Contensive.Addons.DistanceLearning {
                             answeredCount += 1;
                     }
                     quizProgress = answeredCount / (double)responseDetailList.Count;
-                    quizProgressText = System.Convert.ToString(Conversion.Int(quizProgress * 100));
+                    quizProgressText = System.Convert.ToString(Math.Floor(quizProgress * 100));
                     progressBarHtml = ""
                         + cr + "<div class=\"progressbarCon\">"
                         + cr + "<div class=\"progressbarTitle\">Your Progress " + quizProgressText + "%</div>"
@@ -629,7 +621,7 @@ namespace Contensive.Addons.DistanceLearning {
                 }
                 hint = 10;
                 // 
-                if (cp.User.IsEditingAnything) {
+                if (cp.User.IsEditing()) {
                 }
                 hint = 30;
                 // 
@@ -659,14 +651,14 @@ namespace Contensive.Addons.DistanceLearning {
                             lastSubjectId = subject.id;
                             returnHtml += "" + "" + "<h2 class=\"subject\">" + cp.Html.Indent(subject.name) + "" + "" + "</h2>";
                             // 
-                            if (cp.User.IsEditingAnything) {
+                            if (cp.User.IsEditing()) {
                             }
                         }
                         hint = 60;
                         // 
                         // 
                         // -- Add Question
-                        if (cp.User.IsEditingAnything) {
+                        if (cp.User.IsEditing()) {
                         }
                         q = q + "" + "" + "<div class=\"questionText\">" + quizEditIcon + question.copy + "</div>";
                         hint = 70;
@@ -682,7 +674,7 @@ namespace Contensive.Addons.DistanceLearning {
                             foreach (DistanceLearning.Models.QuizAnswerModel answer in answerList) {
                                 string answerCopy = answer.copy;
                                 quizEditIcon = "";
-                                if (cp.User.IsEditingAnything) {
+                                if (cp.User.IsEditing()) {
                                 }
                                 htmlRadio = "<input type=\"radio\" class=\"questionRaioInput\" name=\"" + getRadioAnswerRequestName(question.id) + "\" value=\"" + answer.id + "\"";
                                 if ((answer.id == responseDetail.answerId))
@@ -693,7 +685,7 @@ namespace Contensive.Addons.DistanceLearning {
                                 answerCnt = answerCnt + 1;
                             }
                         hint = 80;
-                        if (cp.User.IsEditingAnything) {
+                        if (cp.User.IsEditing()) {
                         }
                         // 
                         returnHtml += "" + "" + "<div class=\"question\">" + cp.Html.Indent(q) + "" + "" + "</div>";
@@ -704,7 +696,7 @@ namespace Contensive.Addons.DistanceLearning {
                     adminHint += "<p>No Quiz Questions can be found for this quiz.</p>";
                 hint = 90;
 
-                if (cp.User.IsEditingAnything) {
+                if (cp.User.IsEditing()) {
                 }
                 // 
                 // -- Add hiddens and button
@@ -772,14 +764,10 @@ namespace Contensive.Addons.DistanceLearning {
             try {
                 string buttonList = "";
                 int answerCnt = 0;
-                string quizEditIcon = "";
                 string topCopy = "";
                 string buttonCopy = "";
                 // Dim qs As String
                 string formAction = "?" + cp.Doc.RefreshQueryString;
-                string answerText = "";
-                string progressBarHtml = "";
-                string subjectName = "";
                 // 
                 // show result page
                 if (quiz.typeId == quizTypeIdPoints) {
@@ -797,7 +785,7 @@ namespace Contensive.Addons.DistanceLearning {
                     // 
                     // todo this should be call to view.getScoreCard()
                     cp.Doc.SetProperty("id", response.id.ToString());
-                    returnHtml = cp.Utils.ExecuteAddon(scoreCardAddon);
+                    returnHtml = cp.Addon.Execute(scoreCardAddon);
                 } else {
                     //
                     // -- survey type, display ratios for each question
@@ -847,7 +835,7 @@ namespace Contensive.Addons.DistanceLearning {
         private static string getStudyPageForm(CPBaseClass cp, DistanceLearning.Models.QuizModel quiz, DistanceLearning.Models.QuizResponseModel response, ref string adminHint, ref List<string> userMessages) {
             string returnHtml = "getStudyPageForm";
             try {
-                LayoutModel layout = DesignBlockController.getLayout(cp, "{59b2a83a-3940-4eca-a883-d078da723d57}", Properties.Resources.DefaultLandingPageLayout, "Quiz Landing Page Default");
+                LayoutModel layout = DesignBlockController.getLayout(cp, "{59b2a83a-3940-4eca-a883-d078da723d57}", Controllers.GenericController.getEmbeddedResource("DefaultLandingPageLayout.txt"), "Quiz Landing Page Default");
                 CPBlockBaseClass layoutBlock = cp.BlockNew();
                 // 
                 layoutBlock.Load(layout.layout.content);
@@ -860,7 +848,7 @@ namespace Contensive.Addons.DistanceLearning {
                 if ((string.IsNullOrEmpty(quiz.courseMaterial)))
                     layoutBlock.SetInner("#js-quizCourseMaterial", "");
                 else
-                    layoutBlock.SetOuter("#js-quizCourseMaterial", "<br><div id=\"js-quizCourseMaterial\">" + cp.Content.GetCopy("courseMaterial") + " <a href=\"" + cp.Site.FilePath + quiz.courseMaterial + "\"  target=\"_blank\">Click here</a></div><br>");
+                    layoutBlock.SetOuter("#js-quizCourseMaterial", "<br><div id=\"js-quizCourseMaterial\">" + cp.Content.GetCopy("courseMaterial") + " <a href=\"" + cp.Http.CdnFilePathPrefix + quiz.courseMaterial + "\"  target=\"_blank\">Click here</a></div><br>");
                 // 
                 if ((string.IsNullOrEmpty(quiz.videoEmbedCode)))
                     layoutBlock.SetOuter("#js-quizVideo", "");
@@ -1059,7 +1047,7 @@ namespace Contensive.Addons.DistanceLearning {
         private void errorReport(CPBaseClass cp, Exception ex, string method) {
             try {
                 cp.Site.ErrorReport(ex, "Unexpected error in quizClass." + method);
-            } catch (Exception exLost) {
+            } catch (Exception) {
             }
         }
     }

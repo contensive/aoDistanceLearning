@@ -4,7 +4,9 @@ using Contensive.BaseClasses;
 using Microsoft.VisualBasic;
 using System;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace Contensive.Addons.DistanceLearning.Controllers {
     public static class GenericController {
@@ -103,7 +105,7 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
             //tabForm.tabStyleClass = "";
 
             tabForm.setActiveTab(activeTabCaption);
-            return tabForm.getHtml(cp);
+            return tabForm.getHtml();
         }
         //
         //=========================================================================
@@ -184,7 +186,7 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
         ///         ''' <param name="styleheight"></param>
         ///         ''' <returns></returns>
         public static string encodeStyleHeight(string styleheight) {
-            return string.IsNullOrWhiteSpace(styleheight) ? string.Empty : "overflow:hidden;height:" + styleheight + (Information.IsNumeric(styleheight) ? "px" : string.Empty + ";");
+            return string.IsNullOrWhiteSpace(styleheight) ? string.Empty : "overflow:hidden;height:" + styleheight + (double.TryParse(styleheight, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _) ? "px" : string.Empty + ";");
         }
         // 
         // ====================================================================================================
@@ -194,7 +196,7 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
         ///         ''' <param name="backgroundImage"></param>
         ///         ''' <returns></returns>
         public static string encodeStyleBackgroundImage(CPBaseClass cp, string backgroundImage) {
-            return string.IsNullOrWhiteSpace(backgroundImage) ? string.Empty : "background-image: url(" + cp.Site.FilePath + backgroundImage + ");";
+            return string.IsNullOrWhiteSpace(backgroundImage) ? string.Empty : "background-image: url(" + cp.Http.CdnFilePathPrefix + backgroundImage + ");";
         }
 
         // 
@@ -278,13 +280,26 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
             return returnValue;
         }
 
+        //
+        //====================================================================================================
+        /// <summary>
+        /// Read an embedded resource file from this assembly and return its content as a string.
+        /// resourceName should be the filename only (e.g. "DefaultQuizLayout.txt").
+        /// </summary>
+        public static string getEmbeddedResource(string resourceName) {
+            string manifestName = $"Contensive.Addons.DistanceLearning.Resources.{resourceName}";
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(manifestName))
+            using (var reader = new StreamReader(stream)) {
+                return reader.ReadToEnd();
+            }
+        }
+        //
         public static string addEditWrapper(CPBaseClass cp, string innerHtml, int recordId, string recordName, string contentName) {
-            if (!cp.User.IsEditingAnything) {
+            if (!cp.User.IsEditing()) {
                 return innerHtml;
             }
             string header = cp.Content.GetEditLink(contentName, recordId.ToString(), false, recordName, true);
             string content = cp.Html.div(innerHtml, "", "");
-            string miniWrapperCSS = "style=\"white-space: nowrap; text-align: left; box-sizing: border-box; color: white !important; z-index: 1; text-decoration: none !important; display: inline-block !important; list-style-type: none !important; margin: 0 auto auto 0 !important; padding: 2px 10px !important; font-size: 1rem !important; font-weight: 400 !important; line-height: 1.5 !important;\"";
             return cp.Html.div(header + content, "", "ccEditWrapper");
         }
     }

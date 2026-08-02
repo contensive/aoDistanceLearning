@@ -56,7 +56,7 @@ namespace Contensive.Addons.DistanceLearning {
                 // -- create the upper part of the page, the list of scoring
                 BaseClasses.LayoutBuilder.LayoutBuilderListBaseClass layout = cp.AdminUI.CreateLayoutBuilderList();
                 layout.title = "Grading";
-                layout.isOuterContainer = false;
+                layout.isOuterContainer = true;
                 layout.includeBodyColor = false;
                 layout.includeBodyPadding = false;
                 //
@@ -88,33 +88,33 @@ namespace Contensive.Addons.DistanceLearning {
                 layout.columnName = "quizGradingCaptions";
                 //
                 layout.addRow();
-                layout.setCell(cp.Html.InputText("aPercentile", quiz.APercentile.ToString(), "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:right;\">"));
+                layout.setCell(cp.Html.InputText("aPercentile", quiz.APercentile.ToString(), 255, "afwInput", "").Replace(">", " style=\"width:100%;text-align:right;\">"));
                 layout.setCell(cp.Html.CheckBox("aPassingGrade", quiz.APassingGrade, "afwInput"));
-                layout.setCell(cp.Html.InputText("aCaption", quiz.ACaption, "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:left;\">"));
+                layout.setCell(cp.Html.InputText("aCaption", quiz.ACaption, 255, "afwInput", "").Replace(">", " style=\"width:100%;text-align:left;\">"));
                 //
                 layout.addRow();
-                layout.setCell(cp.Html.InputText("bPercentile", quiz.BPercentile.ToString(), "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:right;\">"));
+                layout.setCell(cp.Html.InputText("bPercentile", quiz.BPercentile.ToString(), 255, "afwInput", "").Replace(">", " style=\"width:100%;text-align:right;\">"));
                 layout.setCell(cp.Html.CheckBox("bPassingGrade", quiz.BPassingGrade, "afwInput"));
-                layout.setCell(cp.Html.InputText("bCaption", quiz.BCaption, "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:left;\">"));
+                layout.setCell(cp.Html.InputText("bCaption", quiz.BCaption, 255, "afwInput", "").Replace(">", " style=\"width:100%;text-align:left;\">"));
                 //
                 layout.addRow();
-                layout.setCell(cp.Html.InputText("cPercentile", quiz.CPercentile.ToString(), "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:right;\">"));
+                layout.setCell(cp.Html.InputText("cPercentile", quiz.CPercentile.ToString(), 255, "afwInput", "").Replace(">", " style=\"width:100%;text-align:right;\">"));
                 layout.setCell(cp.Html.CheckBox("cPassingGrade", quiz.CPassingGrade, "afwInput"));
-                layout.setCell(cp.Html.InputText("cCaption", quiz.CCaption, "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:left;\">"));
+                layout.setCell(cp.Html.InputText("cCaption", quiz.CCaption, 255, "afwInput", "").Replace(">", " style=\"width:100%;text-align:left;\">"));
                 //
                 layout.addRow();
-                layout.setCell(cp.Html.InputText("dPercentile", quiz.DPercentile.ToString(), "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:right;\">"));
+                layout.setCell(cp.Html.InputText("dPercentile", quiz.DPercentile.ToString(), 255, "afwInput", "").Replace(">", " style=\"width:100%;text-align:right;\">"));
                 layout.setCell(cp.Html.CheckBox("dPassingGrade", quiz.DPassingGrade, "afwInput"));
-                layout.setCell(cp.Html.InputText("dCaption", quiz.DCaption, "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:left;\">"));
+                layout.setCell(cp.Html.InputText("dCaption", quiz.DCaption, 255, "afwInput", "").Replace(">", " style=\"width:100%;text-align:left;\">"));
                 //
                 layout.addRow();
                 layout.setCell("&nbsp;");
                 layout.setCell(cp.Html.CheckBox("fPassingGrade", quiz.FPassingGrade, "afwInput"));
-                layout.setCell(cp.Html.InputText("fCaption", quiz.FCaption, "", "", false, "afwInput").Replace(">", " style=\"width:100%;text-align:left;\">"));
+                layout.setCell(cp.Html.InputText("fCaption", quiz.FCaption, 255, "afwInput", "").Replace(">", " style=\"width:100%;text-align:left;\">"));
                 //
                 BaseClasses.LayoutBuilder.LayoutBuilderNameValueBaseClass certLayout = cp.AdminUI.CreateLayoutBuilderNameValue();
                 certLayout.title = "Certifications";
-                certLayout.isOuterContainer = false;
+                certLayout.isOuterContainer = true;
                 certLayout.includeBodyColor = false;
                 certLayout.includeBodyPadding = false;
                 // 
