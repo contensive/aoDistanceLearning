@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Contensive.BaseClasses;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace Contensive.distanceLearningAuthentication.Model.dbModels {
     // 
@@ -27,7 +26,7 @@ namespace Contensive.distanceLearningAuthentication.Model.dbModels {
                     usernameBase = (firstname + lastname).Replace(" ", "").ToLower();
                     if (verifyUsernameAlreadyExist(CP, usernameBase)){
                         for (int i = 1; i <= 100; i++) {
-                            if (Conversions.ToBoolean(!verifyUsernameAlreadyExist(CP, usernameBase + i))) {
+                            if ( !verifyUsernameAlreadyExist(CP, usernameBase + i)) {
                                 username = usernameBase + i;
                                 // set username value
                                 setFieldWithValue(CP, id, "username", username);

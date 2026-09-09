@@ -46,9 +46,9 @@ namespace Contensive.distanceLearningImportTool.Model.dbModels {
         public static void setProcessError(CPBaseClass CP, int RecordId, ref List<architectureModels.errorClass> errorList) {
             try {
                 using (var cs = CP.CSNew()) {
-                    string errorStr = "Process detect the follow errors:" + Constants.vbCrLf;
+                    string errorStr = "Process detect the follow errors:" + Environment.NewLine;
                     foreach (var oneError in errorList)
-                        errorStr += oneError.userMsg + Constants.vbCrLf;
+                        errorStr += oneError.userMsg + Environment.NewLine;
                     if (cs.Open(common.cnQuizCSVImports, "id=" + RecordId)) {
                         cs.SetField("importErrors", errorStr);
                     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using Contensive.BaseClasses;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace Contensive.distanceLearningImportTool.Model.viewModels {
     // 
@@ -20,7 +19,7 @@ namespace Contensive.distanceLearningImportTool.Model.viewModels {
                 // 
                 // 
                 CP.Doc.SetProperty("multiformAjaxVbFrameRqs", rqs);
-                body = Conversions.ToString(formHandler.Execute(CP));
+                body = (string)formHandler.Execute(CP);
                 // 
                 // 
                 // 
