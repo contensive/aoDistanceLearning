@@ -37,9 +37,9 @@ namespace Contensive.Addons.DistanceLearning {
                     result.contentContainerClass = ""
                         + (settings.asFullBleed ? " container" : string.Empty)
                         + (settings.padTop ? " pt-5" : " pt-0")
-                        + (settings.padRight ? " pr-4" : " pr-0")
+                        + (settings.padRight ? " pe-4" : " pe-0")
                         + (settings.padBottom ? " pb-5" : " pb-0")
-                        + (settings.padLeft ? " pl-4" : " pl-0")
+                        + (settings.padLeft ? " ps-4" : " ps-0")
                         + "";
                 } catch (Exception ex) {
                     cp.Site.ErrorReport(ex);
