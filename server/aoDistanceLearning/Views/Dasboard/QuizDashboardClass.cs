@@ -8,6 +8,9 @@ using System.Collections.Generic;
 namespace Contensive.Addons.DistanceLearning {
     public class QuizDashboardClass : Contensive.BaseClasses.AddonBaseClass {
         public override object Execute(CPBaseClass cp) {
+            if (!cp.User.IsAdmin) {
+                return "<p>Administrator access required.</p>";
+            }
 
             string result = "";
             BaseClasses.LayoutBuilder.LayoutBuilderListBaseClass listReport = cp.AdminUI.CreateLayoutBuilderList();
@@ -80,8 +83,8 @@ namespace Contensive.Addons.DistanceLearning {
                         listReport.setCell((quiz.dateAdded == null) ? "" : cp.Utils.EncodeDate(quiz.dateAdded).ToShortDateString());
                         //
                         string miniForm = "";
-                        miniForm += cp.Html.Button("button", "Edit", "btn btn-sm mr-2 btn-primary questionEdit", "js-questionEdit");
-                        miniForm += cp.Html.Button("button", "Delete", "btn btn-sm mr-2 btn-danger questionDelete", "js-questionDelete");
+                        miniForm += cp.Html.Button("button", "Edit", "btn btn-sm me-2 btn-primary questionEdit", "js-questionEdit");
+                        miniForm += cp.Html.Button("button", "Delete", "btn btn-sm me-2 btn-danger questionDelete", "js-questionDelete");
                         miniForm += cp.Html.Hidden(Constants.rnQuizId, quiz.id.ToString());
                         miniForm = cp.Html.Form(miniForm);
                         listReport.columnCellClass = "afwTextAlignCenter";

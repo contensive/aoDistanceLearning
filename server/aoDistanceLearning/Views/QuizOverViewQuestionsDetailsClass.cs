@@ -11,6 +11,9 @@ namespace Contensive.Addons.DistanceLearning {
     /// </summary>
     public class QuizOverViewQuestionsDetailsClass : AddonBaseClass {
         public override object Execute(CPBaseClass cp) {
+            if (!cp.User.IsAdmin) {
+                return "<p>Administrator access required.</p>";
+            }
             string result = "";
             try {
 
@@ -138,7 +141,7 @@ namespace Contensive.Addons.DistanceLearning {
                 //
                 result = GenericController.getTabWrapper(cp, layout.getHtml(), "Questions", quiz);
 
-                cp.Doc.AddHeadStyle(layout.styleSheet);
+                // Note: layout.styleSheet deprecated - styles now handled by layout builder
                 List<QuizQuestionModel> questionList = QuizQuestionModel.getQuestionsForQuizList(cp, question.id);
                 //
                 // 

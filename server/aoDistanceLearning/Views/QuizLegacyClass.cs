@@ -133,14 +133,14 @@ namespace Contensive.Addons.DistanceLearning {
                 // 
                 // only the responseId is valid, lookup the quiz and userId
                 // 
-                cs.Open("quiz responses", "id=" + responseId);
+                cs.Open("quiz responses", "id=" + cp.Db.EncodeSQLNumber(responseId));
                 if (cs.OK()) {
                     quizId = cs.GetInteger("quizId");
                     userId = cs.GetInteger("memberId");
                 }
                 cs.Close();
                 // 
-                cs.Open("Quizzes", "id=" + quizId);
+                cs.Open("Quizzes", "id=" + cp.Db.EncodeSQLNumber(quizId));
                 if (cs.OK()) {
                     quizName = cs.GetText("name");
                     quizTypeId = cs.GetInteger("typeId");
@@ -358,7 +358,7 @@ namespace Contensive.Addons.DistanceLearning {
                 // 
                 Return_GradeCaption = "";
                 Return_SubjectCaption = "";
-                cs.Open("Quiz Subjects", "id=" + SubjectID);
+                cs.Open("Quiz Subjects", "id=" + cp.Db.EncodeSQLNumber(SubjectID));
                 if (cs.OK()) {
                     Score = System.Convert.ToInt32(Math.Floor(100 * ScorePercentile));
                     Return_SubjectCaption = cs.GetText("Name");
@@ -440,7 +440,7 @@ namespace Contensive.Addons.DistanceLearning {
             try {
                 CPCSBaseClass cs = cp.CSNew();
                 // 
-                cs.Open("quiz response details", "(responseid=" + responseId + ")and(questionid=" + questionId + ")");
+                cs.Open("quiz response details", "(responseid=" + cp.Db.EncodeSQLNumber(responseId) + ")and(questionid=" + cp.Db.EncodeSQLNumber(questionId) + ")");
                 if (cs.OK())
                     returnShort = cs.GetInteger("answerId");
                 cs.Close();
@@ -982,7 +982,7 @@ namespace Contensive.Addons.DistanceLearning {
                         string itemListIssues = "";
                         int lastPointThreshold = 0;
                         string lastItemEdit = "";
-                        if ((!cs.Open("quiz result messages", "(quizid=" + quiz.id + ")", "pointThreshold")))
+                        if ((!cs.Open("quiz result messages", "(quizid=" + cp.Db.EncodeSQLNumber(quiz.id) + ")", "pointThreshold")))
                             result += cr + cp.Html.p("WARNING: This quiz has no Quiz Result Messages. The quiz will end with a simple thank you page.");
                         else {
                             int ptr = 0;

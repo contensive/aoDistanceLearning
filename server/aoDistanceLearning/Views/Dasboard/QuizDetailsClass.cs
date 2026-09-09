@@ -20,7 +20,7 @@ namespace Contensive.Addons.DistanceLearning {
                     GenericController.checkRequiredFieldText(cp, Constants.rnSampleField, "Sample Field");
                     //
                     if (cp.UserError.OK()) {
-                        if (!cs.Open(Constants.cnApps, "id=" + appId, "", true, "", 1, 1)) {
+                        if (!cs.Open(Constants.cnApps, "id=" + cp.Db.EncodeSQLNumber(appId), "", true, "", 1, 1)) {
                             cs.Close();
                             cs.Insert(Constants.cnApps);
                         }

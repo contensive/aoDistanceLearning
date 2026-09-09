@@ -9,6 +9,9 @@ using System.Collections.Generic;
 namespace Contensive.Addons.DistanceLearning {
     public class QuizOverViewSettingClass : AddonBaseClass {
         public override object Execute(CPBaseClass cp) {
+            if (!cp.User.IsAdmin) {
+                return "<p>Administrator access required.</p>";
+            }
             string result = "";
             string innerBody = "";
             string qs = "";
@@ -142,7 +145,7 @@ namespace Contensive.Addons.DistanceLearning {
                 layout.rowHelp = "If included, this copy is added at the bottom of the page on each oneline quiz page.";
                 //
                 result = GenericController.getTabWrapper(cp, layout.getHtml(), "Settings", quiz);
-                cp.Doc.AddHeadStyle(layout.styleSheet);
+                // Note: layout.styleSheet deprecated - styles now handled by layout builder
             } catch (Exception ex) {
                 cp.Site.ErrorReport(ex, "execute");
             }

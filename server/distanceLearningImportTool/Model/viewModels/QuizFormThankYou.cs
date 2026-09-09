@@ -38,7 +38,7 @@ namespace Contensive.distanceLearningImportTool.Model.viewModels {
                     } else {
                         // Existing App
                         // Open record and set site property
-                        if (cs.Open(common.cnMultiFormAjaxApplications, "id=" + application.id)) {
+                        if (cs.Open(common.cnMultiFormAjaxApplications, "id=" + cp.Db.EncodeSQLNumber(application.id))) {
                             cs.SetFormInput("csvFilename", "csvFilename");
                         }
                         cs.Close();

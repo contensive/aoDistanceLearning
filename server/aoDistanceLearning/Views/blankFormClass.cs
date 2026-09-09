@@ -20,7 +20,7 @@ namespace Contensive.Addons.DistanceLearning {
                     GenericController.checkRequiredFieldText(cp, Constants.rnSampleField, "Sample Field");
                     //
                     if (cp.UserError.OK()) {
-                        if (!cs.Open(Constants.cnApps, "id=" + appId, "", true, "", 1, 1)) {
+                        if (!cs.Open(Constants.cnApps, "id=" + cp.Db.EncodeSQLNumber(appId), "", true, "", 1, 1)) {
                             cs.Close();
                             cs.Insert(Constants.cnApps);
                         }
@@ -62,7 +62,7 @@ namespace Contensive.Addons.DistanceLearning {
                 // attempt to open the application record. It is created in the process so this may fail.
                 //      if not cs.OK(), the getFormField will return blank.
                 //
-                cs.Open(Constants.cnApps, "id=" + appId.ToString(), "", true, "", 1, 1);
+                cs.Open(Constants.cnApps, "id=" + cp.Db.EncodeSQLNumber(appId), "", true, "", 1, 1);
                 if (true) {
                     //
                     // either server-side

@@ -8,6 +8,9 @@ using System;
 namespace Contensive.Addons.DistanceLearning {
     public class QuizOverViewScoringClass : AddonBaseClass {
         public override object Execute(CPBaseClass cp) {
+            if (!cp.User.IsAdmin) {
+                return "<p>Administrator access required.</p>";
+            }
             string result = "";
             try {
                 QuizModel quiz = DbBaseModel.create<QuizModel>(cp, cp.Doc.GetInteger(Constants.rnQuizId));
@@ -121,7 +124,7 @@ namespace Contensive.Addons.DistanceLearning {
                 certLayout.addRow();
                 certLayout.rowName = "Add CECs";
                 certLayout.rowValue = "&nbsp;If passing grade, add CECs to user's account"
-                    + cp.Html.div(cp.Html.InputText(Constants.rnCertificationCECs, quiz.certificationCECs.ToString(), "", "", false, "afwRowTextInput afwInput") + " CECs towards Certification Type " + cp.Html.SelectContent(Constants.rnCertificationTypeId, quiz.certificationTypeId.ToString(), Constants.cnCertificationTypes, "", "No Certification Types", "afwInput"), "", "afwRowValueHelpBox")
+                    + cp.Html.div(cp.Html.InputText(Constants.rnCertificationCECs, quiz.certificationCECs.ToString(), 10, "", "afwRowTextInput afwInput") + " CECs towards Certification Type " + cp.Html.SelectContent(Constants.rnCertificationTypeId, quiz.certificationTypeId.ToString(), Constants.cnCertificationTypes, "", "No Certification Types", "afwInput"), "", "afwRowValueHelpBox")
                     + "";
                 certLayout.rowHelp = "";
                 // 

@@ -12,6 +12,9 @@ namespace Contensive.Addons.DistanceLearning {
         // execute method is the only public
         //
         public override object Execute(Contensive.BaseClasses.CPBaseClass cp) {
+            if (!cp.User.IsAdmin) {
+                return "<p>Administrator access required.</p>";
+            }
             string s = "Hello World";
             try {
                 // rqs defined once and passed so when we do ajax integration, the rqs will be passed from
@@ -75,7 +78,7 @@ namespace Contensive.Addons.DistanceLearning {
                         break;
                 }
                 s = layout.getHtml();
-                cp.Doc.AddHeadStyle(layout.styleSheet);
+                // Note: layout.styleSheet deprecated - styles now handled by layout builder
             } catch (Exception ex) {
                 cp.Site.ErrorReport(ex, "execute");
             }

@@ -8,6 +8,9 @@ using System.Collections.Generic;
 namespace Contensive.Addons.DistanceLearning {
     public class QuizOverviewQuestionListClass : AddonBaseClass {
         public override object Execute(CPBaseClass cp) {
+            if (!cp.User.IsAdmin) {
+                return "<p>Administrator access required.</p>";
+            }
             string result = "";
             try {
                 CPCSBaseClass cs = cp.CSNew();
@@ -134,8 +137,8 @@ namespace Contensive.Addons.DistanceLearning {
             reportList.setCell(question.sortOrder.ToString());
             //
             string miniForm = "";
-            miniForm += cp.Html.Button("button", "Edit", "btn btn-sm mr-2 btn-primary questionEdit", "js-questionEdit");
-            miniForm += cp.Html.Button("button", "Delete", "btn btn-sm mr-2 btn-danger questionDelete", "js-questionDelete");
+            miniForm += cp.Html.Button("button", "Edit", "btn btn-sm me-2 btn-primary questionEdit", "js-questionEdit");
+            miniForm += cp.Html.Button("button", "Delete", "btn btn-sm me-2 btn-danger questionDelete", "js-questionDelete");
             miniForm += cp.Html.Hidden(Constants.rnQuestionId, question.id.ToString());
             miniForm += cp.Html.Hidden(Constants.rnQuizId, question.quizId.ToString());
             miniForm = cp.Html.Form(miniForm);

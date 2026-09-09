@@ -26,7 +26,7 @@ namespace Contensive.Addons.DistanceLearning.Models {
             try {
                 CPCSBaseClass cs = cp.CSNew();
                 List<string> ignoreCacheNames = new List<string>();
-                if ((cs.Open(tableMetadata.contentName, "(QuestionID=" + QuestionID + ")", "sortorder", true, "id"))) {
+                if ((cs.Open(tableMetadata.contentName, "(QuestionID=" + cp.Db.EncodeSQLNumber(QuestionID) + ")", "sortorder", true, "id"))) {
                     QuizAnswerModel instance = null;
                     do {
                         instance = DbBaseModel.create<QuizAnswerModel>(cp, cs.GetInteger("id"));

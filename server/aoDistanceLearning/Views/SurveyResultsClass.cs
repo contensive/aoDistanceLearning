@@ -13,6 +13,9 @@ namespace Contensive.Addons.DistanceLearning {
         // =====================================================================================
         // 
         public override object Execute(CPBaseClass cp) {
+            if (!cp.User.IsAdmin) {
+                return "<p>Administrator access required.</p>";
+            }
             string returnHtml = "";
             try {
                 int responseId;
@@ -378,7 +381,7 @@ namespace Contensive.Addons.DistanceLearning {
                 // 
                 Return_GradeCaption = "";
                 Return_SubjectCaption = "";
-                cs.Open("Quiz Subjects", "id=" + SubjectID);
+                cs.Open("Quiz Subjects", "id=" + cp.Db.EncodeSQLNumber(SubjectID));
                 if (cs.OK()) {
                     Score = System.Convert.ToInt32(Math.Floor(100 * ScorePercentile));
                     Return_SubjectCaption = cs.GetText("Name");
@@ -460,7 +463,7 @@ namespace Contensive.Addons.DistanceLearning {
         private static int getResponseAnswerId(CPBaseClass cp, int responseId, int questionId) {
             try {
                 using (CPCSBaseClass cs = cp.CSNew()) {
-                    cs.Open("quiz response details", "(responseid=" + responseId + ")and(questionid=" + questionId + ")");
+                    cs.Open("quiz response details", "(responseid=" + cp.Db.EncodeSQLNumber(responseId) + ")and(questionid=" + cp.Db.EncodeSQLNumber(questionId) + ")");
                     if (cs.OK()) {
                         return cs.GetInteger("answerId");
                     }

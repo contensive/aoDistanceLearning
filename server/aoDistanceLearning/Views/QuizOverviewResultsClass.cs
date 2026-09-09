@@ -9,6 +9,9 @@ using System.Collections.Generic;
 namespace Contensive.Addons.DistanceLearning {
     public class QuizOverviewResultsClass : AddonBaseClass {
         public override object Execute(CPBaseClass cp) {
+            if (!cp.User.IsAdmin) {
+                return "<p>Administrator access required.</p>";
+            }
             string result = "";
             string qs = "";
             try {

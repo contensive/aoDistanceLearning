@@ -12,7 +12,7 @@ namespace Contensive.distanceLearningImportTool.Model.dbModels {
         public static bool existCsvFilename(CPBaseClass CP, int recordId) {
             try {
                 using (var cs = CP.CSNew()) {
-                    if (cs.Open(common.cnQuizCSVImports, "id=" + recordId)) {
+                    if (cs.Open(common.cnQuizCSVImports, "id=" + CP.Db.EncodeSQLNumber(recordId))) {
                         if (!string.IsNullOrEmpty(cs.GetText("csvFilename"))) {
                             return CP.CdnFiles.FileExists(cs.GetFilename("csvFilename").Replace("/", @"\"));
                         }
@@ -30,7 +30,7 @@ namespace Contensive.distanceLearningImportTool.Model.dbModels {
         public static string getCsvFilename(CPBaseClass CP, int recordId) {
             try {
                 using (var cs = CP.CSNew()) {
-                    if (cs.Open(common.cnQuizCSVImports, "id=" + recordId)) {
+                    if (cs.Open(common.cnQuizCSVImports, "id=" + CP.Db.EncodeSQLNumber(recordId))) {
                         return CP.CdnFiles.PhysicalFilePath + cs.GetFilename("csvFilename").Replace("/", @"\");
                     }
                     return "";

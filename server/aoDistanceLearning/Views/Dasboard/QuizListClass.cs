@@ -20,7 +20,7 @@ namespace Contensive.Addons.DistanceLearning {
                     GenericController.checkRequiredFieldText(cp, Constants.rnSampleField, "Sample Field");
                     //
                     if (cp.UserError.OK()) {
-                        if (!cs.Open(Constants.cnApps, "id=" + appId, "", true, "", 1, 1)) {
+                        if (!cs.Open(Constants.cnApps, "id=" + cp.Db.EncodeSQLNumber(appId), "", true, "", 1, 1)) {
                             cs.Close();
                             cs.Insert(Constants.cnApps);
                         }
@@ -138,8 +138,8 @@ namespace Contensive.Addons.DistanceLearning {
                 // add filter under chart
                 //
                 filterForm = "Only show quizzes submitted:"
-                    + cp.Html.div("from " + cp.Html.InputDate(Constants.rnFilterDateFrom, GenericController.getShortDateString(filterDateFrom), "", "", ""), "", "dlFilterRow", "")
-                    + cp.Html.div("to " + cp.Html.InputDate(Constants.rnFilterDateTo, GenericController.getShortDateString(filterDateTo), "", "", ""), "", "dlFilterRow", "")
+                    + cp.Html.div("from " + cp.Html.InputText(Constants.rnFilterDateFrom, GenericController.getShortDateString(filterDateFrom), 20, "type=\"date\"", ""), "", "dlFilterRow", "")
+                    + cp.Html.div("to " + cp.Html.InputText(Constants.rnFilterDateTo, GenericController.getShortDateString(filterDateTo), 20, "type=\"date\"", ""), "", "dlFilterRow", "")
                     + "";
                 filterForm = ""
                     + Constants.cr + cp.Html.h2("Filters", "", "", "")

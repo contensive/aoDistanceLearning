@@ -71,7 +71,7 @@ namespace Contensive.distanceLearningAuthentication.Model.dbModels {
             bool result = false;
             try {
                 var cs = CP.CSNew();
-                if (cs.Open(common.cnPeople, "id=" + userId)) {
+                if (cs.Open(common.cnPeople, "id=" + CP.Db.EncodeSQLNumber(userId))) {
                     cs.SetField(fieldName, value);
                 }
                 cs.Close();
@@ -191,7 +191,7 @@ namespace Contensive.distanceLearningAuthentication.Model.dbModels {
             try {
                 var cs = CP.CSNew();
 
-                if (cs.Open(common.cnPeople, "id=" + UserId)) {
+                if (cs.Open(common.cnPeople, "id=" + CP.Db.EncodeSQLNumber(UserId))) {
                     // 
                     oUser.id = cs.GetInteger("id");
                     // 
@@ -220,7 +220,7 @@ namespace Contensive.distanceLearningAuthentication.Model.dbModels {
             try {
                 // 
                 var cs = CP.CSNew();
-                if (cs.Open(common.cnMemberRules, "MemberID=" + CP.User.Id + " and GroupID=" + groupId)) {
+                if (cs.Open(common.cnMemberRules, "MemberID=" + CP.Db.EncodeSQLNumber(CP.User.Id) + " and GroupID=" + CP.Db.EncodeSQLNumber(groupId))) {
                     result = true;
                 }
                 cs.Close();
@@ -267,13 +267,13 @@ namespace Contensive.distanceLearningAuthentication.Model.dbModels {
                 var cs = CP.CSNew();
                 var csAccount = CP.CSNew();
                 if (userId != 0) {
-                    if (cs.Open(common.cnPeople, "id=" + userId)) {
+                    if (cs.Open(common.cnPeople, "id=" + CP.Db.EncodeSQLNumber(userId))) {
                         accountId = cs.GetInteger("accountId");
 
                         // 
                         // Check if really exit the account
                         // 
-                        if (!csAccount.Open(common.cnAccounts, "id=" + accountId)) {
+                        if (!csAccount.Open(common.cnAccounts, "id=" + CP.Db.EncodeSQLNumber(accountId))) {
                             accountId = 0;
                         }
                         csAccount.Close();

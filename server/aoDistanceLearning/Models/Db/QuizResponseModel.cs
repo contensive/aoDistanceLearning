@@ -37,7 +37,7 @@ namespace Contensive.Addons.DistanceLearning.Models {
             List<QuizResponseModel> modelList = new List<QuizResponseModel>();
             try {
                 CPCSBaseClass cs = cp.CSNew();
-                if ((cs.Open( tableMetadata.contentName, "(QuizId=" + QuizId + ")", "name", true, "id"))) {
+                if ((cs.Open( tableMetadata.contentName, "(QuizId=" + cp.Db.EncodeSQLNumber(QuizId) + ")", "name", true, "id"))) {
                     QuizResponseModel instance = null;
                     do {
                         instance = DbBaseModel.create<QuizResponseModel>(cp, cs.GetInteger("id"));
@@ -65,7 +65,7 @@ namespace Contensive.Addons.DistanceLearning.Models {
             List<QuizResponseModel> modelList = new List<QuizResponseModel>();
             try {
                 CPCSBaseClass cs = cp.CSNew();
-                if ((cs.Open(tableMetadata.contentName, "(QuizId=" + QuizId + ")and(memberId=" + cp.User.Id + ")", "name", true, "id"))) {
+                if ((cs.Open(tableMetadata.contentName, "(QuizId=" + cp.Db.EncodeSQLNumber(QuizId) + ")and(memberId=" + cp.Db.EncodeSQLNumber(cp.User.Id) + ")", "name", true, "id"))) {
                     QuizResponseModel instance = null;
                     do {
                         instance = DbBaseModel.create<QuizResponseModel>(cp, cs.GetInteger("id"));

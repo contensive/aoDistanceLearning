@@ -8,6 +8,9 @@ using System.Collections.Generic;
 namespace Contensive.Addons.DistanceLearning {
     public class QuizOverviewDetailsClass : AddonBaseClass {
         public override object Execute(CPBaseClass cp) {
+            if (!cp.User.IsAdmin) {
+                return "<p>Administrator access required.</p>";
+            }
             string result = "";
             try {
                 string qs;
@@ -78,7 +81,7 @@ namespace Contensive.Addons.DistanceLearning {
                     + quiz.certificationCECs + " CECs to user accredidation </br></div>");
                 // -- wrap in tabs and output finished form
                 result = GenericController.getTabWrapper(cp, layout.getHtml(), "Details", quiz);
-                cp.Doc.AddHeadStyle(layout.styleSheet);
+                // Note: layout.styleSheet deprecated - styles now handled by layout builder
             } catch (Exception ex) {
                 cp.Site.ErrorReport(ex, "execute");
             }

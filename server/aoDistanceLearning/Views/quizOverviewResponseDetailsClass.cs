@@ -8,6 +8,9 @@ using System;
 namespace Contensive.Addons.DistanceLearning {
     public class QuizOverviewResponseDetailsClass : AddonBaseClass {
         public override object Execute(CPBaseClass cp) {
+            if (!cp.User.IsAdmin) {
+                return "<p>Administrator access required.</p>";
+            }
             string result = "";
             try {
                 int responseId = cp.Doc.GetInteger(Constants.rnResponseId);
