@@ -11,6 +11,5 @@
     <PackageReference Include="Contensive.CPBaseClass" Version="25.7.18.3" />
     <PackageReference Include="Contensive.DbModels" Version="25.7.18.3" />
     <PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
-    <PackageReference Include="System.Text.Json" Version="4.7.2" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json;
 using Contensive.BaseClasses;
 
 namespace Contensive.distanceLearningAuthentication.Interfaces.Remotes {
@@ -31,7 +30,7 @@ namespace Contensive.distanceLearningAuthentication.Interfaces.Remotes {
                 // 
                 CP.Response.SetStatus("500");
             } finally {
-                returnHtml = JsonSerializer.Serialize(remoteResponse);
+                returnHtml = CP.JSON.Serialize(remoteResponse);
             }
             return returnHtml;
         }
@@ -45,7 +44,7 @@ namespace Contensive.distanceLearningAuthentication.Interfaces.Remotes {
                 //
                 //
                 //
-                SignUpObject = JsonSerializer.Deserialize<Model.solutionModels.SignUp>(value);
+                SignUpObject = CP.JSON.Deserialize<Model.solutionModels.SignUp>(value);
 
             } catch (Exception ex) {
                 CP.Site.ErrorReport(ex, "error in deserializeUserObject");

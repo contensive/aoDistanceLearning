@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json;
 using Contensive.BaseClasses;
 
 namespace Contensive.distanceLearningImportTool.Interfaces.Addons {
@@ -29,7 +28,7 @@ namespace Contensive.distanceLearningImportTool.Interfaces.Addons {
                 // 
                 CP.Response.SetStatus("500");
             } finally {
-                returnHtml = JsonSerializer.Serialize(remoteResponse);
+                returnHtml = CP.JSON.Serialize(remoteResponse);
             }
             return returnHtml;
         }
