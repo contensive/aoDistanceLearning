@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Contensive.BaseClasses;
-using Microsoft.VisualBasic;
 
 namespace Contensive.distanceLearningImportTool.Model.dbModels {
     // 

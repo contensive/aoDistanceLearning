@@ -1,7 +1,6 @@
 
 using Contensive.Addons.DistanceLearning.Models;
 using Contensive.BaseClasses;
-using Microsoft.VisualBasic;
 using System;
 using System.Globalization;
 using System.IO;
@@ -199,79 +198,6 @@ namespace Contensive.Addons.DistanceLearning.Controllers {
             return string.IsNullOrWhiteSpace(backgroundImage) ? string.Empty : "background-image: url(" + cp.Http.CdnFilePathPrefix + backgroundImage + ");";
         }
 
-        // 
-        //        internal static DateTime encodeMinDate(DateTime sourceDate) {
-        //            DateTime returnValue = sourceDate;
-        //            ;/* Cannot convert MultiLineIfBlockSyntax, System.ArgumentOutOfRangeException: Exception of type 'System.ArgumentOutOfRangeException' was thrown.
-        //Parameter name: value
-        //Actual value was 1/1/1900 12:00:00 AM.
-        //   at ICSharpCode.CodeConverter.CSharp.CommonConversions.GetLiteralExpression(Object value, String valueText)
-        //   at ICSharpCode.CodeConverter.CSharp.VisualBasicConverter.NodesVisitor.VisitLiteralExpression(LiteralExpressionSyntax node)
-        //   at Microsoft.CodeAnalysis.VisualBasic.Syntax.LiteralExpressionSyntax.Accept[TResult](VisualBasicSyntaxVisitor`1 visitor)
-        //   at Microsoft.CodeAnalysis.VisualBasic.VisualBasicSyntaxVisitor`1.Visit(SyntaxNode node)
-        //   at ICSharpCode.CodeConverter.CSharp.CommentConvertingNodesVisitor.DefaultVisit(SyntaxNode node)
-        //   at Microsoft.CodeAnalysis.VisualBasic.VisualBasicSyntaxVisitor`1.VisitLiteralExpression(LiteralExpressionSyntax node)
-        //   at Microsoft.CodeAnalysis.VisualBasic.Syntax.LiteralExpressionSyntax.Accept[TResult](VisualBasicSyntaxVisitor`1 visitor)
-        //   at ICSharpCode.CodeConverter.CSharp.VisualBasicConverter.NodesVisitor.VisitBinaryExpression(BinaryExpressionSyntax node)
-        //   at Microsoft.CodeAnalysis.VisualBasic.Syntax.BinaryExpressionSyntax.Accept[TResult](VisualBasicSyntaxVisitor`1 visitor)
-        //   at Microsoft.CodeAnalysis.VisualBasic.VisualBasicSyntaxVisitor`1.Visit(SyntaxNode node)
-        //   at ICSharpCode.CodeConverter.CSharp.CommentConvertingNodesVisitor.DefaultVisit(SyntaxNode node)
-        //   at Microsoft.CodeAnalysis.VisualBasic.VisualBasicSyntaxVisitor`1.VisitBinaryExpression(BinaryExpressionSyntax node)
-        //   at Microsoft.CodeAnalysis.VisualBasic.Syntax.BinaryExpressionSyntax.Accept[TResult](VisualBasicSyntaxVisitor`1 visitor)
-        //   at ICSharpCode.CodeConverter.CSharp.VisualBasicConverter.MethodBodyVisitor.VisitMultiLineIfBlock(MultiLineIfBlockSyntax node)
-        //   at Microsoft.CodeAnalysis.VisualBasic.Syntax.MultiLineIfBlockSyntax.Accept[TResult](VisualBasicSyntaxVisitor`1 visitor)
-        //   at Microsoft.CodeAnalysis.VisualBasic.VisualBasicSyntaxVisitor`1.Visit(SyntaxNode node)
-        //   at ICSharpCode.CodeConverter.CSharp.CommentConvertingMethodBodyVisitor.ConvertWithTrivia(SyntaxNode node)
-        //   at ICSharpCode.CodeConverter.CSharp.CommentConvertingMethodBodyVisitor.DefaultVisit(SyntaxNode node)
-
-        //Input: 
-        //            If returnValue < #1/1/1900# Then
-        //                returnValue = Date.MinValue
-        //            End If
-
-        // */
-        //            return returnValue;
-        //        }
-        // 
-        // 
-        // 
-        //        internal static string encodeShortDateString(DateTime sourceDate) {
-        //            string returnValue;
-        //            ;/* Cannot convert MultiLineIfBlockSyntax, System.ArgumentOutOfRangeException: Exception of type 'System.ArgumentOutOfRangeException' was thrown.
-        //Parameter name: value
-        //Actual value was 1/1/1900 12:00:00 AM.
-        //   at ICSharpCode.CodeConverter.CSharp.CommonConversions.GetLiteralExpression(Object value, String valueText)
-        //   at ICSharpCode.CodeConverter.CSharp.VisualBasicConverter.NodesVisitor.VisitLiteralExpression(LiteralExpressionSyntax node)
-        //   at Microsoft.CodeAnalysis.VisualBasic.Syntax.LiteralExpressionSyntax.Accept[TResult](VisualBasicSyntaxVisitor`1 visitor)
-        //   at Microsoft.CodeAnalysis.VisualBasic.VisualBasicSyntaxVisitor`1.Visit(SyntaxNode node)
-        //   at ICSharpCode.CodeConverter.CSharp.CommentConvertingNodesVisitor.DefaultVisit(SyntaxNode node)
-        //   at Microsoft.CodeAnalysis.VisualBasic.VisualBasicSyntaxVisitor`1.VisitLiteralExpression(LiteralExpressionSyntax node)
-        //   at Microsoft.CodeAnalysis.VisualBasic.Syntax.LiteralExpressionSyntax.Accept[TResult](VisualBasicSyntaxVisitor`1 visitor)
-        //   at ICSharpCode.CodeConverter.CSharp.VisualBasicConverter.NodesVisitor.VisitBinaryExpression(BinaryExpressionSyntax node)
-        //   at Microsoft.CodeAnalysis.VisualBasic.Syntax.BinaryExpressionSyntax.Accept[TResult](VisualBasicSyntaxVisitor`1 visitor)
-        //   at Microsoft.CodeAnalysis.VisualBasic.VisualBasicSyntaxVisitor`1.Visit(SyntaxNode node)
-        //   at ICSharpCode.CodeConverter.CSharp.CommentConvertingNodesVisitor.DefaultVisit(SyntaxNode node)
-        //   at Microsoft.CodeAnalysis.VisualBasic.VisualBasicSyntaxVisitor`1.VisitBinaryExpression(BinaryExpressionSyntax node)
-        //   at Microsoft.CodeAnalysis.VisualBasic.Syntax.BinaryExpressionSyntax.Accept[TResult](VisualBasicSyntaxVisitor`1 visitor)
-        //   at ICSharpCode.CodeConverter.CSharp.VisualBasicConverter.MethodBodyVisitor.VisitMultiLineIfBlock(MultiLineIfBlockSyntax node)
-        //   at Microsoft.CodeAnalysis.VisualBasic.Syntax.MultiLineIfBlockSyntax.Accept[TResult](VisualBasicSyntaxVisitor`1 visitor)
-        //   at Microsoft.CodeAnalysis.VisualBasic.VisualBasicSyntaxVisitor`1.Visit(SyntaxNode node)
-        //   at ICSharpCode.CodeConverter.CSharp.CommentConvertingMethodBodyVisitor.ConvertWithTrivia(SyntaxNode node)
-        //   at ICSharpCode.CodeConverter.CSharp.CommentConvertingMethodBodyVisitor.DefaultVisit(SyntaxNode node)
-
-        //Input: 
-        //            '
-        //            If sourceDate < #1/1/1900# Then
-        //                returnValue = ""
-        //            Else
-        //                returnValue = sourceDate.ToShortDateString
-        //            End If
-
-        // */
-        //            return returnValue;
-        //        }
-        // 
-        // 
         // 
         internal static string encodeBlankCurrency(double source) {
             string returnValue = "";
